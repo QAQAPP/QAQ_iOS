@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Technology</key>
+	<dict>
+		<key>Google</key>
+		<dict/>
+		<key>Facebook</key>
+		<dict/>
+		<key>Amazon</key>
+		<dict/>
+		<key>Apple</key>
+		<dict>
+			<key>iPhone</key>
+			<dict/>
+			<key>iPod</key>
+			<dict/>
+			<key>iPad</key>
+			<dict/>
+			<key>iWatch</key>
+			<dict/>
+			<key>appleTV</key>
+			<dict/>
+			<key>Macbook</key>
+			<dict/>
+		</dict>
+		<key>Microsoft</key>
+		<dict/>
+	</dict>
+	<key>Sports</key>
+	<dict>
+		<key>Billiards</key>
+		<dict/>
+		<key>Soccer</key>
+		<dict/>
+		<key>Chinese Go</key>
+		<dict/>
+	</dict>
+	<key>Art</key>
+	<dict>
+		<key>Music</key>
+		<dict/>
+		<key>Painting</key>
+		<dict/>
+		<key>Singing</key>
+		<dict/>
+	</dict>
+</dict>
+</plist>

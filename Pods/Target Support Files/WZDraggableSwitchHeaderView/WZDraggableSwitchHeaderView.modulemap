@@ -1,0 +1,6 @@
+framework module WZDraggableSwitchHeaderView {
+  umbrella header "WZDraggableSwitchHeaderView-umbrella.h"
+
+  export *
+  module * { export * }
+}

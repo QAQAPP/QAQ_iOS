@@ -1,0 +1,6 @@
+framework module DBProfileViewController {
+  umbrella header "DBProfileViewController-umbrella.h"
+
+  export *
+  module * { export * }
+}

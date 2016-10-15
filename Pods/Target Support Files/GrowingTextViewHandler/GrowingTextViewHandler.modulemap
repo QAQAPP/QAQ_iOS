@@ -1,0 +1,6 @@
+framework module GrowingTextViewHandler {
+  umbrella header "GrowingTextViewHandler-umbrella.h"
+
+  export *
+  module * { export * }
+}
