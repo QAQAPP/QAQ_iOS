@@ -8,9 +8,14 @@
 
 import UIKit
 import SDAutoLayout
+import BadgeSwift
 
 class CollectionCell: UITableViewCell {
     @IBOutlet weak var starBtn: UIButton!
+    @IBOutlet weak var badgeValue: BadgeSwift!
+    @IBOutlet weak var detailLbl: UILabel!
+    
+    
     var timer:Timer?
     var isStared = true{
         didSet{
@@ -25,12 +30,12 @@ class CollectionCell: UITableViewCell {
                     // Fallback on earlier versions
                     timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(dislikeThisQuestion), userInfo: nil, repeats: false)
                 }
-                textLabel?.text = "deleting..."
+                detailLbl?.text = "deleting..."
             }
             else{
                 timer?.invalidate()
                 timer = nil
-                textLabel?.text = question.qDescrption
+                detailLbl?.text = question.qDescrption
             }
         }
     }
@@ -58,13 +63,14 @@ class CollectionCell: UITableViewCell {
     func setup(parent:CollectionVC, question:QuestionModel){
         parentVC = parent
         self.question = question
-        textLabel?.text = question.qDescrption
+        detailLbl?.text = question.qDescrption
+        badgeValue.board(radius: 10.5, width: 0, color: .clear)
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        _ = textLabel?.sd_layout().rightSpaceToView(contentView, 35)
+        _ = detailLbl?.sd_layout().rightSpaceToView(contentView, 35)
         starBtn.tintColor = pinkColor
         setBtn()
     }

@@ -1,4 +1,5 @@
 PODS:
+  - BadgeSwift (3.0.0)
   - BFPaperButton (2.0.29):
     - UIColor+BFPaperColors
   - BSGridCollectionViewLayout (1.1.1)
@@ -74,6 +75,7 @@ PODS:
   - NSString-Email (0.0.3)
   - RATreeView (2.1.0)
   - SCLAlertView (0.5.9)
+  - ScratchCard (1.0.4)
   - SCTableViewCell (0.1.0)
   - SDAutoLayout (2.1.1)
   - SFDraggableDialogView (1.1.4)
@@ -88,6 +90,7 @@ PODS:
   - ZFDragableModalTransition (0.6)
 
 DEPENDENCIES:
+  - BadgeSwift
   - BFPaperButton
   - BSGridCollectionViewLayout
   - DBProfileViewController
@@ -108,6 +111,7 @@ DEPENDENCIES:
   - NSString-Email
   - RATreeView
   - SCLAlertView
+  - ScratchCard
   - SCTableViewCell
   - SDAutoLayout
   - SFDraggableDialogView
@@ -121,6 +125,7 @@ DEPENDENCIES:
   - ZFDragableModalTransition
 
 SPEC CHECKSUMS:
+  BadgeSwift: 30310290b4073da62879813c2071bab535509ff4
   BFPaperButton: 7df738f2e749a9a4edd3e043f0621ee02215e417
   BSGridCollectionViewLayout: d7304dcb35c6b3b4420c527e9f9b77ff322250f3
   DBProfileViewController: a2da39408911b0a732ac04512e999468d39f0802
@@ -152,6 +157,7 @@ SPEC CHECKSUMS:
   NSString-Email: 3c1ff0ace64d7ecc289ea2a5696170c853012252
   RATreeView: fc82ec26b8be18cfa0f5f99a5abbe6be68edb21f
   SCLAlertView: d7c6a48c7d340e60206d4ed0e8ebcbff3b9d2a44
+  ScratchCard: 3736e21d2023edb79168a86a2322eeac534011c2
   SCTableViewCell: 37fd004874dd18350da34440e2a3fa42b1375321
   SDAutoLayout: c18678b6ae28c67d89cb132e770cfbac9ee20d25
   SFDraggableDialogView: cfe9b80b5fff19f7e0fda86dcabee8b03a4c3b44
@@ -165,6 +171,6 @@ SPEC CHECKSUMS:
   WZDraggableSwitchHeaderView: 6debb503cc70def6200c45a0b3ecaeb6fb7606c8
   ZFDragableModalTransition: 0d294eaaba6edfcb9839595de765f9ca06a4b524
 
-PODFILE CHECKSUM: aa74f3eeb9733551783d527f56460e3a2003f9be
+PODFILE CHECKSUM: 07fc62ca5de9e707d32b4c40ed3cb21eaef8db55
 
 COCOAPODS: 1.1.0.beta.2

@@ -86,6 +86,7 @@ strip_invalid_archs() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/BFPaperButton/BFPaperButton.framework"
   install_framework "$BUILT_PRODUCTS_DIR/BSGridCollectionViewLayout/BSGridCollectionViewLayout.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/BadgeSwift/BadgeSwift.framework"
   install_framework "$BUILT_PRODUCTS_DIR/DBProfileViewController/DBProfileViewController.framework"
   install_framework "$BUILT_PRODUCTS_DIR/DGElasticPullToRefresh/DGElasticPullToRefresh.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FXBlurView/FXBlurView.framework"
@@ -106,6 +107,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/SDAutoLayout/SDAutoLayout.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SFDraggableDialogView/SFDraggableDialogView.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SFFocusViewLayout/SFFocusViewLayout.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/ScratchCard/ScratchCard.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SwiftSpinner/SwiftSpinner.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SwiftString/SwiftString.framework"
   install_framework "$BUILT_PRODUCTS_DIR/TagListView/TagListView.framework"
@@ -118,6 +120,7 @@ fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/BFPaperButton/BFPaperButton.framework"
   install_framework "$BUILT_PRODUCTS_DIR/BSGridCollectionViewLayout/BSGridCollectionViewLayout.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/BadgeSwift/BadgeSwift.framework"
   install_framework "$BUILT_PRODUCTS_DIR/DBProfileViewController/DBProfileViewController.framework"
   install_framework "$BUILT_PRODUCTS_DIR/DGElasticPullToRefresh/DGElasticPullToRefresh.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FXBlurView/FXBlurView.framework"
@@ -138,6 +141,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/SDAutoLayout/SDAutoLayout.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SFDraggableDialogView/SFDraggableDialogView.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SFFocusViewLayout/SFFocusViewLayout.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/ScratchCard/ScratchCard.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SwiftSpinner/SwiftSpinner.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SwiftString/SwiftString.framework"
   install_framework "$BUILT_PRODUCTS_DIR/TagListView/TagListView.framework"

@@ -39,6 +39,8 @@ pod 'IQKeyboardManager'
 pod 'RATreeView'
 pod 'MJRefresh'
 pod 'GoogleSignIn'
+pod 'BadgeSwift'
+pod 'ScratchCard'
 
 post_install do |installer|
     installer.pods_project.targets.each do |target|

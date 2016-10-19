@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '34132BE6BA3318E2B5EC219F9FF35616'
-               BlueprintName = 'SFFocusViewLayout'
+               BlueprintIdentifier = 'C0C35DA17025EC472BCF7544CF3904BB'
+               BlueprintName = 'ScratchCard'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'SFFocusViewLayout.framework'>
+               BuildableName = 'ScratchCard.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '34132BE6BA3318E2B5EC219F9FF35616'
-               BlueprintName = 'SFFocusViewLayout'
+               BlueprintIdentifier = '1BF17E7240CEF25908350C26C6E63123'
+               BlueprintName = 'BadgeSwift'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'SFFocusViewLayout.framework'>
+               BuildableName = 'BadgeSwift.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
