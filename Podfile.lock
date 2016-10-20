@@ -2,6 +2,7 @@ PODS:
   - BadgeSwift (3.0.0)
   - BFPaperButton (2.0.29):
     - UIColor+BFPaperColors
+  - BlurImageProcessor (1.0.0)
   - BSGridCollectionViewLayout (1.1.1)
   - DBProfileViewController (2.0.2):
     - FXBlurView (~> 1.6.4)
@@ -84,7 +85,9 @@ PODS:
   - SwiftString (0.5)
   - TagListView (1.0.0)
   - TextFieldEffects (1.2.0)
+  - TYBlurImage (1.2.1)
   - UIColor+BFPaperColors (1.7.2)
+  - UIImage-Resize (1.0.1)
   - UIViewController+NavigationBar (0.3.3)
   - WZDraggableSwitchHeaderView (0.0.1)
   - ZFDragableModalTransition (0.6)
@@ -92,6 +95,7 @@ PODS:
 DEPENDENCIES:
   - BadgeSwift
   - BFPaperButton
+  - BlurImageProcessor
   - BSGridCollectionViewLayout
   - DBProfileViewController
   - DGElasticPullToRefresh
@@ -120,6 +124,8 @@ DEPENDENCIES:
   - SwiftString
   - TagListView
   - TextFieldEffects
+  - TYBlurImage
+  - UIImage-Resize
   - UIViewController+NavigationBar
   - WZDraggableSwitchHeaderView
   - ZFDragableModalTransition
@@ -127,6 +133,7 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   BadgeSwift: 30310290b4073da62879813c2071bab535509ff4
   BFPaperButton: 7df738f2e749a9a4edd3e043f0621ee02215e417
+  BlurImageProcessor: a4794ad3128748dbff8b40ae43ce9386d3667bba
   BSGridCollectionViewLayout: d7304dcb35c6b3b4420c527e9f9b77ff322250f3
   DBProfileViewController: a2da39408911b0a732ac04512e999468d39f0802
   DGElasticPullToRefresh: 040f39ae69840b3261d163fe6735c5901bf851e9
@@ -166,11 +173,13 @@ SPEC CHECKSUMS:
   SwiftString: ec9c31c55b2aa147a1154f5f5f8483dc71e3165f
   TagListView: 6bf4bded034c4c90b1e90d8cd3d8e1d852dba0a8
   TextFieldEffects: bc4fd3bd557321bd61a0762f3f50965477a36f62
+  TYBlurImage: a931704cfbfb31aa00a5b658063e0742b34e4043
   UIColor+BFPaperColors: 03101fe6c10ed00c6daae7c26553f1de41500853
+  UIImage-Resize: fa776860f10e6900bbaf53a73e494bdceaaccc77
   UIViewController+NavigationBar: 1f72c3b1df21b24ee8fa13f822b5126f180b77f3
   WZDraggableSwitchHeaderView: 6debb503cc70def6200c45a0b3ecaeb6fb7606c8
   ZFDragableModalTransition: 0d294eaaba6edfcb9839595de765f9ca06a4b524
 
-PODFILE CHECKSUM: 07fc62ca5de9e707d32b4c40ed3cb21eaef8db55
+PODFILE CHECKSUM: a9fdab5305875081bdd9736b7f6cc05f75231433
 
 COCOAPODS: 1.1.0.beta.2

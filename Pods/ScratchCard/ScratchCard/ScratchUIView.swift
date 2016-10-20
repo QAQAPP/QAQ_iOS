@@ -12,24 +12,24 @@ import UIKit
 
 var CouponImage: UIImageView!
 var ScratchCard: ScratchView!
-var coupon: String!
-var mask_image: String!
+var coupon: UIImage!
+var mask_image: UIImage!
 var scratch_width: CGFloat!
 
-open class ScratchUIView: UIView {
+public class ScratchUIView: UIView {
     
-    @IBOutlet fileprivate var contentView:UIView?
+    @IBOutlet private var contentView:UIView?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.Init()
     }
     
-    open func getScratchPercent()->Double{
+    public func getScratchPercent()->Double{
         return ScratchCard.getAlphaPixelPercent()
     }
     
-    public init(frame: CGRect, Coupon: String, MaskImage: String, ScratchWidth:CGFloat) {
+    public init(frame: CGRect, Coupon: UIImage, MaskImage: UIImage, ScratchWidth:CGFloat) {
         super.init(frame: frame)
         coupon = Coupon
         mask_image = MaskImage
@@ -43,18 +43,18 @@ open class ScratchUIView: UIView {
         self.InitXib()
     }
     
-    fileprivate func Init() {
+    private func Init() {
         
-        CouponImage = UIImageView(image:UIImage(named:coupon))
+        CouponImage = UIImageView(image:coupon)
         ScratchCard = ScratchView(frame: self.frame, MaskImage: mask_image, ScratchWidth: scratch_width)
-        CouponImage.frame = CGRect(x: 0,y: 0, width: self.frame.width, height: self.frame.height)
-        ScratchCard.frame = CGRect(x: 0,y: 0,width: self.frame.width, height: self.frame.height)
+        CouponImage.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
+        ScratchCard.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
         self.addSubview(CouponImage)
         self.addSubview(ScratchCard)
         self.bringSubview(toFront: ScratchCard)
     }
     
-    fileprivate func InitXib() {
+    private func InitXib() {
         
     }
     

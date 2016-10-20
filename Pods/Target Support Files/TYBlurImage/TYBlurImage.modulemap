@@ -1,0 +1,6 @@
+framework module TYBlurImage {
+  umbrella header "TYBlurImage-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -101,11 +101,6 @@ class QuestionManager: NSObject {
     func getQuestion(qid: String?, question:Dictionary<String, Any>?)->QuestionModel?{
         if let qid = qid, let question = question{
             let optArr = [OptionModel]()
-//            if let opts = question["options"] as? Dictionary<String, Any>{
-//                for (key, dict) in opts {
-//                    optArr.append(OptionModel(ref: FIRDatabase.database().reference().child("Questions-v1").child(qid).child("content").child("options").child(key) ,dict: dict as! Dictionary<String, Any>))
-//                }
-//            }
             return QuestionModel(qid: qid, descrpt: question["description"] as! String, askerID: question["askerID"] as! String, anonymous: question["anonymous"] as! Bool, options: optArr)
         }
         else{
@@ -119,11 +114,4 @@ class QuestionManager: NSObject {
         }
         return collection.popLast()
     }
-    
-//    func clean(){
-//        isLoading = false
-//        collection.removeAll()
-//        questionKeySet.removeAll()
-//        memoryHandler.imageStorage.removeAll()
-//    }
 }

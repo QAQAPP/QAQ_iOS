@@ -8,8 +8,10 @@
 
 import UIKit
 import BFPaperButton
+import BadgeSwift
 
 class CtrlCell: UICollectionViewCell {
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var badgeView: BadgeSwift!
 }

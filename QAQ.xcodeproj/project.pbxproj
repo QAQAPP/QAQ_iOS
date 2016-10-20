@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		186CBF3ABBFD9DAB6AD8872B /* Pods_QAQ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2182C66C980A16CA1CF236E9 /* Pods_QAQ.framework */; };
+		BA2C8C891DB8BE82000441B5 /* coupon_sample.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BA2C8C881DB8BE82000441B5 /* coupon_sample.jpg */; };
 		BA72F77F1D893FDA007F9229 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA72F77E1D893FDA007F9229 /* Main.storyboard */; };
 		BA72F7811D89400A007F9229 /* OptCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA72F7801D89400A007F9229 /* OptCell.xib */; };
 		BA76EDEE1DAA448C0055CA06 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA76EDEC1DAA448C0055CA06 /* FBSDKCoreKit.framework */; };
@@ -78,6 +79,7 @@
 		2182C66C980A16CA1CF236E9 /* Pods_QAQ.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QAQ.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		39748D4302010770352F506B /* Pods-QAQ.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QAQ.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QAQ/Pods-QAQ.debug.xcconfig"; sourceTree = "<group>"; };
 		3E51813FA473779D7B69CD53 /* Pods-QAQ.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QAQ.release.xcconfig"; path = "Pods/Target Support Files/Pods-QAQ/Pods-QAQ.release.xcconfig"; sourceTree = "<group>"; };
+		BA2C8C881DB8BE82000441B5 /* coupon_sample.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = coupon_sample.jpg; sourceTree = "<group>"; };
 		BA72F77E1D893FDA007F9229 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		BA72F7801D89400A007F9229 /* OptCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OptCell.xib; sourceTree = "<group>"; };
 		BA76EDEC1DAA448C0055CA06 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -299,6 +301,7 @@
 		FD682A9D1D33044300D2F4B6 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				BA2C8C881DB8BE82000441B5 /* coupon_sample.jpg */,
 				FD1DBB111D1A4D9E00E6762D /* Assets.xcassets */,
 				FD1DBB0A1D1A4D9E00E6762D /* AppDelegate.swift */,
 				FD149E1A1D1B7939007F3F7B /* UIExtension.swift */,
@@ -376,7 +379,7 @@
 								enabled = 1;
 							};
 							com.apple.Push = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -410,6 +413,7 @@
 				FD03252A1D24E53E002956FD /* UserListCell.xib in Resources */,
 				BABAD3661D8A5315002954D2 /* Resources.plist in Resources */,
 				FD682A9A1D33002500D2F4B6 /* CollectionCell.xib in Resources */,
+				BA2C8C891DB8BE82000441B5 /* coupon_sample.jpg in Resources */,
 				FD17E2071D2F4B3500FC0FB3 /* AddOptCell.xib in Resources */,
 				BA8FEBD81DA06AD100F23011 /* NoContentView.xib in Resources */,
 				BA8FEBD41DA05EBA00F23011 /* QuestionView.xib in Resources */,
@@ -574,6 +578,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -596,6 +601,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -621,6 +628,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -636,6 +644,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
@@ -650,6 +660,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Voceler/Voceler.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/FBSDKLoginKit",
@@ -660,6 +671,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = owen.Voceler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Voceler/Voceler-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -674,6 +687,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Voceler/Voceler.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/FBSDKLoginKit",
@@ -684,6 +698,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = owen.Voceler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Voceler/Voceler-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};

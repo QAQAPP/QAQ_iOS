@@ -20,18 +20,20 @@ var scratched:CGImage!
 var _scratched:CGImage!
 var alpha_pixels:CGContext!
 var provider:CGDataProvider!
-var _mask_image: String!
+var _mask_image: UIImage!
 var _scratch_width: CGFloat!
 var count: Double!
 
 open class ScratchView: UIView {
+    
+    var complete = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.Init()
     }
     
-    init(frame: CGRect, MaskImage: String, ScratchWidth: CGFloat) {
+    init(frame: CGRect, MaskImage: UIImage, ScratchWidth: CGFloat) {
         super.init(frame: frame)
         _mask_image = MaskImage
         _scratch_width = ScratchWidth
@@ -47,14 +49,14 @@ open class ScratchView: UIView {
     fileprivate func Init() {
         
         count = 0
-        scratchable = UIImage(named: _mask_image)!.cgImage
+        scratchable = _mask_image.cgImage
         width = (Int)(self.frame.width)
         height = (Int)(self.frame.height)
         
         self.isOpaque = false
         let colorspace:CGColorSpace = CGColorSpaceCreateDeviceGray()
-        
         let pixels: CFMutableData = CFDataCreateMutable ( nil , width * height )
+        
         alpha_pixels = CGContext( data: CFDataGetMutableBytePtr( pixels ) , width: width , height: height , bitsPerComponent: 8 , bytesPerRow: width, space: colorspace ,bitmapInfo: CGImageAlphaInfo.none.rawValue )
         provider = CGDataProvider(data: pixels);
         alpha_pixels.setFillColor(UIColor.black.cgColor)
@@ -109,6 +111,8 @@ open class ScratchView: UIView {
             }
     }
     
+    
+    
     override open func draw(_ rect: CGRect){
         UIGraphicsGetCurrentContext()?.saveGState();
         UIGraphicsGetCurrentContext()?.translateBy(x: self.frame.origin.x, y: self.frame.origin.y);
@@ -118,6 +122,10 @@ open class ScratchView: UIView {
         UIGraphicsGetCurrentContext()?.draw(scratched, in: self.frame);
         UIGraphicsGetCurrentContext()?.restoreGState();
         
+        if ScratchCard.getAlphaPixelPercent() > 0.6 && !complete{
+            complete = true
+            NotificationCenter.default.post(Notification(name: Notification.Name("ScratchComplete")))
+        }
     }
     
     

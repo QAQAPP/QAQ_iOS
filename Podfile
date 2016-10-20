@@ -41,6 +41,9 @@ pod 'MJRefresh'
 pod 'GoogleSignIn'
 pod 'BadgeSwift'
 pod 'ScratchCard'
+pod 'BlurImageProcessor'
+pod 'TYBlurImage'
+pod 'UIImage-Resize'
 
 post_install do |installer|
     installer.pods_project.targets.each do |target|

@@ -14,6 +14,7 @@ import FirebaseAuth
 import GoogleSignIn
 import FBSDKLoginKit
 import IQKeyboardManager
+import BadgeSwift
 
 class CtrlVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     // UIVars
@@ -107,6 +108,12 @@ class CtrlVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CtrlCell", for: indexPath) as! CtrlCell
+        if indexPath.row == 1{
+            cell.badgeView.text = String(describing: 135)
+        }
+        else{
+            cell.badgeView.isHidden = true
+        }
         cell.title.text = viewsArr[indexPath.row]
         cell.title.textColor = themeColor
         cell.imageView.setIcon(img: UIImage(named: viewsArr[indexPath.row])!, color: themeColor)
