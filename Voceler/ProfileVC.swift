@@ -39,6 +39,9 @@ class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UI
     @IBOutlet weak var moneyImg: UIImageView!
     @IBOutlet weak var scrollHeight: NSLayoutConstraint!
     @IBOutlet weak var bottomSpace: NSLayoutConstraint?
+    @IBOutlet weak var controlViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var controlBottom: NSLayoutConstraint!
+    
     var editBtn = BFPaperButton(raised: false)!
     private var takeProfile = UIImageView(image: #imageLiteral(resourceName: "compact_camera-50"))
     private var takeWall = UIImageView(image: #imageLiteral(resourceName: "compact_camera-50"))
@@ -109,7 +112,7 @@ class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UI
                     textField.text = "Male"
                 }
             case "Birthday":
-                let vc = VC(name: "Birthday", isNav: false, isCenter: false) as! Birthday
+                let vc = Birthday()
                 vc.text = text
                 vc.textField = textField
                 navigationController?.pushViewController(vc, animated: true)
@@ -168,7 +171,7 @@ class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UI
             }
         })
         let resp = alert.showNotice("Save", subTitle: "Do you want to save changes?", closeButtonTitle: "Cancel", duration: 0, colorStyle: 0x2866BF, colorTextButton: 0xFFFFFF, circleIconImage: nil, animationStyle: SCLAnimationStyle.bottomToTop)
-        resp.setDismissBlock { 
+        resp.setDismissBlock {
             for i in 0..<self.contentArr.count{
                 self.contentArr[i] = NSMutableString(string: self.old_val[i] as! NSString)
             }
@@ -182,13 +185,13 @@ class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UI
     private func setEditable(){
         editable = FIRAuth.auth()?.currentUser?.uid == thisUser?.uid
         controlView?.isHidden = !editable
-        bottomSpace?.constant = editable ? 50 : 0
+        controlView?.height = editable ? 50 : 0
+//        bottomSpace?.constant = editable ? 50 : 0
     }
     
     func setupUI(){
-        navigationBar.setColor(color: .clear)
+//        navigationBar.setColor(color: .clear)
         picker.delegate = self
-        edgesForExtendedLayout = .top
         title = ""
         usernameTF!.placeholder = "Username"
         usernameTF!.layer.borderColor = UIColor.lightGray.cgColor
@@ -243,6 +246,9 @@ class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UI
         
         setProfileImg()
         setWallImg()
+        
+        table?.separatorStyle = .none
+        controlBottom.constant = 0//controllerManager.tabbarVC.tabBar.height/4
     }
     
     func resizeTableView() {
@@ -270,7 +276,7 @@ class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UI
             NotificationCenter.default.addObserver(self, selector: #selector(setWallImg), name: NSNotification.Name(self.thisUser!.uid + "wall"), object: nil)
         }
     }
-
+    
     func loadUserInfo(){
         if let username = thisUser?.username{
             usernameTF?.text = username
@@ -297,20 +303,22 @@ class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UI
     
     // Override functions
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         setEditable()
         navigationController?.navigationBar.isHidden = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         navigationController?.navigationBar.isHidden = false
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupProfile()
+//        setupProfile()
         setupUI()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -352,12 +360,12 @@ class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UI
             self.bottomSpace?.constant = keyboardFrame.size.height + 20
         })
     }
-
+    
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         hideKeyboard()
     }
     
     override func hasCustomNavigationBar() -> Bool {
-        return true
+        return false
     }
 }

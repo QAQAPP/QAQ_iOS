@@ -65,7 +65,7 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     }
     
     @IBAction func likeAction(_ sender: AnyObject) {
-        if parent is QuestionVC{
+        if parent is MainVC{
             if !liked && currUser!.qCollection.count >= currUser!.qInCollectionLimit{
                 _ = SCLAlertView().showError("Sorry", subTitle: "You are only allowed to have up to \(currUser!.qInCollectionLimit) in collection. Please conclude a question.")
             }
@@ -134,10 +134,11 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     
     func showUser(user:UserModel?){
         if let user = user{
-            let vc = VC(name: "Profile", isNav: false, isCenter: false, isNew: true) as! ProfileVC
-            vc.thisUser = user
-            user.profileVC = vc
-            parent.navigationController?.pushViewController(vc, animated: true)
+            // TODO
+//            let vc = VC(name: "Profile", isNav: false, isCenter: false, isNew: true) as! ProfileVC
+//            vc.thisUser = user
+//            user.profileVC = vc
+//            parent.navigationController?.pushViewController(vc, animated: true)
         }
         else{
             _ = SCLAlertView().showWarning("Sorry", subTitle: "Anonymous asker")
@@ -200,7 +201,7 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     }
     
     private func addHeaderFooter(){
-        if let vc = parent as? QuestionVC{
+        if let vc = parent as? MainVC{
             let header = MJRefreshNormalHeader(refreshingBlock: {
                 self.currQuestion?.choose()
                 vc.nextContent()

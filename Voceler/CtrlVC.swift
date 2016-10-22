@@ -32,12 +32,13 @@ class CtrlVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     
     // Actions
     @IBAction func showProfile(_ sender: AnyObject) {
-        let profileNav = VC(name: "Profile")
-        let profileVC = profileNav.childViewControllers.first as! ProfileVC
-        profileVC.thisUser = currUser
-        currUser?.profileVC = profileVC
-        drawer.centerViewController = profileNav
-        drawer.toggle(.left, animated: true, completion: nil)
+        // TODO
+//        let profileNav = VC(name: "Profile")
+//        let profileVC = profileNav.childViewControllers.first as! ProfileVC
+//        profileVC.thisUser = currUser
+//        currUser?.profileVC = profileVC
+//        drawer.centerViewController = profileNav
+//        drawer.toggle(.left, animated: true, completion: nil)
     }
     
     // Functions
@@ -127,12 +128,14 @@ class CtrlVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
             let loginManager = FBSDKLoginManager()
             loginManager.logOut()
             dismiss(animated: true, completion: {
-                clearVC()
+//                clearVC()
+                controllerManager = nil
+                questionManager = nil
             })
         }
         else {
-            drawer.centerViewController = VC(name: viewsArr[indexPath.row])
-            drawer.toggle(.left, animated: true, completion: nil)
+//            drawer.centerViewController = VC(name: viewsArr[indexPath.row])
+//            drawer.toggle(.left, animated: true, completion: nil)
         }
     }
 }

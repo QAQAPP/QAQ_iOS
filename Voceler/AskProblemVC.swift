@@ -80,9 +80,10 @@ class AskProblemVC: UIViewController, UIScrollViewDelegate, UITableViewDataSourc
             _ = SCLAlertView().showError("Sorry", subTitle: "The question description should be at least 10 characters long.")
         }
         else{
-            let vc = VC(name: "AddTags", isNav: false, isCenter: false) as! TagsController
-            vc.setQuestion(descr: textView.text, optArr: optArr)
-            navigationController?.pushViewController(vc, animated: true)
+            // TODO
+//            let vc = VC(name: "AddTags", isNav: false, isCenter: false) as! TagsController
+//            vc.setQuestion(descr: textView.text, optArr: optArr)
+//            navigationController?.pushViewController(vc, animated: true)
         }
     }
     

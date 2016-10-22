@@ -44,6 +44,7 @@ pod 'ScratchCard'
 pod 'BlurImageProcessor'
 pod 'TYBlurImage'
 pod 'UIImage-Resize'
+pod 'SCPageViewController'
 
 post_install do |installer|
     installer.pods_project.targets.each do |target|

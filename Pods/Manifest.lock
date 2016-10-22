@@ -76,7 +76,10 @@ PODS:
   - NSString-Email (0.0.3)
   - RATreeView (2.1.0)
   - SCLAlertView (0.5.9)
+  - SCPageViewController (2.0.8):
+    - SCScrollView (~> 1.1)
   - ScratchCard (1.0.4)
+  - SCScrollView (1.1.7)
   - SCTableViewCell (0.1.0)
   - SDAutoLayout (2.1.1)
   - SFDraggableDialogView (1.1.4)
@@ -115,6 +118,7 @@ DEPENDENCIES:
   - NSString-Email
   - RATreeView
   - SCLAlertView
+  - SCPageViewController
   - ScratchCard
   - SCTableViewCell
   - SDAutoLayout
@@ -164,7 +168,9 @@ SPEC CHECKSUMS:
   NSString-Email: 3c1ff0ace64d7ecc289ea2a5696170c853012252
   RATreeView: fc82ec26b8be18cfa0f5f99a5abbe6be68edb21f
   SCLAlertView: d7c6a48c7d340e60206d4ed0e8ebcbff3b9d2a44
+  SCPageViewController: b050c85aefeb7440c1155dde8275b1b84b9305d4
   ScratchCard: 3736e21d2023edb79168a86a2322eeac534011c2
+  SCScrollView: 59e93b7f230e7ee3c963f06dd0c67b57b8b9e237
   SCTableViewCell: 37fd004874dd18350da34440e2a3fa42b1375321
   SDAutoLayout: c18678b6ae28c67d89cb132e770cfbac9ee20d25
   SFDraggableDialogView: cfe9b80b5fff19f7e0fda86dcabee8b03a4c3b44
@@ -180,6 +186,6 @@ SPEC CHECKSUMS:
   WZDraggableSwitchHeaderView: 6debb503cc70def6200c45a0b3ecaeb6fb7606c8
   ZFDragableModalTransition: 0d294eaaba6edfcb9839595de765f9ca06a4b524
 
-PODFILE CHECKSUM: a9fdab5305875081bdd9736b7f6cc05f75231433
+PODFILE CHECKSUM: d39b5ca550f28ab9641da2262e83188bb2d7fa5a
 
 COCOAPODS: 1.1.0.beta.2

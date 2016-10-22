@@ -29,7 +29,7 @@ extension UIViewController{
     }
     
     func showMore() {
-        drawer.toggle(.left, animated: true, completion: nil)
+//        drawer.toggle(.left, animated: true, completion: nil)
     }
     
     func setupProfile(){
@@ -39,7 +39,7 @@ extension UIViewController{
     }
     
     func profileClicked(){
-        drawer.toggle(.left, animated: true, completion: nil)
+//        drawer.toggle(.left, animated: true, completion: nil)
     }
     
     func setProfileItem() {

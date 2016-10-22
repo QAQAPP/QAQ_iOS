@@ -9,20 +9,25 @@
 import UIKit
 import SDAutoLayout
 import FirebaseDatabase
+import FirebaseAuth
+import GoogleSignIn
+import FBSDKLoginKit
 
 class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    let settingArr = ["Anonymous mode", "Auto Tags", "Bug Report", "Suggestions", "Join us", "Privacy Policy"]
+    let settingArr = ["Anonymous mode", "Auto Tags", "Bug Report", "Suggestions", "Join us", "Privacy Policy", "log out"]
     var ref:FIRDatabaseReference!
     var textView:UITextView!
     var vc:UIViewController!
     
-    @IBOutlet weak var table: UITableView!
+    let table = UITableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         setupProfile()
+        view.addSubview(table)
+        _ = table.sd_layout().topSpaceToView(view, 0)?.bottomSpaceToView(view, 0)?.leftSpaceToView(view, 0)?.rightSpaceToView(view, 0)
         table.delegate = self
         table.dataSource = self
         table.separatorStyle = .none
@@ -44,12 +49,25 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             _ = switcher.sd_layout().topSpaceToView(cell, 8)?.rightSpaceToView(cell, 8)?.bottomSpaceToView(cell, 8)?.widthIs(52)
             switcher.addTarget(self, action: #selector(switcherTapped), for: .allEvents)
         }
+        else if indexPath.row == settingArr.count - 1{
+            cell.textLabel?.textColor = .red
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.cellForRow(at: indexPath)?.isSelected = false
-        if indexPath.row > 1{
+        if indexPath.row == settingArr.count - 1{
+            try! FIRAuth.auth()?.signOut()
+            GIDSignIn.sharedInstance().signOut()
+            let loginManager = FBSDKLoginManager()
+            loginManager.logOut()
+            dismiss(animated: true, completion: {
+                controllerManager = nil
+                questionManager = nil
+            })
+        }
+        else if indexPath.row > 1{
             vc = UIViewController()
             vc.edgesForExtendedLayout = []
             textView = UITextView()

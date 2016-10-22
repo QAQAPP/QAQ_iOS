@@ -12,8 +12,8 @@ import FirebaseDatabase
 
 class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     // UIVars
-    @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var table: UITableView!
+        @IBOutlet weak var searchBar: UISearchBar!
+        @IBOutlet weak var table: UITableView!
     
     // FieldVars
     var qInProgressArr = Array<QuestionModel>()
@@ -74,7 +74,6 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         setupProfile()
-        navigationBar.setColor(color: themeColor)
         table.delegate = self
         table.dataSource = self
         table.register(UINib(nibName: "CollectionCell", bundle: nil), forCellReuseIdentifier: "CollectionCell")
@@ -90,14 +89,14 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         table.mj_header = header
         loadCollections()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        searchBar.endEditing(true)
+        //        searchBar.endEditing(true)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -157,7 +156,8 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         }
     }
     
-    override func hasCustomNavigationBar() -> Bool {
-        return true
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        edgesForExtendedLayout = []
     }
 }

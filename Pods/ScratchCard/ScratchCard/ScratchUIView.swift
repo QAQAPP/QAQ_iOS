@@ -16,7 +16,7 @@ var coupon: UIImage!
 var mask_image: UIImage!
 var scratch_width: CGFloat!
 
-public class ScratchUIView: UIView {
+open class ScratchUIView: UIView {
     
     @IBOutlet private var contentView:UIView?
     

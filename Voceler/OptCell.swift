@@ -27,11 +27,11 @@ class OptCell: FoldingCell, UITableViewDelegate, UITableViewDataSource {
     
     var tableView: UITableView!
     var indexPath: IndexPath!
-    var parent: QuestionVC!
+    var parent: MainVC!
     
     @IBOutlet weak var textViewToBottom: NSLayoutConstraint!
     
-    func setUp(parent:QuestionVC, tbv:UITableView, row:IndexPath, color:UIColor, foreViewText:String, num:Int, contentViewText:String, isInCollection:Bool = false) {
+    func setUp(parent:MainVC, tbv:UITableView, row:IndexPath, color:UIColor, foreViewText:String, num:Int, contentViewText:String, isInCollection:Bool = false) {
         self.parent = parent
         contentCV.isHidden = true
         textViewToBottom.constant = 0

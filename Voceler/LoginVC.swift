@@ -183,7 +183,9 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, FBSDKLo
         req.displayName = "hello"
         currUser?.username = user.displayName
         questionManager = QuestionManager()
-        self.show(drawer, sender: self)
+        controllerManager = ControllerManager()
+        self.show(controllerManager.tabbarVC, sender: self)
+//        self.show(drawer, sender: self)
     }
     
     func initUserInfo(){

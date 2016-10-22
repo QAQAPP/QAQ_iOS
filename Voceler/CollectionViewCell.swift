@@ -73,7 +73,7 @@ class CollectionViewCell: UICollectionViewCell {
     }
     
     func itemLiked() {
-        if let vc = self.parent.parent as? QuestionVC{
+        if let vc = self.parent.parent as? MainVC{
             likeBtn.setImage(img: #imageLiteral(resourceName: "like_filled"), color: pinkColor)
             parent.collectionView.isUserInteractionEnabled = false
             let optRef = option.oRef
@@ -96,7 +96,7 @@ class CollectionViewCell: UICollectionViewCell {
     }
     
     private func nextQuestion(){
-        (self.parent.parent as! QuestionVC).nextContent()
+        (self.parent.parent as! MainVC).nextContent()
     }
     
     func setProfile(){
