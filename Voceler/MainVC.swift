@@ -63,23 +63,24 @@ class MainVC: UIViewController, UIPageViewControllerDataSource, UIPageViewContro
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController?{
         currVC = viewController
-        if let question = questionManager.getQuestion(){
-            self.addQuestion(question: question)
-        }
-        print(contentVCs.index(of: viewController))
         if let index = contentVCs.index(of: viewController), index < contentVCs.count - 1 && swipeEnable{
             let vc = contentVCs[index+1]
-            if index >= 2{
+            if index > 3{
                 _ = contentVCs.removeFirst()
             }
             return vc
         }
-        else if let vc = currVC as? ContentVC, vc.contentView is UIButton{
-            return nil
-        }
-        else{
-            addLoadMoreVC()
-            return contentVCs.last!
+        else {
+            if let question = questionManager.getQuestion(){
+                self.addQuestion(question: question)
+            }
+            if let vc = currVC as? ContentVC, vc.contentView is UIButton{
+                return nil
+            }
+            else{
+                addLoadMoreVC()
+                return contentVCs.last!
+            }
         }
     }
     

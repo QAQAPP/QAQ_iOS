@@ -86,7 +86,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "OptCell") as! OptCell
-        cell.setup(option: currQuestion.qOptions[indexPath.row], question: currQuestion)
+        cell.setup(option: currQuestion.qOptions[indexPath.row], questionView: self)
         return cell
     }
     
@@ -123,7 +123,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource {
         let oRef = question.qRef.child("options")
         oRef.observe(.childAdded, with: { (snapshot) in
             if let dict = snapshot.value as? Dictionary<String, Any>{
-                let opt = OptionModel(ref: snapshot.ref, dict: dict)
+                let opt = OptionModel(question:question, ref: snapshot.ref, dict: dict)
                 question.optArrAdd(option: opt)
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
@@ -176,7 +176,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func addOption(text:String){
-        let opt = OptionModel(description: text, offerBy: (appSetting.isAnonymous) ? nil : currUser!.uid)
+        let opt = OptionModel(question: currQuestion, description: text, offerBy: (appSetting.isAnonymous) ? nil : currUser!.uid)
         currQuestion?.addOption(opt: opt)
         pullUpMask.isHidden = true
         currQuestion?.choose(val: opt.oRef.key)

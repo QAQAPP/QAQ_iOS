@@ -18,21 +18,42 @@ class OptCell: UITableViewCell{
     @IBAction func moreAction(_ sender: AnyObject) {
     }
     @IBOutlet weak var likeBtn: UIButton!
-    var isLiked = false
+//    var isLiked = false{
+//        didSet{
+//            let optRef = option.oRef
+//            likeBtn.setImage(img: isLiked ? #imageLiteral(resourceName: "like_filled") : #imageLiteral(resourceName: "like"), color: pinkColor)
+//            if isLiked{
+//                question.choose(val: optRef!.ref.key)
+//                optRef?.child("val").runTransactionBlock({ (data) -> FIRTransactionResult in
+//                    if let num = data.value as? Int{
+//                        data.value = num + 1
+//                    }
+//                    return FIRTransactionResult.success(withValue: data)
+//                })
+//            }
+//            else{
+//                optRef?.child("val").runTransactionBlock({ (data) -> FIRTransactionResult in
+//                    if let num = data.value as? Int{
+//                        data.value = num - 1
+//                    }
+//                    return FIRTransactionResult.success(withValue: data)
+//                })
+//            }
+//        }
+//    }
     func optLiked(){
         let vc = controllerManager.mainVC
-        if !isLiked{
-            //        if let vc = self.parent.parent as? MainVC{
+        if !option.isLiked{
             likeBtn.setImage(img: #imageLiteral(resourceName: "like_filled"), color: pinkColor)
-            let optRef = option.oRef
-            question.choose(val: optRef!.ref.key)
-            optRef?.child("val").runTransactionBlock({ (data) -> FIRTransactionResult in
-                if let num = data.value as? Int{
-                    data.value = num + 1
+            for opt in question.qOptions{
+                if opt == option && !opt.isLiked{
+                    opt.isLiked = true
                 }
-                return FIRTransactionResult.success(withValue: data)
-            })
-            isLiked = true
+                else if opt.isLiked{
+                    opt.isLiked = false
+                }
+            }
+            questionVIew.tableView.reloadData()
         }
         vc?.nextContent()
         //        }
@@ -43,6 +64,13 @@ class OptCell: UITableViewCell{
         //        else if self.parent.parent is InCollectionVC{
         //            _ = SCLAlertView().showWarning("Warning", subTitle: "You cannot modify the question in collection")
         //        }
+    }
+    
+    func cancelLike(){
+        if option.isLiked{
+            option.isLiked = false
+            likeBtn.setImage(img: #imageLiteral(resourceName: "like"), color: pinkColor)
+        }
     }
     
     @IBAction func likeAction(_ sender: AnyObject) {
@@ -82,12 +110,14 @@ class OptCell: UITableViewCell{
     }
     
     var offerer:UserModel?
-    
     var question:QuestionModel!
+    var questionVIew:QuestionView!
     
-    func setup(option:OptionModel, question:QuestionModel){
-        self.question = question
+    func setup(option:OptionModel, questionView:QuestionView){
+        self.questionVIew = questionView
+        self.question = questionView.currQuestion
         self.option = option
+        likeBtn.setImage(img: option.isLiked ? #imageLiteral(resourceName: "like_filled") : #imageLiteral(resourceName: "like"), color: pinkColor)
     }
     
     func setProfile(){

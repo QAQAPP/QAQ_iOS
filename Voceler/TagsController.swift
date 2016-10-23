@@ -28,7 +28,7 @@ class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate
         question.qOptions = [OptionModel]()
         for opt in optArr{
             if opt.isNotEmpty{
-                question.qOptions.append(OptionModel(description: opt))
+                question.qOptions.append(OptionModel(question: question, description: opt))
             }
         }
         question.qAnonymous = appSetting.isAnonymous
