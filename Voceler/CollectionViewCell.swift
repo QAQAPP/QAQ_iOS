@@ -75,7 +75,7 @@ class CollectionViewCell: UICollectionViewCell {
     func itemLiked() {
         if let vc = self.parent.parent as? MainVC{
             likeBtn.setImage(img: #imageLiteral(resourceName: "like_filled"), color: pinkColor)
-            parent.collectionView.isUserInteractionEnabled = false
+//            parent.collectionView.isUserInteractionEnabled = false
             let optRef = option.oRef
             parent.currQuestion?.choose(val: optRef!.ref.key)
             optRef?.child("val").runTransactionBlock({ (data) -> FIRTransactionResult in
@@ -124,9 +124,9 @@ class CollectionViewCell: UICollectionViewCell {
     }
     
     func doubleTapped(){
-        if parent.collectionView.visibleCells.first == self{
-            itemLiked()
-        }
+//        if parent.collectionView.visibleCells.first == self{
+//            itemLiked()
+//        }
     }
 
     override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {

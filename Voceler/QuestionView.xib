@@ -7,7 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="QuestionView" customModule="Voceler" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="QuestionView" customModule="QAQ" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -61,18 +61,30 @@
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Add an option" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="s1w-gk-gRp">
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="b1h-em-Vcm"/>
+                    </constraints>
+                    <nil key="textColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="yow-ju-kPI" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="0fP-A4-hwF"/>
+                <constraint firstAttribute="bottom" secondItem="s1w-gk-gRp" secondAttribute="bottom" id="B9s-tN-2Xj"/>
                 <constraint firstItem="vGj-Ln-5H7" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="BMh-JR-r9r"/>
                 <constraint firstItem="yow-ju-kPI" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="P4h-VY-wFy"/>
                 <constraint firstItem="vGj-Ln-5H7" firstAttribute="top" secondItem="yow-ju-kPI" secondAttribute="bottom" id="UTC-NL-noc"/>
                 <constraint firstAttribute="trailing" secondItem="yow-ju-kPI" secondAttribute="trailing" id="Y4L-YV-W5x"/>
+                <constraint firstAttribute="trailing" secondItem="s1w-gk-gRp" secondAttribute="trailing" id="ahp-aP-5gy"/>
+                <constraint firstItem="s1w-gk-gRp" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="iiG-ty-eKn"/>
                 <constraint firstAttribute="trailing" secondItem="vGj-Ln-5H7" secondAttribute="trailing" id="wvJ-ye-MsS"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <connections>
+                <outlet property="addOptionField" destination="s1w-gk-gRp" id="NxU-WQ-VsA"/>
                 <outlet property="askerLbl" destination="1vD-7A-Cew" id="nZH-k4-agQ"/>
                 <outlet property="askerProfile" destination="aav-DN-4w3" id="xfE-5t-2TJ"/>
                 <outlet property="detailTV" destination="vGj-Ln-5H7" id="bK6-ZR-03l"/>
