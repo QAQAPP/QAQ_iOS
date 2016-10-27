@@ -184,7 +184,7 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, FBSDKLo
         currUser?.username = user.displayName
         questionManager = QuestionManager()
         controllerManager = ControllerManager()
-        self.show(controllerManager.tabbarVC, sender: self)
+        self.show(controllerManager!.tabbarVC, sender: self)
 //        self.show(drawer, sender: self)
     }
     

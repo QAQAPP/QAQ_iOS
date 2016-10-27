@@ -21,9 +21,9 @@ var currUser:UserModel?{
     }
 }
 var appSetting = SettingModel()
-var questionManager:QuestionManager!
+var questionManager:QuestionManager?
 var memoryHandler = MemoryHandler()
-var controllerManager:ControllerManager!
+var controllerManager:ControllerManager?
 
 func getVC(name:String) -> UIViewController {
     let board = UIStoryboard(name: "Main", bundle: nil)

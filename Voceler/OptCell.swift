@@ -42,7 +42,7 @@ class OptCell: UITableViewCell{
 //        }
 //    }
     func optLiked(){
-        let vc = controllerManager.mainVC
+        let vc = controllerManager?.mainVC
         if !option.isLiked{
             likeBtn.setImage(img: #imageLiteral(resourceName: "like_filled"), color: pinkColor)
             for opt in question.qOptions{

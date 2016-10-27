@@ -17,7 +17,7 @@ class ControllerManager: NSObject {
     var collectionNav:UINavigationController!
     var profileNav:UINavigationController!
     var settingsNav:UINavigationController!
-    let tabbarVC = UITabBarController()
+    var tabbarVC = UITabBarController()
     override init() {
         super.init()
         mainVC = MainVC()

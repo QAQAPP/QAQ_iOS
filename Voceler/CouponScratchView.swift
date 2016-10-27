@@ -23,7 +23,7 @@ class CouponScratchView: ScratchUIView {
         becomeFirstResponder()
         _ = sd_layout().topSpaceToView(parent.view, 0)?.rightSpaceToView(parent.view, 0)?.leftSpaceToView(parent.view, 0)?.bottomSpaceToView(parent.view, 0)
         NotificationCenter.default.addObserver(forName: NSNotification.Name.ScratchComplete, object: nil, queue: nil, using: { (noti) in
-            controllerManager.mainVC.swipeEnable = true
+            controllerManager?.mainVC.swipeEnable = true
             if !self.alertShowed{
                 self.alertShowed = true
                 self.scratchCompleteAlert()

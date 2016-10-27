@@ -36,7 +36,7 @@ class MainVC: UIViewController, UIPageViewControllerDataSource, UIPageViewContro
     //        }
     //    }
     let vc_max_count = 7
-    var contentVCs = [UIViewController]()
+    private var contentVCs = [UIViewController]()
     let page = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
     var currVC : UIViewController!
     
@@ -52,7 +52,6 @@ class MainVC: UIViewController, UIPageViewControllerDataSource, UIPageViewContro
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController?{
-        currVC = viewController
         if let index = contentVCs.index(of: viewController), index > 0 && swipeEnable{
             return contentVCs[index-1]
         }
@@ -62,7 +61,6 @@ class MainVC: UIViewController, UIPageViewControllerDataSource, UIPageViewContro
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController?{
-        currVC = viewController
         if let index = contentVCs.index(of: viewController), index < contentVCs.count - 1 && swipeEnable{
             let vc = contentVCs[index+1]
             if index > 3{
@@ -71,7 +69,7 @@ class MainVC: UIViewController, UIPageViewControllerDataSource, UIPageViewContro
             return vc
         }
         else {
-            if let question = questionManager.getQuestion(){
+            if let question = questionManager?.getQuestion(){
                 self.addQuestion(question: question)
             }
             if let vc = currVC as? ContentVC, vc.contentView is UIButton{
@@ -81,6 +79,13 @@ class MainVC: UIViewController, UIPageViewControllerDataSource, UIPageViewContro
                 addLoadMoreVC()
                 return contentVCs.last!
             }
+        }
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        if completed{
+            currVC = page.viewControllers?.first
+            print(contentVCs.index(of: currVC))
         }
     }
     
@@ -136,7 +141,7 @@ class MainVC: UIViewController, UIPageViewControllerDataSource, UIPageViewContro
     
     func loadQuestions(){
         while self.contentVCs.count < self.vc_max_count{
-            if let question = questionManager.getQuestion(){
+            if let question = questionManager?.getQuestion(){
                 self.addQuestion(question: question)
             }
             else{
@@ -148,15 +153,7 @@ class MainVC: UIViewController, UIPageViewControllerDataSource, UIPageViewContro
     override func viewDidLoad() {
         super.viewDidLoad()
         //        setContent()
-        NotificationCenter.default.addObserver(forName: NSNotification.Name("QuestionLoaded"), object: nil, queue: nil, using: { (noti) in
-            self.loadQuestions()
-            //            if let question = noti.userInfo?["question"] as? QuestionModel{
-            //                self.addQuestion(question: question)
-            //            }
-            //            if self.view.subviews.first is NoContentView{
-            //                self.setContent()
-            //            }
-        })
+        NotificationCenter.default.addObserver(self, selector: #selector(loadQuestions), name: Notification.Name.QuestionLoaded, object: nil)
         view.backgroundColor = .white
         page.dataSource = self
         page.delegate = self
@@ -170,7 +167,7 @@ class MainVC: UIViewController, UIPageViewControllerDataSource, UIPageViewContro
     }
     
     func addContent(){
-        if let question = questionManager.getQuestion(){
+        if let question = questionManager?.getQuestion(){
             addQuestion(question: question)
         }
     }
@@ -190,7 +187,14 @@ class MainVC: UIViewController, UIPageViewControllerDataSource, UIPageViewContro
     func swipeToNext(){
         swipeComplete = true
         if let vc = pageViewController(page, viewControllerAfter: currVC){
+            print(contentVCs.index(of: vc), contentVCs.index(of: currVC))
             page.setViewControllers([vc], direction: .forward, animated: true, completion: nil)
+            currVC = vc
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        print(contentVCs)
     }
 }

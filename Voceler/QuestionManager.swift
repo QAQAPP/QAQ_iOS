@@ -88,6 +88,7 @@ class QuestionManager: NSObject {
             if purpose == "QuestionLoaded"{
                 self.collection.append(self.getQuestion(qid: qid, question: snapshot.value as? Dictionary<String, Any>)!)
                 self.numOfTotalQuestions += 1
+                NotificationCenter.default.post(name: Notification.Name.QuestionLoaded, object: nil)
             }
             if purpose != "QuestionLoaded" || self.collection.count < 2{
                 if var dict = snapshot.value as? Dictionary<String, Any>{

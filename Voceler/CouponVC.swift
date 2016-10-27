@@ -32,7 +32,7 @@ class CouponVC: UIViewController {
     }
     
     func disableSwipe(){
-        controllerManager.mainVC.swipeEnable = false
+        controllerManager?.mainVC.swipeEnable = false
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -50,6 +50,6 @@ class CouponVC: UIViewController {
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        controllerManager.mainVC.swipeEnable = true
+        controllerManager?.mainVC.swipeEnable = true
     }
 }

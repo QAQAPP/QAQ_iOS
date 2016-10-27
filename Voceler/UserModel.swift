@@ -127,10 +127,10 @@ class UserModel: NSObject {
     
     func loadCollectionDetail(){
         for question in qInProgress{
-            questionManager.loadQuestionContent(qid: question, purpose: "qInProgressLoaded")
+            questionManager?.loadQuestionContent(qid: question, purpose: "qInProgressLoaded")
         }
         for question in qCollection{
-            questionManager.loadQuestionContent(qid: question, purpose: "qCollectionLoaded")
+            questionManager?.loadQuestionContent(qid: question, purpose: "qCollectionLoaded")
         }
     }
     

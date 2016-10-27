@@ -62,10 +62,9 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             GIDSignIn.sharedInstance().signOut()
             let loginManager = FBSDKLoginManager()
             loginManager.logOut()
-            dismiss(animated: true, completion: {
-                controllerManager = nil
-                questionManager = nil
-            })
+            controllerManager = nil
+            questionManager = nil
+            dismiss(animated: true, completion: nil)
         }
         else if indexPath.row > 1{
             vc = UIViewController()

@@ -49,8 +49,9 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                         return
                     }
                 }
-                let question = questionManager.getQuestion(qid: qid, question: dict)!
-                self.qInProgressArr.append(question)
+                if let question = questionManager?.getQuestion(qid: qid, question: dict){
+                    self.qInProgressArr.append(question)
+                }
             }
         }
         else{
@@ -61,8 +62,9 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                         return
                     }
                 }
-                let question = questionManager.getQuestion(qid: qid, question: dict)!
-                self.qCollectionArr.append(question)
+                if let question = questionManager?.getQuestion(qid: qid, question: dict){
+                    self.qCollectionArr.append(question)
+                }
             }
         }
         self.table.reloadData()
