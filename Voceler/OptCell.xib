@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -17,6 +17,9 @@
                 <subviews>
                     <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sQP-Xp-NdK">
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="128" id="Tak-Ff-qvC"/>
+                        </constraints>
                         <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -54,29 +57,28 @@
                                     <action selector="likeAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="uk0-Nz-ams"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="opu-hr-iw7" customClass="BFPaperButton" customModule="QAQ" customModuleProvider="target">
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="opu-hr-iw7" customClass="BFPaperButton" customModule="QAQ" customModuleProvider="target">
                                 <state key="normal" title="More"/>
                                 <connections>
                                     <action selector="moreAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="MlF-bC-zBH"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="opu-hr-iw7" firstAttribute="leading" secondItem="lRh-mn-gca" secondAttribute="trailing" constant="4" id="1QW-wS-IB9"/>
                             <constraint firstAttribute="bottom" secondItem="lRh-mn-gca" secondAttribute="bottom" constant="4" id="4V8-nR-Vq1"/>
+                            <constraint firstAttribute="height" priority="750" constant="47" id="BYc-cm-m2m"/>
                             <constraint firstAttribute="bottom" secondItem="YKw-9X-UNx" secondAttribute="bottom" constant="4" id="DL8-04-rnn"/>
                             <constraint firstItem="3fB-cP-VeK" firstAttribute="leading" secondItem="x1K-Oh-lbP" secondAttribute="leading" constant="8" id="Mvi-IG-VXk"/>
                             <constraint firstItem="lRh-mn-gca" firstAttribute="leading" secondItem="3fB-cP-VeK" secondAttribute="trailing" constant="8" id="PDw-nb-MBP"/>
                             <constraint firstItem="lRh-mn-gca" firstAttribute="top" secondItem="x1K-Oh-lbP" secondAttribute="top" constant="4" id="TgJ-Sy-EeV"/>
                             <constraint firstAttribute="bottom" secondItem="3fB-cP-VeK" secondAttribute="bottom" constant="4" id="VP1-ao-GEQ"/>
                             <constraint firstItem="szR-mx-y7X" firstAttribute="leading" secondItem="YKw-9X-UNx" secondAttribute="trailing" id="Wre-M9-6bj"/>
-                            <constraint firstAttribute="bottom" secondItem="opu-hr-iw7" secondAttribute="bottom" constant="4" id="YrE-da-szC"/>
+                            <constraint firstAttribute="bottom" secondItem="opu-hr-iw7" secondAttribute="bottom" priority="900" constant="8" id="YrE-da-szC"/>
                             <constraint firstItem="YKw-9X-UNx" firstAttribute="leading" secondItem="opu-hr-iw7" secondAttribute="trailing" constant="4" id="ayu-sQ-Gin"/>
                             <constraint firstAttribute="trailing" secondItem="szR-mx-y7X" secondAttribute="trailing" constant="8" id="bd1-c9-P3z"/>
                             <constraint firstItem="3fB-cP-VeK" firstAttribute="top" secondItem="x1K-Oh-lbP" secondAttribute="top" constant="4" id="dHc-Ih-0jO"/>
-                            <constraint firstItem="opu-hr-iw7" firstAttribute="top" secondItem="x1K-Oh-lbP" secondAttribute="top" constant="4" id="djB-tV-uvL"/>
-                            <constraint firstAttribute="height" constant="48" id="hUn-HP-FYc"/>
+                            <constraint firstItem="opu-hr-iw7" firstAttribute="top" secondItem="x1K-Oh-lbP" secondAttribute="top" priority="900" constant="8" id="djB-tV-uvL"/>
                             <constraint firstAttribute="bottom" secondItem="szR-mx-y7X" secondAttribute="bottom" constant="4" id="hgA-5l-ZQ2"/>
                             <constraint firstItem="szR-mx-y7X" firstAttribute="top" secondItem="x1K-Oh-lbP" secondAttribute="top" constant="4" id="hpS-LT-lRG"/>
                             <constraint firstItem="YKw-9X-UNx" firstAttribute="top" secondItem="x1K-Oh-lbP" secondAttribute="top" constant="4" id="kiw-co-Mzf"/>
@@ -101,7 +103,7 @@
                 <outlet property="profileImg" destination="3fB-cP-VeK" id="gs2-Kx-cMn"/>
                 <outlet property="textView" destination="sQP-Xp-NdK" id="cqt-sH-9QN"/>
             </connections>
-            <point key="canvasLocation" x="101" y="90.5"/>
+            <point key="canvasLocation" x="101" y="90"/>
         </tableViewCell>
     </objects>
     <resources>

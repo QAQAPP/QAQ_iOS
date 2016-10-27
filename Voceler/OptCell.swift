@@ -9,8 +9,9 @@
 import UIKit
 import SDAutoLayout
 import FirebaseDatabase
+import SCLAlertView
 
-class OptCell: UITableViewCell{
+class OptCell: UICollectionViewCell{
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var controlView: UIView!
     @IBOutlet weak var profileImg: UIButton!
@@ -18,29 +19,7 @@ class OptCell: UITableViewCell{
     @IBAction func moreAction(_ sender: AnyObject) {
     }
     @IBOutlet weak var likeBtn: UIButton!
-//    var isLiked = false{
-//        didSet{
-//            let optRef = option.oRef
-//            likeBtn.setImage(img: isLiked ? #imageLiteral(resourceName: "like_filled") : #imageLiteral(resourceName: "like"), color: pinkColor)
-//            if isLiked{
-//                question.choose(val: optRef!.ref.key)
-//                optRef?.child("val").runTransactionBlock({ (data) -> FIRTransactionResult in
-//                    if let num = data.value as? Int{
-//                        data.value = num + 1
-//                    }
-//                    return FIRTransactionResult.success(withValue: data)
-//                })
-//            }
-//            else{
-//                optRef?.child("val").runTransactionBlock({ (data) -> FIRTransactionResult in
-//                    if let num = data.value as? Int{
-//                        data.value = num - 1
-//                    }
-//                    return FIRTransactionResult.success(withValue: data)
-//                })
-//            }
-//        }
-//    }
+    
     func optLiked(){
         let vc = controllerManager?.mainVC
         if !option.isLiked{
@@ -53,7 +32,7 @@ class OptCell: UITableViewCell{
                     opt.isLiked = false
                 }
             }
-            questionVIew.tableView.reloadData()
+            questionVIew.optsView.reloadData()
         }
         vc?.nextContent()
         //        }
@@ -130,4 +109,38 @@ class OptCell: UITableViewCell{
             NotificationCenter.default.addObserver(self, selector: #selector(setProfile), name: NSNotification.Name(uid + "profile"), object: nil)
         }
     }
+    
+    override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
+        super.apply(layoutAttributes)
+    
+//        let featuredHeight: CGFloat = Constant.featuredHeight
+//        let standardHeight: CGFloat = Constant.standardHegiht
+//
+//        let delta = 1 - (featuredHeight - frame.height) / (featuredHeight - standardHeight)
+//
+//        let minAlpha: CGFloat = Constant.minAlpha
+//        let maxAlpha: CGFloat = Constant.maxAlpha
+//
+//        let alpha = maxAlpha - (delta * (maxAlpha - minAlpha))
+//        overlayView.alpha = alpha
+//
+//        let scale = max(delta, 0.5)
+//        titleLabel.transform = CGAffineTransform(scaleX: scale, y: scale)
+//
+//        descriptionTextView.alpha = delta
+        
+    }
 }
+
+
+//extension OptCell {
+//    struct Constant {
+//        static let featuredHeight: CGFloat = 172
+//        static let standardHegiht: CGFloat = 52
+//        
+//        static let minAlpha: CGFloat = 0.3
+//        static let maxAlpha: CGFloat = 0.75
+//    }
+//}
+//
+//extension OptCell : NibLoadableView { }

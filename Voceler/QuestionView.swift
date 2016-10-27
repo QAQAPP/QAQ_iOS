@@ -13,9 +13,7 @@ import SFFocusViewLayout
 import SCLAlertView
 import SDAutoLayout
 
-class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource {
-
-    
+class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate{
     // FieldVars
     @IBOutlet weak var titlebarHeight: NSLayoutConstraint!
     var handler:GrowingTextViewHandler!
@@ -52,7 +50,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var askerProfile: UIButton!
     @IBOutlet weak var askerLbl: UILabel!
     var currQuestion:QuestionModel!
-    let tableView = UITableView()
+    var optsView:UICollectionView!
     var pullUpMask = UILabel()
 //    var collectionFooter:MJRefreshBackNormalFooter!
     var parent:UIViewController!
@@ -80,18 +78,33 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
     // Functions
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return currQuestion.qOptions.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "OptCell") as! OptCell
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OptCell", for: indexPath) as! OptCell
         cell.setup(option: currQuestion.qOptions[indexPath.row], questionView: self)
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
+    @objc(collectionView:willDisplayCell:forItemAtIndexPath:) func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        (cell as! OptCell).option = currQuestion?.qOptions[indexPath.row]
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        guard let focusViewLayout = collectionView.collectionViewLayout as? SFFocusViewLayout else {
+            fatalError("error casting focus layout from collection view")
+        }
+        
+        let offset = focusViewLayout.dragOffset * CGFloat(indexPath.item)
+        if collectionView.contentOffset.y != offset {
+            collectionView.setContentOffset(CGPoint(x: 0, y: offset), animated: true)
+        }
+        let cell = optsView.cellForItem(at: indexPath)
         cell?.isSelected = false
         if let cell = cell as? OptCell{
             cell.optLiked()
@@ -118,7 +131,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource {
             // Fallback on earlier versions
             _ = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(setDescription), userInfo: nil, repeats: false)
         }
-        tableView.isUserInteractionEnabled = true
+        optsView.isUserInteractionEnabled = true
         
         let oRef = question.qRef.child("options")
         oRef.observe(.childAdded, with: { (snapshot) in
@@ -126,7 +139,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource {
                 let opt = OptionModel(question:question, ref: snapshot.ref, dict: dict)
                 question.optArrAdd(option: opt)
                 DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                    self.optsView.reloadData()
                 }
                 self.pullUpMask.isHidden = true
             }
@@ -142,11 +155,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource {
         pullUpMask.isHidden = question.qOptions.count > 0
         titlebarHeight.constant = 56
         
-        tableView.reloadData()
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 128
+        optsView.reloadData()
     }
     
     func showUser(user:UserModel?){
@@ -190,19 +199,27 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource {
     
     func setup(parent:UIViewController, question:QuestionModel) {
         self.parent = parent
-        addSubview(tableView)
-        _ = tableView.sd_layout().topSpaceToView(detailTV, 0)?.bottomSpaceToView(addOptionField, 0)?.leftSpaceToView(self, 0)?.rightSpaceToView(self, 0)
+        let focusLayout = SFFocusViewLayout()
+        focusLayout.standardHeight = 100
+        focusLayout.focusedHeight = 200
+        focusLayout.dragOffset = 100
+        optsView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 100, height: 110), collectionViewLayout: focusLayout)
+        optsView.backgroundColor = .white
+        addSubview(optsView)
+        _ = optsView.sd_layout().topSpaceToView(detailTV, 0)?.bottomSpaceToView(addOptionField, 0)?.leftSpaceToView(self, 0)?.rightSpaceToView(self, 0)
         setupUI()
         setupTable()
         setQuestion(question: question)
     }
     
     func setupTable(){
-        tableView.board(radius: 0, width: 1, color: .black)
-        tableView.separatorStyle = .none
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(UINib(nibName: "OptCell", bundle: nil), forCellReuseIdentifier: "OptCell")
+        optsView.board(radius: 0, width: 1, color: .black)
+        optsView.delegate = self
+        optsView.dataSource = self
+//        optsView.register(UINib(nibName: "OptCell", bundle: nil), forCellReuseIdentifier: "OptCell")
+        let nibName = UINib(nibName: "OptCell", bundle:nil)
+        optsView.register(nibName, forCellWithReuseIdentifier: "OptCell")
+//        optsView.register(OptCell.self)
     }
     
     // Override functions

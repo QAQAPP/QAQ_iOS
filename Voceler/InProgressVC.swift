@@ -42,7 +42,7 @@ class InProgressVC: UIViewController {
         parentVC = parent
     }
 
-    func conclude(OID:String, cell:CollectionViewCell){
+    func conclude(OID:String, cell:OptCell){
         let alert = SCLAlertView()
         _ = alert.addButton("Confirm", action: {
             self.currQuestion.conclude(OID: OID)
