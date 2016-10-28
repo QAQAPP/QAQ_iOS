@@ -186,7 +186,6 @@ class MainVC: UIViewController, UIPageViewControllerDataSource, UIPageViewContro
     func swipeToNext(){
         swipeComplete = true
         if let vc = pageViewController(page, viewControllerAfter: currVC){
-            print(contentVCs.index(of: vc), contentVCs.index(of: currVC))
             page.setViewControllers([vc], direction: .forward, animated: true, completion: nil)
             currVC = vc
         }

@@ -96,10 +96,11 @@ class QuestionModel: NSObject {
     // add to database
     func addOption(opt:OptionModel){
         let optRef = qRef.child("options").childByAutoId()
+        opt.oRef = optRef
         optRef.child("description").setValue(opt.oDescription)
         optRef.child("offerBy").setValue(opt.oOfferBy)
+        opt.isLiked = true
         optRef.child("val").setValue(opt.oVal)
-        opt.oRef = optRef
     }
     
     func choose(val:String = "skipped"){

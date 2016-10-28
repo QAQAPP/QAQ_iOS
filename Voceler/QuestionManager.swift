@@ -110,6 +110,7 @@ class QuestionManager: NSObject {
     }
     
     func getQuestion() -> QuestionModel?{
+        print("Question", questionManager?.collection.count)
         if collection.isEmpty{
             refreshCollection()
         }

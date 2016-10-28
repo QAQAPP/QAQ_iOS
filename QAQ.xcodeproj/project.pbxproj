@@ -24,7 +24,6 @@
 		BA9ED4331DAADBA0002CF233 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA9ED4321DAADBA0002CF233 /* Bolts.framework */; };
 		BAA0938F1DAA2B10006F1D72 /* privacy.txt in Resources */ = {isa = PBXBuildFile; fileRef = BAA0938E1DAA2B10006F1D72 /* privacy.txt */; };
 		BAA093911DAA305C006F1D72 /* TextViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA093901DAA305C006F1D72 /* TextViewVC.swift */; };
-		BABAD35E1D8A5315002954D2 /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAD3521D8A5315002954D2 /* ReusableView.swift */; };
 		BAC097F81DBB0AC8000C81F0 /* ControllerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC097F71DBB0AC8000C81F0 /* ControllerManager.swift */; };
 		BAC097FE1DBB114B000C81F0 /* ProfileVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = BAC097FD1DBB114B000C81F0 /* ProfileVC.xib */; };
 		BAC098031DBB22D3000C81F0 /* CollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC098011DBB22D3000C81F0 /* CollectionVC.swift */; };
@@ -89,7 +88,6 @@
 		BAA093901DAA305C006F1D72 /* TextViewVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextViewVC.swift; sourceTree = "<group>"; };
 		BAB796111D8BB73F0033DEFE /* Voceler.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Voceler.entitlements; sourceTree = "<group>"; };
 		BABAD3461D89FC2C002954D2 /* Voceler-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Voceler-Bridging-Header.h"; sourceTree = "<group>"; };
-		BABAD3521D8A5315002954D2 /* ReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
 		BAC097F71DBB0AC8000C81F0 /* ControllerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControllerManager.swift; sourceTree = "<group>"; };
 		BAC097FD1DBB114B000C81F0 /* ProfileVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileVC.xib; sourceTree = "<group>"; };
 		BAC098011DBB22D3000C81F0 /* CollectionVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionVC.swift; sourceTree = "<group>"; };
@@ -164,14 +162,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		BABAD34E1D8A52FA002954D2 /* FocusLayout */ = {
-			isa = PBXGroup;
-			children = (
-				BABAD3521D8A5315002954D2 /* ReusableView.swift */,
-			);
-			name = FocusLayout;
-			sourceTree = "<group>";
-		};
 		BAD6C0AE1D6B644B00361A93 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -227,7 +217,6 @@
 				BAFD787A1D960D98004322C0 /* Manager */,
 				BAD6C0AE1D6B644B00361A93 /* Models */,
 				FD682A9B1D33042500D2F4B6 /* View Controllers */,
-				BABAD34E1D8A52FA002954D2 /* FocusLayout */,
 				FD682A9C1D33043700D2F4B6 /* Views */,
 				FD682A9E1D33044F00D2F4B6 /* Nibs */,
 				FD682A9D1D33044300D2F4B6 /* Other */,
@@ -474,7 +463,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BABAD35E1D8A5315002954D2 /* ReusableView.swift in Sources */,
 				FD17E2091D2F666000FC0FB3 /* TagsController.swift in Sources */,
 				FD0325291D24E53E002956FD /* UserListCell.swift in Sources */,
 				BAE1391C1D9A1D56009A8143 /* MemoryHandler.swift in Sources */,

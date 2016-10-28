@@ -52,13 +52,20 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     var currQuestion:QuestionModel!
     var optsView:UICollectionView!
     var pullUpMask = UILabel()
-//    var collectionFooter:MJRefreshBackNormalFooter!
     var parent:UIViewController!
-//    var focusLayout:SFFocusViewLayout!
     
     // Actions
     @IBAction func askerInfo(_ sender: AnyObject) {
         showUser(user: asker)
+    }
+    
+    @IBAction func postAction(_ sender: Any) {
+        endEditing(true)
+        if let text = addOptionField.text, !text.isEmpty{
+            addOption(text: text)
+        }
+        addOptionField.text = ""
+        controllerManager?.mainVC.nextContent()
     }
     
     @IBOutlet weak var addOptionField: UITextField!
@@ -185,10 +192,13 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     }
     
     func addOption(text:String){
-        let opt = OptionModel(question: currQuestion, description: text, offerBy: (appSetting.isAnonymous) ? nil : currUser!.uid)
-        currQuestion?.addOption(opt: opt)
+        currQuestion.userChoosed = true
+        let option = OptionModel(question: currQuestion, description: text, offerBy: (appSetting.isAnonymous) ? nil : currUser!.uid)
+        currQuestion?.addOption(opt: option)
         pullUpMask.isHidden = true
-        currQuestion?.choose(val: opt.oRef.key)
+        currQuestion?.choose(val: option.oRef.key)
+        let indexPath = IndexPath(row: currQuestion.qOptions.count, section: 0)
+        optsView.delegate?.collectionView!(optsView, didSelectItemAt: indexPath)
     }
     
     func setDescription() {
@@ -216,10 +226,12 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
         optsView.board(radius: 0, width: 1, color: .black)
         optsView.delegate = self
         optsView.dataSource = self
-//        optsView.register(UINib(nibName: "OptCell", bundle: nil), forCellReuseIdentifier: "OptCell")
         let nibName = UINib(nibName: "OptCell", bundle:nil)
         optsView.register(nibName, forCellWithReuseIdentifier: "OptCell")
-//        optsView.register(OptCell.self)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        addOptionField.endEditing(true)
     }
     
     // Override functions
