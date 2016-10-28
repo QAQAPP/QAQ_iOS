@@ -166,12 +166,8 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     }
     
     func showUser(user:UserModel?){
-        if let user = user{
-            // TODO
-//            let vc = VC(name: "Profile", isNav: false, isCenter: false, isNew: true) as! ProfileVC
-//            vc.thisUser = user
-//            user.profileVC = vc
-//            parent.navigationController?.pushViewController(vc, animated: true)
+        if let user = user, let vc = controllerManager?.profileVC(user: user){
+            parent.navigationController?.pushViewController(vc, animated: true)
         }
         else{
             _ = SCLAlertView().showWarning("Sorry", subTitle: "Anonymous asker")

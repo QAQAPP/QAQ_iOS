@@ -16,6 +16,7 @@ import UIViewController_NavigationBar
 import SCLAlertView
 import SwiftSpinner
 import FirebaseStorage
+import HidingNavigationBar
 
 class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     // UIVars
@@ -41,6 +42,7 @@ class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UI
     @IBOutlet weak var bottomSpace: NSLayoutConstraint?
     @IBOutlet weak var controlViewHeight: NSLayoutConstraint!
     @IBOutlet weak var controlBottom: NSLayoutConstraint!
+    var hidingNavBarManager: HidingNavigationBarManager?
     
     var editBtn = BFPaperButton(raised: false)!
     private var takeProfile = UIImageView(image: #imageLiteral(resourceName: "compact_camera-50"))
@@ -190,7 +192,7 @@ class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UI
     }
     
     func setupUI(){
-//        navigationBar.setColor(color: .clear)
+//        navigationBar.setColor(color: themeColor)
         picker.delegate = self
         title = ""
         usernameTF!.placeholder = "Username"
@@ -304,18 +306,21 @@ class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UI
     // Override functions
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        hidingNavBarManager?.viewWillAppear(animated)
         setEditable()
-        navigationController?.navigationBar.isHidden = true
+//        navigationController?.navigationBar.setColor(color: .clear)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        navigationController?.navigationBar.isHidden = false
+        hidingNavBarManager?.viewWillDisappear(animated)
+//        navigationController?.navigationBar.setColor(color: themeColor)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 //        setupProfile()
+        hidingNavBarManager = HidingNavigationBarManager(viewController: self, scrollView: scroll)
         setupUI()
     }
     
@@ -365,7 +370,22 @@ class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UI
         hideKeyboard()
     }
     
+    func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
+        hidingNavBarManager?.shouldScrollToTop()
+        return true
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        hidingNavBarManager?.viewDidLayoutSubviews()
+    }
+    
     override func hasCustomNavigationBar() -> Bool {
         return false
     }
+//
+//    override func prefersNavigationBarHidden() -> Bool {
+//        return true
+//    }
 }

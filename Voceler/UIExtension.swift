@@ -9,7 +9,6 @@
 import UIKit
 import BFPaperButton
 import MMDrawerController
-import LTNavigationBar
 import FirebaseAuth
 
 extension UIViewController{
@@ -65,11 +64,10 @@ extension UINavigationBar{
         barTintColor = color
         backgroundColor = color
         tintColor = .white
-        isTranslucent = true
         titleTextAttributes = [NSFontAttributeName: UIFont(name: "Helvetica Neue", size: 20)!, NSForegroundColorAttributeName: UIColor.white]
-        if color == .clear{
-            setBackgroundImage(UIImage(), for: .default)
-        }
+        setBackgroundImage(UIImage(), for: .default)
+        shadowImage = nil
+        isTranslucent = false
     }
 }
 

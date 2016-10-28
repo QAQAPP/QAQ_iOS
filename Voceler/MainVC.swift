@@ -8,11 +8,9 @@
 
 import UIKit
 import GrowingTextViewHandler
-import FoldingCell
 import MJRefresh
 import SCLAlertView
 import SFFocusViewLayout
-import LTNavigationBar
 import SCLAlertView
 import UIViewController_NavigationBar
 import ScratchCard

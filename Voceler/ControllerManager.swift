@@ -18,6 +18,14 @@ class ControllerManager: NSObject {
     var profileNav:UINavigationController!
     var settingsNav:UINavigationController!
     var tabbarVC = UITabBarController()
+    
+    func profileVC(user:UserModel)->ProfileVC{
+        let vc = ProfileVC(nibName: "ProfileVC", bundle: nil)
+        vc.edgesForExtendedLayout = .top
+        vc.thisUser = user
+        return vc
+    }
+    
     override init() {
         super.init()
         mainVC = MainVC()
@@ -45,7 +53,7 @@ class ControllerManager: NSObject {
         settingsNav.tabBarItem = settingsItem
         
         profileVC = ProfileVC(nibName: "ProfileVC", bundle: nil)
-        profileVC.edgesForExtendedLayout = []
+        profileVC.edgesForExtendedLayout = .top
         profileVC.thisUser = currUser
         profileNav = UINavigationController(rootViewController: profileVC)
         profileNav.navigationBar.setColor(color: themeColor)

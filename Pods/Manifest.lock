@@ -33,7 +33,6 @@ PODS:
   - FirebaseStorage (1.0.1):
     - FirebaseAnalytics (~> 3.2)
     - GoogleNetworkingUtilities (~> 1.2)
-  - FoldingCell (1.0.0)
   - FXBlurView (1.6.4)
   - GoogleAppUtilities (1.1.1):
     - GoogleSymbolUtilities (~> 1.0)
@@ -53,13 +52,13 @@ PODS:
   - GoogleUtilities (1.3.1):
     - GoogleSymbolUtilities (~> 1.0)
   - GrowingTextViewHandler (1.0.3)
+  - HidingNavigationBar (1.0.0)
   - IQKeyboardManager (4.0.6)
   - JSBadgeView (1.4.1)
   - JSQMessagesViewController (7.3.3):
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
   - LTMorphingLabel (0.3.0)
-  - LTNavigationBar (2.1.2)
   - MJRefresh (3.1.7)
   - MMDrawerController (0.6.0):
     - MMDrawerController/Core (= 0.6.0)
@@ -77,11 +76,7 @@ PODS:
   - NSString-Email (0.0.3)
   - RATreeView (2.1.0)
   - SCLAlertView (0.5.9)
-  - SCPageViewController (2.0.8):
-    - SCScrollView (~> 1.1)
   - ScratchCard (1.0.4)
-  - SCScrollView (1.1.7)
-  - SCTableViewCell (0.1.0)
   - SDAutoLayout (2.1.1)
   - SFDraggableDialogView (1.1.4)
   - SFFocusViewLayout (3.0.0)
@@ -89,7 +84,6 @@ PODS:
   - SwiftString (0.5)
   - TagListView (1.0.0)
   - TextFieldEffects (1.2.0)
-  - TYBlurImage (1.2.1)
   - UIColor+BFPaperColors (1.7.2)
   - UIImage-Resize (1.0.1)
   - UIViewController+NavigationBar (0.3.3)
@@ -106,23 +100,20 @@ DEPENDENCIES:
   - Firebase/Auth
   - Firebase/Database
   - Firebase/Storage
-  - FoldingCell
   - GoogleSignIn
   - GrowingTextViewHandler
+  - HidingNavigationBar
   - IQKeyboardManager
   - JSBadgeView
   - JSQMessagesViewController
   - LTMorphingLabel
-  - LTNavigationBar
   - MJRefresh
   - MMDrawerController
   - Networking
   - NSString-Email
   - RATreeView
   - SCLAlertView
-  - SCPageViewController
   - ScratchCard
-  - SCTableViewCell
   - SDAutoLayout
   - SFDraggableDialogView
   - SFFocusViewLayout
@@ -130,7 +121,6 @@ DEPENDENCIES:
   - SwiftString
   - TagListView
   - TextFieldEffects
-  - TYBlurImage
   - UIImage-Resize
   - UIViewController+NavigationBar
   - WZDraggableSwitchHeaderView
@@ -149,7 +139,6 @@ SPEC CHECKSUMS:
   FirebaseDatabase: 34301d11621a83546f39f670d256477ba6f7fcea
   FirebaseInstanceID: d014d574053a2fe84478f12f7bae96979e7051bb
   FirebaseStorage: e9c32a8d246c07eeefd78180c22736aa1b81e81b
-  FoldingCell: ca0b0f73a853143bf7d968c04a6604d25fbf1af7
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   GoogleAppUtilities: f1730f91f67767b453c289577040dd3f425ffdc7
   GoogleAuthUtilities: d7a19615cd7627688afcf181737f1011ee8b5a23
@@ -159,22 +148,19 @@ SPEC CHECKSUMS:
   GoogleSymbolUtilities: 33117db1b5f290c6fbf259585e4885b4c84b98d7
   GoogleUtilities: 56c5ac05b7aa5dc417a1bb85221a9516e04d7032
   GrowingTextViewHandler: c59aa977a61de6eb10aac23969ac20b50b29f7ab
+  HidingNavigationBar: 170dd21df8e89c465c01f047d4306778d1ce304c
   IQKeyboardManager: c52debb1967799ae7addb98eab0cf328083a874f
   JSBadgeView: 3861ddee41094284d9468e6d0af5107f703aaac5
   JSQMessagesViewController: 0ee3f80237268192a3e8337fd0d787f1a1bf5a7a
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
   LTMorphingLabel: 2777d8d9cb699125f48dfcd95d78bd3d77c87ade
-  LTNavigationBar: bfc5fc06a83463009b9d99675f2a32dcbb631b00
   MJRefresh: f67f0750d57a4e4ae433da549359ca53b52cdc7d
   MMDrawerController: e3a54a5570388463ad3b36975251575b50c4e1a0
   Networking: 20a1714d673bc077aad2bd2d539007ea6087662f
   NSString-Email: 3c1ff0ace64d7ecc289ea2a5696170c853012252
   RATreeView: fc82ec26b8be18cfa0f5f99a5abbe6be68edb21f
   SCLAlertView: d7c6a48c7d340e60206d4ed0e8ebcbff3b9d2a44
-  SCPageViewController: b050c85aefeb7440c1155dde8275b1b84b9305d4
   ScratchCard: 3736e21d2023edb79168a86a2322eeac534011c2
-  SCScrollView: 59e93b7f230e7ee3c963f06dd0c67b57b8b9e237
-  SCTableViewCell: 37fd004874dd18350da34440e2a3fa42b1375321
   SDAutoLayout: c18678b6ae28c67d89cb132e770cfbac9ee20d25
   SFDraggableDialogView: cfe9b80b5fff19f7e0fda86dcabee8b03a4c3b44
   SFFocusViewLayout: 4766bec5d2214038526d5e03d08405f1f126688d
@@ -182,13 +168,12 @@ SPEC CHECKSUMS:
   SwiftString: ec9c31c55b2aa147a1154f5f5f8483dc71e3165f
   TagListView: 6bf4bded034c4c90b1e90d8cd3d8e1d852dba0a8
   TextFieldEffects: bc4fd3bd557321bd61a0762f3f50965477a36f62
-  TYBlurImage: a931704cfbfb31aa00a5b658063e0742b34e4043
   UIColor+BFPaperColors: 03101fe6c10ed00c6daae7c26553f1de41500853
   UIImage-Resize: fa776860f10e6900bbaf53a73e494bdceaaccc77
   UIViewController+NavigationBar: 1f72c3b1df21b24ee8fa13f822b5126f180b77f3
   WZDraggableSwitchHeaderView: 6debb503cc70def6200c45a0b3ecaeb6fb7606c8
   ZFDragableModalTransition: 0d294eaaba6edfcb9839595de765f9ca06a4b524
 
-PODFILE CHECKSUM: 44dfb2f5b7e48f5569e6aa28e71b7e34cf5bedae
+PODFILE CHECKSUM: 56ec047df4972cc4c4f76ca92844cfa7835bb444
 
 COCOAPODS: 1.1.0.beta.2

@@ -18,6 +18,15 @@ class OptCell: UICollectionViewCell{
     @IBOutlet weak var profileImg: UIButton!
     @IBOutlet weak var nameLbl: UILabel!
     @IBAction func moreAction(_ sender: AnyObject) {
+        let vc = UIViewController()
+        let textView = UITextView()
+        vc.view.addSubview(textView)
+        textView.text = option.oDescription
+        textView.isSelectable = false
+        textView.isEditable = false
+        textView.font = UIFont.systemFont(ofSize: 18)
+        _ = textView.sd_layout().topSpaceToView(vc.view, 0)?.bottomSpaceToView(vc.view, 0)?.leftSpaceToView(vc.view, 0)?.rightSpaceToView(vc.view, 0)
+        questionVIew.parent.navigationController?.pushViewController(vc, animated: true)
     }
     @IBOutlet weak var likeBtn: UIButton!
     
@@ -37,14 +46,14 @@ class OptCell: UICollectionViewCell{
             questionVIew.optsView.reloadData()
         }
         vc?.nextContent()
-        //        }
-        //        else if let vc = self.parent.parent as? InProgressVC{
-        //            likeBtn.setImage(img: #imageLiteral(resourceName: "like_filled"), color: pinkColor)
-        //            vc.conclude(OID: self.option.oRef.key, cell: self)
-        //        }
-        //        else if self.parent.parent is InCollectionVC{
-        //            _ = SCLAlertView().showWarning("Warning", subTitle: "You cannot modify the question in collection")
-        //        }
+//        }
+//        else if let vc = self.parent.parent as? InProgressVC{
+//            likeBtn.setImage(img: #imageLiteral(resourceName: "like_filled"), color: pinkColor)
+//            vc.conclude(OID: self.option.oRef.key, cell: self)
+//        }
+//        else if self.parent.parent is InCollectionVC{
+//            _ = SCLAlertView().showWarning("Warning", subTitle: "You cannot modify the question in collection")
+//        }
     }
     
     @IBAction func likeAction(_ sender: AnyObject) {
@@ -52,6 +61,15 @@ class OptCell: UICollectionViewCell{
     }
     
     @IBOutlet weak var numLikeLbl: UILabel!
+    
+    @IBAction func showProfile(_ sender: Any) {
+        if let user = offerer, let vc = controllerManager?.profileVC(user: user){
+            questionVIew.parent.navigationController?.pushViewController(vc, animated: true)
+        }
+        else{
+            _ = SCLAlertView().showWarning("Sorry", subTitle: "Anonymous asker")
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

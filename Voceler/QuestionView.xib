@@ -70,19 +70,19 @@
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Add an option" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="s1w-gk-gRp">
-                    <rect key="frame" x="0.0" y="617" width="295" height="50"/>
+                    <rect key="frame" x="0.0" y="627" width="295" height="40"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="50" id="b1h-em-Vcm"/>
+                        <constraint firstAttribute="height" constant="40" id="b1h-em-Vcm"/>
                     </constraints>
                     <nil key="textColor"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g0i-qu-6t9">
-                    <rect key="frame" x="303" y="617" width="72" height="50"/>
+                    <rect key="frame" x="303" y="627" width="72" height="40"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="72" id="O3Z-IR-uYR"/>
-                        <constraint firstAttribute="height" constant="50" id="qyg-2u-3OJ"/>
+                        <constraint firstAttribute="height" constant="40" id="qyg-2u-3OJ"/>
                     </constraints>
                     <state key="normal" title="Post"/>
                     <connections>
