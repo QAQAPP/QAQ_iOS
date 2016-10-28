@@ -10,6 +10,7 @@ import UIKit
 import SDAutoLayout
 import FirebaseDatabase
 import SCLAlertView
+import LTMorphingLabel
 
 class OptCell: UICollectionViewCell{
     @IBOutlet weak var textView: UITextView!
@@ -21,6 +22,7 @@ class OptCell: UICollectionViewCell{
     @IBOutlet weak var likeBtn: UIButton!
     
     func optLiked(){
+        question.userChoosed = true
         let vc = controllerManager?.mainVC
         if !option.isLiked{
             likeBtn.setImage(img: #imageLiteral(resourceName: "like_filled"), color: pinkColor)
@@ -45,23 +47,20 @@ class OptCell: UICollectionViewCell{
         //        }
     }
     
-    func cancelLike(){
-        if option.isLiked{
-            option.isLiked = false
-            likeBtn.setImage(img: #imageLiteral(resourceName: "like"), color: pinkColor)
-        }
-    }
-    
     @IBAction func likeAction(_ sender: AnyObject) {
         optLiked()
     }
     
     @IBOutlet weak var numLikeLbl: UILabel!
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.profileImg.board(radius: profileImg.width/2, width: 0, color: .lightGray)
+    }
+    
     var option:OptionModel!{
         didSet{
             textView.text = option.oDescription
-            setNumLikes(num: option.oVal)
             if let uid = option.oOfferBy{
                 offerer = UserModel.getUser(uid: uid, getProfile: true)
                 setProfile()
@@ -74,7 +73,7 @@ class OptCell: UICollectionViewCell{
                     }
                 })
             }
-            option.oRef.child("val").observe(.value, with: { (snapshot) in
+            self.option.oRef.child("val").observe(.value, with: { (snapshot) in
                 DispatchQueue.main.async {
                     if let num = snapshot.value as? Int{
                         self.setNumLikes(num: num)
@@ -85,7 +84,12 @@ class OptCell: UICollectionViewCell{
     }
     
     func setNumLikes(num:Int){
-        numLikeLbl.text = "\(num)"
+        if question.userChoosed{
+            numLikeLbl.text = "\(num)"
+        }
+        else{
+            numLikeLbl.text = "--"
+        }
     }
     
     var offerer:UserModel?
@@ -112,35 +116,6 @@ class OptCell: UICollectionViewCell{
     
     override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
         super.apply(layoutAttributes)
-    
-//        let featuredHeight: CGFloat = Constant.featuredHeight
-//        let standardHeight: CGFloat = Constant.standardHegiht
-//
-//        let delta = 1 - (featuredHeight - frame.height) / (featuredHeight - standardHeight)
-//
-//        let minAlpha: CGFloat = Constant.minAlpha
-//        let maxAlpha: CGFloat = Constant.maxAlpha
-//
-//        let alpha = maxAlpha - (delta * (maxAlpha - minAlpha))
-//        overlayView.alpha = alpha
-//
-//        let scale = max(delta, 0.5)
-//        titleLabel.transform = CGAffineTransform(scaleX: scale, y: scale)
-//
-//        descriptionTextView.alpha = delta
         
     }
 }
-
-
-//extension OptCell {
-//    struct Constant {
-//        static let featuredHeight: CGFloat = 172
-//        static let standardHegiht: CGFloat = 52
-//        
-//        static let minAlpha: CGFloat = 0.3
-//        static let maxAlpha: CGFloat = 0.75
-//    }
-//}
-//
-//extension OptCell : NibLoadableView { }

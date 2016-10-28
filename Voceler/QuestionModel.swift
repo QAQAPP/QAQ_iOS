@@ -22,6 +22,7 @@ class QuestionModel: NSObject {
     var qRef:FIRDatabaseReference!{
         return FIRDatabase.database().reference().child("Questions-v1").child(QID)
     }
+    var userChoosed = false
     
     init(qid:String, descrpt:String, askerID:String, anonymous:Bool=false, options:[OptionModel]) {
         super.init()

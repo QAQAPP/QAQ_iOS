@@ -200,7 +200,7 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     func setup(parent:UIViewController, question:QuestionModel) {
         self.parent = parent
         let focusLayout = SFFocusViewLayout()
-        focusLayout.standardHeight = 100
+        focusLayout.standardHeight = 128
         focusLayout.focusedHeight = 200
         focusLayout.dragOffset = 100
         optsView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 100, height: 110), collectionViewLayout: focusLayout)

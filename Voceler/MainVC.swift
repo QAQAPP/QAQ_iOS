@@ -85,7 +85,6 @@ class MainVC: UIViewController, UIPageViewControllerDataSource, UIPageViewContro
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed{
             currVC = page.viewControllers?.first
-            print(contentVCs.index(of: currVC))
         }
     }
     

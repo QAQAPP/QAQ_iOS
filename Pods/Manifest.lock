@@ -58,6 +58,7 @@ PODS:
   - JSQMessagesViewController (7.3.3):
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
+  - LTMorphingLabel (0.3.0)
   - LTNavigationBar (2.1.2)
   - MJRefresh (3.1.7)
   - MMDrawerController (0.6.0):
@@ -111,6 +112,7 @@ DEPENDENCIES:
   - IQKeyboardManager
   - JSBadgeView
   - JSQMessagesViewController
+  - LTMorphingLabel
   - LTNavigationBar
   - MJRefresh
   - MMDrawerController
@@ -161,6 +163,7 @@ SPEC CHECKSUMS:
   JSBadgeView: 3861ddee41094284d9468e6d0af5107f703aaac5
   JSQMessagesViewController: 0ee3f80237268192a3e8337fd0d787f1a1bf5a7a
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
+  LTMorphingLabel: 2777d8d9cb699125f48dfcd95d78bd3d77c87ade
   LTNavigationBar: bfc5fc06a83463009b9d99675f2a32dcbb631b00
   MJRefresh: f67f0750d57a4e4ae433da549359ca53b52cdc7d
   MMDrawerController: e3a54a5570388463ad3b36975251575b50c4e1a0
@@ -186,6 +189,6 @@ SPEC CHECKSUMS:
   WZDraggableSwitchHeaderView: 6debb503cc70def6200c45a0b3ecaeb6fb7606c8
   ZFDragableModalTransition: 0d294eaaba6edfcb9839595de765f9ca06a4b524
 
-PODFILE CHECKSUM: d39b5ca550f28ab9641da2262e83188bb2d7fa5a
+PODFILE CHECKSUM: 44dfb2f5b7e48f5569e6aa28e71b7e34cf5bedae
 
 COCOAPODS: 1.1.0.beta.2

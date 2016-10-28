@@ -45,6 +45,7 @@ pod 'BlurImageProcessor'
 pod 'TYBlurImage'
 pod 'UIImage-Resize'
 pod 'SCPageViewController'
+pod 'LTMorphingLabel'
 
 post_install do |installer|
     installer.pods_project.targets.each do |target|
