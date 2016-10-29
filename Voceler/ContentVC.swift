@@ -7,14 +7,24 @@
 //
 
 import UIKit
+import SCLAlertView
 
 class ContentVC: UIViewController {
     var contentView : UIView!
+    var alertShowed = false
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        edgesForExtendedLayout = .bottom
-//        _ = contentView.sd_layout().topSpaceToView(view, 0)?.bottomSpaceToView(view, 0)?.leftSpaceToView(view, 0)?.rightSpaceToView(view, 0)
-//
-//    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if let questionView = contentView as? QuestionView{
+            if !questionView.currQuestion.userChoosed && !questionView.liked && !alertShowed{
+                alertShowed = true
+                let alert = SCLAlertView()
+                _ = alert.addButton("Yes", action: {
+                    questionView.likeQuestion()
+                })
+                _ = alert.showNotice("Upvote", subTitle: "Do you want to upvote this question?")
+            }
+            questionView.currQuestion.choose()
+        }
+    }
 }

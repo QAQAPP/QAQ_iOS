@@ -40,8 +40,8 @@ class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UI
     @IBOutlet weak var moneyImg: UIImageView!
     @IBOutlet weak var scrollHeight: NSLayoutConstraint!
     @IBOutlet weak var bottomSpace: NSLayoutConstraint?
-    @IBOutlet weak var controlViewHeight: NSLayoutConstraint!
     @IBOutlet weak var controlBottom: NSLayoutConstraint!
+    @IBOutlet weak var controlViewHeight: NSLayoutConstraint!
     var hidingNavBarManager: HidingNavigationBarManager?
     
     var editBtn = BFPaperButton(raised: false)!
@@ -187,7 +187,7 @@ class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UI
     private func setEditable(){
         editable = FIRAuth.auth()?.currentUser?.uid == thisUser?.uid
         controlView?.isHidden = !editable
-        controlView?.height = editable ? 50 : 0
+        controlViewHeight.constant = editable ? 50 : 0
 //        bottomSpace?.constant = editable ? 50 : 0
     }
     

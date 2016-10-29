@@ -71,6 +71,11 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     @IBOutlet weak var addOptionField: UITextField!
     
     @IBAction func likeAction(_ sender: AnyObject) {
+        likeQuestion()
+    }
+    
+    // Functions
+    func likeQuestion(){
         if parent is MainVC{
             if !liked && currUser!.qCollection.count >= currUser!.qInCollectionLimit{
                 _ = SCLAlertView().showError("Sorry", subTitle: "You are only allowed to have up to \(currUser!.qInCollectionLimit) in collection. Please conclude a question.")
@@ -84,7 +89,6 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
         }
     }
     
-    // Functions
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return currQuestion.qOptions.count
     }

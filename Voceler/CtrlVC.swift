@@ -128,7 +128,6 @@ class CtrlVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
             let loginManager = FBSDKLoginManager()
             loginManager.logOut()
             dismiss(animated: true, completion: {
-//                clearVC()
                 controllerManager = nil
                 questionManager = nil
             })

@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import SCLAlertView
 
-class ControllerManager: NSObject {
+class ControllerManager: NSObject, UITabBarControllerDelegate{
     var mainVC:MainVC!
     var collectionVC:CollectionVC!
     var settingsVC:SettingsVC!
@@ -18,6 +19,16 @@ class ControllerManager: NSObject {
     var profileNav:UINavigationController!
     var settingsNav:UINavigationController!
     var tabbarVC = UITabBarController()
+    var askProblemVC:AskProblemVC{
+        let board = UIStoryboard(name: "Main", bundle: nil)
+        let vc = board.instantiateViewController(withIdentifier: "Ask Question") as! AskProblemVC
+        return vc
+    }
+    var tagsVC:TagsController{
+        let board = UIStoryboard(name: "Main", bundle: nil)
+        let vc = board.instantiateViewController(withIdentifier: "AddTags") as! TagsController
+        return vc
+    }
     
     func profileVC(user:UserModel)->ProfileVC{
         let vc = ProfileVC(nibName: "ProfileVC", bundle: nil)
@@ -44,6 +55,11 @@ class ControllerManager: NSObject {
         collectionItem.image = #imageLiteral(resourceName: "book_shelf-25")
         collectionNav.tabBarItem = collectionItem
         
+        let askItem = UITabBarItem()
+        askItem.image = #imageLiteral(resourceName: "ask_question-25")
+        let askVC = askProblemVC
+        askVC.tabBarItem = askItem
+        
         settingsVC = SettingsVC()
         settingsVC.edgesForExtendedLayout = []
         settingsNav = UINavigationController(rootViewController: settingsVC)
@@ -61,6 +77,22 @@ class ControllerManager: NSObject {
         profileItem.image = #imageLiteral(resourceName: "gender_neutral_user-25")
         profileNav.tabBarItem = profileItem
         
-        tabbarVC.setViewControllers([mainNav, collectionNav, profileNav, settingsNav], animated: true)
+        tabbarVC.setViewControllers([mainNav, collectionNav, askVC, profileNav, settingsNav], animated: true)
+        tabbarVC.delegate = self
+    }
+    
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        if viewController is AskProblemVC{
+            if currUser!.qInProgress.count >= currUser!.qInProgressLimit{
+                _ = SCLAlertView().showError("Sorry", subTitle: "You are only allowed to have up to \(currUser!.qInProgressLimit) in progress questions. Please conclude a question.")
+            }
+            else{
+                let nav = UINavigationController(rootViewController: askProblemVC)
+                nav.navigationBar.setColor(color: themeColor)
+                tabBarController.show(nav, sender: tabBarController)
+            }
+            return false
+        }
+        return true
     }
 }

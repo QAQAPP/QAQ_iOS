@@ -50,18 +50,19 @@ class MainVC: UIViewController, UIPageViewControllerDataSource, UIPageViewContro
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController?{
-        if let index = contentVCs.index(of: viewController), index > 0 && swipeEnable{
-            return contentVCs[index-1]
-        }
-        else{
-            return nil
-        }
+//        if let index = contentVCs.index(of: viewController), index > 0 && swipeEnable{
+//            return contentVCs[index-1]
+//        }
+//        else{
+//            return nil
+//        }
+        return nil
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController?{
         if let index = contentVCs.index(of: viewController), index < contentVCs.count - 1 && swipeEnable{
             let vc = contentVCs[index+1]
-            if index > 3{
+            if index > 1{
                 _ = contentVCs.removeFirst()
             }
             return vc
@@ -187,10 +188,5 @@ class MainVC: UIViewController, UIPageViewControllerDataSource, UIPageViewContro
             page.setViewControllers([vc], direction: .forward, animated: true, completion: nil)
             currVC = vc
         }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        print(contentVCs)
     }
 }
