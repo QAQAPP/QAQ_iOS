@@ -13,8 +13,7 @@ class ContentVC: UIViewController {
     var contentView : UIView!
     var alertShowed = false
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    func upvote(){
         if let questionView = contentView as? QuestionView{
             if !questionView.currQuestion.userChoosed && !questionView.liked && !alertShowed{
                 alertShowed = true

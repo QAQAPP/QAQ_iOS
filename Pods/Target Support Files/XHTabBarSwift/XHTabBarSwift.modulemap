@@ -1,0 +1,6 @@
+framework module XHTabBarSwift {
+  umbrella header "XHTabBarSwift-umbrella.h"
+
+  export *
+  module * { export * }
+}

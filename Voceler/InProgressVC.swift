@@ -51,7 +51,7 @@ class InProgressVC: UIViewController {
         _ = alert.addButton("Cancel", action: {
             cell.likeBtn.setImage(img: #imageLiteral(resourceName: "like"), color: darkRed)
         })
-        alert.hideDefaultButton()
+//        alert.hideDefaultButton()
         _ = alert.showNotice("Conclusion", subTitle: "Are you sure to conclude this question?", closeButtonTitle: "Cancel")
     }
     

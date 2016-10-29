@@ -1,0 +1,6 @@
+framework module UITabBarController_KTHidden {
+  umbrella header "UITabBarController+KTHidden-umbrella.h"
+
+  export *
+  module * { export * }
+}

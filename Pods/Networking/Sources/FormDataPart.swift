@@ -21,10 +21,10 @@ public enum FormDataPartType {
 }
 
 public struct FormDataPart {
-    fileprivate let data: Data
-    fileprivate let parameterName: String
-    fileprivate let filename: String
-    fileprivate let type: FormDataPartType
+    private let data: Data
+    private let parameterName: String
+    private let filename: String
+    private let type: FormDataPartType
     var boundary: String = ""
 
     var formData: Data {
@@ -35,10 +35,10 @@ public struct FormDataPart {
         body += "filename=\"\(self.filename)\"\r\n"
         body += "Content-Type: \(self.type.contentType)\r\n\r\n"
 
-        let bodyData = NSMutableData()
-        bodyData.append(body.data(using: String.Encoding.utf8)!)
+        var bodyData = Data()
+        bodyData.append(body.data(using: .utf8)!)
         bodyData.append(self.data)
-        bodyData.append("\r\n".data(using: String.Encoding.utf8)!)
+        bodyData.append("\r\n".data(using: .utf8)!)
 
         return bodyData as Data
     }

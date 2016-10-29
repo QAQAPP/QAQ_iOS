@@ -1,12 +1,32 @@
 ![Networking](https://raw.githubusercontent.com/3lvis/Networking/master/Images/cover-v3.png)
 
-[![Version](https://img.shields.io/cocoapods/v/Networking.svg?style=flat)](https://cocoapods.org/pods/Networking)
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/3lvis/Networking)
-![Swift 2.2.x](https://img.shields.io/badge/Swift-2.2.x-orange.svg)
-![platforms](https://img.shields.io/badge/platforms-iOS%20%7C%20OS%20X%20%7C%20watchOS%20%7C%20tvOS%20-lightgrey.svg)
-[![License](https://img.shields.io/cocoapods/l/Networking.svg?style=flat)](https://cocoapods.org/pods/Networking)
+ <div align = "center">
+  <a href="https://cocoapods.org/pods/Networking">
+    <img src="https://img.shields.io/cocoapods/v/Networking.svg?style=flat" />
+  </a>
+  <a href="https://github.com/SyncDB/Networking">
+    <img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" />
+  </a>
+  <a href="https://github.com/SyncDB/Networking#installation">
+    <img src="https://img.shields.io/badge/compatible-swift%203.0%20-orange.svg" />
+  </a>
+</div>
 
-**Networking** was born out of the necessity of having a simple networking library that doesn't have crazy programming abstractions or uses the latest reactive programming techniques, but just a plain, simple and convenient wrapper around `NSURLSession` that supports common needs such as faking requests and caching images out of the box. A library that is small enough to read in one go but useful enough to include in any project. That's how **Networking** was born, a fully tested library for iOS, tvOS, watchOS and OS X that will always be there for you.
+<div align = "center">
+  <a href="https://cocoapods.org/pods/Networking" target="blank">
+    <img src="https://img.shields.io/cocoapods/p/Networking.svg?style=flat" />
+  </a>
+  <a href="https://cocoapods.org/pods/Networking" target="blank">
+    <img src="https://img.shields.io/cocoapods/l/Networking.svg?style=flat" />
+  </a>
+  <a href="https://gitter.im/SwiftNetworking/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link">
+    <img src="https://badges.gitter.im/SwiftNetworking/Lobby.svg" />    
+  </a>
+  <br>
+  <br>
+</div>
+
+**Networking** was born out of the necessity of having a simple networking library that doesn't have crazy programming abstractions or uses the latest reactive programming techniques, but just a plain, simple and convenient wrapper around `NSURLSession` that supports common needs such as faking requests and caching images out of the box. A library that is small enough to read in one go but useful enough to include in any project. That's how **Networking** came to life, a fully tested library for iOS, tvOS, watchOS and OS X that will always be there for you.
 
 - Super friendly API
 - Singleton free
@@ -27,9 +47,9 @@
     * [Bearer token](#bearer-token)
     * [Custom authentication header](#custom-authentication-header)
 * [Making a request](#making-a-request)
-* [Choosing a content type](#choosing-a-content-type)
+* [Choosing a content or parameter type](#choosing-a-content-or-parameter-type)
     * [JSON](#json)
-    * [Percent-encoding](#percent-encoding)
+    * [URL-encoding](#url-encoding)
     * [Multipart](#multipart)
     * [Others](#others)
 * [Cancelling a request](#cancelling-a-request)
@@ -46,19 +66,11 @@
 
 Since **Networking** is basically a wrapper of `NSURLSession` we can take leverage of the great configuration types that it supports, such as `Default`, `Ephemeral` and `Background`, if you don't provide any or don't have special needs then `Default` will be used.
 
- - `Default`: The default session configuration uses a persistent disk-based cache (except when the result is downloaded to a file) and stores credentials in the user’s keychain. It also stores cookies (by default) in the same shared cookie store as the NSURLConnection and NSURLDownload classes.
+ - `Default`: The default session configuration uses a persistent disk-based cache (except when the result is downloaded to a file) and stores credentials in the user’s keychain. It also stores cookies (by default) in the same shared cookie store as the `NSURLConnection` and `NSURLDownload` classes.
 
-- `Ephemeral`: An ephemeral session configuration object is similar to a default session configuration object except that the corresponding session object does not store caches, credential stores, or any session-related data to disk. Instead, session-related data is stored in RAM. The only time an ephemeral session writes data to disk is when you tell it to write the contents of a URL to a file.
+- `Ephemeral`: An ephemeral session configuration object is similar to a default session configuration object except that the corresponding session object does not store caches, credential stores, or any session-related data to disk. Instead, session-related data is stored in RAM. The only time an ephemeral session writes data to disk is when you tell it to write the contents of a URL to a file. The main advantage to using ephemeral sessions is privacy. By not writing potentially sensitive data to disk, you make it less likely that the data will be intercepted and used later. For this reason, ephemeral sessions are ideal for private browsing modes in web browsers and other similar situations.
 
-The main advantage to using ephemeral sessions is privacy. By not writing potentially sensitive data to disk, you make it less likely that the data will be intercepted and used later. For this reason, ephemeral sessions are ideal for private browsing modes in web browsers and other similar situations.
-
-Because an ephemeral session does not write cached data to disk, the size of the cache is limited by available RAM. This limitation means that previously fetched resources are less likely to be in the cache (and are guaranteed to not be there if the user quits and relaunches your app). This behavior may reduce perceived performance, depending on your app.
-
-When your app invalidates the session, all ephemeral session data is purged automatically. Additionally, in iOS, the in-memory cache is not purged automatically when your app is suspended but may be purged when your app is terminated or when the system experiences memory pressure.
-
- - `Background`: This configuration type is suitable for transferring data files while the app runs in the background. A session configured with this object hands control of the transfers over to the system, which handles the transfers in a separate process. In iOS, this configuration makes it possible for transfers to continue even when the app itself is suspended or terminated.
-
-If an iOS app is terminated by the system and relaunched, it retrieves the status of transfers that were in progress at the time of termination. This behavior applies only for normal termination of the app by the system. If the user terminates the app from the multitasking screen, the system cancels all of the session’s background transfers. In addition, the system does not automatically relaunch apps that were forced to quit by the user. The user must explicitly relaunch the app before transfers can start over.
+- `Background`: This configuration type is suitable for transferring data files while the app runs in the background. A session configured with this object hands control of the transfers over to the system, which handles the transfers in a separate process. In iOS, this configuration makes it possible for transfers to continue even when the app itself is suspended or terminated.
 
 ```swift
 // Default
@@ -76,7 +88,7 @@ To authenticate using [basic authentication](http://www.w3.org/Protocols/HTTP/1.
 
 ```swift
 let networking = Networking(baseURL: "http://httpbin.org")
-networking.authenticate(username: "aladdin", password: "opensesame")
+networking.setAuthorizationHeader(username: "aladdin", password: "opensesame")
 networking.GET("/basic-auth/aladdin/opensesame") { JSON, error in
     // Successfully logged in! Now do something with the JSON
 }
@@ -88,7 +100,7 @@ To authenticate using a [bearer token](https://tools.ietf.org/html/rfc6750) **"A
 
 ```swift
 let networking = Networking(baseURL: "http://httpbin.org")
-networking.authenticate(token: "AAAFFAAAA3DAAAAAA")
+networking.setAuthorizationHeader(token: "AAAFFAAAA3DAAAAAA")
 networking.GET("/get") { JSON, error in
     // Do something...
 }
@@ -100,7 +112,7 @@ To authenticate using a custom authentication header, for example **"Token token
 
 ```swift
 let networking = Networking(baseURL: "http://httpbin.org")
-networking.authenticate(headerValue: "Token token=AAAFFAAAA3DAAAAAA")
+networking.setAuthorizationHeader(headerValue: "Token token=AAAFFAAAA3DAAAAAA")
 networking.GET("/get") { JSON, error in
     // Do something...
 }
@@ -110,7 +122,7 @@ Providing the following authentication header `Anonymous-Token: AAAFFAAAA3DAAAAA
 
 ```swift
 let networking = Networking(baseURL: "http://httpbin.org")
-networking.authenticate(headerKey: "Anonymous-Token", headerValue: "AAAFFAAAA3DAAAAAA")
+networking.setAuthorizationHeader(headerKey: "Anonymous-Token", headerValue: "AAAFFAAAA3DAAAAAA")
 networking.GET("/get") { JSON, error in
     // Do something
 }
@@ -125,9 +137,16 @@ Making a request is as simple as just calling `GET`, `POST`, `PUT`, or `DELETE`.
 ```swift
 let networking = Networking(baseURL: "https://api-news.layervault.com/api/v2")
 networking.GET("/stories") { JSON, error in
-  if let JSON = JSON {
     // Stories JSON: https://api-news.layervault.com/api/v2/stories
-  }
+}
+```
+
+Just add headers to the completion block if you want headers, or remove it if you don't want it.
+
+```swift
+let networking = Networking(baseURL: "https://api-news.layervault.com/api/v2")
+networking.GET("/stories") { JSON, headers, error in
+    // headers is a [String : Any] dictionary
 }
 ```
 
@@ -157,7 +176,7 @@ networking.POST("/post", parameters: ["username" : "jameson", "password" : "secr
 }
 ```
 
-## Choosing a Content Type
+## Choosing a Content or Parameter Type
 
 The `Content-Type` HTTP specification is so unfriendly, you have to know the specifics of it before understanding that content type is really just the parameter type. Because of this **Networking** uses a `ParameterType` instead of a `ContentType`. Anyway, here's hoping this makes it more human friendly.
 
@@ -174,9 +193,9 @@ networking.POST("/post", parameters: ["name" : "jameson"]) { JSON, error in
 }
 ```
 
-### Percent-encoding
+### URL-encoding
 
- If you want to use `application/x-www-form-urlencoded` just use the `.FormURLEncoded` parameter type, internally **Networking** will format your parameters so they use [`Percent-encoding`](https://en.wikipedia.org/wiki/Percent-encoding#The_application.2Fx-www-form-urlencoded_type).
+ If you want to use `application/x-www-form-urlencoded` just use the `.FormURLEncoded` parameter type, internally **Networking** will format your parameters so they use [`Percent-encoding` or `URL-enconding`](https://en.wikipedia.org/wiki/Percent-encoding#The_application.2Fx-www-form-urlencoded_type).
 
 ```swift
 let networking = Networking(baseURL: "http://httpbin.org")
@@ -228,6 +247,8 @@ networking.POST("/upload", parameterType: .Custom("application/octet-stream"), p
 
 ## Cancelling a request
 
+### Using path
+
 Cancelling any request for a specific path is really simple. Beware that cancelling a request will cause the request to return with an error with status code -999.
 
 ```swift
@@ -237,6 +258,27 @@ networking.GET("/get") { JSON, error in
 }
 
 networking.cancelGET("/get")
+```
+
+### Using request identifier
+
+Using `cancelPOST("/upload")` would cancel all POST request for the specific path, but in some cases this isn't what we want. For example if you're trying to upload two photos, but the user requests to cancel one of the uploads, using `cancelPOST("/upload") would cancell all the uploads, this is when ID based cancellation is useful.
+
+```swift
+let networking = Networking(baseURL: "http://httpbin.org")
+
+// Start first upload
+let firstRequestID = networking.POST("/upload", parts: ...) { JSON, error in
+    //...
+}
+
+// Start second upload
+let secondRequestID = networking.POST("/upload", parts: ...) { JSON, error in
+    //...
+}
+
+// Cancel only the first upload
+networking.cancel(firstRequestID)
 ```
 
 ## Faking a request
@@ -317,7 +359,7 @@ If you want to remove the downloaded image you can do it like this:
 
 ```swift
 let networking = Networking(baseURL: "http://httpbin.org")
-let destinationURL = try networking.destinationURL("/image/png")
+let destinationURL = try networking.destinationURL(for: "/image/png")
 if let path = destinationURL.path where NSFileManager.defaultManager().fileExistsAtPath(path) {
    try! NSFileManager.defaultManager().removeItemAtPath(path)
 }
@@ -340,43 +382,44 @@ Any error catched by **Networking** will be printed in your console. This is rea
 
 For example a cancelled request will print this:
 
-```
+```shell
 ========== Networking Error ==========
 
-Cancelled request: <NSMutableURLRequest: 0x7fdc80eb0e30> { URL: https://api.mmm.com/38bea9c8b75bfed1326f90c48675fce87dd04ae6/thumb/small }
+Cancelled request: https://api.mmm.com/38bea9c8b75bfed1326f90c48675fce87dd04ae6/thumb/small
 
 ================= ~ ==================
 ```
 
 A 404 request will print something like this:
 
-```
+```shell
 ========== Networking Error ==========
-
-Error 3840: Error Domain=NSCocoaErrorDomain Code=3840 "JSON text did not start with array or object and option to allow fragments not set." UserInfo={NSDebugDescription=JSON text did not start with array or object and option to allow fragments not set.}
-
-Request: <NSMutableURLRequest: 0x7fede8d17220> { URL: http://httpbin.org/invalidpath }
-
+ 
+*** Request ***
+ 
+Error 404: Error Domain=NetworkingErrorDomain Code=404 "not found" UserInfo={NSLocalizedDescription=not found}
+ 
+URL: http://httpbin.org/posdddddt
+ 
+Headers: ["Accept": "application/json", "Content-Type": "application/json"]
+ 
+Parameters: {
+  "password" : "secret",
+  "username" : "jameson"
+}
+ 
 Data: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
 <title>404 Not Found</title>
 <h1>Not Found</h1>
 <p>The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.</p>
 
-
-Response status code: 404
-
-Path: http://httpbin.org/invalidpath
-
-Response: <NSHTTPURLResponse: 0x7fede8d0c4e0> { URL: http://httpbin.org/invalidpath } { status code: 404, headers {
-    "Access-Control-Allow-Credentials" = true;
-    "Access-Control-Allow-Origin" = "*";
-    Connection = "keep-alive";
-    "Content-Length" = 233;
-    "Content-Type" = "text/html";
-    Date = "Tue, 17 Nov 2015 09:59:42 GMT";
-    Server = nginx;
-} }
-
+ 
+*** Response ***
+ 
+Headers: ["Content-Length": 233, "Server": nginx, "Access-Control-Allow-Origin": *, "Content-Type": text/html, "Date": Sun, 29 May 2016 07:19:13 GMT, "Access-Control-Allow-Credentials": true, "Connection": keep-alive]
+ 
+Status code: 404 — not found
+ 
 ================= ~ ==================
 ```
 
@@ -428,4 +471,8 @@ This library was made with love by [@3lvis](https://twitter.com/3lvis).
 
 ## Attribution
 
-The logo typeface comes thanks to [Sanid Jusić](https://dribbble.com/shots/1049674-Free-Colorfull-Triangle-Typeface)
+The logo typeface comes thanks to [Sanid Jusić](https://dribbble.com/shots/1049674-Free-Colorfull-Triangle-Typeface).
+
+
+## Chinese description
+>使用简单、功能惊喜，基于 NSURLSession 的网络封装库。功能包括带身份验证请求，支持单元测试（mocking/stubbing），异步执行，图片下载及缓存等实用特性。

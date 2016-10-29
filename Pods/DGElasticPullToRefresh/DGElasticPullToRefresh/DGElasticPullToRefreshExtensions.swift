@@ -81,80 +81,54 @@ public extension NSObject {
 
 public extension UIScrollView {
     
-    // MARK: -
-    // MARK: Vars
-    
+    // MARK: - Vars
+
     fileprivate struct dg_associatedKeys {
         static var pullToRefreshView = "pullToRefreshView"
     }
-    
-    fileprivate var _pullToRefreshView: DGElasticPullToRefreshView? {
+
+    fileprivate var pullToRefreshView: DGElasticPullToRefreshView? {
         get {
-            if let pullToRefreshView = objc_getAssociatedObject(self, &dg_associatedKeys.pullToRefreshView) as? DGElasticPullToRefreshView {
-                return pullToRefreshView
-            }
-            
-            return nil
+            return objc_getAssociatedObject(self, &dg_associatedKeys.pullToRefreshView) as? DGElasticPullToRefreshView
         }
+
         set {
             objc_setAssociatedObject(self, &dg_associatedKeys.pullToRefreshView, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
-    fileprivate var pullToRefreshView: DGElasticPullToRefreshView! {
-        get {
-            if let pullToRefreshView = _pullToRefreshView {
-                return pullToRefreshView
-            } else {
-                let pullToRefreshView = DGElasticPullToRefreshView()
-                _pullToRefreshView = pullToRefreshView
-                return pullToRefreshView
-            }
-        }
-    }
-    
-    // MARK: -
-    // MARK: Methods (Public)
-    
-    public func dg_addPullToRefreshWithActionHandler(_ actionHandler: @escaping () -> Void) {
-        dg_addPullToRefreshWithActionHandler(actionHandler, loadingView: nil)
-    }
+    // MARK: - Methods (Public)
     
     public func dg_addPullToRefreshWithActionHandler(_ actionHandler: @escaping () -> Void, loadingView: DGElasticPullToRefreshLoadingView?) {
         isMultipleTouchEnabled = false
         panGestureRecognizer.maximumNumberOfTouches = 1
-        
+
+        let pullToRefreshView = DGElasticPullToRefreshView()
+        self.pullToRefreshView = pullToRefreshView
         pullToRefreshView.actionHandler = actionHandler
         pullToRefreshView.loadingView = loadingView
         addSubview(pullToRefreshView)
-        
+
         pullToRefreshView.observing = true
     }
     
     public func dg_removePullToRefresh() {
-        pullToRefreshView.observing = false
-        pullToRefreshView.removeFromSuperview()
+        pullToRefreshView?.disassociateDisplayLink()
+        pullToRefreshView?.observing = false
+        pullToRefreshView?.removeFromSuperview()
     }
     
     public func dg_setPullToRefreshBackgroundColor(_ color: UIColor) {
-        pullToRefreshView.backgroundColor = color
+        pullToRefreshView?.backgroundColor = color
     }
     
     public func dg_setPullToRefreshFillColor(_ color: UIColor) {
-        pullToRefreshView.fillColor = color
+        pullToRefreshView?.fillColor = color
     }
     
     public func dg_stopLoading() {
-        pullToRefreshView.stopLoading()
+        pullToRefreshView?.stopLoading()
     }
-    
-    func dg_stopScrollingAnimation() {
-        if let superview = self.superview, let index = superview.subviews.index(where: { $0 == self }) as Int! {
-            removeFromSuperview()
-            superview.insertSubview(self, at: index)
-        }
-    }
-    
 }
 
 // MARK: -
@@ -162,8 +136,7 @@ public extension UIScrollView {
 
 public extension UIView {
     func dg_center(_ usePresentationLayerIfPossible: Bool) -> CGPoint {
-        if usePresentationLayerIfPossible {
-            let presentationLayer = layer.presentation()! as CALayer
+        if usePresentationLayerIfPossible, let presentationLayer = layer.presentation() {
             // Position can be used as a center, because anchorPoint is (0.5, 0.5)
             return presentationLayer.position
         }

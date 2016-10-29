@@ -22,17 +22,6 @@ import UIImage_Resize
 import BFPaperButton
 
 class MainVC: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate{
-    // Actions
-    //    @IBAction func showAskVC(_ sender: AnyObject) {
-    //        if currUser!.qInProgress.count >= currUser!.qInProgressLimit{
-    //            _ = SCLAlertView().showError("Sorry", subTitle: "You are only allowed to have up to \(currUser!.qInProgressLimit) in progress questions. Please conclude a question.")
-    //        }
-    //        else{
-    //            // TODO
-    ////            let vc = VC(name: "Ask Question", isCenter: false) as! UINavigationController
-    ////            show(vc, sender: self)
-    //        }
-    //    }
     let vc_max_count = 7
     private var contentVCs = [UIViewController]()
     let page = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
@@ -81,7 +70,18 @@ class MainVC: UIViewController, UIPageViewControllerDataSource, UIPageViewContro
         }
     }
     
+    func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
+        if let currIndex = contentVCs.index(of: currVC), let vc = contentVCs.first, let nextIndex = contentVCs.index(of: vc){
+            if currIndex == nextIndex + 1{
+                if let vc = currVC as? ContentVC{
+                    vc.upvote()
+                }
+            }
+        }
+    }
+    
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        
         if completed{
             currVC = page.viewControllers?.first
         }

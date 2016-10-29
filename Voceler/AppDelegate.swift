@@ -31,8 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if granted{
                     print("Grant successfully")
                 }
-                else{
-                    print(error?.localizedDescription)
+                else if let error = error{
+                    print(error.localizedDescription)
                 }
             })
         } else {

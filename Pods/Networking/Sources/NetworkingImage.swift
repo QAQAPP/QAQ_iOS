@@ -6,14 +6,14 @@
     public typealias NetworkingImage = UIImage
 #endif
 
-
 /**
  Helper methods to handle UIImage and NSImage related tasks.
  */
 extension NetworkingImage {
+
     static func find(named name: String, inBundle bundle: Bundle) -> NetworkingImage {
         #if os(OSX)
-            return bundle.imageForResource(name)!
+            return bundle.image(forResource: name)!
         #elseif os(watchOS)
             return UIImage(named: name)!
         #else
@@ -22,17 +22,18 @@ extension NetworkingImage {
     }
 
     #if os(OSX)
-    func data(type: NSBitmapImageFileType) -> NSData? {
-        let imageData = self.TIFFRepresentation!
-        let bitmapImageRep = NSBitmapImageRep(data: imageData)!
-        let data = bitmapImageRep.representationUsingType(type, properties: [String : AnyObject]())
-        return data
-    }
+
+        func data(_ type: NSBitmapImageFileType) -> Data? {
+            let imageData = self.tiffRepresentation!
+            let bitmapImageRep = NSBitmapImageRep(data: imageData)!
+            let data = bitmapImageRep.representation(using: type, properties: [String: Any]())
+            return data
+        }
     #endif
 
     func pngData() -> Data? {
         #if os(OSX)
-            return self.data(type: .NSPNGFileType)
+            return self.data(.PNG)
         #else
             return UIImagePNGRepresentation(self)
         #endif
@@ -40,7 +41,7 @@ extension NetworkingImage {
 
     func jpgData() -> Data? {
         #if os(OSX)
-            return self.data(type: .NSJPEGFileType)
+            return self.data(.JPEG)
         #else
             return UIImageJPEGRepresentation(self, 1)
         #endif
