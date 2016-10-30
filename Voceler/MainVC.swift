@@ -20,12 +20,19 @@ import BlurImageProcessor
 import FXBlurView
 import UIImage_Resize
 import BFPaperButton
+import LTMorphingLabel
 
 class MainVC: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate{
     let vc_max_count = 7
     private var contentVCs = [UIViewController]()
     let page = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
     var currVC : UIViewController!
+    
+    var point = 0{
+        didSet{
+            scoreLabel.text = "\(point)"
+        }
+    }
     
     var swipeEnable = true{
         didSet{
@@ -37,6 +44,37 @@ class MainVC: UIViewController, UIPageViewControllerDataSource, UIPageViewContro
             }
         }
     }
+    
+    override func showInfo() {
+        var showUser = currUser
+        if let vc = currVC as? ContentVC{
+            if let view = vc.contentView as? QuestionView{
+                if view.currQuestion.qAnonymous{
+                    showUser = nil
+                }
+                else if let user = view.asker{
+                    showUser = user
+                }
+            }
+        }
+        if let user = showUser, let vc = controllerManager?.profileVC(user: user){
+            navigationController?.pushViewController(vc, animated: true)
+        }
+        else{
+            _ = SCLAlertView().showWarning("Ooops", subTitle: "Anonymous user.")
+        }
+    }
+    
+    func likeAction(){
+        if let vc = currVC as? ContentVC{
+            if let questionView = vc.contentView as? QuestionView{
+                questionView.likeQuestion()
+            }
+        }
+    }
+    
+    var likeBtn = UIBarButtonItem(image: #imageLiteral(resourceName: "star-32").withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(likeAction))
+    var profileItem = UIBarButtonItem(image: #imageLiteral(resourceName: "user_male_circle-32"), style: .plain, target: self, action: #selector(showInfo))
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController?{
 //        if let index = contentVCs.index(of: viewController), index > 0 && swipeEnable{
@@ -71,19 +109,19 @@ class MainVC: UIViewController, UIPageViewControllerDataSource, UIPageViewContro
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
-        if let currIndex = contentVCs.index(of: currVC), let vc = contentVCs.first, let nextIndex = contentVCs.index(of: vc){
-            if currIndex == nextIndex + 1{
-                if let vc = currVC as? ContentVC{
-                    vc.upvote()
-                }
-            }
+        point += 1
+        print(currVC, contentVCs, pendingViewControllers)
+        if let vc = currVC as? ContentVC, currVC == contentVCs[1] && pendingViewControllers.first != contentVCs.first{
+            vc.upvote()
         }
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        
         if completed{
             currVC = page.viewControllers?.first
+            while let index = contentVCs.index(of: currVC), index > 1{
+                contentVCs.removeFirst()
+            }
         }
     }
     
@@ -148,9 +186,16 @@ class MainVC: UIViewController, UIPageViewControllerDataSource, UIPageViewContro
         }
     }
     
+    let scoreLabel = LTMorphingLabel()
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        setContent()
+        scoreLabel.morphingEffect = .evaporate
+        point = 0
+        navigationItem.titleView = scoreLabel
+        _ = scoreLabel.sd_layout().widthIs(200)?.heightIs(42)
+        scoreLabel.textAlignment = .center
+        scoreLabel.textColor = .white
+        
         NotificationCenter.default.addObserver(self, selector: #selector(loadQuestions), name: Notification.Name.QuestionLoaded, object: nil)
         view.backgroundColor = .white
         page.dataSource = self
@@ -162,6 +207,11 @@ class MainVC: UIViewController, UIPageViewControllerDataSource, UIPageViewContro
         currVC = contentVCs.first
         page.setViewControllers([contentVCs.first!], direction: .forward, animated: true, completion: nil)
         page.didMove(toParentViewController: self)
+    
+        likeBtn.target = self
+        profileItem.target = self
+        navigationItem.rightBarButtonItem = nil
+        navigationItem.leftBarButtonItem = profileItem
     }
     
     func addContent(){

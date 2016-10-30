@@ -42,7 +42,7 @@ class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UI
     @IBOutlet weak var bottomSpace: NSLayoutConstraint?
     @IBOutlet weak var controlBottom: NSLayoutConstraint!
     @IBOutlet weak var controlViewHeight: NSLayoutConstraint!
-    var hidingNavBarManager: HidingNavigationBarManager?
+    var hidingNavBarManager: HidingNavigationBarManager!
     
     var editBtn = BFPaperButton(raised: false)!
     private var takeProfile = UIImageView(image: #imageLiteral(resourceName: "compact_camera-50"))
@@ -306,20 +306,17 @@ class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UI
     // Override functions
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        hidingNavBarManager?.viewWillAppear(animated)
+        hidingNavBarManager.viewWillAppear(animated)
         setEditable()
-//        navigationController?.navigationBar.setColor(color: .clear)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        hidingNavBarManager?.viewWillDisappear(animated)
-//        navigationController?.navigationBar.setColor(color: themeColor)
+        hidingNavBarManager.viewWillDisappear(animated)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setupProfile()
         hidingNavBarManager = HidingNavigationBarManager(viewController: self, scrollView: scroll)
         setupUI()
     }
@@ -371,15 +368,19 @@ class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UI
     }
     
     func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
-        hidingNavBarManager?.shouldScrollToTop()
+        hidingNavBarManager.shouldScrollToTop()
         return true
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        hidingNavBarManager?.viewDidLayoutSubviews()
+    func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
+        hidingNavBarManager.shouldScrollToTop()
     }
+    
+//    override func viewDidLayoutSubviews() {
+//        super.viewDidLayoutSubviews()
+//        
+//        hidingNavBarManager.viewDidLayoutSubviews()
+//    }
     
     override func hasCustomNavigationBar() -> Bool {
         return false

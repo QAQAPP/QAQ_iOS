@@ -34,6 +34,14 @@ class CouponVC: UIViewController {
     func disableSwipe(){
         controllerManager?.mainVC.swipeEnable = false
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let vc = controllerManager?.mainVC
+        let item = vc?.navigationItem
+        item?.leftBarButtonItem?.image = #imageLiteral(resourceName: "user_male_circle-32")
+        item?.setRightBarButton(nil, animated: true)
+    }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

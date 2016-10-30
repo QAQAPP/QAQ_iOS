@@ -27,13 +27,15 @@ extension UIViewController{
         view.endEditing(true)
     }
     
-    func showMore() {
-//        drawer.toggle(.left, animated: true, completion: nil)
+    func showInfo() {
+        if let user = currUser, let vc = controllerManager?.profileVC(user: user){
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     func setupProfile(){
         if let btn = navigationItem.leftBarButtonItem?.customView as? UIButton{
-            btn.addTarget(self, action: #selector(showMore), for: .touchUpInside)
+            btn.addTarget(self, action: #selector(showInfo), for: .touchUpInside)
         }
     }
     
