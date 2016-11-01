@@ -33,18 +33,14 @@ class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UI
             }
         }
     }
-    @IBOutlet weak var controlView: UIView?
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var scroll: UIScrollView!
     @IBOutlet weak var table: UITableView?
     @IBOutlet weak var moneyImg: UIImageView!
     @IBOutlet weak var scrollHeight: NSLayoutConstraint!
     @IBOutlet weak var bottomSpace: NSLayoutConstraint?
-    @IBOutlet weak var controlBottom: NSLayoutConstraint!
-    @IBOutlet weak var controlViewHeight: NSLayoutConstraint!
     var hidingNavBarManager: HidingNavigationBarManager!
     
-    var editBtn = BFPaperButton(raised: false)!
     private var takeProfile = UIImageView(image: #imageLiteral(resourceName: "compact_camera-50"))
     private var takeWall = UIImageView(image: #imageLiteral(resourceName: "compact_camera-50"))
     private var setImgTo = "profileImg"
@@ -76,7 +72,7 @@ class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UI
         takeWall.isHidden = !editMode
         table!.reloadData()
         if editMode{
-            editBtn.setTitle("  Done", for: [])
+            navigationItem.rightBarButtonItem?.title = "Done"
             old_val.removeAllObjects()
             for item in contentArr {
                 old_val.add(item as String)
@@ -87,7 +83,7 @@ class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UI
             usernameTF!.layer.borderWidth = 1
         }
         else {
-            editBtn.setTitle("  Edit", for: [])
+            navigationItem.rightBarButtonItem?.title = "Edit"
             usernameTF?.layer.borderWidth = 0
             for i in 0..<contentArr.count {
                 if old_val[i] as! NSString != contentArr[i] {
@@ -186,13 +182,10 @@ class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UI
     
     private func setEditable(){
         editable = FIRAuth.auth()?.currentUser?.uid == thisUser?.uid
-        controlView?.isHidden = !editable
-        controlViewHeight.constant = editable ? 50 : 0
-//        bottomSpace?.constant = editable ? 50 : 0
+        navigationItem.rightBarButtonItem = editable ? UIBarButtonItem(title: "Edit", style: .done, target: self, action: #selector(editAction)) : nil
     }
     
     func setupUI(){
-//        navigationBar.setColor(color: themeColor)
         picker.delegate = self
         title = ""
         usernameTF!.placeholder = "Username"
@@ -200,7 +193,6 @@ class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UI
         contentView.touchToHideKeyboard()
         scroll.delegate = self
         view.backgroundColor = lightGray
-        controlView!.backgroundColor = themeColor
         profileImg.board(radius: 50, width: 5, color: .lightGray)
         _ = profileImg.sd_layout().topSpaceToView(wallImg, -70)?.heightIs(100)?.widthIs(100)
         table!.delegate = self
@@ -209,17 +201,12 @@ class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UI
         table!.allowsSelection = false
         moneyImg.setIcon(img: #imageLiteral(resourceName: "money"), color: pinkColor)
         
-        editBtn.backgroundColor = themeColor
-        editBtn.tintColor = .white
-        editBtn.setTitle("  Edit", for: [])
-        editBtn.setImage(#imageLiteral(resourceName: "edit_row-32").withRenderingMode(.alwaysTemplate), for: [])
-        controlView!.addSubview(editBtn)
-        editBtn.addTarget(self, action: #selector(editAction), for: [.touchUpInside])
-        _ = editBtn.sd_layout()
-            .topSpaceToView(controlView, 0)?
-            .bottomSpaceToView(controlView, 0)?
-            .leftSpaceToView(controlView, 0)?
-            .rightSpaceToView(controlView, 0)
+//        editBtn.backgroundColor = themeColor
+//        editBtn.tintColor = .white
+//        editBtn.setTitle("  Edit", for: [])
+//        editBtn.setImage(#imageLiteral(resourceName: "edit_row-32").withRenderingMode(.alwaysTemplate), for: [])
+//        editBtn.addTarget(self, action: #selector(editAction), for: [.touchUpInside])
+//        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: editBtn)
         resizeTableView()
         
         contentView.addSubview(takeProfile)
@@ -250,12 +237,11 @@ class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UI
         setWallImg()
         
         table?.separatorStyle = .none
-        controlBottom.constant = 0//controllerManager.tabbarVC.tabBar.height/4
     }
     
     func resizeTableView() {
         table!.reloadData()
-        scrollHeight!.constant = UIScreen.main.bounds.width * 0.4 + 110 + table!.contentSize.height
+        scrollHeight!.constant = table!.contentSize.height
     }
     
     func setProfileImg(){

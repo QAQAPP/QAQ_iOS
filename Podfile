@@ -44,7 +44,7 @@ pod 'UIImage-Resize'
 pod 'LTMorphingLabel'
 pod 'StickyScrollView'
 pod 'XHTabBarSwift'
-pod "UITabBarController+KTHidden"
+pod 'UITabBarController+KTHidden'
 
 post_install do |installer|
     installer.pods_project.targets.each do |target|

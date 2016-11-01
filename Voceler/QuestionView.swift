@@ -71,7 +71,9 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
             addOption(text: text)
         }
         addOptionField.text = ""
-        controllerManager?.mainVC.nextContent()
+        if parent is ContentVC{
+            controllerManager?.mainVC.nextContent()
+        }
     }
     
     @IBOutlet weak var addOptionField: UITextField!

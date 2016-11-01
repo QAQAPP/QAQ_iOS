@@ -31,29 +31,23 @@ class OptCell: UICollectionViewCell{
     @IBOutlet weak var likeBtn: UIButton!
     
     func optLiked(){
-        question.userChoosed = true
-        let vc = controllerManager?.mainVC
-        if !option.isLiked{
-            likeBtn.setImage(img: #imageLiteral(resourceName: "like_filled"), color: pinkColor)
-            for opt in question.qOptions{
-                if opt == option && !opt.isLiked{
-                    opt.isLiked = true
+        if questionVIew.parent is ContentVC{
+            question.userChoosed = true
+            let vc = controllerManager?.mainVC
+            if !option.isLiked{
+                likeBtn.setImage(img: #imageLiteral(resourceName: "like_filled"), color: pinkColor)
+                for opt in question.qOptions{
+                    if opt == option && !opt.isLiked{
+                        opt.isLiked = true
+                    }
+                    else if opt.isLiked{
+                        opt.isLiked = false
+                    }
                 }
-                else if opt.isLiked{
-                    opt.isLiked = false
-                }
+                questionVIew.optsView.reloadData()
             }
-            questionVIew.optsView.reloadData()
+            vc?.nextContent()
         }
-        vc?.nextContent()
-//        }
-//        else if let vc = self.parent.parent as? InProgressVC{
-//            likeBtn.setImage(img: #imageLiteral(resourceName: "like_filled"), color: pinkColor)
-//            vc.conclude(OID: self.option.oRef.key, cell: self)
-//        }
-//        else if self.parent.parent is InCollectionVC{
-//            _ = SCLAlertView().showWarning("Warning", subTitle: "You cannot modify the question in collection")
-//        }
     }
     
     @IBAction func likeAction(_ sender: AnyObject) {
@@ -102,7 +96,7 @@ class OptCell: UICollectionViewCell{
     }
     
     func setNumLikes(num:Int){
-        if question.userChoosed{
+        if question.userChoosed || !(questionVIew.parent is ContentVC){
             numLikeLbl.text = "\(num)"
         }
         else{
