@@ -31,7 +31,6 @@ pod 'ZFDragableModalTransition'
 pod 'WZDraggableSwitchHeaderView'
 pod 'DBProfileViewController'
 pod 'DGElasticPullToRefresh'
-pod 'HidingNavigationBar'
 pod 'UIViewController+NavigationBar'
 pod 'IQKeyboardManager'
 pod 'RATreeView'
@@ -44,7 +43,7 @@ pod 'UIImage-Resize'
 pod 'LTMorphingLabel'
 pod 'StickyScrollView'
 pod 'XHTabBarSwift'
-pod 'UITabBarController+KTHidden'
+pod 'JDFPeekaboo'
 
 post_install do |installer|
     installer.pods_project.targets.each do |target|

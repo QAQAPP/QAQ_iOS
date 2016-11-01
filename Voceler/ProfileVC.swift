@@ -10,13 +10,11 @@ import UIKit
 import DBProfileViewController
 import SDAutoLayout
 import TextFieldEffects
-import BFPaperButton
 import FirebaseAuth
-import UIViewController_NavigationBar
 import SCLAlertView
 import SwiftSpinner
 import FirebaseStorage
-import HidingNavigationBar
+import JDFPeekaboo
 
 class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     // UIVars
@@ -39,7 +37,6 @@ class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UI
     @IBOutlet weak var moneyImg: UIImageView!
     @IBOutlet weak var scrollHeight: NSLayoutConstraint!
     @IBOutlet weak var bottomSpace: NSLayoutConstraint?
-    var hidingNavBarManager: HidingNavigationBarManager!
     
     private var takeProfile = UIImageView(image: #imageLiteral(resourceName: "compact_camera-50"))
     private var takeWall = UIImageView(image: #imageLiteral(resourceName: "compact_camera-50"))
@@ -57,10 +54,12 @@ class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UI
     var contentArr:[NSMutableString] = ["I'll regrade your ass ignment!", "Los Angeles", "Male", "10-06-1995"]
     var editable = true
     private var loadNeeded = 3
+    let scrollCoordinator = JDFPeekabooCoordinator()
     
     // Actions
     private var editMode = false
     func editAction() {
+        print(edgesForExtendedLayout == .top)
         if loadNeeded > 0 {
             _ = SCLAlertView().showWait("Sorry", subTitle: "Synchronizing user info...", duration: 1)
             return
@@ -186,6 +185,7 @@ class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UI
     }
     
     func setupUI(){
+        edgesForExtendedLayout = .top
         picker.delegate = self
         title = ""
         usernameTF!.placeholder = "Username"
@@ -292,18 +292,13 @@ class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UI
     // Override functions
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        hidingNavBarManager.viewWillAppear(animated)
         setEditable()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        hidingNavBarManager.viewWillDisappear(animated)
+        scrollCoordinator.scrollView = scroll
+        scrollCoordinator.topView = navigationController?.navigationBar
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        hidingNavBarManager = HidingNavigationBarManager(viewController: self, scrollView: scroll)
         setupUI()
     }
     
@@ -352,27 +347,4 @@ class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UI
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         hideKeyboard()
     }
-    
-    func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
-        hidingNavBarManager.shouldScrollToTop()
-        return true
-    }
-    
-    func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
-        hidingNavBarManager.shouldScrollToTop()
-    }
-    
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//        
-//        hidingNavBarManager.viewDidLayoutSubviews()
-//    }
-    
-    override func hasCustomNavigationBar() -> Bool {
-        return false
-    }
-//
-//    override func prefersNavigationBarHidden() -> Bool {
-//        return true
-//    }
 }

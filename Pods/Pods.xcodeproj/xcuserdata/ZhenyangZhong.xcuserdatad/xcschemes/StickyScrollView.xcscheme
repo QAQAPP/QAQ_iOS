@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '8A57310EA16F247CD196E40F110DB82A'
+               BlueprintIdentifier = 'A4E83DF0BD832318D582F52C7C1D5D9D'
                BlueprintName = 'StickyScrollView'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'StickyScrollView.framework'>

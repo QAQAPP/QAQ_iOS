@@ -69,7 +69,6 @@ class ControllerManager: NSObject, UITabBarControllerDelegate{
         settingsNav.tabBarItem = settingsItem
         
         profileVC = ProfileVC(nibName: "ProfileVC", bundle: nil)
-        profileVC.edgesForExtendedLayout = .top
         profileVC.thisUser = currUser
         profileNav = UINavigationController(rootViewController: profileVC)
         profileNav.navigationBar.setColor(color: themeColor)

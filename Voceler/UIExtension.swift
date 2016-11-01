@@ -67,9 +67,9 @@ extension UINavigationBar{
         backgroundColor = color
         tintColor = .white
         titleTextAttributes = [NSFontAttributeName: UIFont(name: "Helvetica Neue", size: 20)!, NSForegroundColorAttributeName: UIColor.white]
-        setBackgroundImage(UIImage(), for: .default)
+//        setBackgroundImage(UIImage(), for: .default)
         shadowImage = nil
-        isTranslucent = false
+        isTranslucent = true
     }
 }
 
