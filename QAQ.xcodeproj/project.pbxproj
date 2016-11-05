@@ -30,6 +30,7 @@
 		BAC098041DBB22D3000C81F0 /* CollectionVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = BAC098021DBB22D3000C81F0 /* CollectionVC.xib */; };
 		BAC098071DBB278B000C81F0 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC098051DBB278B000C81F0 /* ProfileVC.swift */; };
 		BAC0980E1DBB4F4B000C81F0 /* CouponScratchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC0980D1DBB4F4B000C81F0 /* CouponScratchView.swift */; };
+		BAC3A1A41DCD55ED00D2700F /* SwipeAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC3A1A31DCD55ED00D2700F /* SwipeAlertVC.swift */; };
 		BAC478FF1D8F200E00041D94 /* SettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC478FE1D8F200E00041D94 /* SettingModel.swift */; };
 		BAC479011D8FBAA800041D94 /* TagsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC479001D8FBAA800041D94 /* TagsVC.swift */; };
 		BAD6C0A91D6AA95F00361A93 /* Categories.plist in Resources */ = {isa = PBXBuildFile; fileRef = BAD6C0A81D6AA95F00361A93 /* Categories.plist */; };
@@ -94,6 +95,7 @@
 		BAC098021DBB22D3000C81F0 /* CollectionVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionVC.xib; sourceTree = "<group>"; };
 		BAC098051DBB278B000C81F0 /* ProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		BAC0980D1DBB4F4B000C81F0 /* CouponScratchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponScratchView.swift; sourceTree = "<group>"; };
+		BAC3A1A31DCD55ED00D2700F /* SwipeAlertVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeAlertVC.swift; sourceTree = "<group>"; };
 		BAC478FE1D8F200E00041D94 /* SettingModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingModel.swift; sourceTree = "<group>"; };
 		BAC479001D8FBAA800041D94 /* TagsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagsVC.swift; sourceTree = "<group>"; };
 		BAD6C0A81D6AA95F00361A93 /* Categories.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Categories.plist; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 				FDD344351D1B91980040356A /* LoginVC.swift */,
 				FD8A5E521D1F97620068F57A /* CtrlVC.swift */,
 				FDBBB5DE1D20544100D75467 /* MainVC.swift */,
+				BAC3A1A31DCD55ED00D2700F /* SwipeAlertVC.swift */,
 				BA2089571DBB7C9500316486 /* CouponVC.swift */,
 				BA20895D1DBC505F00316486 /* ContentVC.swift */,
 				FDBBB5E61D2055E600D75467 /* SettingsVC.swift */,
@@ -489,6 +492,7 @@
 				BA20895E1DBC505F00316486 /* ContentVC.swift in Sources */,
 				BAD6C0AC1D6AB56800361A93 /* TreeViewCell.swift in Sources */,
 				BAC097F81DBB0AC8000C81F0 /* ControllerManager.swift in Sources */,
+				BAC3A1A41DCD55ED00D2700F /* SwipeAlertVC.swift in Sources */,
 				BA8FEBDD1DA08A7E00F23011 /* InProgressVC.swift in Sources */,
 				FDD344361D1B91980040356A /* LoginVC.swift in Sources */,
 				FD1036DA1D1FB01600AC1FE9 /* CtrlCell.swift in Sources */,
@@ -557,7 +561,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "b33ae8c5-e623-4b6f-b997-11936cb931f2";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -600,7 +604,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "b33ae8c5-e623-4b6f-b997-11936cb931f2";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";

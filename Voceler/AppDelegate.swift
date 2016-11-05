@@ -14,9 +14,11 @@ import GoogleSignIn
 import SDAutoLayout
 import FBSDKLoginKit
 import UserNotifications
+import FirebaseMessaging
+import FirebaseDatabase
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate{
 
     var window: UIWindow?
     
@@ -26,22 +28,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared().isEnabled = true
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
-        if #available(iOS 10.0, *) {
-            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound], completionHandler: { (granted, error) in
-                if granted{
-                    print("Grant successfully")
-                }
-                else if let error = error{
-                    print(error.localizedDescription)
-                }
-            })
-        } else {
-            // Fallback on earlier versions
-            let notiTypes:UIUserNotificationType = [.alert, .badge, .sound]
-            let notiSettings = UIUserNotificationSettings(types: notiTypes, categories: nil)
-            UIApplication.shared.registerUserNotificationSettings(notiSettings)
-        }
-        
+//        if #available(iOS 10.0, *) {
+//            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound], completionHandler: { (granted, error) in
+//                if granted{
+//                    print("Grant successfully")
+//                }
+//                else if let error = error{
+//                    print(error.localizedDescription)
+//                }
+//            })
+//        } else {
+//            // Fallback on earlier versions
+//            let notiTypes:UIUserNotificationType = [.alert, .badge, .sound]
+//            let notiSettings = UIUserNotificationSettings(types: notiTypes, categories: nil)
+//            UIApplication.shared.registerUserNotificationSettings(notiSettings)
+//        }
+//        
         
 //        _ = questionManager.getQuestion()
 //        let networking = Networking(baseURL: "http://45.55.110.230:3000/v1")
@@ -67,6 +69,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            }, andCompletionBlock: { (error, bool, snapshot) in
 //            print(snapshot?.value)
 //        })
+        
+        print("Token", FIRInstanceID.instanceID().token())
         
         return true
     }
@@ -125,21 +129,94 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        print(deviceToken)
+        print("token",deviceToken)
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        // If you are receiving a notification message while your app is in the background,
+        // this callback will not be fired till the user taps on the notification launching the application.
+        // TODO: Handle data of notification
+        scheduleNotification(inSeconds: 0, completion: { (success) in
+            print("success", success)
+        })
+        // Print message ID.
+        print("Message ID: \(userInfo["gcm.message_id"]!)")
+        
+        // Print full message.
+        print("%@", userInfo)
+    }
+    
+    func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
+        if #available(iOS 10.0, *) {
+            let authOptions : UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: {_,_ in })
+            
+            // For iOS 10 display notification (sent via APNS)
+            UNUserNotificationCenter.current().delegate = self
+            // For iOS 10 data message (sent via FCM)
+            FIRMessaging.messaging().remoteMessageDelegate = self
+            
+        } else {
+            let settings: UIUserNotificationSettings =
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            application.registerUserNotificationSettings(settings)
+        }
+        
+        application.registerForRemoteNotifications()
+        
+        NotificationCenter.default.addObserver(forName: Notification.Name.firInstanceIDTokenRefresh, object: self, queue: nil, using: { (noti) in
+            self.tokenRefreshNotification(noti)
+        })
+        return true
+    }
+    
+    func tokenRefreshNotification(_ notification: Notification) {
+        if let refreshedToken = FIRInstanceID.instanceID().token() {
+            print("InstanceID token: \(refreshedToken)")
+        }
+        // Connect to FCM since connection may have failed when attempted before having a token.
+        connectToFcm()
+    }
+    
+    func connectToFcm() {
+        FIRMessaging.messaging().connect { (error) in
+            if error != nil {
+                print("Unable to connect with FCM. \(error)")
+            } else {
+                print("Connected to FCM.")
+            }
+        }
     }
     
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         
-        scheduleNotification(inSeconds: 5, completion: { (success) in
-            if success{
-                print("Success")
-            }
-            else{
-                print("Failure")
-            }
+        
+        var bgTask = application.beginBackgroundTask { 
+            let ref = FIRDatabase.database().reference().child("TestMessage").observe(.childAdded, with: { (snapshot) in
+                self.scheduleNotification(inSeconds: 0, completion: { (success) in
+                    print(success)
+                })
+            })
+        }
+        
+        DispatchQueue.global(qos: .default).async(execute: {() -> Void in
+            // Do the work associated with the task, preferably in chunks.
+            application.endBackgroundTask(bgTask)
+            bgTask = UIBackgroundTaskInvalid
         })
+        
+//        scheduleNotification(inSeconds: 5, completion: { (success) in
+//            if success{
+//                print("Success")
+//            }
+//            else{
+//                print("Failure")
+//            }
+//        })
         
 //        let noti = UILocalNotification()
 //        noti.alertTitle = "Alert"
@@ -177,3 +254,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+extension AppDelegate : UNUserNotificationCenterDelegate {
+    
+    // Receive displayed notifications for iOS 10 devices.
+    @available(iOS 10.0, *)
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        let userInfo = notification.request.content.userInfo
+        // Print message ID.
+        print("Message ID: \(userInfo["gcm.message_id"])")
+        
+        // Print full message.
+        print("%@", userInfo)
+    }
+}
+
+extension AppDelegate : FIRMessagingDelegate {
+    // Receive data message on iOS 10 devices.
+    func applicationReceivedRemoteMessage(_ remoteMessage: FIRMessagingRemoteMessage) {
+        print("%@", remoteMessage.appData)
+    }
+}

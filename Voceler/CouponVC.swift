@@ -31,10 +31,6 @@ class CouponVC: UIViewController {
         super.init(coder: aDecoder)
     }
     
-    func disableSwipe(){
-        controllerManager?.mainVC.swipeEnable = false
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         let vc = controllerManager?.mainVC
@@ -46,18 +42,8 @@ class CouponVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if couponScratchView.getScratchPercent() < 0.5{
-            if #available(iOS 10.0, *) {
-                Timer.scheduledTimer(withTimeInterval: 0.01, repeats: false) { (timer) in
-                    self.disableSwipe()
-                }
-            } else {
-                // Fallback on earlier versions
-                _ = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(disableSwipe), userInfo: nil, repeats: false)
-            }
+            controllerManager?.mainVC.disableSwipe()
         }
-    }
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        controllerManager?.mainVC.swipeEnable = true
+        controllerManager?.mainVC.currVC = self
     }
 }

@@ -87,6 +87,12 @@ class MainVC: UIViewController, UIPageViewControllerDataSource, UIPageViewContro
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController?{
+        if let vc = currVC as? ContentVC, vc.contentView is QuestionView && !vc.alertShowed, loadFinish{
+            vc.upvote()
+            vc.alertShowed = true
+            resetPage()
+            return nil
+        }
         if let index = contentVCs.index(of: viewController), index < contentVCs.count - 1 && swipeEnable{
             let vc = contentVCs[index+1]
             if index > 1{
@@ -109,16 +115,16 @@ class MainVC: UIViewController, UIPageViewControllerDataSource, UIPageViewContro
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
-        point += 1
-        print(currVC, contentVCs, pendingViewControllers)
-        if let vc = currVC as? ContentVC, currVC == contentVCs[1] && pendingViewControllers.first != contentVCs.first{
-            vc.upvote()
-        }
+//        point += 1
+//        print(currVC, contentVCs, pendingViewControllers)
+//        if let vc = currVC as? ContentVC, currVC == contentVCs[1] && pendingViewControllers.first != contentVCs.first{
+//            vc.upvote()
+//        }
     }
-    
+
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed{
-            currVC = page.viewControllers?.first
+//            currVC = page.viewControllers?.first
             while let index = contentVCs.index(of: currVC), index > 1{
                 contentVCs.removeFirst()
             }
@@ -220,6 +226,10 @@ class MainVC: UIViewController, UIPageViewControllerDataSource, UIPageViewContro
         }
     }
     
+    func swipeAction(){
+        
+    }
+    
     var swipeComplete = true
     func nextContent(){
         swipeComplete = false
@@ -238,5 +248,42 @@ class MainVC: UIViewController, UIPageViewControllerDataSource, UIPageViewContro
             page.setViewControllers([vc], direction: .forward, animated: true, completion: nil)
             currVC = vc
         }
+    }
+    
+    @objc private func swipeOff(){
+        swipeEnable = false
+    }
+    
+    @objc private func swipeOn(){
+        swipeEnable = true
+        loadFinish = true
+    }
+    
+    func disableSwipe(){
+        if #available(iOS 10.0, *) {
+            Timer.scheduledTimer(withTimeInterval: 0.01, repeats: false) { (timer) in
+                self.swipeOff()
+            }
+        } else {
+            // Fallback on earlier versions
+            _ = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(swipeOff), userInfo: nil, repeats: false)
+        }
+    }
+    
+    func allowSwipe(){
+        if #available(iOS 10.0, *) {
+            Timer.scheduledTimer(withTimeInterval: 0.02, repeats: false) { (timer) in
+                self.swipeOn()
+            }
+        } else {
+            // Fallback on earlier versions
+            _ = Timer.scheduledTimer(timeInterval: 0.02, target: self, selector: #selector(swipeOn), userInfo: nil, repeats: false)
+        }
+    }
+    
+    var loadFinish = false
+    func resetPage(){
+        disableSwipe()
+        allowSwipe()
     }
 }

@@ -21,7 +21,7 @@ class ContentVC: UIViewController {
                 _ = alert.addButton("Yes", action: {
                     questionView.likeQuestion()
                 })
-                _ = alert.showNotice("Upvote", subTitle: "Do you want to upvote this question?")
+                _ = alert.showNotice("Upvote", subTitle: "Do you want to upvote this question?", closeButtonTitle:"No")
             }
             questionView.currQuestion.choose()
         }
@@ -33,6 +33,7 @@ class ContentVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        controllerManager?.mainVC.loadFinish = false
         let vc = controllerManager?.mainVC
         let item = vc?.navigationItem
         item?.leftBarButtonItem?.tintColor = .white
@@ -72,4 +73,12 @@ class ContentVC: UIViewController {
             }
         }
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        controllerManager?.mainVC.resetPage()
+        controllerManager?.mainVC.currVC = self
+    }
+    
+    var uploadShowed = false
 }
