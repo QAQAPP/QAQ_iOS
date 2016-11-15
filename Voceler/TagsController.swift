@@ -11,8 +11,10 @@ import TagListView
 import SDAutoLayout
 import SCLAlertView
 import FirebaseDatabase
+import SwiftString
 
 class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate {
+    let tagLimit = 10
     var optTBV = UITableView()
     private var question:QuestionModel!
     @IBOutlet weak var priorityLbl: UILabel!
@@ -21,7 +23,7 @@ class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate
     @IBAction func slideAction(_ sender: AnyObject) {
         priorityLbl.text = "Question priority: " + String(sliderValue())
     }
-    func setQuestion(descr:String, optArr:[String]){
+    func setQuestion(descr:String, optArr:[String], tags:[String]?){
         question = QuestionModel()
         question.qAskerID = currUser?.uid
         question.qDescrption = descr
@@ -32,6 +34,9 @@ class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate
             }
         }
         question.qAnonymous = appSetting.isAnonymous
+        if let tags = tags{
+            question.qTags = tags
+        }
     }
 
     @IBOutlet weak var tagView: TagListView!
@@ -57,6 +62,7 @@ class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate
     }
 
     func finishQuestion(){
+        question.qTags.removeAll()
         for tag in tagView.tagViews{
             question.qTags.append(tag.titleLabel!.text!)
         }
@@ -81,12 +87,13 @@ class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate
 
     @IBOutlet weak var textField: UITextField!
     @IBAction func addAction(sender: AnyObject) {
-        if let text = textField.text{
+        if var text = textField.text{
+            text = text.collapseWhitespace()
             if text.isEmpty{
                 _ = SCLAlertView().showError("Sorry", subTitle: "Tag text cannot be empty")
             }
-            else if tagView.tagViews.count == 5{
-                _ = SCLAlertView().showError("Sorry", subTitle: "You can only add at most 5 tags.")
+            else if tagView.tagViews.count == tagLimit{
+                _ = SCLAlertView().showError("Sorry", subTitle: "You can add at most 10 tags.")
             }
             else {
                 for tag in tagView.tagViews{
@@ -113,6 +120,9 @@ class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate
         tagView.alignment = .left
         tagView.delegate = self
         tagView.enableRemoveButton = true
+        for tag in question.qTags{
+            tagView.addTag(tag)
+        }
         textField.clearButtonMode = .whileEditing
         textField.delegate = self
 

@@ -66,6 +66,7 @@ class QuestionModel: NSObject {
 //            ref.setValue("0")
 //            ref.setPriority(qPriority)
 //        }
+        networkingManager?.updateTags(text: qDescrption, tags: qTags)
         
         // Add question to user
         choose(val: "owner")

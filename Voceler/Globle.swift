@@ -24,6 +24,7 @@ var appSetting = SettingModel()
 var questionManager:QuestionManager?
 var memoryHandler = MemoryHandler()
 var controllerManager:ControllerManager?
+var networkingManager:NetworkingManager?
 
 func getVC(name:String) -> UIViewController {
     let board = UIStoryboard(name: "Main", bundle: nil)
@@ -43,55 +44,6 @@ func getNav(name:String, isCenter:Bool) -> UINavigationController {
     nav.navigationBar.setColor(color: themeColor)
     return nav
 }
-
-//internal var drawerVC:MMDrawerController?
-//var drawer:MMDrawerController{
-//    if let vc = drawerVC{
-//        return vc
-//    }
-//    else {
-//        let left = getVC(name: "CtrlVC")
-//        let vc = MMDrawerController(center: VC(name: "Question"), leftDrawerViewController: left)!
-//        vc.openDrawerGestureModeMask = .panningCenterView
-//        vc.closeDrawerGestureModeMask = .panningCenterView
-//        drawerVC = vc
-//        vc.closeDrawerGestureModeMask = .all
-//        return vc
-//    }
-//}
-
-//internal var myVC = [String:UIViewController]()
-
-//func clearVC(){
-//    myVC.removeAll()
-//    drawerVC = nil
-//    currUser = nil
-//}
-
-//func VC(name:String, isNav:Bool = true, isCenter:Bool = true, isNew:Bool = false) -> UIViewController{
-//    if isNew{
-//        return getVC(name: name)
-//    }
-//    else if let vc = myVC[name]{
-//        return vc
-//    }
-//    else if name == "CollectionQuestion"{
-//        let board = UIStoryboard(name: "Main", bundle: nil)
-//        let vc = board.instantiateViewController(withIdentifier: "Question") as! QuestionVC
-//        vc.title = "Question"
-//        vc.edgesForExtendedLayout = []
-//        myVC[name] = vc
-//        return vc
-//    }
-//    else if isNav{
-//        myVC[name] = getNav(name: name, isCenter: isCenter)
-//        return myVC[name]!
-//    }
-//    else {
-//        myVC[name] = getVC(name: name)
-//        return myVC[name]!
-//    }
-//}
 
 func randFloat()->CGFloat{
     return CGFloat(Float(arc4random()) / Float(UINT32_MAX))/2 + 0.5

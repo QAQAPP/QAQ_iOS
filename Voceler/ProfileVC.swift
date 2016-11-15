@@ -274,7 +274,7 @@ class ProfileVC: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UI
         }
         contentArr.removeAll()
         for item in attributeArr {
-            if let val = thisUser?.infoDic[item]{
+            if let val = thisUser?.infoDic[item] as? String{
                 contentArr.append(NSMutableString(string: val))
             }
             else{

@@ -184,6 +184,7 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, FBSDKLo
         currUser?.username = user.displayName
         questionManager = QuestionManager()
         controllerManager = ControllerManager()
+        networkingManager = NetworkingManager()
         self.show(controllerManager!.tabbarVC, sender: self)
 //        self.show(drawer, sender: self)
     }
@@ -278,14 +279,6 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, FBSDKLo
             })
         }
     }
-    
-//    func sign(inWillDispatch signIn: GIDSignIn!, error: Error!) {
-//        
-//    }
-//    
-//    func sign(_ signIn: GIDSignIn!, dismiss viewController: UIViewController!) {
-//        
-//    }
     
     func sign(_ signIn: GIDSignIn!, present viewController: UIViewController!) {
         _ = SwiftSpinner.hide()

@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '43D4AEA59DEE935C6262555CA5E376EB'
+               BlueprintIdentifier = 'F0192C073479978B2EF2A29E5A0454C8'
                BlueprintName = 'XHTabBarSwift'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'XHTabBarSwift.framework'>

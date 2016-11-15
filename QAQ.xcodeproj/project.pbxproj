@@ -20,6 +20,7 @@
 		BA8FEBDD1DA08A7E00F23011 /* InProgressVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8FEBDB1DA08A7E00F23011 /* InProgressVC.swift */; };
 		BA8FEBDE1DA08A7E00F23011 /* InProgressVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA8FEBDC1DA08A7E00F23011 /* InProgressVC.xib */; };
 		BA8FEBE01DA0C7E500F23011 /* InCollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8FEBDF1DA0C7E500F23011 /* InCollectionVC.swift */; };
+		BA97A2A61DD927FA00078E04 /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA97A2A51DD927FA00078E04 /* NetworkingManager.swift */; };
 		BA9ED4311DAADA61002CF233 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA9ED4301DAADA61002CF233 /* FBSDKLoginKit.framework */; };
 		BA9ED4331DAADBA0002CF233 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA9ED4321DAADBA0002CF233 /* Bolts.framework */; };
 		BAA0938F1DAA2B10006F1D72 /* privacy.txt in Resources */ = {isa = PBXBuildFile; fileRef = BAA0938E1DAA2B10006F1D72 /* privacy.txt */; };
@@ -83,6 +84,7 @@
 		BA8FEBDB1DA08A7E00F23011 /* InProgressVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InProgressVC.swift; sourceTree = "<group>"; };
 		BA8FEBDC1DA08A7E00F23011 /* InProgressVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InProgressVC.xib; sourceTree = "<group>"; };
 		BA8FEBDF1DA0C7E500F23011 /* InCollectionVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InCollectionVC.swift; sourceTree = "<group>"; };
+		BA97A2A51DD927FA00078E04 /* NetworkingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
 		BA9ED4301DAADA61002CF233 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		BA9ED4321DAADBA0002CF233 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		BAA0938E1DAA2B10006F1D72 /* privacy.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = privacy.txt; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 				BAFD787B1D960DD4004322C0 /* QuestionManager.swift */,
 				BAE1391B1D9A1D56009A8143 /* MemoryHandler.swift */,
 				BAC097F71DBB0AC8000C81F0 /* ControllerManager.swift */,
+				BA97A2A51DD927FA00078E04 /* NetworkingManager.swift */,
 			);
 			name = Manager;
 			sourceTree = "<group>";
@@ -347,7 +350,7 @@
 								enabled = 1;
 							};
 							com.apple.Push = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -484,6 +487,7 @@
 				FD2148021D375694008A52B9 /* Birthday.swift in Sources */,
 				FDBBB5E71D2055E600D75467 /* SettingsVC.swift in Sources */,
 				FD149E1D1D1B7C81007F3F7B /* NSExtension.swift in Sources */,
+				BA97A2A61DD927FA00078E04 /* NetworkingManager.swift in Sources */,
 				BAFD787C1D960DD4004322C0 /* QuestionManager.swift in Sources */,
 				BAC098071DBB278B000C81F0 /* ProfileVC.swift in Sources */,
 				BAD6C0B21D6CF1A600361A93 /* QuestionModel.swift in Sources */,
@@ -621,6 +625,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Voceler/Voceler.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = BQJG9S336S;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/FBSDKLoginKit",
@@ -648,6 +653,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Voceler/Voceler.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = BQJG9S336S;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/FBSDKLoginKit",

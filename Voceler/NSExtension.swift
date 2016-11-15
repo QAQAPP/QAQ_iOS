@@ -25,4 +25,5 @@ extension NSError{
 public extension Notification.Name{
     static let ScratchComplete = Notification.Name("ScratchComplete")
     static let QuestionLoaded = Notification.Name("QuestionLoaded")
+    static let TagsLoaded = Notification.Name("TagsLoaded")
 }

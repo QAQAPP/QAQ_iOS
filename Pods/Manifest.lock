@@ -99,6 +99,7 @@ PODS:
     - MMDrawerController/Core
   - Networking (2.3.1)
   - NSString-Email (0.0.3)
+  - PercentEncoder (1.1.0)
   - RATreeView (2.1.1)
   - SCLAlertView (0.7.0)
   - ScratchCard (1.0.4)
@@ -108,6 +109,7 @@ PODS:
   - StickyScrollView (0.1.4)
   - SwiftSpinner (1.0.2)
   - SwiftString (0.5)
+  - SwiftyJSON (3.1.1)
   - TagListView (1.1.0)
   - TextFieldEffects (1.3.0)
   - UIImage-Resize (1.0.1)
@@ -139,6 +141,7 @@ DEPENDENCIES:
   - MMDrawerController
   - Networking
   - NSString-Email
+  - PercentEncoder
   - RATreeView
   - SCLAlertView
   - ScratchCard
@@ -148,6 +151,7 @@ DEPENDENCIES:
   - StickyScrollView
   - SwiftSpinner
   - SwiftString
+  - SwiftyJSON
   - TagListView
   - TextFieldEffects
   - UIImage-Resize
@@ -190,6 +194,7 @@ SPEC CHECKSUMS:
   MMDrawerController: e3a54a5570388463ad3b36975251575b50c4e1a0
   Networking: ccf5f074a956c194b233c1d379261dd51ae9bea9
   NSString-Email: 3c1ff0ace64d7ecc289ea2a5696170c853012252
+  PercentEncoder: 7a001be188d62187761cb785156ac7e5c105688d
   RATreeView: f40c8fdc7c99eb0aecced77ad20b0c52f4e9a9c4
   SCLAlertView: 8a14ffc40590c619e183eed2298b854385f30be1
   ScratchCard: 3736e21d2023edb79168a86a2322eeac534011c2
@@ -199,6 +204,7 @@ SPEC CHECKSUMS:
   StickyScrollView: 8f5339cbcf34600eb0a5861c4a5a24ddc3d7d6f9
   SwiftSpinner: 1c80ff6ea1c47e2faa1dfce0fcd5e6b39a47fd51
   SwiftString: ec9c31c55b2aa147a1154f5f5f8483dc71e3165f
+  SwiftyJSON: f0be2e604f83e8405a624e9f891898bf6ed4e019
   TagListView: d0267a71393f3c73db5c9ea2f979ac1125fcab56
   TextFieldEffects: ef594746f17997c813e07633f8ae5acaf9b04f27
   UIImage-Resize: fa776860f10e6900bbaf53a73e494bdceaaccc77
@@ -207,6 +213,6 @@ SPEC CHECKSUMS:
   XHTabBarSwift: 4612fccf473ecfc41a66068a13f9802a8aba8c03
   ZFDragableModalTransition: 0d294eaaba6edfcb9839595de765f9ca06a4b524
 
-PODFILE CHECKSUM: 8dc916704d6c358da4b8a2b6f0806d80dffa7d38
+PODFILE CHECKSUM: d511da8a03b6d19157175ab5959db023d45531c7
 
 COCOAPODS: 1.1.0.beta.2
