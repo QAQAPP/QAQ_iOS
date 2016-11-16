@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import DBProfileViewController
 import SDAutoLayout
 import TextFieldEffects
 import FirebaseAuth

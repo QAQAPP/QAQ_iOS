@@ -9,6 +9,7 @@
 import UIKit
 import ScratchCard
 import SCLAlertView
+import FXBlurView
 
 class CouponScratchView: ScratchUIView {
     var parentVC:UIViewController!

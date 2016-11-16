@@ -16,8 +16,7 @@ import UIViewController_NavigationBar
 import ScratchCard
 import SDAutoLayout
 import MMDrawerController
-//import BlurImageProcessor
-import FXBlurView
+//import FXBlurView
 import UIImage_Resize
 import BFPaperButton
 import LTMorphingLabel

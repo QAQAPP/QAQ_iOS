@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '906DC40E5B36259E079DB4D9B985AAC2'
-               BlueprintName = 'ScratchCard'
+               BlueprintIdentifier = '10E34DB6DE66B9C7769CD168A1F8C4BE'
+               BlueprintName = 'PercentEncoder'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'ScratchCard.framework'>
+               BuildableName = 'PercentEncoder.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
