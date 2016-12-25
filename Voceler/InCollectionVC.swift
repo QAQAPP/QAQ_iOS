@@ -15,7 +15,9 @@ class InCollectionVC: UIViewController {
     private var currQuestion:QuestionModel!{
         didSet{
             questionView = Bundle.main.loadNibNamed("QuestionView", owner: self, options: nil)!.first as! QuestionView
-            questionView.setup(parent: self, question: currQuestion)
+            questionView.setup(parent:self, question: currQuestion)
+            self.view.addSubview(questionView)
+            _ = questionView.sd_layout().topSpaceToView(self.view, 0)?.bottomSpaceToView(self.view, 0)?.leftSpaceToView(self.view, 0)?.rightSpaceToView(self.view, 0)
         }
     }
     

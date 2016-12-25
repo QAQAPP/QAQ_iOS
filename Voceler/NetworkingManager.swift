@@ -37,10 +37,9 @@ class NetworkingManager: NSObject {
     }
     
     func getQuestionTags(text:String){
-        let words = analyzeWords(text: text.collapseWhitespace())
-        let encodedText = words.joined(separator: ",").ped_encodeURIComponent()
-        let networking = Networking(baseURL: "http://django-env.6jck6j9kff.us-west-2.elasticbeanstalk.com/qaq/?")
-        networking.GET("w=" + encodedText, completion: { (val, dict, error) in
+        let encodedText = text.lowercased().ped_encodeURIComponent()
+        let networking = Networking(baseURL: "http://django-env.6jck6j9kff.us-west-2.elasticbeanstalk.com/qaq/matthew/?q=")
+        networking.GET("q=" + encodedText, completion: { (val, dict, error) in
             var tags = [String]()
             if error == nil{
                 let json = JSON(val as Any)
@@ -55,9 +54,8 @@ class NetworkingManager: NSObject {
     }
     
     func updateTags(text:String, tags:[String]){
-        let networking = Networking(baseURL: "http://django-env.6jck6j9kff.us-west-2.elasticbeanstalk.com/qaq/?")
-        let words = analyzeWords(text: text.collapseWhitespace())
-        let encodedText = words.joined(separator: ",").ped_encodeURIComponent()
+        let networking = Networking(baseURL: "http://django-env.6jck6j9kff.us-west-2.elasticbeanstalk.com/qaq/matthew/?q=")
+        let encodedText = text.lowercased().ped_encodeURIComponent()
         let encodedTags = tags.joined(separator: ",").ped_encodeURIComponent()
         let path = "w=\(encodedText)&t=\(encodedTags)"
         networking.GET(path, completion: { (val, error) in })

@@ -13,7 +13,6 @@ import BFPaperButton
 import FirebaseAuth
 import GoogleSignIn
 import FBSDKLoginKit
-import IQKeyboardManager
 import BadgeSwift
 
 class CtrlVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {

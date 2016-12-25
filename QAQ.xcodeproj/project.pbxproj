@@ -7,12 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		186CBF3ABBFD9DAB6AD8872B /* Pods_QAQ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2182C66C980A16CA1CF236E9 /* Pods_QAQ.framework */; };
 		BA2089581DBB7C9500316486 /* CouponVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2089571DBB7C9500316486 /* CouponVC.swift */; };
 		BA20895B1DBC3C8500316486 /* OptCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2089591DBC3C8500316486 /* OptCell.swift */; };
 		BA20895C1DBC3C8500316486 /* OptCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA20895A1DBC3C8500316486 /* OptCell.xib */; };
 		BA20895E1DBC505F00316486 /* ContentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA20895D1DBC505F00316486 /* ContentVC.swift */; };
+		BA240CA11E0292240042170D /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA240CA01E0292240042170D /* AlertView.swift */; };
 		BA2C8C891DB8BE82000441B5 /* coupon_sample.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BA2C8C881DB8BE82000441B5 /* coupon_sample.jpg */; };
+		BA3D782B1DFC75AA00F970B3 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA3D782A1DFC75AA00F970B3 /* FBSDKLoginKit.framework */; };
 		BA72F77F1D893FDA007F9229 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA72F77E1D893FDA007F9229 /* Main.storyboard */; };
 		BA76EDEE1DAA448C0055CA06 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA76EDEC1DAA448C0055CA06 /* FBSDKCoreKit.framework */; };
 		BA8FEBD21DA05EAE00F23011 /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8FEBD11DA05EAE00F23011 /* QuestionView.swift */; };
@@ -54,7 +55,6 @@
 		FD1DBB121D1A4D9E00E6762D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD1DBB111D1A4D9E00E6762D /* Assets.xcassets */; };
 		FD1DBB151D1A4D9E00E6762D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD1DBB131D1A4D9E00E6762D /* LaunchScreen.storyboard */; };
 		FD1DBB1D1D1A65CC00E6762D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FD1DBB1C1D1A65CC00E6762D /* GoogleService-Info.plist */; };
-		FD2148001D373B07008A52B9 /* BFPaperButton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD2147FF1D373B07008A52B9 /* BFPaperButton.framework */; };
 		FD2148021D375694008A52B9 /* Birthday.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2148011D375694008A52B9 /* Birthday.swift */; };
 		FD67A7D51D360889008E3ACC /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD67A7D31D360889008E3ACC /* ProfileCell.swift */; };
 		FD67A7D61D360889008E3ACC /* ProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD67A7D41D360889008E3ACC /* ProfileCell.xib */; };
@@ -68,15 +68,39 @@
 		FDD344361D1B91980040356A /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD344351D1B91980040356A /* LoginVC.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		BAC2E0CE1DDD18B000AFCB77 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BAC2E0CF1DDD18B000AFCB77 /* Embed PlugIns */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed PlugIns";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		2182C66C980A16CA1CF236E9 /* Pods_QAQ.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QAQ.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		39748D4302010770352F506B /* Pods-QAQ.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QAQ.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QAQ/Pods-QAQ.debug.xcconfig"; sourceTree = "<group>"; };
 		3E51813FA473779D7B69CD53 /* Pods-QAQ.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QAQ.release.xcconfig"; path = "Pods/Target Support Files/Pods-QAQ/Pods-QAQ.release.xcconfig"; sourceTree = "<group>"; };
 		BA2089571DBB7C9500316486 /* CouponVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponVC.swift; sourceTree = "<group>"; };
 		BA2089591DBC3C8500316486 /* OptCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptCell.swift; sourceTree = "<group>"; };
 		BA20895A1DBC3C8500316486 /* OptCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OptCell.xib; sourceTree = "<group>"; };
 		BA20895D1DBC505F00316486 /* ContentVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentVC.swift; sourceTree = "<group>"; };
+		BA240CA01E0292240042170D /* AlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		BA2C8C881DB8BE82000441B5 /* coupon_sample.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = coupon_sample.jpg; sourceTree = "<group>"; };
+		BA3D782A1DFC75AA00F970B3 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		BA72F77E1D893FDA007F9229 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		BA76EDEC1DAA448C0055CA06 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		BA8FEBD11DA05EAE00F23011 /* QuestionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
@@ -107,7 +131,6 @@
 		BAE1391B1D9A1D56009A8143 /* MemoryHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoryHandler.swift; sourceTree = "<group>"; };
 		BAFD787B1D960DD4004322C0 /* QuestionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionManager.swift; sourceTree = "<group>"; };
 		BAFD787D1D961945004322C0 /* OptionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionModel.swift; sourceTree = "<group>"; };
-		BD6436A294F41E6FC8BFCCD4 /* Pods_Voceler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Voceler.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD0325271D24E53E002956FD /* UserListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserListCell.swift; sourceTree = "<group>"; };
 		FD0325281D24E53E002956FD /* UserListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserListCell.xib; sourceTree = "<group>"; };
 		FD10047A1D262BA600627FFA /* AskProblemVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AskProblemVC.swift; sourceTree = "<group>"; };
@@ -123,7 +146,6 @@
 		FD1DBB141D1A4D9E00E6762D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FD1DBB161D1A4D9E00E6762D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FD1DBB1C1D1A65CC00E6762D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		FD2147FF1D373B07008A52B9 /* BFPaperButton.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BFPaperButton.framework; path = "../../../Library/Developer/Xcode/DerivedData/Voceler-fmeteizufhecrheeqxxyrnwvwjat/Build/Products/Debug-iphoneos/BFPaperButton/BFPaperButton.framework"; sourceTree = "<group>"; };
 		FD2148011D375694008A52B9 /* Birthday.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Birthday.swift; sourceTree = "<group>"; };
 		FD67A7D31D360889008E3ACC /* ProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
 		FD67A7D41D360889008E3ACC /* ProfileCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileCell.xib; sourceTree = "<group>"; };
@@ -143,10 +165,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA9ED4331DAADBA0002CF233 /* Bolts.framework in Frameworks */,
-				FD2148001D373B07008A52B9 /* BFPaperButton.framework in Frameworks */,
 				BA76EDEE1DAA448C0055CA06 /* FBSDKCoreKit.framework in Frameworks */,
+				BA3D782B1DFC75AA00F970B3 /* FBSDKLoginKit.framework in Frameworks */,
 				BA9ED4311DAADA61002CF233 /* FBSDKLoginKit.framework in Frameworks */,
-				186CBF3ABBFD9DAB6AD8872B /* Pods_QAQ.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,11 +177,9 @@
 		8D6A22570FF0744EA3138BDE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BA3D782A1DFC75AA00F970B3 /* FBSDKLoginKit.framework */,
 				BA9ED4301DAADA61002CF233 /* FBSDKLoginKit.framework */,
 				BA76EDEC1DAA448C0055CA06 /* FBSDKCoreKit.framework */,
-				FD2147FF1D373B07008A52B9 /* BFPaperButton.framework */,
-				BD6436A294F41E6FC8BFCCD4 /* Pods_Voceler.framework */,
-				2182C66C980A16CA1CF236E9 /* Pods_QAQ.framework */,
 				BA9ED4321DAADBA0002CF233 /* Bolts.framework */,
 			);
 			name = Frameworks;
@@ -264,6 +283,7 @@
 				BAD6C0AA1D6AB56800361A93 /* TreeViewCell.swift */,
 				BA8FEBD11DA05EAE00F23011 /* QuestionView.swift */,
 				BAC0980D1DBB4F4B000C81F0 /* CouponScratchView.swift */,
+				BA240CA01E0292240042170D /* AlertView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -319,6 +339,8 @@
 				FD1DBB051D1A4D9E00E6762D /* Resources */,
 				A010AEBFE41EAB9861F2A252 /* [CP] Embed Pods Frameworks */,
 				E078468EFA13A2DADB2F2B97 /* [CP] Copy Pods Resources */,
+				BAC2E0CE1DDD18B000AFCB77 /* Embed Frameworks */,
+				BAC2E0CF1DDD18B000AFCB77 /* Embed PlugIns */,
 			);
 			buildRules = (
 			);
@@ -404,7 +426,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		5F57B7078AE17EB4159BA709 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -419,7 +441,7 @@
 		};
 		96A5B47E27560AA186A755AF /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -434,7 +456,7 @@
 		};
 		A010AEBFE41EAB9861F2A252 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
@@ -442,14 +464,14 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QAQ/Pods-QAQ-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E078468EFA13A2DADB2F2B97 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
@@ -457,7 +479,7 @@
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QAQ/Pods-QAQ-resources.sh\"\n";
 			showEnvVarsInLog = 0;
@@ -470,6 +492,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD17E2091D2F666000FC0FB3 /* TagsController.swift in Sources */,
+				BA240CA11E0292240042170D /* AlertView.swift in Sources */,
 				FD0325291D24E53E002956FD /* UserListCell.swift in Sources */,
 				BAE1391C1D9A1D56009A8143 /* MemoryHandler.swift in Sources */,
 				BA8FEBE01DA0C7E500F23011 /* InCollectionVC.swift in Sources */,
@@ -620,7 +643,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 39748D4302010770352F506B /* Pods-QAQ.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Voceler/Voceler.entitlements;
@@ -630,6 +652,37 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/FBSDKLoginKit",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/BadgeSwift",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/BFPaperButton",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/BSGridCollectionViewLayout",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/FXBlurView",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/GoogleToolboxForMac",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/GrowingTextViewHandler",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/GTMOAuth2",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/GTMSessionFetcher",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/IQKeyboardManagerSwift",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/JDFPeekaboo",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/JSBadgeView",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/JSQMessagesViewController",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/JSQSystemSoundPlayer",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/LTMorphingLabel",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/MJRefresh",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/MMDrawerController",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/Networking",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/NSString-Email",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/PercentEncoder",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/SCLAlertView",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/ScratchCard",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/SDAutoLayout",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/SFFocusViewLayout",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/SwiftSpinner",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/SwiftString",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/SwiftyJSON",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/TagListView",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/TextFieldEffects",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/UIImage-Resize",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/UIViewController+NavigationBar",
 				);
 				INFOPLIST_FILE = Voceler/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -648,7 +701,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3E51813FA473779D7B69CD53 /* Pods-QAQ.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Voceler/Voceler.entitlements;
@@ -658,6 +710,37 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/FBSDKLoginKit",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/BadgeSwift",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/BFPaperButton",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/BSGridCollectionViewLayout",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/FXBlurView",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/GoogleToolboxForMac",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/GrowingTextViewHandler",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/GTMOAuth2",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/GTMSessionFetcher",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/IQKeyboardManagerSwift",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/JDFPeekaboo",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/JSBadgeView",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/JSQMessagesViewController",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/JSQSystemSoundPlayer",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/LTMorphingLabel",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/MJRefresh",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/MMDrawerController",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/Networking",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/NSString-Email",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/PercentEncoder",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/SCLAlertView",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/ScratchCard",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/SDAutoLayout",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/SFFocusViewLayout",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/SwiftSpinner",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/SwiftString",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/SwiftyJSON",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/TagListView",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/TextFieldEffects",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/UIImage-Resize",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/UIViewController+NavigationBar",
 				);
 				INFOPLIST_FILE = Voceler/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

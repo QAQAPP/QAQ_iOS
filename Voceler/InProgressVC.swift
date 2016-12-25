@@ -17,6 +17,8 @@ class InProgressVC: UIViewController {
         didSet{
             let view = Bundle.main.loadNibNamed("QuestionView", owner: self, options: nil)!.first as! QuestionView
             view.setup(parent: self, question: currQuestion)
+            self.view.addSubview(view)
+            _ = view.sd_layout().topSpaceToView(self.view, 0)?.bottomSpaceToView(self.view, 0)?.leftSpaceToView(self.view, 0)?.rightSpaceToView(self.view, 0)
         }
     }
     

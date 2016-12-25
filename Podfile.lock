@@ -73,7 +73,7 @@ PODS:
   - GTMSessionFetcher/Core (1.1.7)
   - GTMSessionFetcher/Full (1.1.7):
     - GTMSessionFetcher/Core (= 1.1.7)
-  - IQKeyboardManager (4.0.7)
+  - IQKeyboardManagerSwift (4.0.7)
   - JDFPeekaboo (0.2.2)
   - JSBadgeView (1.4.1)
   - JSQMessagesViewController (7.3.4):
@@ -120,7 +120,7 @@ DEPENDENCIES:
   - FXBlurView
   - GoogleSignIn
   - GrowingTextViewHandler
-  - IQKeyboardManager
+  - IQKeyboardManagerSwift
   - JDFPeekaboo
   - JSBadgeView
   - JSQMessagesViewController
@@ -163,7 +163,7 @@ SPEC CHECKSUMS:
   GrowingTextViewHandler: c59aa977a61de6eb10aac23969ac20b50b29f7ab
   GTMOAuth2: 7fc9c10f5c745f4d9850419ea88889fe3baa6b7d
   GTMSessionFetcher: a1f8ed39e4fe21c68957daed472c7afbcdf29166
-  IQKeyboardManager: 69002bb4fea60596b710e57d426abc00e5063630
+  IQKeyboardManagerSwift: 58bbcf46b5cf9fd4ed625d28a60cb2fbae4ab0f4
   JDFPeekaboo: 9dc60d1ddc4022f615a5cf8b4d919401ee67f320
   JSBadgeView: 3861ddee41094284d9468e6d0af5107f703aaac5
   JSQMessagesViewController: 39fed975e3c9f8eba7292071e29eeb541d105e66
@@ -186,6 +186,6 @@ SPEC CHECKSUMS:
   UIImage-Resize: fa776860f10e6900bbaf53a73e494bdceaaccc77
   UIViewController+NavigationBar: 1f72c3b1df21b24ee8fa13f822b5126f180b77f3
 
-PODFILE CHECKSUM: eb8d2aa84fc4be4c0bfcacfdc471866a9fe99557
+PODFILE CHECKSUM: dee3cf6526906090d2e2a9c77ec761c4a667be49
 
 COCOAPODS: 1.1.0.beta.2

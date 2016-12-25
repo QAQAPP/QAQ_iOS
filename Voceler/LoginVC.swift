@@ -27,7 +27,7 @@ import FirebaseDatabase
 import GoogleSignIn
 import Firebase
 import FBSDKLoginKit
-import IQKeyboardManager
+
 
 class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, FBSDKLoginButtonDelegate{
     // UIVars

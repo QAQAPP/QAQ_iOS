@@ -788,7 +788,7 @@ SOFTWARE.
 ~             
 
 
-## IQKeyboardManager
+## IQKeyboardManagerSwift
 
 IQKeyboardManager license
 =========================

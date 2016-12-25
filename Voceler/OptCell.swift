@@ -26,14 +26,13 @@ class OptCell: UICollectionViewCell{
         textView.isEditable = false
         textView.font = UIFont.systemFont(ofSize: 18)
         _ = textView.sd_layout().topSpaceToView(vc.view, 0)?.bottomSpaceToView(vc.view, 0)?.leftSpaceToView(vc.view, 0)?.rightSpaceToView(vc.view, 0)
-        questionVIew.parent.navigationController?.pushViewController(vc, animated: true)
+        questionView.parent.navigationController?.pushViewController(vc, animated: true)
     }
     @IBOutlet weak var likeBtn: UIButton!
     
     func optLiked(){
-        if questionVIew.parent is ContentVC{
+        if questionView.parent is MainVC{
             question.userChoosed = true
-            let vc = controllerManager?.mainVC
             if !option.isLiked{
                 likeBtn.setImage(img: #imageLiteral(resourceName: "like_filled"), color: pinkColor)
                 for opt in question.qOptions{
@@ -44,9 +43,8 @@ class OptCell: UICollectionViewCell{
                         opt.isLiked = false
                     }
                 }
-                questionVIew.optsView.reloadData()
+                questionView.optsView.reloadData()
             }
-            vc?.nextContent()
         }
     }
     
@@ -58,7 +56,7 @@ class OptCell: UICollectionViewCell{
     
     @IBAction func showProfile(_ sender: Any) {
         if let user = offerer, let vc = controllerManager?.profileVC(user: user){
-            questionVIew.parent.navigationController?.pushViewController(vc, animated: true)
+            questionView.parent.navigationController?.pushViewController(vc, animated: true)
         }
         else{
             _ = SCLAlertView().showWarning("Sorry", subTitle: "Anonymous asker")
@@ -96,7 +94,7 @@ class OptCell: UICollectionViewCell{
     }
     
     func setNumLikes(num:Int){
-        if question.userChoosed || !(questionVIew.parent is ContentVC){
+        if question.userChoosed && question.qAskerID != currUser?.uid{
             numLikeLbl.text = "\(num)"
         }
         else{
@@ -106,10 +104,10 @@ class OptCell: UICollectionViewCell{
     
     var offerer:UserModel?
     var question:QuestionModel!
-    var questionVIew:QuestionView!
+    var questionView:QuestionView!
     
     func setup(option:OptionModel, questionView:QuestionView){
-        self.questionVIew = questionView
+        self.questionView = questionView
         self.question = questionView.currQuestion
         self.option = option
         likeBtn.setImage(img: option.isLiked ? #imageLiteral(resourceName: "like_filled") : #imageLiteral(resourceName: "like"), color: pinkColor)

@@ -21,11 +21,10 @@ import UIImage_Resize
 import BFPaperButton
 import LTMorphingLabel
 
-class MainVC: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate{
+class MainVC: UIViewController{
     let vc_max_count = 7
-    private var contentVCs = [UIViewController]()
-    let page = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
-    var currVC : UIViewController!
+    private var contentViews = [UIView]()
+    var currView:UIView?
     
     var point = 0{
         didSet{
@@ -33,27 +32,16 @@ class MainVC: UIViewController, UIPageViewControllerDataSource, UIPageViewContro
         }
     }
     
-    var swipeEnable = true{
-        didSet{
-            if swipeEnable{
-                page.dataSource = self
-            }
-            else{
-                page.dataSource = nil
-            }
-        }
-    }
+    var swipeEnable = true
     
     override func showInfo() {
         var showUser = currUser
-        if let vc = currVC as? ContentVC{
-            if let view = vc.contentView as? QuestionView{
-                if view.currQuestion.qAnonymous{
-                    showUser = nil
-                }
-                else if let user = view.asker{
-                    showUser = user
-                }
+        if let view = currView as? QuestionView{
+            if view.currQuestion.qAnonymous{
+                showUser = nil
+            }
+            else if let user = view.asker{
+                showUser = user
             }
         }
         if let user = showUser, let vc = controllerManager?.profileVC(user: user){
@@ -65,129 +53,49 @@ class MainVC: UIViewController, UIPageViewControllerDataSource, UIPageViewContro
     }
     
     func likeAction(){
-        if let vc = currVC as? ContentVC{
-            if let questionView = vc.contentView as? QuestionView{
-                questionView.likeQuestion()
-            }
+        if let questionView = currView as? QuestionView{
+            questionView.likeQuestion()
         }
     }
     
     var likeBtn = UIBarButtonItem(image: #imageLiteral(resourceName: "star-32").withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(likeAction))
     var profileItem = UIBarButtonItem(image: #imageLiteral(resourceName: "user_male_circle-32"), style: .plain, target: self, action: #selector(showInfo))
-    
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController?{
-//        if let index = contentVCs.index(of: viewController), index > 0 && swipeEnable{
-//            return contentVCs[index-1]
-//        }
-//        else{
-//            return nil
-//        }
-        return nil
-    }
-    
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController?{
-        if let vc = currVC as? ContentVC, vc.contentView is QuestionView && !vc.alertShowed, loadFinish{
-            vc.upvote()
-            vc.alertShowed = true
-            resetPage()
-            return nil
-        }
-        if let index = contentVCs.index(of: viewController), index < contentVCs.count - 1 && swipeEnable{
-            let vc = contentVCs[index+1]
-            if index > 1{
-                _ = contentVCs.removeFirst()
-            }
-            return vc
-        }
-        else {
-            if let question = questionManager?.getQuestion(){
-                self.addQuestion(question: question)
-            }
-            if let vc = currVC as? ContentVC, vc.contentView is UIButton{
-                return nil
-            }
-            else{
-                addLoadMoreVC()
-                return contentVCs.last!
-            }
-        }
-    }
-    
-    func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
-//        point += 1
-//        print(currVC, contentVCs, pendingViewControllers)
-//        if let vc = currVC as? ContentVC, currVC == contentVCs[1] && pendingViewControllers.first != contentVCs.first{
-//            vc.upvote()
-//        }
-    }
 
-    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        if completed{
-//            currVC = page.viewControllers?.first
-            while let index = contentVCs.index(of: currVC), index > 1{
-                contentVCs.removeFirst()
-            }
-        }
-    }
-    
     // Functions
-    func addNoContentVC(){
-        let vc = ContentVC()
-        let label = UILabel()
-        vc.contentView = label
-        label.text = "scroll left to begin"
-        vc.view.backgroundColor = .white
-        label.textAlignment = .center
-        vc.view.addSubview(label)
-        _ = label.sd_layout().topSpaceToView(vc.view, 0)?.bottomSpaceToView(vc.view, 0)?.leftSpaceToView(vc.view, 0)?.rightSpaceToView(vc.view, 0)
-        contentVCs.append(vc)
-    }
-    
     func addCouponVC(img:UIImage){
-        let vc = CouponVC(img: img)
-        contentVCs.append(vc)
+        let view = CouponScratchView(img: img, parent: self)
+        contentViews.append(view)
     }
     
     func addLoadMoreVC(){
-        let vc = ContentVC()
         let btn = BFPaperButton(raised: false)!
         btn.setTitle("Load More", for: [])
         btn.backgroundColor = themeColor
         btn.setTitleColor(.white, for: [])
         btn.addTarget(self, action: #selector(loadQuestions), for: .touchUpInside)
-        vc.view.addSubview(btn)
-        vc.contentView = btn
-        _ = btn.sd_layout().topSpaceToView(vc.view, 0)?.bottomSpaceToView(vc.view, 0)?.leftSpaceToView(vc.view, 0)?.rightSpaceToView(vc.view, 0)
-        contentVCs.append(vc)
+        contentViews.append(btn)
     }
     
     func addQuestion(question:QuestionModel){
         let questionView = Bundle.main.loadNibNamed("QuestionView", owner: self, options: nil)!.first as! QuestionView
-        if let vc = contentVCs.last as? ContentVC, vc.contentView is UIButton{
-            UIView.transition(with: vc.view, duration: 1, options: .transitionCrossDissolve, animations: {
-                vc.contentView.removeFromSuperview()
-                vc.contentView = questionView
-                questionView.setup(parent: vc, question: question)
-                _ = questionView.sd_layout().topSpaceToView(vc.view, 0)?.bottomSpaceToView(vc.view, 0)?.leftSpaceToView(vc.view, 0)?.rightSpaceToView(vc.view, 0)
+        if currView is UIButton{
+            UIView.transition(with: currView!, duration: 1, options: .transitionCrossDissolve, animations: {
+                questionView.setup(parent: self, question: question)
+                _ = questionView.sd_layout().topSpaceToView(self.view, 0)?.bottomSpaceToView(self.view, 0)?.leftSpaceToView(self.view, 0)?.rightSpaceToView(self.view, 0)
                 }, completion: nil)
         }
         else{
-            let vc = ContentVC()
-            vc.contentView = questionView
-            questionView.setup(parent: vc, question: question)
-            _ = questionView.sd_layout().topSpaceToView(vc.view, 0)?.bottomSpaceToView(vc.view, 0)?.leftSpaceToView(vc.view, 0)?.rightSpaceToView(vc.view, 0)
-            contentVCs.append(vc)
+            questionView.setup(parent: self, question: question)
+            contentViews.append(questionView)
         }
     }
     
     func loadQuestions(){
-        while self.contentVCs.count < self.vc_max_count{
-            if let question = questionManager?.getQuestion(){
-                self.addQuestion(question: question)
-            }
-            else{
-                break
-            }
+        if let question = questionManager?.getQuestion(){
+            self.addQuestion(question: question)
+        }
+        else if !contentViews.isEmpty && currView is UIButton{
+            nextContent()
         }
     }
     
@@ -203,20 +111,13 @@ class MainVC: UIViewController, UIPageViewControllerDataSource, UIPageViewContro
         
         NotificationCenter.default.addObserver(self, selector: #selector(loadQuestions), name: Notification.Name.QuestionLoaded, object: nil)
         view.backgroundColor = .white
-        page.dataSource = self
-        page.delegate = self
-        addNoContentVC()
         addCouponVC(img: #imageLiteral(resourceName: "coupon_sample"))
-        addChildViewController(page)
-        view.addSubview(page.view)
-        currVC = contentVCs.first
-        page.setViewControllers([contentVCs.first!], direction: .forward, animated: true, completion: nil)
-        page.didMove(toParentViewController: self)
     
         likeBtn.target = self
         profileItem.target = self
         navigationItem.rightBarButtonItem = nil
         navigationItem.leftBarButtonItem = profileItem
+        nextContent()
     }
     
     func addContent(){
@@ -225,64 +126,13 @@ class MainVC: UIViewController, UIPageViewControllerDataSource, UIPageViewContro
         }
     }
     
-    func swipeAction(){
-        
-    }
-    
-    var swipeComplete = true
     func nextContent(){
-        swipeComplete = false
-        if #available(iOS 10.0, *) {
-            Timer.scheduledTimer(withTimeInterval: 0.6, repeats: false) { (timer) in
-                self.swipeToNext()
-            }
-        } else {
-            _ = Timer.scheduledTimer(timeInterval: 0.6, target: self, selector: #selector(swipeToNext), userInfo: nil, repeats: false)
+        currView?.removeFromSuperview()
+        if contentViews.isEmpty{
+            addLoadMoreVC()
         }
-    }
-    
-    func swipeToNext(){
-        swipeComplete = true
-        if let vc = pageViewController(page, viewControllerAfter: currVC){
-            page.setViewControllers([vc], direction: .forward, animated: true, completion: nil)
-            currVC = vc
-        }
-    }
-    
-    @objc private func swipeOff(){
-        swipeEnable = false
-    }
-    
-    @objc private func swipeOn(){
-        swipeEnable = true
-        loadFinish = true
-    }
-    
-    func disableSwipe(){
-        if #available(iOS 10.0, *) {
-            Timer.scheduledTimer(withTimeInterval: 0.01, repeats: false) { (timer) in
-                self.swipeOff()
-            }
-        } else {
-            // Fallback on earlier versions
-            _ = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(swipeOff), userInfo: nil, repeats: false)
-        }
-    }
-    
-    func allowSwipe(){
-        if #available(iOS 10.0, *) {
-            Timer.scheduledTimer(withTimeInterval: 0.02, repeats: false) { (timer) in
-                self.swipeOn()
-            }
-        } else {
-            // Fallback on earlier versions
-            _ = Timer.scheduledTimer(timeInterval: 0.02, target: self, selector: #selector(swipeOn), userInfo: nil, repeats: false)
-        }
-    }
-    
-    var loadFinish = false
-    func resetPage(){
-        disableSwipe()
-        allowSwipe()
+        currView = contentViews.removeFirst()
+        view.addSubview(currView!)
+        _ = currView!.sd_layout().topSpaceToView(view, 0)?.bottomSpaceToView(view, 0)?.leftSpaceToView(view, 0)?.rightSpaceToView(view, 0)
     }
 }

@@ -21,11 +21,9 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     var liked = false{
         didSet{
             let mainVC = controllerManager!.mainVC!
-            if let vc = mainVC.currVC as? ContentVC{
-                if vc.contentView == self{
-                    mainVC.navigationItem.rightBarButtonItem?.image = liked ? #imageLiteral(resourceName: "star_filled-32") : #imageLiteral(resourceName: "star-32")
-                    print(liked)
-                }
+            if mainVC.currView == self{
+                mainVC.navigationItem.rightBarButtonItem?.image = liked ? #imageLiteral(resourceName: "star_filled-32") : #imageLiteral(resourceName: "star-32")
+                print(liked)
             }
             if let question = currQuestion{
                 currUser?.collectQuestion(QID: question.QID, like: liked)
@@ -33,66 +31,34 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
         }
     }
     
-    var asker:UserModel?{
-        didSet{
-//            if let asker = asker{
-//                if let img = asker.profileImg {
-//                    askerProfile.setImage(img, for: [])
-//                    askerProfile.imageView?.contentMode = .scaleAspectFill
-//                }
-//                else{
-//                    asker.loadProfileImg()
-//                    setAskerImg()
-//                }
-//            }
-        }
-    }
+    var asker:UserModel?
     
     // UIVars
-//    @IBOutlet weak var titleBarView: UIView!
-//    @IBOutlet weak var likeBtn: UIButton?
     @IBOutlet weak var detailTV: UITextView!
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
-//    @IBOutlet weak var askerProfile: UIButton!
-//    @IBOutlet weak var askerLbl: UILabel!
     var currQuestion:QuestionModel!
     var optsView:UICollectionView!
     var pullUpMask = UILabel()
-    var parent:UIViewController!
     
     // Actions
-//    @IBAction func askerInfo(_ sender: AnyObject) {
-//        showUser(user: asker)
-//    }
     
     @IBAction func postAction(_ sender: Any) {
         endEditing(true)
         if let text = addOptionField.text, !text.isEmpty{
             addOption(text: text)
-        }
-        addOptionField.text = ""
-        if parent is ContentVC{
+            addOptionField.text = ""
             controllerManager?.mainVC.nextContent()
         }
     }
     
     @IBOutlet weak var addOptionField: UITextField!
     
-//    @IBAction func likeAction(_ sender: AnyObject) {
-//        likeQuestion()
-//    }
-    
     // Functions
     func likeQuestion(){
-        if parent is MainVC{
-            if !liked && currUser!.qCollection.count >= currUser!.qInCollectionLimit{
-                _ = SCLAlertView().showError("Sorry", subTitle: "You are only allowed to have up to \(currUser!.qInCollectionLimit) in collection. Please conclude a question.")
-            }
-            else{
-                liked = !liked
-            }
+        if !liked && currUser!.qCollection.count >= currUser!.qInCollectionLimit{
+            _ = SCLAlertView().showError("Sorry", subTitle: "You are only allowed to have up to \(currUser!.qInCollectionLimit) in collection. Please conclude a question.")
         }
-        else if parent is InCollectionVC || parent is ContentVC{
+        else{
             liked = !liked
         }
     }
@@ -127,17 +93,20 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
         cell?.isSelected = false
         if let cell = cell as? OptCell{
             cell.optLiked()
+            collectionView.isUserInteractionEnabled = false
+            if #available(iOS 10.0, *) {
+                Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (timer) in
+                    controllerManager?.mainVC.nextContent()
+                })
+            } else {
+                // Fallback on earlier versions
+                Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(nextContent), userInfo: nil, repeats: false)
+            }
         }
     }
-    
-//    func setAskerImg(){
-//        if let img = asker?.profileImg{
-//            askerProfile.setImage(img, for: [])
-//        }
-//        else if let askerId = asker?.uid{
-//            NotificationCenter.default.addObserver(self, selector: #selector(setAskerImg), name: NSNotification.Name(askerId + "profile"), object: nil)
-//        }
-//    }
+    func nextContent(){
+        controllerManager?.mainVC.nextContent()
+    }
     
     private func setQuestion(question:QuestionModel){
         currQuestion = question
@@ -167,12 +136,10 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
         asker = question.qAnonymous ? nil : UserModel.getUser(uid: question.qAskerID, getProfile: true)
         if let asker = asker{
             NotificationCenter.default.addObserver(forName: NSNotification.Name(asker.uid+"username"), object: nil, queue: nil, using: { (noti) in
-//                self.askerLbl.text = asker.username
+                
             })
         }
-//        askerLbl.text = asker?.username
         pullUpMask.isHidden = question.qOptions.count > 0
-//        titlebarHeight.constant = 56
         
         optsView.reloadData()
     }
@@ -187,16 +154,15 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     }
     
     private func setupUI() {
-        parent.view.addSubview(self)
-        _ = sd_layout().topSpaceToView(parent.view, 0)?.rightSpaceToView(parent.view, 0)?.leftSpaceToView(parent.view, 0)?.bottomSpaceToView(parent.view, 0)
-        
-//        askerProfile.imageView?.contentMode = .scaleAspectFill
-
-//        _ = titleBarView.addBorder(edges: .bottom, colour: UIColor.gray, thickness: 1.5)
         handler = GrowingTextViewHandler(textView: self.detailTV, withHeightConstraint: self.heightConstraint)
         handler.updateMinimumNumber(ofLines: 0, andMaximumNumberOfLine: 5)
-//        askerProfile.board(radius: 20, width: 0, color: .white)
-//        likeBtn?.setImage(img: #imageLiteral(resourceName: "star"), color: darkRed)
+        if parent is MainVC{
+            let header = MJRefreshNormalHeader {
+                controllerManager?.mainVC.nextContent()
+            }
+            header?.setTitle("Skip Question", for: .pulling)
+            optsView.mj_header = header
+        }
     }
     
     func addOption(text:String){
@@ -215,6 +181,7 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
         detailTV.isSelectable = false
     }
     
+    var parent:UIViewController!
     func setup(parent:UIViewController, question:QuestionModel) {
         self.parent = parent
         let focusLayout = SFFocusViewLayout()
@@ -245,9 +212,6 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     // Override functions
     override func awakeFromNib() {
         super.awakeFromNib()
-        if let _ = parent as? InProgressVC{
-//            likeBtn?.isHidden = true
-        }
     }
 
 }

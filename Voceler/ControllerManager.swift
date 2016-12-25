@@ -78,6 +78,7 @@ class ControllerManager: NSObject, UITabBarControllerDelegate{
         
         tabbarVC.setViewControllers([mainNav, collectionNav, askVC, profileNav, settingsNav], animated: true)
         tabbarVC.delegate = self
+        tabbarVC.tabBar.height = 44
     }
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
