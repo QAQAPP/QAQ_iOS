@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2015-2016 Marin Todorov, Underplot ltd.
+// Copyright (c) 2015-present Marin Todorov, Underplot ltd.
 // This code is distributed under the terms and conditions of the MIT license.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -9,14 +9,14 @@
 
 import UIKit
 
-open class SwiftSpinner: UIView {
+public class SwiftSpinner: UIView {
     
     // MARK: - Singleton
     
     //
     // Access the singleton instance
     //
-    open class var sharedInstance: SwiftSpinner {
+    public class var sharedInstance: SwiftSpinner {
         struct Singleton {
             static let instance = SwiftSpinner(frame: CGRect.zero)
         }
@@ -46,8 +46,10 @@ open class SwiftSpinner: UIView {
         titleLabel.textAlignment = .center
         titleLabel.lineBreakMode = .byWordWrapping
         titleLabel.adjustsFontSizeToFitWidth = true
+        titleLabel.textColor = UIColor.white
         
-        vibrancyView.contentView.addSubview(titleLabel)
+        
+        blurView.contentView.addSubview(titleLabel)
         blurView.contentView.addSubview(vibrancyView)
         
         outerCircleView.frame.size = frameSize
@@ -64,7 +66,7 @@ open class SwiftSpinner: UIView {
         outerCircle.strokeStart = 0.0
         outerCircle.strokeEnd = 1.0
         
-        vibrancyView.contentView.addSubview(outerCircleView)
+        blurView.contentView.addSubview(outerCircleView)
         
         innerCircleView.frame.size = frameSize
         
@@ -81,35 +83,36 @@ open class SwiftSpinner: UIView {
         innerCircle.strokeStart = 0.0
         innerCircle.strokeEnd = 1.0
         
-        vibrancyView.contentView.addSubview(innerCircleView)
+        blurView.contentView.addSubview(innerCircleView)
         
         isUserInteractionEnabled = true
     }
     
-    open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+    public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         return self
     }
     
     // MARK: - Public interface
     
-    open lazy var titleLabel = UILabel()
-    open var subtitleLabel: UILabel?
+    public lazy var titleLabel = UILabel()
+    public var subtitleLabel: UILabel?
     
     //
     // Custom superview for the spinner
     //
-    fileprivate static weak var customSuperview: UIView? = nil
-    fileprivate static func containerView() -> UIView? {
+    private static weak var customSuperview: UIView? = nil
+    private static func containerView() -> UIView? {
         return customSuperview ?? UIApplication.shared.keyWindow
     }
-    open class func useContainerView(_ sv: UIView?) {
+    public class func useContainerView(_ sv: UIView?) {
         customSuperview = sv
     }
     
     //
     // Show the spinner activity on screen, if visible only update the title
     //
-    open class func show(_ title: String, animated: Bool = true) -> SwiftSpinner {
+    @discardableResult
+    public class func show(_ title: String, animated: Bool = true) -> SwiftSpinner {
         
         let spinner = SwiftSpinner.sharedInstance
         
@@ -126,18 +129,18 @@ open class SwiftSpinner: UIView {
             }
             
             containerView.addSubview(spinner)
-
+            
             UIView.animate(withDuration: 0.33, delay: 0.0, options: .curveEaseOut, animations: {
                 spinner.alpha = 1.0
                 }, completion: nil)
             
             #if os(iOS)
-            // Orientation change observer
-            NotificationCenter.default.addObserver(
-                spinner,
-                selector: #selector(SwiftSpinner.updateFrame),
-                name: NSNotification.Name.UIApplicationDidChangeStatusBarOrientation,
-                object: nil)
+                // Orientation change observer
+                NotificationCenter.default.addObserver(
+                    spinner,
+                    selector: #selector(SwiftSpinner.updateFrame),
+                    name: NSNotification.Name.UIApplicationDidChangeStatusBarOrientation,
+                    object: nil)
             #endif
         }
         
@@ -150,35 +153,47 @@ open class SwiftSpinner: UIView {
     //
     // Show the spinner activity on screen with duration, if visible only update the title
     //
-    open class func showWithDuration(_ duration: Double, title: String, animated: Bool = true) -> SwiftSpinner {
+    @discardableResult
+    public class func show(duration: Double, title: String, animated: Bool = true) -> SwiftSpinner {
         let spinner = SwiftSpinner.show(title, animated: animated)
-        spinner.delay(seconds: duration) {
+        spinner.delay(duration) {
             SwiftSpinner.hide()
         }
         return spinner
     }
     
-    fileprivate static var delayedTokens = [String]()
+    private static var delayedTokens = [String]()
     //
     // Show the spinner activity on screen, after delay. If new call to show,
     // showWithDelay or hide is maked before execution this call is discarded
     //
-    open class func showWithDelay(_ delay: Double, title: String, animated: Bool = true) {
+    @discardableResult
+    public class func show(delay: Double, title: String, animated: Bool = true) {
         let token = UUID().uuidString
         delayedTokens.append(token)
-        SwiftSpinner.sharedInstance.delay(seconds: delay, completion: {
+        SwiftSpinner.sharedInstance.delay(delay, completion: {
             if let index = delayedTokens.index(of: token) {
                 delayedTokens.remove(at: index)
-                SwiftSpinner.show(title, animated: animated)
+                _ = SwiftSpinner.show(title, animated: animated)
             }
         })
     }
-    
+
+    ///
+    /// Show the spinner with the outer circle representing progress (0 to 1)
+    ///
+    @discardableResult
+    public class func show(progress: Double, title: String) -> SwiftSpinner {
+        let spinner = SwiftSpinner.show(title, animated: false)
+        spinner.outerCircle.strokeEnd = CGFloat(progress)
+        return spinner
+    }
+
     //
     // Hide the spinner
     //
-    open static var hideCancelsScheduledSpinners = true
-    open class func hide(_ completion: (() -> Void)? = nil) {
+    public static var hideCancelsScheduledSpinners = true
+    public class func hide(_ completion: (() -> Void)? = nil) {
         
         let spinner = SwiftSpinner.sharedInstance
         
@@ -212,7 +227,7 @@ open class SwiftSpinner: UIView {
     //
     // Set the default title font
     //
-    open class func setTitleFont(_ font: UIFont?) {
+    public class func setTitleFont(_ font: UIFont?) {
         let spinner = SwiftSpinner.sharedInstance
         
         if let font = font {
@@ -225,11 +240,17 @@ open class SwiftSpinner: UIView {
     //
     // The spinner title
     //
-    open var title: String = "" {
+    public var title: String = "" {
         didSet {
-            
             let spinner = SwiftSpinner.sharedInstance
-            
+
+            guard spinner.animating else {
+                spinner.titleLabel.transform = CGAffineTransform.identity
+                spinner.titleLabel.alpha = 1.0
+                spinner.titleLabel.text = self.title
+                return
+            }
+
             UIView.animate(withDuration: 0.15, delay: 0.0, options: .curveEaseOut, animations: {
                 spinner.titleLabel.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
                 spinner.titleLabel.alpha = 0.2
@@ -246,7 +267,7 @@ open class SwiftSpinner: UIView {
     //
     // observe the view frame and update the subviews layout
     //
-    open override var frame: CGRect {
+    public override var frame: CGRect {
         didSet {
             if frame == CGRect.zero {
                 return
@@ -267,7 +288,7 @@ open class SwiftSpinner: UIView {
     // Start the spinning animation
     //
     
-    open var animating: Bool = false {
+    public var animating: Bool = false {
         
         willSet (shouldAnimate) {
             if shouldAnimate && !animating {
@@ -295,7 +316,7 @@ open class SwiftSpinner: UIView {
     //
     // Tap handler
     //
-    open func addTapHandler(_ tap: @escaping (()->()), subtitle subtitleText: String? = nil) {
+    public func addTapHandler(_ tap: @escaping (()->()), subtitle subtitleText: String? = nil) {
         clearTapHandler()
         
         //vibrancyView.contentView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("didTapSpinner")))
@@ -317,7 +338,7 @@ open class SwiftSpinner: UIView {
         }
     }
     
-    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         
         if tapHandler != nil {
@@ -326,7 +347,7 @@ open class SwiftSpinner: UIView {
         }
     }
     
-    open func clearTapHandler() {
+    public func clearTapHandler() {
         isUserInteractionEnabled = false
         subtitleLabel?.removeFromSuperview()
         tapHandler = nil
@@ -338,28 +359,28 @@ open class SwiftSpinner: UIView {
     // layout elements
     //
     
-    fileprivate var blurEffectStyle: UIBlurEffectStyle = .dark
-    fileprivate var blurEffect: UIBlurEffect!
-    fileprivate var blurView: UIVisualEffectView!
-    fileprivate var vibrancyView: UIVisualEffectView!
+    private var blurEffectStyle: UIBlurEffectStyle = .dark
+    private var blurEffect: UIBlurEffect!
+    private var blurView: UIVisualEffectView!
+    private var vibrancyView: UIVisualEffectView!
     
     var defaultTitleFont = UIFont(name: "HelveticaNeue", size: 22.0)!
     let frameSize = CGSize(width: 200.0, height: 200.0)
     
-    fileprivate lazy var outerCircleView = UIView()
-    fileprivate lazy var innerCircleView = UIView()
+    private lazy var outerCircleView = UIView()
+    private lazy var innerCircleView = UIView()
     
-    fileprivate let outerCircle = CAShapeLayer()
-    fileprivate let innerCircle = CAShapeLayer()
+    private let outerCircle = CAShapeLayer()
+    private let innerCircle = CAShapeLayer()
     
     required public init?(coder aDecoder: NSCoder) {
         fatalError("Not coder compliant")
     }
     
-    fileprivate var currentOuterRotation: CGFloat = 0.0
-    fileprivate var currentInnerRotation: CGFloat = 0.1
+    private var currentOuterRotation: CGFloat = 0.0
+    private var currentInnerRotation: CGFloat = 0.1
     
-    fileprivate func spinOuter() {
+    private func spinOuter() {
         
         if superview == nil {
             return
@@ -374,7 +395,7 @@ open class SwiftSpinner: UIView {
             self.outerCircleView.transform = CGAffineTransform(rotationAngle: self.currentOuterRotation)
             }, completion: {_ in
                 let waitDuration = Double(Float(arc4random()) /  Float(UInt32.max)) * 1.0 + 1.0
-                self.delay(seconds: waitDuration, completion: {
+                self.delay(waitDuration, completion: {
                     if self.animating {
                         self.spinOuter()
                     }
@@ -382,7 +403,7 @@ open class SwiftSpinner: UIView {
         })
     }
     
-    fileprivate func spinInner() {
+    private func spinInner() {
         if superview == nil {
             return
         }
@@ -392,7 +413,7 @@ open class SwiftSpinner: UIView {
             self.currentInnerRotation += CGFloat(M_PI_4)
             self.innerCircleView.transform = CGAffineTransform(rotationAngle: self.currentInnerRotation)
             }, completion: {_ in
-                self.delay(seconds: 0.5, completion: {
+                self.delay(0.5, completion: {
                     if self.animating {
                         self.spinInner()
                     }
@@ -400,7 +421,7 @@ open class SwiftSpinner: UIView {
         })
     }
     
-    open func updateFrame() {
+    public func updateFrame() {
         if let containerView = SwiftSpinner.containerView() {
             SwiftSpinner.sharedInstance.frame = containerView.bounds
         }
@@ -408,7 +429,7 @@ open class SwiftSpinner: UIView {
     
     // MARK: - Util methods
     
-    func delay(seconds: Double, completion:@escaping ()->()) {
+    func delay(_ seconds: Double, completion:@escaping ()->()) {
         let popTime = DispatchTime.now() + Double(Int64( Double(NSEC_PER_SEC) * seconds )) / Double(NSEC_PER_SEC)
         
         DispatchQueue.main.asyncAfter(deadline: popTime) {
@@ -416,13 +437,13 @@ open class SwiftSpinner: UIView {
         }
     }
     
-    override open func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         updateFrame()
     }
     
     // MARK: - Tap handler
-    fileprivate var tapHandler: (()->())?
+    private var tapHandler: (()->())?
     func didTapSpinner() {
         tapHandler?()
     }

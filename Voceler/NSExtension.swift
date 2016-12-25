@@ -21,3 +21,9 @@ extension NSError{
         _ = SCLAlertView().showError("Error", subTitle: localizedDescription)
     }
 }
+
+public extension Notification.Name{
+    static let ScratchComplete = Notification.Name("ScratchComplete")
+    static let QuestionLoaded = Notification.Name("QuestionLoaded")
+    static let TagsLoaded = Notification.Name("TagsLoaded")
+}

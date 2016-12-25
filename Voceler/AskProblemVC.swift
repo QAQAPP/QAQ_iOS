@@ -11,6 +11,8 @@ import GrowingTextViewHandler
 import BFPaperButton
 import SwiftString
 import SCLAlertView
+import Networking
+import SwiftSpinner
 
 class AskProblemVC: UIViewController, UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate{
     // UIVars
@@ -80,9 +82,16 @@ class AskProblemVC: UIViewController, UIScrollViewDelegate, UITableViewDataSourc
             _ = SCLAlertView().showError("Sorry", subTitle: "The question description should be at least 10 characters long.")
         }
         else{
-            let vc = VC(name: "AddTags", isNav: false, isCenter: false) as! TagsController
-            vc.setQuestion(descr: textView.text, optArr: optArr)
-            navigationController?.pushViewController(vc, animated: true)
+            if var text = textView.text{
+                text += ". " + optArr.joined(separator: ". ")
+                networkingManager?.getQuestionTags(text: text)
+                SwiftSpinner.show("Analysing Question...")
+            }
+            else{
+                let vc = controllerManager!.tagsVC
+                vc.setQuestion(descr: self.textView.text, optArr: self.optArr, tags: nil)
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         }
     }
     
@@ -128,6 +137,12 @@ class AskProblemVC: UIViewController, UIScrollViewDelegate, UITableViewDataSourc
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         setupUI()
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.TagsLoaded, object: nil, queue: nil, using: { (noti) in
+            SwiftSpinner.hide()
+            let vc = controllerManager!.tagsVC
+            vc.setQuestion(descr: self.textView.text, optArr: self.optArr, tags: noti.object as? [String])
+            self.navigationController?.pushViewController(vc, animated: true)
+        })
     }
     
     override func viewDidAppear(_ animated: Bool) {

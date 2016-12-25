@@ -9,7 +9,6 @@
 import UIKit
 import BFPaperButton
 import MMDrawerController
-import LTNavigationBar
 import FirebaseAuth
 
 extension UIViewController{
@@ -28,18 +27,20 @@ extension UIViewController{
         view.endEditing(true)
     }
     
-    func showMore() {
-        drawer.toggle(.left, animated: true, completion: nil)
+    func showInfo() {
+        if let user = currUser, let vc = controllerManager?.profileVC(user: user){
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     func setupProfile(){
         if let btn = navigationItem.leftBarButtonItem?.customView as? UIButton{
-            btn.addTarget(self, action: #selector(showMore), for: .touchUpInside)
+            btn.addTarget(self, action: #selector(showInfo), for: .touchUpInside)
         }
     }
     
     func profileClicked(){
-        drawer.toggle(.left, animated: true, completion: nil)
+//        drawer.toggle(.left, animated: true, completion: nil)
     }
     
     func setProfileItem() {
@@ -65,11 +66,10 @@ extension UINavigationBar{
         barTintColor = color
         backgroundColor = color
         tintColor = .white
-        isTranslucent = true
         titleTextAttributes = [NSFontAttributeName: UIFont(name: "Helvetica Neue", size: 20)!, NSForegroundColorAttributeName: UIColor.white]
-        if color == .clear{
-            setBackgroundImage(UIImage(), for: .default)
-        }
+//        setBackgroundImage(UIImage(), for: .default)
+        shadowImage = nil
+        isTranslucent = true
     }
 }
 
@@ -308,4 +308,18 @@ public extension UIDevice {
         }
     }
     
+}
+
+public extension UIImage {
+    public convenience init?(color: UIColor, size: CGSize = CGSize(width: 1, height: 1)) {
+        let rect = CGRect(origin: .zero, size: size)
+        UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
+        color.setFill()
+        UIRectFill(rect)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        guard let cgImage = image?.cgImage else { return nil }
+        self.init(cgImage: cgImage)
+    }
 }

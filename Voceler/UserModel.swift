@@ -14,6 +14,8 @@ import FirebaseStorage
 class UserModel: NSObject {
     var uid:String!
     var email = ""
+    var inProgLimit = 5
+    var inCollectLimit = 20
     var username:String?{
         didSet{
             NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: uid+"username")))
@@ -22,15 +24,21 @@ class UserModel: NSObject {
     var ref:FIRDatabaseReference!{
         didSet{
             ref.observe(.value, with:{ (snapshot) in
-                if let userInfo = snapshot.value as? Dictionary<String,String>{
-                    self.email = userInfo["email"]!
-                    self.username = userInfo["username"]
+                if let userInfo = snapshot.value as? Dictionary<String,Any>{
+                    self.email = userInfo["email"] as! String
+                    self.username = userInfo["username"] as? String
                     if self.uid == currUser?.uid{
                         NotificationCenter.default.post(name: NSNotification.Name("UsernameLoaded"), object: self.username)
                     }
                     self.infoDic = userInfo
                     if let profileVC = self.profileVC{
                         profileVC.loadUserInfo()
+                    }
+                    if let inProgLimit = userInfo["inProgLimit"] as? Int{
+                        self.inProgLimit = inProgLimit
+                    }
+                    if let inCollectLimit = userInfo["inCollectLimit"] as? Int{
+                        self.inCollectLimit = inCollectLimit
                     }
                 }
             })
@@ -41,7 +49,7 @@ class UserModel: NSObject {
     var qInProgress = Array<String>() // Question in progress (contains QID)
     var qAsked = Array<String>() // Asked Question
     var qCollection = Array<String>() // Collected Question
-    var infoDic = Dictionary<String,String>() // Basic info array
+    var infoDic = Dictionary<String,Any>() // Basic info array
     var profileVC:ProfileVC?
     var profileImg:UIImage?
     var wallImg:UIImage?
@@ -127,10 +135,10 @@ class UserModel: NSObject {
     
     func loadCollectionDetail(){
         for question in qInProgress{
-            questionManager.loadQuestionContent(qid: question, purpose: "qInProgressLoaded")
+            questionManager?.loadQuestionContent(qid: question, purpose: "qInProgressLoaded")
         }
         for question in qCollection{
-            questionManager.loadQuestionContent(qid: question, purpose: "qCollectionLoaded")
+            questionManager?.loadQuestionContent(qid: question, purpose: "qCollectionLoaded")
         }
     }
     

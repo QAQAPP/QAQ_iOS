@@ -1,58 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="QuestionView" customModule="Voceler" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="QuestionView" customModule="QAQ" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yow-ju-kPI">
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aav-DN-4w3">
-                            <constraints>
-                                <constraint firstAttribute="width" constant="40" id="Aqh-9k-QKt"/>
-                                <constraint firstAttribute="height" constant="40" id="D4t-d1-gNw"/>
-                            </constraints>
-                            <state key="normal" image="user-50"/>
-                            <connections>
-                                <action selector="askerInfo:" destination="iN0-l3-epB" eventType="touchUpInside" id="TZY-RH-t3y"/>
-                            </connections>
-                        </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1vD-7A-Cew">
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R0A-rl-E9x">
-                            <constraints>
-                                <constraint firstAttribute="height" constant="36" id="4iO-6T-syj"/>
-                                <constraint firstAttribute="width" constant="36" id="gRy-TZ-vdK"/>
-                            </constraints>
-                            <state key="normal" image="star"/>
-                            <connections>
-                                <action selector="likeAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="HNp-JQ-YXg"/>
-                            </connections>
-                        </button>
-                    </subviews>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Add an option" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="s1w-gk-gRp">
+                    <rect key="frame" x="0.0" y="627" width="295" height="40"/>
                     <constraints>
-                        <constraint firstItem="1vD-7A-Cew" firstAttribute="leading" secondItem="aav-DN-4w3" secondAttribute="trailing" constant="8" id="9xq-4X-JDF"/>
-                        <constraint firstItem="R0A-rl-E9x" firstAttribute="centerY" secondItem="yow-ju-kPI" secondAttribute="centerY" id="Ced-3P-Vh0"/>
-                        <constraint firstItem="R0A-rl-E9x" firstAttribute="leading" secondItem="1vD-7A-Cew" secondAttribute="trailing" constant="8" id="Rxh-BQ-pkx"/>
-                        <constraint firstItem="1vD-7A-Cew" firstAttribute="top" secondItem="yow-ju-kPI" secondAttribute="top" constant="8" id="WJv-Wf-xDQ"/>
-                        <constraint firstAttribute="height" constant="56" id="Wl1-8K-Enz"/>
-                        <constraint firstItem="aav-DN-4w3" firstAttribute="leading" secondItem="yow-ju-kPI" secondAttribute="leading" constant="8" id="Wnd-ns-XgM"/>
-                        <constraint firstItem="aav-DN-4w3" firstAttribute="centerY" secondItem="yow-ju-kPI" secondAttribute="centerY" id="ZOp-Xu-duT"/>
-                        <constraint firstAttribute="trailing" secondItem="R0A-rl-E9x" secondAttribute="trailing" constant="8" id="gh0-1f-AZJ"/>
-                        <constraint firstAttribute="bottom" secondItem="1vD-7A-Cew" secondAttribute="bottom" constant="8" id="qkF-6v-DyA"/>
+                        <constraint firstAttribute="height" constant="40" id="b1h-em-Vcm"/>
                     </constraints>
-                </view>
+                    <nil key="textColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g0i-qu-6t9">
+                    <rect key="frame" x="303" y="627" width="72" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="72" id="O3Z-IR-uYR"/>
+                        <constraint firstAttribute="height" constant="40" id="qyg-2u-3OJ"/>
+                    </constraints>
+                    <state key="normal" title="Post"/>
+                    <connections>
+                        <action selector="postAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="8hY-Ii-0Wn"/>
+                    </connections>
+                </button>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vGj-Ln-5H7">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="96"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="96" id="c7V-eb-FY2"/>
@@ -64,28 +47,22 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="yow-ju-kPI" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="0fP-A4-hwF"/>
+                <constraint firstItem="vGj-Ln-5H7" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="8IP-gX-fhC"/>
+                <constraint firstAttribute="bottom" secondItem="s1w-gk-gRp" secondAttribute="bottom" id="B9s-tN-2Xj"/>
                 <constraint firstItem="vGj-Ln-5H7" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="BMh-JR-r9r"/>
-                <constraint firstItem="yow-ju-kPI" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="P4h-VY-wFy"/>
-                <constraint firstItem="vGj-Ln-5H7" firstAttribute="top" secondItem="yow-ju-kPI" secondAttribute="bottom" id="UTC-NL-noc"/>
-                <constraint firstAttribute="trailing" secondItem="yow-ju-kPI" secondAttribute="trailing" id="Y4L-YV-W5x"/>
+                <constraint firstAttribute="bottom" secondItem="g0i-qu-6t9" secondAttribute="bottom" id="Cbv-US-W66"/>
+                <constraint firstAttribute="trailing" secondItem="g0i-qu-6t9" secondAttribute="trailing" id="gCY-6q-gYt"/>
+                <constraint firstItem="s1w-gk-gRp" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="iiG-ty-eKn"/>
+                <constraint firstItem="g0i-qu-6t9" firstAttribute="leading" secondItem="s1w-gk-gRp" secondAttribute="trailing" constant="8" id="rbC-QF-bpO"/>
                 <constraint firstAttribute="trailing" secondItem="vGj-Ln-5H7" secondAttribute="trailing" id="wvJ-ye-MsS"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <connections>
-                <outlet property="askerLbl" destination="1vD-7A-Cew" id="nZH-k4-agQ"/>
-                <outlet property="askerProfile" destination="aav-DN-4w3" id="xfE-5t-2TJ"/>
+                <outlet property="addOptionField" destination="s1w-gk-gRp" id="NxU-WQ-VsA"/>
                 <outlet property="detailTV" destination="vGj-Ln-5H7" id="bK6-ZR-03l"/>
                 <outlet property="heightConstraint" destination="c7V-eb-FY2" id="y86-OW-NO3"/>
-                <outlet property="likeBtn" destination="R0A-rl-E9x" id="bHO-Ax-EQv"/>
-                <outlet property="titleBarView" destination="yow-ju-kPI" id="hgA-8M-kF9"/>
-                <outlet property="titlebarHeight" destination="Wl1-8K-Enz" id="dDi-PY-Ojo"/>
             </connections>
             <point key="canvasLocation" x="-18.5" y="23.5"/>
         </view>
     </objects>
-    <resources>
-        <image name="star" width="50" height="50"/>
-        <image name="user-50" width="512" height="512"/>
-    </resources>
 </document>

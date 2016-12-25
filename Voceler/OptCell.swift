@@ -7,100 +7,125 @@
 //
 
 import UIKit
-import FoldingCell
 import SDAutoLayout
+import FirebaseDatabase
+import SCLAlertView
+import LTMorphingLabel
 
-class OptCell: FoldingCell, UITableViewDelegate, UITableViewDataSource {
-    
-    @IBOutlet weak var likeBtn: UIImageView!
-    @IBOutlet weak var numOfLike: UILabel!
+class OptCell: UICollectionViewCell{
+    @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var controlView: UIView!
-    @IBOutlet weak var textLbl: UILabel!
-    @IBOutlet weak var contentTF: UITextView!
-    @IBOutlet weak var contentCV: UIView!
-    @IBOutlet weak var userTBV: UITableView!
-    @IBOutlet weak var moreImg: UIImageView!
-    @IBOutlet weak var reportImg: UIImageView!
-    @IBOutlet weak var numOfLikeWidth: NSLayoutConstraint!
-    @IBOutlet weak var reportView: UIView!
-    @IBOutlet weak var moreView: UIView!
+    @IBOutlet weak var profileImg: UIButton!
+    @IBOutlet weak var nameLbl: UILabel!
+    @IBAction func moreAction(_ sender: AnyObject) {
+        let vc = UIViewController()
+        let textView = UITextView()
+        vc.view.addSubview(textView)
+        textView.text = option.oDescription
+        textView.isSelectable = false
+        textView.isEditable = false
+        textView.font = UIFont.systemFont(ofSize: 18)
+        _ = textView.sd_layout().topSpaceToView(vc.view, 0)?.bottomSpaceToView(vc.view, 0)?.leftSpaceToView(vc.view, 0)?.rightSpaceToView(vc.view, 0)
+        questionView.parent.navigationController?.pushViewController(vc, animated: true)
+    }
+    @IBOutlet weak var likeBtn: UIButton!
     
-    var tableView: UITableView!
-    var indexPath: IndexPath!
-    var parent: QuestionVC!
-    
-    @IBOutlet weak var textViewToBottom: NSLayoutConstraint!
-    
-    func setUp(parent:QuestionVC, tbv:UITableView, row:IndexPath, color:UIColor, foreViewText:String, num:Int, contentViewText:String, isInCollection:Bool = false) {
-        self.parent = parent
-        contentCV.isHidden = true
-        textViewToBottom.constant = 0
-        
-        tableView = tbv
-        indexPath = row
-        textLbl.text = foreViewText
-        numOfLike.text = String(num)
-        
-        containerView.board(radius: 5, width: 1, color: UIColor(cgColor: containerView.layer.borderColor!))
-        foregroundView.board(radius: 5, width: 1, color: UIColor(cgColor: foregroundView.layer.borderColor!))
-        likeBtn.setIcon(img: #imageLiteral(resourceName: "checked_2-50"), color: pinkColor)
-        controlView.backgroundColor = lightGray
-        controlView.board(radius: 0, width: 1, color: .black)
-        let tap = UITapGestureRecognizer(target: self, action: #selector(likeAction))
-        controlView.addGestureRecognizer(tap)
-        let textTap = UITapGestureRecognizer(target: self, action: #selector(textTapped))
-        textLbl.addGestureRecognizer(textTap)
-        contentTF.text = contentViewText
-        contentCV.backgroundColor = lightGray
-        contentCV.board(radius: 0, width: 1, color: .black)
-        let contentTap = UITapGestureRecognizer(target: self, action: #selector(textTapped))
-        contentTF.addGestureRecognizer(contentTap)
-        contentTF.font = UIFont(name: "Helvetica Neue", size: 16)
-        textLbl.font = UIFont(name: "Helvetica Neue", size: 16)
-        
-        userTBV.register(UINib(nibName: "UserListCell", bundle: nil), forCellReuseIdentifier: "UserListCell")
-        userTBV.delegate = self
-        userTBV.dataSource = self
-        userTBV.separatorStyle = .none
-        userTBV.board(radius: 0, width: 1, color: .black)
-        
-        moreImg.setIcon(img: #imageLiteral(resourceName: "more-50"), color: .black)
-        reportImg.setIcon(img: #imageLiteral(resourceName: "police-50"), color: .black)
-        
-        if isInCollection{
-            likeBtn.isHidden = true
-            _ = numOfLike.sd_layout().rightSpaceToView(controlView, 8)
-            numOfLikeWidth.constant = 80
+    func optLiked(){
+        if questionView.parent is MainVC{
+            question.userChoosed = true
+            if !option.isLiked{
+                likeBtn.setImage(img: #imageLiteral(resourceName: "like_filled"), color: pinkColor)
+                for opt in question.qOptions{
+                    if opt == option && !opt.isLiked{
+                        opt.isLiked = true
+                    }
+                    else if opt.isLiked{
+                        opt.isLiked = false
+                    }
+                }
+                questionView.optsView.reloadData()
+            }
         }
     }
-
-    func likeAction(){
-        likeBtn.setIcon(img: #imageLiteral(resourceName: "checked_2_filled-25"), color: pinkColor)
+    
+    @IBAction func likeAction(_ sender: AnyObject) {
+        optLiked()
     }
     
-    func textTapped() {
-        tableView.delegate!.tableView!(tableView, didSelectRowAt: indexPath)
+    @IBOutlet weak var numLikeLbl: UILabel!
+    
+    @IBAction func showProfile(_ sender: Any) {
+        if let user = offerer, let vc = controllerManager?.profileVC(user: user){
+            questionView.parent.navigationController?.pushViewController(vc, animated: true)
+        }
+        else{
+            _ = SCLAlertView().showWarning("Sorry", subTitle: "Anonymous asker")
+        }
     }
     
-    override func animationDuration(_ itemIndex:NSInteger, type:AnimationType)-> TimeInterval {
-        return 0.1
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.profileImg.board(radius: profileImg.width/2, width: 0, color: .lightGray)
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
-        return 10
+    var option:OptionModel!{
+        didSet{
+            textView.text = option.oDescription
+            if let uid = option.oOfferBy{
+                offerer = UserModel.getUser(uid: uid, getProfile: true)
+                setProfile()
+                nameLbl.text = "Anonym"
+                nameLbl.textColor = .gray
+                NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: uid+"username"), object: nil, queue: nil, using: { (noti) in
+                    if let username = self.offerer?.username{
+                        self.nameLbl.text = username
+                        self.nameLbl.textColor = .black
+                    }
+                })
+            }
+            self.option.oRef.child("val").observe(.value, with: { (snapshot) in
+                DispatchQueue.main.async {
+                    if let num = snapshot.value as? Int{
+                        self.setNumLikes(num: num)
+                    }
+                }
+            })
+        }
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
-        let cell = tableView.dequeueReusableCell(withIdentifier: "UserListCell")!
-        return cell
+    func setNumLikes(num:Int){
+        if question.userChoosed && question.qAskerID != currUser?.uid{
+            numLikeLbl.text = "\(num)"
+        }
+        else{
+            numLikeLbl.text = "--"
+        }
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 64
+    var offerer:UserModel?
+    var question:QuestionModel!
+    var questionView:QuestionView!
+    
+    func setup(option:OptionModel, questionView:QuestionView){
+        self.questionView = questionView
+        self.question = questionView.currQuestion
+        self.option = option
+        likeBtn.setImage(img: option.isLiked ? #imageLiteral(resourceName: "like_filled") : #imageLiteral(resourceName: "like"), color: pinkColor)
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        parent.showAskerInfo()
-        tableView.cellForRow(at: indexPath)?.isSelected = false
+    func setProfile(){
+        profileImg.tintColor = .clear
+        if let img = offerer?.profileImg{
+            profileImg.setImage(img, for: [])
+            profileImg.imageView?.contentMode = .scaleAspectFill
+        }
+        else if let uid = offerer?.uid{
+            NotificationCenter.default.addObserver(self, selector: #selector(setProfile), name: NSNotification.Name(uid + "profile"), object: nil)
+        }
+    }
+    
+    override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
+        super.apply(layoutAttributes)
+        
     }
 }

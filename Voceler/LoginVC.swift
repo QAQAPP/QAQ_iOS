@@ -27,7 +27,7 @@ import FirebaseDatabase
 import GoogleSignIn
 import Firebase
 import FBSDKLoginKit
-import IQKeyboardManager
+
 
 class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, FBSDKLoginButtonDelegate{
     // UIVars
@@ -183,7 +183,10 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, FBSDKLo
         req.displayName = "hello"
         currUser?.username = user.displayName
         questionManager = QuestionManager()
-        self.show(drawer, sender: self)
+        controllerManager = ControllerManager()
+        networkingManager = NetworkingManager()
+        self.show(controllerManager!.tabbarVC, sender: self)
+//        self.show(drawer, sender: self)
     }
     
     func initUserInfo(){
@@ -276,14 +279,6 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, FBSDKLo
             })
         }
     }
-    
-//    func sign(inWillDispatch signIn: GIDSignIn!, error: Error!) {
-//        
-//    }
-//    
-//    func sign(_ signIn: GIDSignIn!, dismiss viewController: UIViewController!) {
-//        
-//    }
     
     func sign(_ signIn: GIDSignIn!, present viewController: UIViewController!) {
         _ = SwiftSpinner.hide()

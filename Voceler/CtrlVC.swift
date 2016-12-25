@@ -13,7 +13,7 @@ import BFPaperButton
 import FirebaseAuth
 import GoogleSignIn
 import FBSDKLoginKit
-import IQKeyboardManager
+import BadgeSwift
 
 class CtrlVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     // UIVars
@@ -31,12 +31,13 @@ class CtrlVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     
     // Actions
     @IBAction func showProfile(_ sender: AnyObject) {
-        let profileNav = VC(name: "Profile")
-        let profileVC = profileNav.childViewControllers.first as! ProfileVC
-        profileVC.thisUser = currUser
-        currUser?.profileVC = profileVC
-        drawer.centerViewController = profileNav
-        drawer.toggle(.left, animated: true, completion: nil)
+        // TODO
+//        let profileNav = VC(name: "Profile")
+//        let profileVC = profileNav.childViewControllers.first as! ProfileVC
+//        profileVC.thisUser = currUser
+//        currUser?.profileVC = profileVC
+//        drawer.centerViewController = profileNav
+//        drawer.toggle(.left, animated: true, completion: nil)
     }
     
     // Functions
@@ -107,6 +108,12 @@ class CtrlVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CtrlCell", for: indexPath) as! CtrlCell
+        if indexPath.row == 1{
+            cell.badgeView.text = String(describing: 135)
+        }
+        else{
+            cell.badgeView.isHidden = true
+        }
         cell.title.text = viewsArr[indexPath.row]
         cell.title.textColor = themeColor
         cell.imageView.setIcon(img: UIImage(named: viewsArr[indexPath.row])!, color: themeColor)
@@ -120,12 +127,13 @@ class CtrlVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
             let loginManager = FBSDKLoginManager()
             loginManager.logOut()
             dismiss(animated: true, completion: {
-                clearVC()
+                controllerManager = nil
+                questionManager = nil
             })
         }
         else {
-            drawer.centerViewController = VC(name: viewsArr[indexPath.row])
-            drawer.toggle(.left, animated: true, completion: nil)
+//            drawer.centerViewController = VC(name: viewsArr[indexPath.row])
+//            drawer.toggle(.left, animated: true, completion: nil)
         }
     }
 }

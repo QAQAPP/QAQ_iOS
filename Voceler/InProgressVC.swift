@@ -17,6 +17,8 @@ class InProgressVC: UIViewController {
         didSet{
             let view = Bundle.main.loadNibNamed("QuestionView", owner: self, options: nil)!.first as! QuestionView
             view.setup(parent: self, question: currQuestion)
+            self.view.addSubview(view)
+            _ = view.sd_layout().topSpaceToView(self.view, 0)?.bottomSpaceToView(self.view, 0)?.leftSpaceToView(self.view, 0)?.rightSpaceToView(self.view, 0)
         }
     }
     
@@ -42,7 +44,7 @@ class InProgressVC: UIViewController {
         parentVC = parent
     }
 
-    func conclude(OID:String, cell:CollectionViewCell){
+    func conclude(OID:String, cell:OptCell){
         let alert = SCLAlertView()
         _ = alert.addButton("Confirm", action: {
             self.currQuestion.conclude(OID: OID)
@@ -51,7 +53,7 @@ class InProgressVC: UIViewController {
         _ = alert.addButton("Cancel", action: {
             cell.likeBtn.setImage(img: #imageLiteral(resourceName: "like"), color: darkRed)
         })
-        alert.hideDefaultButton()
+//        alert.hideDefaultButton()
         _ = alert.showNotice("Conclusion", subTitle: "Are you sure to conclude this question?", closeButtonTitle: "Cancel")
     }
     

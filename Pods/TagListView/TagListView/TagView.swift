@@ -82,7 +82,7 @@ open class TagView: UIButton {
         }
     }
     
-    fileprivate func reloadStyles() {
+    private func reloadStyles() {
         if isHighlighted {
             if let highlightedBackgroundColor = highlightedBackgroundColor {
                 // For highlighted, if it's nil, we should not fallback to backgroundColor.
@@ -145,6 +145,7 @@ open class TagView: UIButton {
     
     /// Handles Tap (TouchUpInside)
     open var onTap: ((TagView) -> Void)?
+    open var onLongPress: ((TagView) -> Void)?
     
     // MARK: - init
     
@@ -161,24 +162,22 @@ open class TagView: UIButton {
         setupView()
     }
     
-    fileprivate func setupView() {
+    private func setupView() {
         frame.size = intrinsicContentSize
         addSubview(removeButton)
         removeButton.tagView = self
+        
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(self.longPress))
+        self.addGestureRecognizer(longPress)
+    }
+    
+    func longPress() {
+        onLongPress?(self)
     }
     
     // MARK: - layout
 
-    fileprivate func updateRightInsets() {
-        if enableRemoveButton {
-            titleEdgeInsets.right = paddingX  + removeButtonIconSize + paddingX
-        }
-        else {
-            titleEdgeInsets.right = paddingX
-        }
-    }
-    
-    override open var intrinsicContentSize : CGSize {
+    override open var intrinsicContentSize: CGSize {
         var size = titleLabel?.text?.size(attributes: [NSFontAttributeName: textFont]) ?? CGSize.zero
         size.height = textFont.pointSize + paddingY * 2
         size.width += paddingX * 2
@@ -186,6 +185,15 @@ open class TagView: UIButton {
             size.width += removeButtonIconSize + paddingX
         }
         return size
+    }
+    
+    private func updateRightInsets() {
+        if enableRemoveButton {
+            titleEdgeInsets.right = paddingX  + removeButtonIconSize + paddingX
+        }
+        else {
+            titleEdgeInsets.right = paddingX
+        }
     }
     
     open override func layoutSubviews() {

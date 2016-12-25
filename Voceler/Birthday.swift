@@ -25,6 +25,7 @@ class Birthday: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        view.backgroundColor = .white
         birthPicker.datePickerMode = .date
         title = "Birthday"
         formatter.dateFormat = "MM-dd-yyyy"

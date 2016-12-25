@@ -1,5 +1,6 @@
 #import <UIKit/UIKit.h>
 
+#import "SDAutoLayout.h"
 #import "UITableView+SDAutoTableViewCellHeight.h"
 #import "UIView+SDAutoLayout.h"
 

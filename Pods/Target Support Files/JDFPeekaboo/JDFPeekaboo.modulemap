@@ -1,0 +1,6 @@
+framework module JDFPeekaboo {
+  umbrella header "JDFPeekaboo-umbrella.h"
+
+  export *
+  module * { export * }
+}

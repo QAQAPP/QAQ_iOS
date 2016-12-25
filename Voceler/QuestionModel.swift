@@ -22,6 +22,7 @@ class QuestionModel: NSObject {
     var qRef:FIRDatabaseReference!{
         return FIRDatabase.database().reference().child("Questions-v1").child(QID)
     }
+    var userChoosed = false
     
     init(qid:String, descrpt:String, askerID:String, anonymous:Bool=false, options:[OptionModel]) {
         super.init()
@@ -65,6 +66,7 @@ class QuestionModel: NSObject {
 //            ref.setValue("0")
 //            ref.setPriority(qPriority)
 //        }
+        networkingManager?.updateTags(text: qDescrption, tags: qTags)
         
         // Add question to user
         choose(val: "owner")
@@ -95,10 +97,11 @@ class QuestionModel: NSObject {
     // add to database
     func addOption(opt:OptionModel){
         let optRef = qRef.child("options").childByAutoId()
+        opt.oRef = optRef
         optRef.child("description").setValue(opt.oDescription)
         optRef.child("offerBy").setValue(opt.oOfferBy)
+        opt.isLiked = true
         optRef.child("val").setValue(opt.oVal)
-        opt.oRef = optRef
     }
     
     func choose(val:String = "skipped"){
