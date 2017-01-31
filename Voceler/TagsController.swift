@@ -11,7 +11,7 @@ import TagListView
 import SDAutoLayout
 import SCLAlertView
 import FirebaseDatabase
-import SwiftString
+import SwiftString3
 
 class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate {
     let tagLimit = 10
@@ -72,7 +72,7 @@ class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate
 
     func clearNav(){
         let first = navigationController?.viewControllers[0] as! AskProblemVC
-        first.handler.setText("", withAnimation: false)
+        first.handler.setText("", animated: false)
         first.optArr.removeAll()
         first.table.reloadData()
         tagView.removeAllTags()

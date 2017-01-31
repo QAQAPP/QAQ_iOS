@@ -26,8 +26,6 @@
 //
 
 import UIKit
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
@@ -39,8 +37,6 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   }
 }
 
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
 fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
@@ -49,8 +45,6 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
     return rhs < lhs
   }
 }
-
-
 
 public struct LTEmitter {
     
@@ -127,14 +121,12 @@ public struct LTEmitter {
     
 }
 
-
 public typealias LTEmitterConfigureClosure = (CAEmitterLayer, CAEmitterCell) -> Void
-
 
 open class LTEmitterView: UIView {
     
-    open lazy var emitters: Dictionary<String, LTEmitter> = {
-        var _emitters = Dictionary<String, LTEmitter>()
+    open lazy var emitters: [String: LTEmitter] = {
+        var _emitters = [String: LTEmitter]()
         return _emitters
         }()
     

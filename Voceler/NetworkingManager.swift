@@ -10,7 +10,7 @@ import UIKit
 import Networking
 import PercentEncoder
 import SwiftyJSON
-import SwiftString
+import SwiftString3
 
 class NetworkingManager: NSObject {
     private func analyzeWords(text:String)->[String]{
@@ -39,7 +39,7 @@ class NetworkingManager: NSObject {
     func getQuestionTags(text:String){
         let encodedText = text.lowercased().ped_encodeURIComponent()
         let networking = Networking(baseURL: "http://django-env.6jck6j9kff.us-west-2.elasticbeanstalk.com/qaq/matthew/?q=")
-        networking.GET("q=" + encodedText, completion: { (val, dict, error) in
+        networking.get("q=" + encodedText, completion: { (val, dict, error) in
             var tags = [String]()
             if error == nil{
                 let json = JSON(val as Any)
@@ -58,6 +58,6 @@ class NetworkingManager: NSObject {
         let encodedText = text.lowercased().ped_encodeURIComponent()
         let encodedTags = tags.joined(separator: ",").ped_encodeURIComponent()
         let path = "w=\(encodedText)&t=\(encodedTags)"
-        networking.GET(path, completion: { (val, error) in })
+        networking.get(path, completion: { (val, error) in })
     }
 }

@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '10E34DB6DE66B9C7769CD168A1F8C4BE'
+               BlueprintIdentifier = 'C8DADCF161E596BA0D694D3CBFEF2E40'
                BlueprintName = 'PercentEncoder'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'PercentEncoder.framework'>

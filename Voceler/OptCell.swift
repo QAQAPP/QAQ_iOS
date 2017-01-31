@@ -45,6 +45,9 @@ class OptCell: UICollectionViewCell{
                 }
                 questionView.optsView.reloadData()
             }
+            Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (timer) in
+                controllerManager?.mainVC.nextContent()
+            })
         }
     }
     
@@ -111,6 +114,8 @@ class OptCell: UICollectionViewCell{
         self.question = questionView.currQuestion
         self.option = option
         likeBtn.setImage(img: option.isLiked ? #imageLiteral(resourceName: "like_filled") : #imageLiteral(resourceName: "like"), color: pinkColor)
+        controlView.backgroundColor = themeColor
+//        board(radius: 0, width: 1, color: themeColor)
     }
     
     func setProfile(){

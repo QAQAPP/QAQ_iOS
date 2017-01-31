@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import GrowingTextViewHandler
+import GrowingTextViewHandler_Swift
 
 class AddOptCell: UITableViewCell, UITextViewDelegate{
 
@@ -21,14 +21,14 @@ class AddOptCell: UITableViewCell, UITextViewDelegate{
         super.awakeFromNib()
         // Initialization code
         textView.font = UIFont(name: "Helvetica Neue", size: 16)
-        handler = GrowingTextViewHandler(textView: textView, withHeightConstraint: textViewHeight)
+        handler = GrowingTextViewHandler(textView: textView, heightConstraint: textViewHeight)
         textView.board(radius: 3, width: 1, color: .gray)
         textView.delegate = self
         NotificationCenter.default.addObserver(self, selector: #selector(textChange(noti:)), name: Notification.Name.UITextViewTextDidChange, object: textView)
     }
     
     func textChange(noti:Notification){
-        handler.setText(textView.text, withAnimation: true)
+        handler.setText(textView.text, animated: true)
         parent.optArr[index.row] = textView.text
         parent.cellHeightArr[index.row] = textViewHeight.constant + 8
     }

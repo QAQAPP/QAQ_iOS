@@ -5,10 +5,18 @@ public extension Dictionary where Key: ExpressibleByStringLiteral {
     /**
      Returns the parameters in using URL-enconding, for example ["username": "Michael", "age": 20] will become "username=Michael&age=20".
      */
-    public func urlEncodedString() -> String {
-        let converted = self.map { key, value in "\(key)=\(value)" }.joined(separator: "&")
-        guard let encodedParameters = converted.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) else { fatalError("Couldn't encode parameters: \(converted)") }
+    public func urlEncodedString() throws -> String {
 
-        return encodedParameters
+        let pairs = try reduce([]) { current, keyValuePair -> [String] in
+            if let encodedValue = "\(keyValuePair.value)".addingPercentEncoding(withAllowedCharacters: .urlQueryParametersAllowed) {
+                return current + ["\(keyValuePair.key)=\(encodedValue)"]
+            } else {
+                throw NSError(domain: Networking.domain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Couldn't encode \(keyValuePair.value)"])
+            }
+        }
+
+        let converted = pairs.joined(separator: "&")
+
+        return converted
     }
 }

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import GrowingTextViewHandler
+import GrowingTextViewHandler_Swift
 import MJRefresh
 import SFFocusViewLayout
 import SCLAlertView
@@ -34,8 +34,8 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     var asker:UserModel?
     
     // UIVars
-    @IBOutlet weak var detailTV: UITextView!
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var detailTV: UITextView!
     var currQuestion:QuestionModel!
     var optsView:UICollectionView!
     var pullUpMask = UILabel()
@@ -94,14 +94,9 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
         if let cell = cell as? OptCell{
             cell.optLiked()
             collectionView.isUserInteractionEnabled = false
-            if #available(iOS 10.0, *) {
-                Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (timer) in
-                    controllerManager?.mainVC.nextContent()
-                })
-            } else {
-                // Fallback on earlier versions
-                Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(nextContent), userInfo: nil, repeats: false)
-            }
+            Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (timer) in
+                controllerManager?.mainVC.nextContent()
+            })
         }
     }
     func nextContent(){
@@ -111,13 +106,8 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     private func setQuestion(question:QuestionModel){
         currQuestion = question
         setDescription()
-        if #available(iOS 10.0, *) {
-            Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { (timer) in
-                self.setDescription()
-            }
-        } else {
-            // Fallback on earlier versions
-            _ = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(setDescription), userInfo: nil, repeats: false)
+        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { (timer) in
+            self.setDescription()
         }
         optsView.isUserInteractionEnabled = true
         
@@ -154,8 +144,9 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     }
     
     private func setupUI() {
-        handler = GrowingTextViewHandler(textView: self.detailTV, withHeightConstraint: self.heightConstraint)
-        handler.updateMinimumNumber(ofLines: 0, andMaximumNumberOfLine: 5)
+        handler = GrowingTextViewHandler(textView: self.detailTV, heightConstraint: self.heightConstraint)
+        handler.minimumNumberOfLines = 0
+        handler.maximumNumberOfLines = 5
         if parent is MainVC{
             let header = MJRefreshNormalHeader {
                 controllerManager?.mainVC.nextContent()
@@ -176,9 +167,7 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     }
     
     func setDescription() {
-        detailTV.isSelectable = true
-        handler.setText(currQuestion?.qDescrption, withAnimation: true)
-        detailTV.isSelectable = false
+        handler.setText(currQuestion!.qDescrption, animated: true)
     }
     
     var parent:UIViewController!
@@ -198,11 +187,15 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     }
     
     func setupTable(){
-        optsView.board(radius: 0, width: 1, color: .black)
+//        optsView.board(radius: 0, width: 1, color: .black)
         optsView.delegate = self
         optsView.dataSource = self
         let nibName = UINib(nibName: "OptCell", bundle:nil)
         optsView.register(nibName, forCellWithReuseIdentifier: "OptCell")
+        optsView.isOpaque = false
+        let bg_img = UIImageView(image: #imageLiteral(resourceName: "question_bg_img"))
+        bg_img.contentMode = .scaleAspectFill
+        optsView.backgroundView = bg_img
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

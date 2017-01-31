@@ -20,7 +20,7 @@ class CouponScratchView: ScratchUIView {
         mask = mask.resize(newWidth: 100)
         super.init(frame: CGRect(x: parent.view.left, y: parent.view.top, width: parent.view.width, height:parent.view.height), Coupon: #imageLiteral(resourceName: "coupon_sample"), MaskImage: mask, ScratchWidth: 40)
         alertShowed = false
-        becomeFirstResponder()
+        self.becomeFirstResponder()
         NotificationCenter.default.addObserver(forName: NSNotification.Name.ScratchComplete, object: nil, queue: nil, using: { (noti) in
             controllerManager?.mainVC.swipeEnable = true
             if !self.alertShowed{

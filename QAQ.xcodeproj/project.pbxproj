@@ -7,23 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9026FE390CC2AA681A49AEAF /* Pods_QAQ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AD82C385EB7F4DEC0938B69 /* Pods_QAQ.framework */; };
 		BA2089581DBB7C9500316486 /* CouponVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2089571DBB7C9500316486 /* CouponVC.swift */; };
 		BA20895B1DBC3C8500316486 /* OptCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2089591DBC3C8500316486 /* OptCell.swift */; };
 		BA20895C1DBC3C8500316486 /* OptCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA20895A1DBC3C8500316486 /* OptCell.xib */; };
 		BA20895E1DBC505F00316486 /* ContentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA20895D1DBC505F00316486 /* ContentVC.swift */; };
 		BA240CA11E0292240042170D /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA240CA01E0292240042170D /* AlertView.swift */; };
-		BA2C8C891DB8BE82000441B5 /* coupon_sample.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BA2C8C881DB8BE82000441B5 /* coupon_sample.jpg */; };
-		BA3D782B1DFC75AA00F970B3 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA3D782A1DFC75AA00F970B3 /* FBSDKLoginKit.framework */; };
 		BA72F77F1D893FDA007F9229 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA72F77E1D893FDA007F9229 /* Main.storyboard */; };
-		BA76EDEE1DAA448C0055CA06 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA76EDEC1DAA448C0055CA06 /* FBSDKCoreKit.framework */; };
 		BA8FEBD21DA05EAE00F23011 /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8FEBD11DA05EAE00F23011 /* QuestionView.swift */; };
 		BA8FEBD41DA05EBA00F23011 /* QuestionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA8FEBD31DA05EBA00F23011 /* QuestionView.xib */; };
 		BA8FEBDD1DA08A7E00F23011 /* InProgressVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8FEBDB1DA08A7E00F23011 /* InProgressVC.swift */; };
 		BA8FEBDE1DA08A7E00F23011 /* InProgressVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA8FEBDC1DA08A7E00F23011 /* InProgressVC.xib */; };
 		BA8FEBE01DA0C7E500F23011 /* InCollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8FEBDF1DA0C7E500F23011 /* InCollectionVC.swift */; };
 		BA97A2A61DD927FA00078E04 /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA97A2A51DD927FA00078E04 /* NetworkingManager.swift */; };
-		BA9ED4311DAADA61002CF233 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA9ED4301DAADA61002CF233 /* FBSDKLoginKit.framework */; };
-		BA9ED4331DAADBA0002CF233 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA9ED4321DAADBA0002CF233 /* Bolts.framework */; };
 		BAA0938F1DAA2B10006F1D72 /* privacy.txt in Resources */ = {isa = PBXBuildFile; fileRef = BAA0938E1DAA2B10006F1D72 /* privacy.txt */; };
 		BAA093911DAA305C006F1D72 /* TextViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA093901DAA305C006F1D72 /* TextViewVC.swift */; };
 		BAC097F81DBB0AC8000C81F0 /* ControllerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC097F71DBB0AC8000C81F0 /* ControllerManager.swift */; };
@@ -93,24 +89,20 @@
 
 /* Begin PBXFileReference section */
 		39748D4302010770352F506B /* Pods-QAQ.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QAQ.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QAQ/Pods-QAQ.debug.xcconfig"; sourceTree = "<group>"; };
+		3AD82C385EB7F4DEC0938B69 /* Pods_QAQ.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QAQ.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E51813FA473779D7B69CD53 /* Pods-QAQ.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QAQ.release.xcconfig"; path = "Pods/Target Support Files/Pods-QAQ/Pods-QAQ.release.xcconfig"; sourceTree = "<group>"; };
 		BA2089571DBB7C9500316486 /* CouponVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponVC.swift; sourceTree = "<group>"; };
 		BA2089591DBC3C8500316486 /* OptCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptCell.swift; sourceTree = "<group>"; };
 		BA20895A1DBC3C8500316486 /* OptCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OptCell.xib; sourceTree = "<group>"; };
 		BA20895D1DBC505F00316486 /* ContentVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentVC.swift; sourceTree = "<group>"; };
 		BA240CA01E0292240042170D /* AlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
-		BA2C8C881DB8BE82000441B5 /* coupon_sample.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = coupon_sample.jpg; sourceTree = "<group>"; };
-		BA3D782A1DFC75AA00F970B3 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		BA72F77E1D893FDA007F9229 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		BA76EDEC1DAA448C0055CA06 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		BA8FEBD11DA05EAE00F23011 /* QuestionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
 		BA8FEBD31DA05EBA00F23011 /* QuestionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestionView.xib; sourceTree = "<group>"; };
 		BA8FEBDB1DA08A7E00F23011 /* InProgressVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InProgressVC.swift; sourceTree = "<group>"; };
 		BA8FEBDC1DA08A7E00F23011 /* InProgressVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InProgressVC.xib; sourceTree = "<group>"; };
 		BA8FEBDF1DA0C7E500F23011 /* InCollectionVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InCollectionVC.swift; sourceTree = "<group>"; };
 		BA97A2A51DD927FA00078E04 /* NetworkingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
-		BA9ED4301DAADA61002CF233 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
-		BA9ED4321DAADBA0002CF233 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		BAA0938E1DAA2B10006F1D72 /* privacy.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = privacy.txt; sourceTree = "<group>"; };
 		BAA093901DAA305C006F1D72 /* TextViewVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextViewVC.swift; sourceTree = "<group>"; };
 		BAB796111D8BB73F0033DEFE /* Voceler.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Voceler.entitlements; sourceTree = "<group>"; };
@@ -164,10 +156,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BA9ED4331DAADBA0002CF233 /* Bolts.framework in Frameworks */,
-				BA76EDEE1DAA448C0055CA06 /* FBSDKCoreKit.framework in Frameworks */,
-				BA3D782B1DFC75AA00F970B3 /* FBSDKLoginKit.framework in Frameworks */,
-				BA9ED4311DAADA61002CF233 /* FBSDKLoginKit.framework in Frameworks */,
+				9026FE390CC2AA681A49AEAF /* Pods_QAQ.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -177,10 +166,7 @@
 		8D6A22570FF0744EA3138BDE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BA3D782A1DFC75AA00F970B3 /* FBSDKLoginKit.framework */,
-				BA9ED4301DAADA61002CF233 /* FBSDKLoginKit.framework */,
-				BA76EDEC1DAA448C0055CA06 /* FBSDKCoreKit.framework */,
-				BA9ED4321DAADBA0002CF233 /* Bolts.framework */,
+				3AD82C385EB7F4DEC0938B69 /* Pods_QAQ.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -291,7 +277,6 @@
 		FD682A9D1D33044300D2F4B6 /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				BA2C8C881DB8BE82000441B5 /* coupon_sample.jpg */,
 				FD1DBB111D1A4D9E00E6762D /* Assets.xcassets */,
 				FD1DBB0A1D1A4D9E00E6762D /* AppDelegate.swift */,
 				FD149E1A1D1B7939007F3F7B /* UIExtension.swift */,
@@ -406,7 +391,6 @@
 				FD03252A1D24E53E002956FD /* UserListCell.xib in Resources */,
 				BAC097FE1DBB114B000C81F0 /* ProfileVC.xib in Resources */,
 				FD682A9A1D33002500D2F4B6 /* CollectionCell.xib in Resources */,
-				BA2C8C891DB8BE82000441B5 /* coupon_sample.jpg in Resources */,
 				BA20895C1DBC3C8500316486 /* OptCell.xib in Resources */,
 				FD17E2071D2F4B3500FC0FB3 /* AddOptCell.xib in Resources */,
 				BAC098041DBB22D3000C81F0 /* CollectionVC.xib in Resources */,
@@ -456,7 +440,7 @@
 		};
 		A010AEBFE41EAB9861F2A252 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -464,14 +448,14 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QAQ/Pods-QAQ-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E078468EFA13A2DADB2F2B97 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -479,7 +463,7 @@
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QAQ/Pods-QAQ-resources.sh\"\n";
 			showEnvVarsInLog = 0;
@@ -644,6 +628,10 @@
 			baseConfigurationReference = 39748D4302010770352F506B /* Pods-QAQ.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				BUILD_VARIANTS = (
+					armv7,
+					normal,
+				);
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Voceler/Voceler.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -685,7 +673,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos/UIViewController+NavigationBar",
 				);
 				INFOPLIST_FILE = Voceler/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = owen.Voceler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -702,6 +690,10 @@
 			baseConfigurationReference = 3E51813FA473779D7B69CD53 /* Pods-QAQ.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				BUILD_VARIANTS = (
+					armv7,
+					normal,
+				);
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Voceler/Voceler.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -743,7 +735,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos/UIViewController+NavigationBar",
 				);
 				INFOPLIST_FILE = Voceler/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = owen.Voceler;
 				PRODUCT_NAME = "$(TARGET_NAME)";

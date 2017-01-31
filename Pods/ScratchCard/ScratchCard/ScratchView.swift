@@ -5,7 +5,6 @@
 //  Created by JoeJoe on 2016/4/15.
 //  Copyright © 2016年 JoeJoe. All rights reserved.
 //
-
 import Foundation
 import UIKit
 
@@ -75,41 +74,41 @@ open class ScratchView: UIView {
     }
     
     override open func touchesBegan(_ touches: Set<UITouch>,
-        with event: UIEvent?){
-            if let touch = touches.first{
-                first_touch = true
-                location = CGPoint(x: touch.location(in: self).x, y: self.frame.size.height-touch.location(in: self).y)
+                                    with event: UIEvent?){
+        if let touch = touches.first{
+            first_touch = true
+            location = CGPoint(x: touch.location(in: self).x, y: self.frame.size.height-touch.location(in: self).y)
         }
     }
     
     override open func touchesMoved(_ touches: Set<UITouch>,
-        with event: UIEvent?){
-            if let touch = touches.first{
+                                    with event: UIEvent?){
+        if let touch = touches.first{
+            
+            if ((first_touch)!) {
+                first_touch = false;
+                previous_location =  CGPoint(x: touch.previousLocation(in: self).x, y: self.frame.size.height-touch.previousLocation(in: self).y)
+            } else {
                 
-                if ((first_touch)!) {
-                    first_touch = false;
-                    previous_location =  CGPoint(x: touch.previousLocation(in: self).x, y: self.frame.size.height-touch.previousLocation(in: self).y)
-                } else {
-                    
-                    location = CGPoint(x: touch.location(in: self).x, y: self.frame.size.height-touch.location(in: self).y)
-                    previous_location = CGPoint(x: touch.previousLocation(in: self).x, y: self.frame.size.height-touch.previousLocation(in: self).y)
-                }
-                
-                renderLineFromPoint(previous_location,end: location)
-                
+                location = CGPoint(x: touch.location(in: self).x, y: self.frame.size.height-touch.location(in: self).y)
+                previous_location = CGPoint(x: touch.previousLocation(in: self).x, y: self.frame.size.height-touch.previousLocation(in: self).y)
             }
+            
+            renderLineFromPoint(previous_location,end: location)
+            
+        }
     }
     
     override open func touchesEnded(_ touches: Set<UITouch>,
-        with event: UIEvent?){
-            if let touch = touches.first{
-                if ((first_touch)!) {
-                    first_touch = false;
-                    previous_location =  CGPoint(x: touch.previousLocation(in: self).x, y: self.frame.size.height-touch.previousLocation(in: self).y)
-                    renderLineFromPoint(previous_location,end: location)
-                    
-                }
+                                    with event: UIEvent?){
+        if let touch = touches.first{
+            if ((first_touch)!) {
+                first_touch = false;
+                previous_location =  CGPoint(x: touch.previousLocation(in: self).x, y: self.frame.size.height-touch.previousLocation(in: self).y)
+                renderLineFromPoint(previous_location,end: location)
+                
             }
+        }
     }
     
     

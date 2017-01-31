@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import GrowingTextViewHandler
+import GrowingTextViewHandler_Swift
 import MJRefresh
 import SCLAlertView
 import SFFocusViewLayout

@@ -27,9 +27,7 @@
 
 import Foundation
 
-
 public typealias LTStringDiffResult = ([LTCharacterDiffResult], skipDrawingResults: [Bool])
-
 
 public extension String {
     
@@ -37,7 +35,7 @@ public extension String {
         
         guard let anotherString = anotherString else {
             let diffResults: [LTCharacterDiffResult] =
-                Array<LTCharacterDiffResult>(repeating: .delete, count: characters.count)
+                Array(repeating: .delete, count: characters.count) 
             let skipDrawingResults: [Bool] = Array(repeating: false, count: characters.count)
             return (diffResults, skipDrawingResults)
         }
@@ -49,7 +47,7 @@ public extension String {
         let leftChars = Array(characters)
         
         let maxLength = max(lhsLength, rhsLength)
-        var diffResults: [LTCharacterDiffResult] = Array<LTCharacterDiffResult>(repeating: .add, count: maxLength)
+        var diffResults: [LTCharacterDiffResult] = Array(repeating: .add, count: maxLength) 
         var skipDrawingResults: [Bool] = Array(repeating: false, count: maxLength)
         
         for i in 0..<maxLength {

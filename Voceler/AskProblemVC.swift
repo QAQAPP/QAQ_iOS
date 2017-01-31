@@ -7,9 +7,9 @@
 //
 
 import UIKit
-import GrowingTextViewHandler
+import GrowingTextViewHandler_Swift
 import BFPaperButton
-import SwiftString
+import SwiftString3
 import SCLAlertView
 import Networking
 import SwiftSpinner
@@ -34,7 +34,7 @@ class AskProblemVC: UIViewController, UIScrollViewDelegate, UITableViewDataSourc
     
     // Actions
     func textChange(noti:Notification) {
-        handler.resizeTextView(withAnimation: true)
+        handler.resizeTextView(true)
     }
     
     func cancelAction() {
@@ -105,8 +105,10 @@ class AskProblemVC: UIViewController, UIScrollViewDelegate, UITableViewDataSourc
         textView.text = ""
         textView.becomeFirstResponder()
         
-        handler = GrowingTextViewHandler(textView: textView, withHeightConstraint: heightTV)
-        handler.updateMinimumNumber(ofLines: 1, andMaximumNumberOfLine: 10)
+        handler = GrowingTextViewHandler(textView: textView, heightConstraint: heightTV)
+//        handler.updateMinimumNumber(ofLines: 1, andMaximumNumberOfLine: 10)
+        handler.minimumNumberOfLines = 1
+        handler.maximumNumberOfLines = 10
         scroll.delegate = self
         
         let rightBtn = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(nextAction))
@@ -157,7 +159,7 @@ class AskProblemVC: UIViewController, UIScrollViewDelegate, UITableViewDataSourc
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if let text = text {
-            handler.setText(text, withAnimation: true)
+            handler.setText(text, animated: true)
         }
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{

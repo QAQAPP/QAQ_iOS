@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'A00F51781201D70FE5D98D7CB0CC1505'
+               BlueprintIdentifier = 'A25615DF9BF8FFAF6A63BF1D878DC7DB'
                BlueprintName = 'JSBadgeView-JSBadgeView'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'JSBadgeView.bundle'>

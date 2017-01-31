@@ -97,11 +97,11 @@ open class SFFocusViewLayout: UICollectionViewLayout {
             // Initially set the height of the cell to the standard height
             var height = standardHeight
 
-            if (indexPath as NSIndexPath).item == currentFocusedItemIndex {
+            if indexPath.item == currentFocusedItemIndex {
                 // The featured cell
                 y = yOffset - standardHeight * nextItemPercentageOffset
                 height = focusedHeight
-            } else if (indexPath as NSIndexPath).item == (currentFocusedItemIndex + 1) && (indexPath as NSIndexPath).item != numberOfItems {
+            } else if indexPath.item == (currentFocusedItemIndex + 1) && indexPath.item != numberOfItems {
                 // The cell directly below the featured cell, which grows as the user scrolls
                 let maxY = y + standardHeight
                 height = standardHeight + max((focusedHeight - standardHeight) * nextItemPercentageOffset, 0)
@@ -119,26 +119,26 @@ open class SFFocusViewLayout: UICollectionViewLayout {
 
     /// Returns the layout attributes for the item at the specified index path.
     override open func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        return cached[(indexPath as NSIndexPath).item]
+        return cached[indexPath.item]
     }
 }
 
 private extension UICollectionViewLayout {
 
     var numberOfItems: Int {
-        return collectionView!.numberOfItems(inSection: 0)
+        return collectionView?.numberOfItems(inSection: 0) ?? 0
     }
 
     var width: CGFloat {
-        return collectionView!.frame.width
+        return collectionView?.frame.width ?? 0
     }
 
     var height: CGFloat {
-        return collectionView!.frame.height
+        return collectionView?.frame.height ?? 0
     }
 
     var yOffset: CGFloat {
-        return collectionView!.contentOffset.y
+        return collectionView?.contentOffset.y ?? 0
     }
 }
 

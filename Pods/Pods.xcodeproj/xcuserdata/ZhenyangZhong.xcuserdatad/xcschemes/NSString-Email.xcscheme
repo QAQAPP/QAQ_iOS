@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "13967D9472FC1F8ACB9AD2DF1A02FC7B"
+               BlueprintIdentifier = "05DB0BBF30066411A46D879E370CE1A4"
                BuildableName = "NSString_Email.framework"
                BlueprintName = "NSString-Email"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "13967D9472FC1F8ACB9AD2DF1A02FC7B"
+            BlueprintIdentifier = "05DB0BBF30066411A46D879E370CE1A4"
             BuildableName = "NSString_Email.framework"
             BlueprintName = "NSString-Email"
             ReferencedContainer = "container:Pods.xcodeproj">
