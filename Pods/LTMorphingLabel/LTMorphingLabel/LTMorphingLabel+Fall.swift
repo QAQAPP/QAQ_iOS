@@ -27,7 +27,6 @@
 
 import UIKit
 
-
 extension LTMorphingLabel {
     
     func FallLoad() {
@@ -81,7 +80,6 @@ extension LTMorphingLabel {
             )
         }
         
-        
         drawingClosures["Fall\(LTMorphingPhases.draw)"] = {
             limbo in
             
@@ -91,7 +89,7 @@ extension LTMorphingLabel {
                 context!.saveGState()
                 let charCenterX = charRect.origin.x + (charRect.size.width / 2.0)
                 var charBottomY = charRect.origin.y + charRect.size.height - self.font.pointSize / 6
-                var charColor = self.textColor
+                var charColor: UIColor = self.textColor
                 
                 // Fall down if drawingProgress is more than 50%
                 if limbo.drawingProgress > 0.5 {
@@ -134,10 +132,11 @@ extension LTMorphingLabel {
                 )
                 context!.rotate(by: rotation * CGFloat(M_PI) / 180.0)
                 let s = String(limbo.char)
-                s.draw(in: charRect, withAttributes: [
+                let attributes: [String: Any] = [
                     NSFontAttributeName: self.font.withSize(limbo.size),
                     NSForegroundColorAttributeName: charColor
-                    ])
+                ]
+                s.draw(in: charRect, withAttributes: attributes)
                 context!.restoreGState()
                 
                 return true

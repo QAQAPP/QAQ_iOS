@@ -72,6 +72,9 @@ static CGFloat const JDFPeekabooCoordinatorNavigationBarHorizontalHeightDifferen
 
 - (void)setScrollView:(UIScrollView *)scrollView
 {
+    if (_scrollView && _scrollView != scrollView) {
+        _scrollView.delegate = _scrollViewRealDelegate;
+    }
     _scrollView = scrollView;
     self.scrollViewRealDelegate = scrollView.delegate;
     _scrollView.delegate = self;
@@ -106,6 +109,11 @@ static CGFloat const JDFPeekabooCoordinatorNavigationBarHorizontalHeightDifferen
     return self;
 }
 
+- (void)dealloc
+{
+    self.scrollView.delegate = self.scrollViewRealDelegate;
+}
+
 
 #pragma mark - Public - General
 
@@ -120,6 +128,9 @@ static CGFloat const JDFPeekabooCoordinatorNavigationBarHorizontalHeightDifferen
     [self animateTopViewToYPosition:self.topViewDefaultY];
     [self animateBottomViewToYPosition:(self.containingView.frame.size.height - self.bottomBarDefaultHeight)];
     [self setBarsNeedDisplay];
+    if ([self.delegate respondsToSelector:@selector(peekabooCoordinator:fullyExpandedViewsForScrollView:)]) {
+        [self.delegate peekabooCoordinator:self fullyExpandedViewsForScrollView:self.scrollView];
+    }
 }
 
 - (void)fullyHideViews
@@ -127,6 +138,9 @@ static CGFloat const JDFPeekabooCoordinatorNavigationBarHorizontalHeightDifferen
     [self animateTopViewToYPosition:[self topViewMinimisedY]];
     [self animateBottomViewToYPosition:[self bottomViewMinimisedY]];
     [self setBarsNeedDisplay];
+    if ([self.delegate respondsToSelector:@selector(peekabooCoordinator:fullyCollapsedViewsForScrollView:)]) {
+        [self.delegate peekabooCoordinator:self fullyCollapsedViewsForScrollView:self.scrollView];
+    }
 }
 
 
@@ -184,6 +198,10 @@ static CGFloat const JDFPeekabooCoordinatorNavigationBarHorizontalHeightDifferen
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    if (scrollView.frame.size.height > scrollView.contentSize.height) {
+        return;
+    }
+    
     if (!self.scrollingCoordinatorEnabled) {
         return;
     }
@@ -219,7 +237,7 @@ static CGFloat const JDFPeekabooCoordinatorNavigationBarHorizontalHeightDifferen
         bottomBarFrame.origin.y = defaultBottomViewY;
     } else if ((scrollOffset + scrollHeight) >= scrollContentSizeHeight) {
         topBarFrame.origin.y = -topBarHeight + self.topViewMinimisedHeight;
-        bottomBarFrame.origin.y = defaultBottomViewY + topBarHeight;
+        bottomBarFrame.origin.y = defaultBottomViewY + self.bottomBarDefaultHeight;
     } else {
         topBarFrame.origin.y = MIN(self.topViewDefaultY, MAX(-topBarHeight + self.topViewMinimisedHeight, topBarFrame.origin.y - scrollDiff));
         CGFloat toolbarY = MAX(defaultBottomViewY, MIN(self.containingView.frame.size.height, bottomBarFrame.origin.y + scrollDiff));
@@ -249,7 +267,21 @@ static CGFloat const JDFPeekabooCoordinatorNavigationBarHorizontalHeightDifferen
     
     CGFloat topViewPercentageHidden = [self topViewPercentageHidden];
     [self updateTopViewSubviews:(1 - topViewPercentageHidden)];
-        
+    
+    if (topViewPercentageHidden == 0.0) {
+        if ([self.delegate respondsToSelector:@selector(peekabooCoordinator:fullyExpandedViewsForScrollView:)]) {
+            [self.delegate peekabooCoordinator:self fullyExpandedViewsForScrollView:scrollView];
+        }
+    } else if (topViewPercentageHidden == 1.0) {
+        if ([self.delegate respondsToSelector:@selector(peekabooCoordinator:fullyCollapsedViewsForScrollView:)]) {
+            [self.delegate peekabooCoordinator:self fullyCollapsedViewsForScrollView:scrollView];
+        }
+    }
+    
+    if ([self.delegate respondsToSelector:@selector(peekabooCoordinator:scrolledToPercentageHidden:)]) {
+        [self.delegate peekabooCoordinator:self scrolledToPercentageHidden:topViewPercentageHidden];
+    }
+    
     self.previousScrollViewYOffset = scrollOffset;
 }
 
@@ -347,9 +379,8 @@ static CGFloat const JDFPeekabooCoordinatorNavigationBarHorizontalHeightDifferen
 
 - (CGFloat)topViewPercentageHidden
 {
-    CGFloat statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
     CGRect frame = self.topView.frame;
-    CGFloat percentage = (self.topViewDefaultY - frame.origin.y - (self.topViewDefaultY - statusBarHeight)) / (frame.size.height - 1 - self.topViewMinimisedHeight);
+    CGFloat percentage = (self.topViewDefaultY - frame.origin.y - self.topViewDefaultY) / (frame.size.height - self.topViewMinimisedHeight);
     return percentage;
 }
 

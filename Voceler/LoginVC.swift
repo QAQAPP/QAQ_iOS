@@ -19,7 +19,7 @@
 import UIKit
 import TextFieldEffects
 import BFPaperButton
-import SwiftString
+import SwiftString3
 import SCLAlertView
 import FirebaseAuth
 import SwiftSpinner

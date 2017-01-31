@@ -70,7 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
 //            print(snapshot?.value)
 //        })
         
-        print("Token", FIRInstanceID.instanceID().token())
+//        print("Token", FIRInstanceID.instanceID().token() ?? <#default value#>)
         
         return true
     }
@@ -103,29 +103,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     }
     
     func scheduleNotification(inSeconds: TimeInterval, completion: @escaping (Bool)->()){
-        if #available(iOS 10.0, *) {
-            let attachment = try! UNNotificationAttachment(identifier: "myNoti", url: Bundle.main.url(forResource: "coupon_sample", withExtension: ".jpg")!, options: .none)
-            
-            let noti = UNMutableNotificationContent()
-            noti.title = "Alert!"
-            noti.body = "This is a notification"
-            
-            noti.attachments = [attachment]
-            
-            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 3, repeats: false)
-            let request = UNNotificationRequest(identifier: "noti", content: noti, trigger: trigger)
-            UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
-                if let error = error{
-                    print(error.localizedDescription)
-                    completion(false)
-                }
-                else{
-                    completion(true)
-                }
-            })
-        } else {
-            // Fallback on earlier versions
-        }
+        let attachment = try! UNNotificationAttachment(identifier: "myNoti", url: Bundle.main.url(forResource: "coupon_sample", withExtension: ".jpg")!, options: .none)
+        
+        let noti = UNMutableNotificationContent()
+        noti.title = "Alert!"
+        noti.body = "This is a notification"
+        
+        noti.attachments = [attachment]
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 3, repeats: false)
+        let request = UNNotificationRequest(identifier: "noti", content: noti, trigger: trigger)
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
+            if let error = error{
+                print(error.localizedDescription)
+                completion(false)
+            }
+            else{
+                completion(true)
+            }
+        })
     }
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
@@ -147,22 +143,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     }
     
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
-        if #available(iOS 10.0, *) {
-            let authOptions : UNAuthorizationOptions = [.alert, .badge, .sound]
-            UNUserNotificationCenter.current().requestAuthorization(
-                options: authOptions,
-                completionHandler: {_,_ in })
-            
-            // For iOS 10 display notification (sent via APNS)
-            UNUserNotificationCenter.current().delegate = self
-            // For iOS 10 data message (sent via FCM)
-            FIRMessaging.messaging().remoteMessageDelegate = self
-            
-        } else {
-            let settings: UIUserNotificationSettings =
-                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-            application.registerUserNotificationSettings(settings)
-        }
+        let authOptions : UNAuthorizationOptions = [.alert, .badge, .sound]
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions,
+            completionHandler: {_,_ in })
+        
+        // For iOS 10 display notification (sent via APNS)
+        UNUserNotificationCenter.current().delegate = self
+        // For iOS 10 data message (sent via FCM)
+        FIRMessaging.messaging().remoteMessageDelegate = self
+    
         
         application.registerForRemoteNotifications()
         

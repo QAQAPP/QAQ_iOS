@@ -22,13 +22,8 @@ class CollectionCell: UITableViewCell {
             setBtn()
             backgroundColor = (isStared ? .white : .lightGray)
             if !isStared{
-                if #available(iOS 10.0, *) {
-                    timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { (timer) in
-                        self.dislikeThisQuestion()
-                    }
-                } else {
-                    // Fallback on earlier versions
-                    timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(dislikeThisQuestion), userInfo: nil, repeats: false)
+                timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { (timer) in
+                    self.dislikeThisQuestion()
                 }
                 detailLbl?.text = "deleting..."
             }

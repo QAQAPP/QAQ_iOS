@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SwiftString
+import SwiftString3
 
 class TreeViewCell: UITableViewCell {
     
