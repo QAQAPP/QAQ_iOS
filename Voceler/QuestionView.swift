@@ -42,14 +42,14 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     
     // Actions
     
-    @IBAction func postAction(_ sender: Any) {
-        endEditing(true)
-        if let text = addOptionField.text, !text.isEmpty{
-            addOption(text: text)
-            addOptionField.text = ""
-            controllerManager?.mainVC.nextContent()
-        }
-    }
+//    @IBAction func postAction(_ sender: Any) {
+//        endEditing(true)
+//        if let text = addOptionField.text, !text.isEmpty{
+//            addOption(text: text)
+//            addOptionField.text = ""
+//            controllerManager?.mainVC.nextContent()
+//        }
+//    }
     
     @IBOutlet weak var addOptionField: UITextField!
     
@@ -144,6 +144,8 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     }
     
     private func setupUI() {
+        addOptionField.board(radius: 16, width: 1, color: themeColor)
+        addOptionField.attributedPlaceholder = NSAttributedString(string: "Add an option", attributes:[NSForegroundColorAttributeName: themeColor])
         handler = GrowingTextViewHandler(textView: self.detailTV, heightConstraint: self.heightConstraint)
         handler.minimumNumberOfLines = 0
         handler.maximumNumberOfLines = 5
