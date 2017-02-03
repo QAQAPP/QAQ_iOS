@@ -13,10 +13,10 @@ class ControllerManager: NSObject, UITabBarControllerDelegate{
     var mainVC:MainVC!
     var collectionVC:CollectionVC!
     var settingsVC:SettingsVC!
-    var profileVC:ProfileVC!
+//    var profileVC:ProfileVC!
     var mainNav:UINavigationController!
     var collectionNav:UINavigationController!
-    var profileNav:UINavigationController!
+//    var profileNav:UINavigationController!
     var settingsNav:UINavigationController!
     var tabbarVC = UITabBarController()
     var askProblemVC:AskProblemVC{
@@ -44,19 +44,21 @@ class ControllerManager: NSObject, UITabBarControllerDelegate{
         mainNav = UINavigationController(rootViewController: mainVC)
         mainNav.navigationBar.setColor(color: themeColor)
         let mainItem = UITabBarItem()
-        mainItem.image = #imageLiteral(resourceName: "question_mark-25")
+        mainItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
+        mainItem.image = #imageLiteral(resourceName: "Oval 2").withRenderingMode(.alwaysOriginal)
         mainNav.tabBarItem = mainItem
         
         collectionVC = CollectionVC(nibName: "CollectionVC", bundle: nil)
         collectionVC.edgesForExtendedLayout = []
         collectionNav = UINavigationController(rootViewController: collectionVC)
         collectionNav.navigationBar.setColor(color: themeColor)
-        let collectionItem = UITabBarItem()
-        collectionItem.image = #imageLiteral(resourceName: "book_shelf-25")
-        collectionNav.tabBarItem = collectionItem
+//        let collectionItem = UITabBarItem()
+//        collectionItem.image = #imageLiteral(resourceName: "book_shelf-25")
+//        collectionNav.tabBarItem = collectionItem
         
         let askItem = UITabBarItem()
-        askItem.image = #imageLiteral(resourceName: "ask_question-25")
+        askItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
+        askItem.image = #imageLiteral(resourceName: "Oval 1").withRenderingMode(.alwaysOriginal)
         let askVC = askProblemVC
         askVC.tabBarItem = askItem
         
@@ -64,21 +66,18 @@ class ControllerManager: NSObject, UITabBarControllerDelegate{
         settingsVC.edgesForExtendedLayout = []
         settingsNav = UINavigationController(rootViewController: settingsVC)
         settingsNav.navigationBar.setColor(color: themeColor)
-        let settingsItem = UITabBarItem()
-        settingsItem.image = #imageLiteral(resourceName: "settings-25")
-        settingsNav.tabBarItem = settingsItem
+//        let settingsItem = UITabBarItem()
+//        settingsItem.image = #imageLiteral(resourceName: "settings-25")
+//        settingsNav.tabBarItem = settingsItem
         
-        profileVC = ProfileVC(nibName: "ProfileVC", bundle: nil)
-        profileVC.thisUser = currUser
-        profileNav = UINavigationController(rootViewController: profileVC)
-        profileNav.navigationBar.setColor(color: themeColor)
-        let profileItem = UITabBarItem()
-        profileItem.image = #imageLiteral(resourceName: "gender_neutral_user-25")
-        profileNav.tabBarItem = profileItem
+        let userVC = UserVC(nibName: "UserVC", bundle: nil)
+        let userItem = UITabBarItem()
+        userItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
+        userItem.image = #imageLiteral(resourceName: "User - simple-line-icons").withRenderingMode(.alwaysOriginal)
+        userVC.tabBarItem = userItem
         
-        tabbarVC.setViewControllers([mainNav, collectionNav, askVC, profileNav, settingsNav], animated: true)
+        tabbarVC.setViewControllers([mainNav, askVC, userVC], animated: true)
         tabbarVC.delegate = self
-        tabbarVC.tabBar.height = 44
     }
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
