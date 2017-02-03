@@ -21,6 +21,11 @@ class UserModel: NSObject {
             NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: uid+"username")))
         }
     }
+    var location:String?{
+        didSet{
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: uid+"location")))
+        }
+    }
     var ref:FIRDatabaseReference!{
         didSet{
             ref.observe(.value, with:{ (snapshot) in

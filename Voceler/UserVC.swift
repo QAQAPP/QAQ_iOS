@@ -21,7 +21,37 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
     }
     
-    var thisUser:UserModel!
+    var thisUser:UserModel!{
+        didSet{
+            if let username = thisUser.username{
+                usernameLabel.text = username
+            }
+            else{
+                NotificationCenter.default.addObserver(forName: Notification.Name(rawValue: thisUser.uid+"username"), object: self, queue: nil, using: { (noti) in
+                    self.usernameLabel.text = self.thisUser.username!
+                })
+            }
+            if let location = thisUser.location{
+                locationLabel.text = location
+            }
+            else{
+                NotificationCenter.default.addObserver(forName: Notification.Name(rawValue: thisUser.uid+"location"), object: self, queue: nil, using: { (noti) in
+                    self.locationLabel.text = self.thisUser.location!
+                })
+            }
+            if thisUser.email != nil{
+                emailLabel.text = thisUser.email
+            }
+            if let profileImage = thisUser.profileImg{
+                profileImageView.image = profileImage
+            }
+            else{
+                NotificationCenter.default.addObserver(forName: Notification.Name(rawValue: thisUser.uid+"profile"), object: self, queue: nil, using: { (noti) in
+                    self.usernameLabel.text = self.thisUser.username!
+                })
+            }
+        }
+    }
     
     let rowTitles = ["Collection", "Friends", "Setting"]
     let rowIcons = [#imageLiteral(resourceName: "Book-open - simple-line-icons"), #imageLiteral(resourceName: "People - simple-line-icons"), #imageLiteral(resourceName: "Wrench - simple-line-icons")]
