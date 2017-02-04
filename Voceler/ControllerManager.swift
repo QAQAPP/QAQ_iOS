@@ -13,10 +13,10 @@ class ControllerManager: NSObject, UITabBarControllerDelegate{
     var mainVC:MainVC!
     var collectionVC:CollectionVC!
     var settingsVC:SettingsVC!
-//    var profileVC:ProfileVC!
+    var userVC:UserVC!
     var mainNav:UINavigationController!
     var collectionNav:UINavigationController!
-//    var profileNav:UINavigationController!
+    var userNav:UINavigationController!
     var settingsNav:UINavigationController!
     var tabbarVC = UITabBarController()
     var askProblemVC:AskProblemVC{
@@ -45,7 +45,8 @@ class ControllerManager: NSObject, UITabBarControllerDelegate{
         mainNav.navigationBar.setColor(color: themeColor)
         let mainItem = UITabBarItem()
         mainItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
-        mainItem.image = #imageLiteral(resourceName: "Oval 2").withRenderingMode(.alwaysOriginal)
+        mainItem.selectedImage = #imageLiteral(resourceName: "Oval 2").withRenderingMode(.alwaysOriginal)
+        mainItem.image = #imageLiteral(resourceName: "Home - simple-line-icons").withRenderingMode(.alwaysOriginal)
         mainNav.tabBarItem = mainItem
         
         collectionVC = CollectionVC(nibName: "CollectionVC", bundle: nil)
@@ -70,13 +71,15 @@ class ControllerManager: NSObject, UITabBarControllerDelegate{
 //        settingsItem.image = #imageLiteral(resourceName: "settings-25")
 //        settingsNav.tabBarItem = settingsItem
         
-        let userVC = UserVC(nibName: "UserVC", bundle: nil)
+        userVC = UserVC(nibName: "UserVC", bundle: nil)
+        userNav = UINavigationController(rootViewController: userVC)
         let userItem = UITabBarItem()
         userItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
         userItem.image = #imageLiteral(resourceName: "User - simple-line-icons").withRenderingMode(.alwaysOriginal)
-        userVC.tabBarItem = userItem
+        userItem.selectedImage = #imageLiteral(resourceName: "User selected").withRenderingMode(.alwaysOriginal)
+        userNav.tabBarItem = userItem
         
-        tabbarVC.setViewControllers([mainNav, askVC, userVC], animated: true)
+        tabbarVC.setViewControllers([mainNav, askVC, userNav], animated: true)
         tabbarVC.delegate = self
     }
     

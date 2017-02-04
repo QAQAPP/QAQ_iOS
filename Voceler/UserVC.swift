@@ -16,10 +16,6 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var infoView: UIView!
-
-    @IBAction func editAction(_ sender: Any) {
-        
-    }
     
     var thisUser:UserModel!{
         didSet{
@@ -63,9 +59,18 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "UserTableCell", bundle: nil), forCellReuseIdentifier: "UserTableCell")
-        tableView.separatorColor = themeColor
-        tableView.tableFooterView = UIView()
-        infoView.layer.addBorder(edge: .bottom, color: themeColor, thickness: 2)
+        tableView.separatorStyle = .none
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.isHidden = false
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -81,5 +86,12 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.isSelected = false
+        if indexPath.row == 2{
+            navigationController?.pushViewController(controllerManager!.settingsVC, animated: true)
+        }
     }
 }

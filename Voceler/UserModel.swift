@@ -13,7 +13,7 @@ import FirebaseStorage
 
 class UserModel: NSObject {
     var uid:String!
-    var email = ""
+    var email:String?
     var inProgLimit = 5
     var inCollectLimit = 20
     var username:String?{

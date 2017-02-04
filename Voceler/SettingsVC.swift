@@ -31,8 +31,10 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         table.delegate = self
         table.dataSource = self
         table.separatorStyle = .none
-        edgesForExtendedLayout = []
         navigationBar.setColor(color: themeColor)
+        edgesForExtendedLayout = [.all]
+        navigationItem.title = "Setting"
+        navigationController?.navigationBar.tintColor = themeColor
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
