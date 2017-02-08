@@ -27,6 +27,8 @@
 		BA97A2A61DD927FA00078E04 /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA97A2A51DD927FA00078E04 /* NetworkingManager.swift */; };
 		BAA0938F1DAA2B10006F1D72 /* privacy.txt in Resources */ = {isa = PBXBuildFile; fileRef = BAA0938E1DAA2B10006F1D72 /* privacy.txt */; };
 		BAA093911DAA305C006F1D72 /* TextViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA093901DAA305C006F1D72 /* TextViewVC.swift */; };
+		BAA423A51E4969D700DB9334 /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA423A41E4969D700DB9334 /* GameManager.swift */; };
+		BAA423A71E4AB4DC00DB9334 /* Globle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA423A61E4AB4DC00DB9334 /* Globle.swift */; };
 		BAC097F81DBB0AC8000C81F0 /* ControllerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC097F71DBB0AC8000C81F0 /* ControllerManager.swift */; };
 		BAC097FE1DBB114B000C81F0 /* ProfileVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = BAC097FD1DBB114B000C81F0 /* ProfileVC.xib */; };
 		BAC098031DBB22D3000C81F0 /* CollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC098011DBB22D3000C81F0 /* CollectionVC.swift */; };
@@ -60,7 +62,6 @@
 		FD67A7D61D360889008E3ACC /* ProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD67A7D41D360889008E3ACC /* ProfileCell.xib */; };
 		FD682A991D33002500D2F4B6 /* CollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD682A971D33002500D2F4B6 /* CollectionCell.swift */; };
 		FD682A9A1D33002500D2F4B6 /* CollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD682A981D33002500D2F4B6 /* CollectionCell.xib */; };
-		FD87D7291D1F8DA900D77DC2 /* Globle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD87D7281D1F8DA900D77DC2 /* Globle.swift */; };
 		FD8A5E531D1F97620068F57A /* CtrlVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8A5E521D1F97620068F57A /* CtrlVC.swift */; };
 		FD9855421D1FA5CB0038CBC3 /* CtrlCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD9855411D1FA5CB0038CBC3 /* CtrlCell.xib */; };
 		FDBBB5DF1D20544100D75467 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBBB5DE1D20544100D75467 /* MainVC.swift */; };
@@ -114,6 +115,8 @@
 		BA97A2A51DD927FA00078E04 /* NetworkingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
 		BAA0938E1DAA2B10006F1D72 /* privacy.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = privacy.txt; sourceTree = "<group>"; };
 		BAA093901DAA305C006F1D72 /* TextViewVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextViewVC.swift; sourceTree = "<group>"; };
+		BAA423A41E4969D700DB9334 /* GameManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameManager.swift; sourceTree = "<group>"; };
+		BAA423A61E4AB4DC00DB9334 /* Globle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globle.swift; sourceTree = "<group>"; };
 		BAB796111D8BB73F0033DEFE /* Voceler.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Voceler.entitlements; sourceTree = "<group>"; };
 		BABAD3461D89FC2C002954D2 /* Voceler-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Voceler-Bridging-Header.h"; sourceTree = "<group>"; };
 		BAC097F71DBB0AC8000C81F0 /* ControllerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControllerManager.swift; sourceTree = "<group>"; };
@@ -151,7 +154,6 @@
 		FD67A7D41D360889008E3ACC /* ProfileCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileCell.xib; sourceTree = "<group>"; };
 		FD682A971D33002500D2F4B6 /* CollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionCell.swift; sourceTree = "<group>"; };
 		FD682A981D33002500D2F4B6 /* CollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionCell.xib; sourceTree = "<group>"; };
-		FD87D7281D1F8DA900D77DC2 /* Globle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globle.swift; sourceTree = "<group>"; };
 		FD8A5E521D1F97620068F57A /* CtrlVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CtrlVC.swift; sourceTree = "<group>"; };
 		FD9855411D1FA5CB0038CBC3 /* CtrlCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CtrlCell.xib; sourceTree = "<group>"; };
 		FDBBB5DE1D20544100D75467 /* MainVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 				BAE1391B1D9A1D56009A8143 /* MemoryHandler.swift */,
 				BAC097F71DBB0AC8000C81F0 /* ControllerManager.swift */,
 				BA97A2A51DD927FA00078E04 /* NetworkingManager.swift */,
+				BAA423A41E4969D700DB9334 /* GameManager.swift */,
 			);
 			name = Manager;
 			sourceTree = "<group>";
@@ -288,10 +291,10 @@
 			isa = PBXGroup;
 			children = (
 				FD1DBB0A1D1A4D9E00E6762D /* AppDelegate.swift */,
+				BAA423A61E4AB4DC00DB9334 /* Globle.swift */,
 				BA75DC941E445ABD00497F83 /* Assets.xcassets */,
 				FD149E1A1D1B7939007F3F7B /* UIExtension.swift */,
 				FD149E1C1D1B7C81007F3F7B /* NSExtension.swift */,
-				FD87D7281D1F8DA900D77DC2 /* Globle.swift */,
 				BA72F77E1D893FDA007F9229 /* Main.storyboard */,
 				FD1DBB131D1A4D9E00E6762D /* LaunchScreen.storyboard */,
 				FD1DBB161D1A4D9E00E6762D /* Info.plist */,
@@ -496,7 +499,6 @@
 				BA8FEBE01DA0C7E500F23011 /* InCollectionVC.swift in Sources */,
 				FD682A991D33002500D2F4B6 /* CollectionCell.swift in Sources */,
 				BAA093911DAA305C006F1D72 /* TextViewVC.swift in Sources */,
-				FD87D7291D1F8DA900D77DC2 /* Globle.swift in Sources */,
 				FD8A5E531D1F97620068F57A /* CtrlVC.swift in Sources */,
 				FD149E1B1D1B7939007F3F7B /* UIExtension.swift in Sources */,
 				BA7533961E43BAFB00AA7803 /* UserVC.swift in Sources */,
@@ -514,6 +516,7 @@
 				BAC098071DBB278B000C81F0 /* ProfileVC.swift in Sources */,
 				BAD6C0B21D6CF1A600361A93 /* QuestionModel.swift in Sources */,
 				BAC0980E1DBB4F4B000C81F0 /* CouponScratchView.swift in Sources */,
+				BAA423A71E4AB4DC00DB9334 /* Globle.swift in Sources */,
 				FD1DBB0B1D1A4D9E00E6762D /* AppDelegate.swift in Sources */,
 				BA20895E1DBC505F00316486 /* ContentVC.swift in Sources */,
 				BAD6C0AC1D6AB56800361A93 /* TreeViewCell.swift in Sources */,
@@ -522,6 +525,7 @@
 				BAC3A1A41DCD55ED00D2700F /* SwipeAlertVC.swift in Sources */,
 				BA8FEBDD1DA08A7E00F23011 /* InProgressVC.swift in Sources */,
 				FDD344361D1B91980040356A /* LoginVC.swift in Sources */,
+				BAA423A51E4969D700DB9334 /* GameManager.swift in Sources */,
 				FD1036DA1D1FB01600AC1FE9 /* CtrlCell.swift in Sources */,
 				FD17E2061D2F4B3500FC0FB3 /* AddOptCell.swift in Sources */,
 				BAC478FF1D8F200E00041D94 /* SettingModel.swift in Sources */,

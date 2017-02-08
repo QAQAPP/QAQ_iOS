@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
 
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
@@ -17,40 +17,23 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var infoView: UIView!
     
-    var thisUser:UserModel!{
-        didSet{
-            if let username = thisUser.username{
-                usernameLabel.text = username
-            }
-            else{
-                NotificationCenter.default.addObserver(forName: Notification.Name(rawValue: thisUser.uid+"username"), object: self, queue: nil, using: { (noti) in
-                    self.usernameLabel.text = self.thisUser.username!
-                })
-            }
-            if let location = thisUser.location{
-                locationLabel.text = location
-            }
-            else{
-                NotificationCenter.default.addObserver(forName: Notification.Name(rawValue: thisUser.uid+"location"), object: self, queue: nil, using: { (noti) in
-                    self.locationLabel.text = self.thisUser.location!
-                })
-            }
-            if thisUser.email != nil{
-                emailLabel.text = thisUser.email
-            }
-            if let profileImage = thisUser.profileImg{
-                profileImageView.image = profileImage
-            }
-            else{
-                NotificationCenter.default.addObserver(forName: Notification.Name(rawValue: thisUser.uid+"profile"), object: self, queue: nil, using: { (noti) in
-                    self.usernameLabel.text = self.thisUser.username!
-                })
-            }
-        }
-    }
+    var thisUser:UserModel!
     
-    let rowTitles = ["Collection", "Friends", "Setting"]
-    let rowIcons = [#imageLiteral(resourceName: "Book-open - simple-line-icons"), #imageLiteral(resourceName: "People - simple-line-icons"), #imageLiteral(resourceName: "Wrench - simple-line-icons")]
+    let rowTitles = ["Collection", "Message", "Setting"]
+    let rowIcons = [#imageLiteral(resourceName: "Book-open - simple-line-icons"), #imageLiteral(resourceName: "message-32"), #imageLiteral(resourceName: "Wrench - simple-line-icons")]
+    
+    func profileTapped(){
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+        let pickupPhotos = UIAlertAction(title: "Select photo", style: .default) { (action) in
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            self.show(imagePicker, sender: self)
+        }
+        alert.addAction(pickupPhotos)
+        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
+        alert.addAction(cancel)
+        present(alert, animated: true, completion: nil)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +43,38 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         tableView.dataSource = self
         tableView.register(UINib(nibName: "UserTableCell", bundle: nil), forCellReuseIdentifier: "UserTableCell")
         tableView.separatorStyle = .none
-
+        if thisUser == currUser{
+            let tap = UITapGestureRecognizer(target: self, action: #selector(profileTapped))
+            profileImageView.addGestureRecognizer(tap)
+            infoView.addGestureRecognizer(tap)
+        }
+        loadUserInfo()
+    }
+    
+    func loadUserInfo(){
+        thisUser.ref.child("username").observe(.value, with: { (snap) in
+            if let val = snap.value as? String{
+                self.usernameLabel.text = val
+            }
+        })
+        thisUser.ref.child("location").observe(.value, with: { (snap) in
+            if let val = snap.value as? String{
+                self.locationLabel.text = val
+            }
+        })
+        thisUser.ref.child("email").observe(.value, with: { (snap) in
+            if let val = snap.value as? String{
+                self.emailLabel.text = val
+            }
+        })
+        thisUser.storageRef.child("profileImg.jpeg").data(withMaxSize: 1024*1024) { (data, error) in
+            if let data = data{
+                self.profileImageView.image = UIImage(data: data)
+            }
+            else {
+                self.profileImageView.image = #imageLiteral(resourceName: "user-50")
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -74,7 +88,7 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return rowTitles.count
+        return thisUser == currUser ? rowTitles.count : rowTitles.count - 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -90,8 +104,18 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.cellForRow(at: indexPath)?.isSelected = false
-        if indexPath.row == 2{
+        if indexPath.row == 0{
+            navigationController?.pushViewController(controllerManager!.collectionVC, animated: true)
+        }
+        else if indexPath.row == 2{
             navigationController?.pushViewController(controllerManager!.settingsVC, animated: true)
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        picker.dismiss(animated: true) {
+            self.profileImageView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
+            currUser?.storageRef.child("profileImg.jpeg").put(self.profileImageView.image!.dataAtMost(bytes: 100*1024))
         }
     }
 }

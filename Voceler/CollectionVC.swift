@@ -9,11 +9,14 @@
 import UIKit
 import MJRefresh
 import FirebaseDatabase
+import SDAutoLayout
 
 class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     // UIVars
-        @IBOutlet weak var searchBar: UISearchBar!
-        @IBOutlet weak var table: UITableView!
+//    @IBOutlet weak var searchBar: UISearchBar!
+//    @IBOutlet weak var table: UITableView!
+    let table = UITableView()
+    let searchBar = UISearchBar()
     
     // FieldVars
     var qInProgressArr = Array<QuestionModel>()
@@ -75,7 +78,16 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        view.addSubview(searchBar)
+        view.addSubview(table)
+        _ = searchBar.sd_layout().topSpaceToView(view, navBarHeight())?.leftSpaceToView(view, 0)?.rightSpaceToView(view, 0)?.heightIs(44)
+        _ = table.sd_layout().topSpaceToView(searchBar, 0)?.leftSpaceToView(view, 0)?.rightSpaceToView(view, 0)?.bottomSpaceToView(view, tabBarHeight())
+        
+        navigationItem.title = "Collection"
+        navigationController?.navigationBar.tintColor = themeColor
+        edgesForExtendedLayout = [.all]
         setupProfile()
+        table.separatorStyle = .none
         table.delegate = self
         table.dataSource = self
         table.register(UINib(nibName: "CollectionCell", bundle: nil), forCellReuseIdentifier: "CollectionCell")
@@ -160,6 +172,5 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        edgesForExtendedLayout = []
     }
 }

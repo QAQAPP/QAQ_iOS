@@ -25,6 +25,7 @@ var questionManager:QuestionManager?
 var memoryHandler = MemoryHandler()
 var controllerManager:ControllerManager?
 var networkingManager:NetworkingManager?
+var gameManager:GameManager?
 
 func getVC(name:String) -> UIViewController {
     let board = UIStoryboard(name: "Main", bundle: nil)

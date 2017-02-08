@@ -30,6 +30,10 @@
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="kMw-1U-5IF">
                             <rect key="frame" x="108" y="36" width="160" height="160"/>
+                            <accessibility key="accessibilityConfiguration">
+                                <accessibilityTraits key="traits" image="YES"/>
+                                <bool key="isElement" value="YES"/>
+                            </accessibility>
                             <constraints>
                                 <constraint firstAttribute="height" constant="160" id="3yp-iK-u41"/>
                                 <constraint firstAttribute="width" constant="160" id="esP-4x-Lw4"/>

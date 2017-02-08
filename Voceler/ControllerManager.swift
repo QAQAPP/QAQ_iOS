@@ -15,9 +15,9 @@ class ControllerManager: NSObject, UITabBarControllerDelegate{
     var settingsVC:SettingsVC!
     var userVC:UserVC!
     var mainNav:UINavigationController!
-    var collectionNav:UINavigationController!
+//    var collectionNav:UINavigationController!
     var userNav:UINavigationController!
-    var settingsNav:UINavigationController!
+//    var settingsNav:UINavigationController!
     var tabbarVC = UITabBarController()
     var askProblemVC:AskProblemVC{
         let board = UIStoryboard(name: "Main", bundle: nil)
@@ -49,10 +49,9 @@ class ControllerManager: NSObject, UITabBarControllerDelegate{
         mainItem.image = #imageLiteral(resourceName: "Home - simple-line-icons").withRenderingMode(.alwaysOriginal)
         mainNav.tabBarItem = mainItem
         
-        collectionVC = CollectionVC(nibName: "CollectionVC", bundle: nil)
-        collectionVC.edgesForExtendedLayout = []
-        collectionNav = UINavigationController(rootViewController: collectionVC)
-        collectionNav.navigationBar.setColor(color: themeColor)
+        collectionVC = CollectionVC()
+//        collectionNav = UINavigationController(rootViewController: collectionVC)
+//        collectionNav.navigationBar.setColor(color: themeColor)
 //        let collectionItem = UITabBarItem()
 //        collectionItem.image = #imageLiteral(resourceName: "book_shelf-25")
 //        collectionNav.tabBarItem = collectionItem
@@ -64,14 +63,11 @@ class ControllerManager: NSObject, UITabBarControllerDelegate{
         askVC.tabBarItem = askItem
         
         settingsVC = SettingsVC()
-        settingsVC.edgesForExtendedLayout = []
-        settingsNav = UINavigationController(rootViewController: settingsVC)
-        settingsNav.navigationBar.setColor(color: themeColor)
-//        let settingsItem = UITabBarItem()
-//        settingsItem.image = #imageLiteral(resourceName: "settings-25")
-//        settingsNav.tabBarItem = settingsItem
+//        settingsNav = UINavigationController(rootViewController: settingsVC)
+//        settingsNav.navigationBar.setColor(color: themeColor)
         
         userVC = UserVC(nibName: "UserVC", bundle: nil)
+        userVC.thisUser = currUser
         userNav = UINavigationController(rootViewController: userVC)
         let userItem = UITabBarItem()
         userItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
@@ -85,7 +81,7 @@ class ControllerManager: NSObject, UITabBarControllerDelegate{
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if viewController is AskProblemVC{
-            if currUser!.qInProgress.count >= currUser!.qInProgressLimit{
+            if currUser!.qInProgress.count >= currUser!.qInProgressLimit!{
                 _ = SCLAlertView().showError("Sorry", subTitle: "You are only allowed to have up to \(currUser!.qInProgressLimit) in progress questions. Please conclude a question.")
             }
             else{

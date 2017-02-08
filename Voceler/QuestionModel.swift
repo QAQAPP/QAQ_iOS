@@ -8,6 +8,7 @@
 
 import Foundation
 import FirebaseDatabase
+import SCLAlertView
 
 class QuestionModel: NSObject {
     var QID:String!
@@ -38,6 +39,15 @@ class QuestionModel: NSObject {
     }
     
     func postQuestion(){
+        if !gameManager!.askQuestion() {
+            SCLAlertView().showError("No money!", subTitle: "Please anwser some questions to get money to ask question.")
+            return
+        }
+        if currUser!.qInProgressLimit! <= currUser!.qInProgress.count{
+            SCLAlertView().showError("Question limit reached!", subTitle: "Please conclude some questions or add in progress question limit.")
+            return
+        }
+        
         // Set up question
         let ref = FIRDatabase.database().reference().child("Questions-v1").childByAutoId()
         QID = ref.key
@@ -102,10 +112,14 @@ class QuestionModel: NSObject {
         optRef.child("offerBy").setValue(opt.oOfferBy)
         opt.isLiked = true
         optRef.child("val").setValue(opt.oVal)
+        gameManager?.addOption()
     }
     
     func choose(val:String = "skipped"){
         qRef.child("Users").child(currUser!.uid).setValue(val)
+        if val != "skipped"{
+            gameManager?.chooseOption()
+        }
     }
     
     func conclude(OID:String? = nil){

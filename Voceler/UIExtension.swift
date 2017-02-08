@@ -10,8 +10,17 @@ import UIKit
 import BFPaperButton
 import MMDrawerController
 import FirebaseAuth
+import SDAutoLayout
 
 extension UIViewController{
+    func tabBarHeight()->CGFloat{
+        return tabBarController!.tabBar.height
+    }
+    
+    func navBarHeight()->CGFloat{
+        return navigationController!.navigationBar.height + UIApplication.shared.statusBarFrame.height
+    }
+    
     func initView(){
         touchToHideKeyboard()
         edgesForExtendedLayout = []
@@ -125,6 +134,9 @@ extension UIColor {
 }
 
 extension UIView{
+    func fullLayout(top:CGFloat = 0, bottom:CGFloat = 0, left:CGFloat = 0, right:CGFloat = 0){
+        _ = sd_layout().topSpaceToView(superview, top)?.bottomSpaceToView(superview, bottom)?.leftSpaceToView(superview, left)?.rightSpaceToView(superview, right)
+    }
     func blury() {
         if !UIAccessibilityIsReduceTransparencyEnabled() {
             self.backgroundColor = UIColor.clear
