@@ -20,14 +20,15 @@ class OptCell: UICollectionViewCell{
 	
 	//TODO: commit test
     @IBAction func moreAction(_ sender: AnyObject) {
-        let vc = UIViewController()
-        let textView = UITextView()
-        vc.view.addSubview(textView)
-        textView.text = option.oDescription
-        textView.isSelectable = false
-        textView.isEditable = false
-        textView.font = UIFont.systemFont(ofSize: 18)
-        _ = textView.sd_layout().topSpaceToView(vc.view, 0)?.bottomSpaceToView(vc.view, 0)?.leftSpaceToView(vc.view, 0)?.rightSpaceToView(vc.view, 0)
+//        let vc = UIViewController()
+//        let textView = UITextView()
+//        vc.view.addSubview(textView)
+//        textView.text = option.oDescription
+//        textView.isSelectable = false
+//        textView.isEditable = false
+//        textView.font = UIFont.systemFont(ofSize: 18)
+//        _ = textView.sd_layout().topSpaceToView(vc.view, 0)?.bottomSpaceToView(vc.view, 0)?.leftSpaceToView(vc.view, 0)?.rightSpaceToView(vc.view, 0)
+		let vc = OptDetailedVC();
         questionView.parent.navigationController?.pushViewController(vc, animated: true)
     }
     @IBOutlet weak var likeBtn: UIButton!

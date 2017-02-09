@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		277374EE1E4BB4FC00DF6D93 /* OptDetailedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277374EC1E4BB4FC00DF6D93 /* OptDetailedVC.swift */; };
+		277374EF1E4BB4FC00DF6D93 /* OptDetailedVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 277374ED1E4BB4FC00DF6D93 /* OptDetailedVC.xib */; };
 		9026FE390CC2AA681A49AEAF /* Pods_QAQ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AD82C385EB7F4DEC0938B69 /* Pods_QAQ.framework */; };
 		BA2089581DBB7C9500316486 /* CouponVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2089571DBB7C9500316486 /* CouponVC.swift */; };
 		BA20895B1DBC3C8500316486 /* OptCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2089591DBC3C8500316486 /* OptCell.swift */; };
@@ -88,6 +90,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		277374EC1E4BB4FC00DF6D93 /* OptDetailedVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptDetailedVC.swift; sourceTree = "<group>"; };
+		277374ED1E4BB4FC00DF6D93 /* OptDetailedVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OptDetailedVC.xib; sourceTree = "<group>"; };
 		39748D4302010770352F506B /* Pods-QAQ.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QAQ.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QAQ/Pods-QAQ.debug.xcconfig"; sourceTree = "<group>"; };
 		3AD82C385EB7F4DEC0938B69 /* Pods_QAQ.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QAQ.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E51813FA473779D7B69CD53 /* Pods-QAQ.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QAQ.release.xcconfig"; path = "Pods/Target Support Files/Pods-QAQ/Pods-QAQ.release.xcconfig"; sourceTree = "<group>"; };
@@ -237,6 +241,7 @@
 		FD682A9B1D33042500D2F4B6 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				277374EC1E4BB4FC00DF6D93 /* OptDetailedVC.swift */,
 				FDD344351D1B91980040356A /* LoginVC.swift */,
 				FD8A5E521D1F97620068F57A /* CtrlVC.swift */,
 				FDBBB5DE1D20544100D75467 /* MainVC.swift */,
@@ -296,6 +301,7 @@
 		FD682A9E1D33044F00D2F4B6 /* Nibs */ = {
 			isa = PBXGroup;
 			children = (
+				277374ED1E4BB4FC00DF6D93 /* OptDetailedVC.xib */,
 				BAC098021DBB22D3000C81F0 /* CollectionVC.xib */,
 				BA8FEBDC1DA08A7E00F23011 /* InProgressVC.xib */,
 				BAC097FD1DBB114B000C81F0 /* ProfileVC.xib */,
@@ -401,6 +407,7 @@
 				BAD6C0A91D6AA95F00361A93 /* Categories.plist in Resources */,
 				FD1DBB1D1D1A65CC00E6762D /* GoogleService-Info.plist in Resources */,
 				FD9855421D1FA5CB0038CBC3 /* CtrlCell.xib in Resources */,
+				277374EF1E4BB4FC00DF6D93 /* OptDetailedVC.xib in Resources */,
 				FD67A7D61D360889008E3ACC /* ProfileCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -493,6 +500,7 @@
 				BAFD787E1D961945004322C0 /* OptionModel.swift in Sources */,
 				FD2148021D375694008A52B9 /* Birthday.swift in Sources */,
 				FDBBB5E71D2055E600D75467 /* SettingsVC.swift in Sources */,
+				277374EE1E4BB4FC00DF6D93 /* OptDetailedVC.swift in Sources */,
 				FD149E1D1D1B7C81007F3F7B /* NSExtension.swift in Sources */,
 				BA97A2A61DD927FA00078E04 /* NetworkingManager.swift in Sources */,
 				BAFD787C1D960DD4004322C0 /* QuestionManager.swift in Sources */,
