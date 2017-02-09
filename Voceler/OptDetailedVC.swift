@@ -10,22 +10,30 @@ import UIKit
 
 class OptDetailedVC: UIViewController {
 
-	@IBOutlet weak var titleView: UIView!
+
+	@IBOutlet weak var userAvatarImageView: UIImageView!
 	
-	@IBAction func test1(_ sender: Any) {
-		print("teststest")
-	}
+	@IBOutlet weak var userNameLabel: UILabel!
+	
+	@IBOutlet weak var optionDescriptionLabel: UILabel!
+	
+	@IBOutlet weak var optionTextView: UITextView!
+
+	var optionText:String!
+	
     override func viewDidLoad() {
         super.viewDidLoad()
+		optionTextView.text = optionText
 
         // Do any additional setup after loading the view.
+		
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+	
 
     /*
     // MARK: - Navigation
