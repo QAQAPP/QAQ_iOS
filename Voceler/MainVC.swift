@@ -23,6 +23,9 @@ import LTMorphingLabel
 
 class MainVC: UIViewController{
     let vc_max_count = 7
+    let SCORE_LABEL_FONT = "Avenir-Heavy"
+    let SCORE_LABEL_FONT_SIZE:CGFloat = 25
+    
     private var contentViews = [UIView]()
     var currView:UIView?
     
@@ -105,9 +108,12 @@ class MainVC: UIViewController{
         scoreLabel.morphingEffect = .evaporate
         point = 0
         navigationItem.titleView = scoreLabel
+        
+        // set score label text
         _ = scoreLabel.sd_layout().widthIs(200)?.heightIs(42)
         scoreLabel.textAlignment = .center
         scoreLabel.textColor = .white
+        scoreLabel.font = UIFont(name: SCORE_LABEL_FONT, size: SCORE_LABEL_FONT_SIZE)
         
         NotificationCenter.default.addObserver(self, selector: #selector(loadQuestions), name: Notification.Name.QuestionLoaded, object: nil)
         view.backgroundColor = .white

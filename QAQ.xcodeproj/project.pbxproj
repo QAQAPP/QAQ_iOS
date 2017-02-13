@@ -348,7 +348,7 @@
 				TargetAttributes = {
 					FD1DBB061D1A4D9E00E6762D = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = BQJG9S336S;
+						DevelopmentTeam = H34EM5EBLR;
 						DevelopmentTeamName = "Zhenyang Zhong (Personal Team)";
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
@@ -635,7 +635,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Voceler/Voceler.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = BQJG9S336S;
+				DEVELOPMENT_TEAM = H34EM5EBLR;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/FBSDKLoginKit",
@@ -697,7 +697,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Voceler/Voceler.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = BQJG9S336S;
+				DEVELOPMENT_TEAM = H34EM5EBLR;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/FBSDKLoginKit",

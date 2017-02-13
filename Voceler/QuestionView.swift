@@ -40,6 +40,15 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     var optsView:UICollectionView!
     var pullUpMask = UILabel()
     
+    // font and sizes
+    let QUESTION_TEXT_FONT = "Avenir-Black"
+    let OPTIONS_TEXT_FONT = "Avenir-Roman"
+    let QUESTION_TEXT_FONT_SIZE:CGFloat = 27
+    let OPTIONS_TEXT_FONT_SIZE:CGFloat = 17
+    let QUESTION_TEXT_FONT_COLOR = 0x50575D
+    let OPTIONS_TEXT_FONT_COLOR_SELECTED = 0xFFFFFF
+    let OPTIONS_TEXT_FONT_COLOR_DESELECTED = 0x858585
+    
     // Actions
     
 //    @IBAction func postAction(_ sender: Any) {
@@ -144,11 +153,19 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     }
     
     private func setupUI() {
+        
+        //set question text view's font size and color
+        
+        self.detailTV.font = UIFont(name: QUESTION_TEXT_FONT, size: QUESTION_TEXT_FONT_SIZE)
+        self.detailTV.textColor = UIColor(netHex: QUESTION_TEXT_FONT_COLOR)
+        
         addOptionField.board(radius: 16, width: 1, color: themeColor)
         addOptionField.attributedPlaceholder = NSAttributedString(string: "Add an option", attributes:[NSForegroundColorAttributeName: themeColor])
         handler = GrowingTextViewHandler(textView: self.detailTV, heightConstraint: self.heightConstraint)
         handler.minimumNumberOfLines = 0
         handler.maximumNumberOfLines = 5
+
+        
         if parent is MainVC{
             let header = MJRefreshNormalHeader {
                 controllerManager?.mainVC.nextContent()
