@@ -13,7 +13,7 @@ import SFFocusViewLayout
 import SCLAlertView
 import SDAutoLayout
 
-class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate{
+class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource{
     // FieldVars
 //    @IBOutlet weak var titlebarHeight: NSLayoutConstraint!
     var handler:GrowingTextViewHandler!
@@ -37,17 +37,15 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
     @IBOutlet weak var detailTV: UITextView!
     var currQuestion:QuestionModel!
-    var optsView:UICollectionView!
+    //var optsView:UICollectionView!
+    var optsView:UITableView!
     var pullUpMask = UILabel()
     
     // font and sizes
     let QUESTION_TEXT_FONT = "Avenir-Black"
-    let OPTIONS_TEXT_FONT = "Avenir-Roman"
     let QUESTION_TEXT_FONT_SIZE:CGFloat = 27
-    let OPTIONS_TEXT_FONT_SIZE:CGFloat = 17
     let QUESTION_TEXT_FONT_COLOR = 0x50575D
-    let OPTIONS_TEXT_FONT_COLOR_SELECTED = 0xFFFFFF
-    let OPTIONS_TEXT_FONT_COLOR_DESELECTED = 0x858585
+
     
     // Actions
     
@@ -63,6 +61,7 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     @IBOutlet weak var addOptionField: UITextField!
     
     // Functions
+
     func likeQuestion(){
         if !liked && currUser!.qCollection.count >= currUser!.qInCollectionLimit{
             _ = SCLAlertView().showError("Sorry", subTitle: "You are only allowed to have up to \(currUser!.qInCollectionLimit) in collection. Please conclude a question.")
@@ -72,42 +71,64 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // #warning Incomplete implementation, return the number of rows
         return currQuestion.qOptions.count
+        
     }
     
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OptCell", for: indexPath) as! OptCell
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell:OptViewTableCell = OptViewTableCell(style:UITableViewCellStyle.value1, reuseIdentifier:"OptViewTableCell");
         cell.setup(option: currQuestion.qOptions[indexPath.row], questionView: self)
-        return cell
+        return cell;
+    }
+
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        (cell as! OptViewTableCell).option = currQuestion?.qOptions[indexPath.row]
     }
     
-    @objc(collectionView:willDisplayCell:forItemAtIndexPath:) func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        
-        (cell as! OptCell).option = currQuestion?.qOptions[indexPath.row]
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = optsView.cellForRow(at: indexPath) as! OptViewTableCell
+        cell.selected()
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        guard let focusViewLayout = collectionView.collectionViewLayout as? SFFocusViewLayout else {
-            fatalError("error casting focus layout from collection view")
-        }
-        
-        let offset = focusViewLayout.dragOffset * CGFloat(indexPath.item)
-        if collectionView.contentOffset.y != offset {
-            collectionView.setContentOffset(CGPoint(x: 0, y: offset), animated: true)
-        }
-        let cell = optsView.cellForItem(at: indexPath)
-        cell?.isSelected = false
-        if let cell = cell as? OptCell{
-            cell.optLiked()
-            collectionView.isUserInteractionEnabled = false
-            Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (timer) in
-                controllerManager?.mainVC.nextContent()
-            })
-        }
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        let cell = optsView.cellForRow(at: indexPath) as! OptViewTableCell
+        cell.deselected()
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        
+//        guard let focusViewLayout = collectionView.collectionViewLayout as? SFFocusViewLayout else {
+//            fatalError("error casting focus layout from collection view")
+//        }
+//        
+//        let offset = focusViewLayout.dragOffset * CGFloat(indexPath.item)
+//        if collectionView.contentOffset.y != offset {
+//            collectionView.setContentOffset(CGPoint(x: 0, y: offset), animated: true)
+//        }
+//        let cell = optsView.cellForItem(at: indexPath)
+//        cell?.isSelected = false
+//        if let cell = cell as? OptCell{
+//            cell.optLiked()
+//            collectionView.isUserInteractionEnabled = false
+//            Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (timer) in
+//                controllerManager?.mainVC.nextContent()
+//            })
+//        }
+//    }
+    
     func nextContent(){
         controllerManager?.mainVC.nextContent()
     }
@@ -182,7 +203,8 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
         pullUpMask.isHidden = true
         currQuestion?.choose(val: option.oRef.key)
         let indexPath = IndexPath(row: currQuestion.qOptions.count, section: 0)
-        optsView.delegate?.collectionView!(optsView, didSelectItemAt: indexPath)
+        optsView.delegate?.tableView!(optsView, didSelectRowAt: indexPath)
+        //optsView.delegate?.collectionView!(optsView, didSelectItemAt: indexPath)
     }
     
     func setDescription() {
@@ -196,25 +218,32 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
         focusLayout.standardHeight = 128
         focusLayout.focusedHeight = 200
         focusLayout.dragOffset = 100
-        optsView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 100, height: 110), collectionViewLayout: focusLayout)
+        
+        optsView = UITableView(frame: CGRect(x: 0, y: 0, width: 100, height: 110), style: .plain)
         optsView.backgroundColor = .white
-        addSubview(optsView)
+        optsView.separatorStyle = .none
+        //optsView.estimatedRowHeight = 120
+        //optsView.rowHeight = UITableViewAutomaticDimension
+        
+        self.addSubview(optsView)
         _ = optsView.sd_layout().topSpaceToView(detailTV, 0)?.bottomSpaceToView(addOptionField, 0)?.leftSpaceToView(self, 0)?.rightSpaceToView(self, 0)
+
         setupUI()
         setupTable()
         setQuestion(question: question)
+        
     }
     
     func setupTable(){
 //        optsView.board(radius: 0, width: 1, color: .black)
         optsView.delegate = self
         optsView.dataSource = self
-        let nibName = UINib(nibName: "OptCell", bundle:nil)
-        optsView.register(nibName, forCellWithReuseIdentifier: "OptCell")
+        //let nibName = UINib(nibName: "OptCell", bundle:nil)
+        //optsView.register(nibName, forCellWithReuseIdentifier: "OptCell")
         optsView.isOpaque = false
-        let bg_img = UIImageView(image: #imageLiteral(resourceName: "question_bg_img"))
-        bg_img.contentMode = .scaleAspectFill
-        optsView.backgroundView = bg_img
+        //let bg_img = UIImageView(image: #imageLiteral(resourceName: "question_bg_img"))
+        //bg_img.contentMode = .scaleAspectFill
+        //optsView.backgroundView = bg_img
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
