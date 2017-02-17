@@ -13,15 +13,11 @@ import SCLAlertView
 import LTMorphingLabel
 
 class OptViewTableCell: UITableViewCell{
-//    @IBOutlet weak var textView: UITextView!
-//    @IBOutlet weak var controlView: UIView!
-//    @IBOutlet weak var profileImg: UIButton!
-//    @IBOutlet weak var nameLbl: UILabel!
     
     var textView = UITextView()
+    var bgColorView = UIView()
     var profileImg = UIButton()
     var topPadding = UIView()
-    var bottomPadding = UIView()
     var likeBtn = UIButton()
     var usrName = String()
     
@@ -43,14 +39,13 @@ class OptViewTableCell: UITableViewCell{
 //        questionView.parent.navigationController?.pushViewController(vc, animated: true)
 //    }
 //    
-//    @IBOutlet weak var likeBtn: UIButton!
+
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String!)
     {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         //self.frame = CGRect(x: 0, y: 0, width: 375, height: 120)
         setUpUI()
-        
     }
     
     
@@ -65,7 +60,8 @@ class OptViewTableCell: UITableViewCell{
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        
+        bgColorView.backgroundColor = UIColor(netHex: 0xF3A64B)
+        self.selectedBackgroundView = bgColorView
         // Configure the view for the selected state
     }
     
@@ -75,22 +71,22 @@ class OptViewTableCell: UITableViewCell{
         textView.textColor = UIColor(netHex: OPTIONS_TEXT_FONT_COLOR_DESELECTED)
         textView.sizeToFit()
         textView.isUserInteractionEnabled = false
+
         
-        topPadding.backgroundColor = UIColor.white
-        bottomPadding.backgroundColor = UIColor.white
-        //self.addSubview(topPadding)
-        //self.addSubview(bottomPadding)
-        self.addSubview(textView)
-        self.addSubview(profileImg)
-        self.addSubview(likeBtn)
-        //_ = topPadding.sd_layout().topEqualToView(self)?.heightIs(15)?.leftEqualToView(self)?.rightEqualToView(self)
-        //_ = bottomPadding.sd_layout().heightIs(15)?.bottomEqualToView(self)?.leftEqualToView(self)?.rightEqualToView(self)
-        _ = textView.sd_layout().topEqualToView(self)?.leftSpaceToView(self, 64)?.rightSpaceToView(self, 32)
+        
+        
+
+        self.contentView.addSubview(textView)
+        self.contentView.addSubview(profileImg)
+        self.contentView.addSubview(likeBtn)
+
+        
+        _ = textView.sd_layout().topSpaceToView(self.contentView,5)?.leftSpaceToView(self.contentView, 64)?.rightSpaceToView(self.contentView, 32)
         _ = profileImg.sd_layout().heightIs(31)?.widthIs(31)?.centerXIs(30)?.centerYEqualToView(textView)
         _ = likeBtn.sd_layout().heightIs(23)?.widthIs(23)?.centerXIs(350)?.centerYEqualToView(textView)
        
         
-        //self.setupAutoHeight(withBottomView: textView, bottomMargin: 15)
+        self.setupAutoHeight(withBottomView: textView, bottomMargin: 10)
         
     }
 
@@ -115,12 +111,9 @@ class OptViewTableCell: UITableViewCell{
         }
     }
     
+
 //    
-//    @IBAction func likeAction(_ sender: AnyObject) {
-//        optLiked()
-//    }
-//    
-//    @IBOutlet weak var numLikeLbl: UILabel!
+    
 //    
 //    @IBAction func showProfile(_ sender: Any) {
 //        if let user = offerer, let vc = controllerManager?.profileVC(user: user){
@@ -131,15 +124,16 @@ class OptViewTableCell: UITableViewCell{
 //        }
 //    }
     
+    
+    func likeAction(sender: UIButton){
+        optLiked()
+    }
+    
     func selected(){
-        //change background color to orange
-        self.backgroundColor = UIColor(netHex: 0xF3A64B)
         textView.textColor = UIColor(netHex: OPTIONS_TEXT_FONT_COLOR_SELECTED)
     }
     
     func deselected(){
-        //change background color to orange
-        self.backgroundColor = UIColor.white
         textView.textColor = UIColor(netHex: OPTIONS_TEXT_FONT_COLOR_DESELECTED)
     }
 
@@ -147,7 +141,6 @@ class OptViewTableCell: UITableViewCell{
     var option:OptionModel!{
         didSet{
             textView.text = option.oDescription
-            print(option.oDescription)
             if let uid = option.oOfferBy{
                 offerer = UserModel.getUser(uid: uid, getProfile: true)
                 setProfile()
@@ -190,8 +183,7 @@ class OptViewTableCell: UITableViewCell{
         self.question = questionView.currQuestion
         self.option = option
         likeBtn.setImage(img: option.isLiked ? #imageLiteral(resourceName: "like_filled") : #imageLiteral(resourceName: "like"), color: pinkColor)
-        //controlView.backgroundColor = themeColor
-        //        board(radius: 0, width: 1, color: themeColor)
+        likeBtn.addTarget(self, action: #selector(self.likeAction(sender:)), for: .touchUpInside)
     }
     
     func setProfile(){

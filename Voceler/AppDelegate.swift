@@ -186,7 +186,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         
         
         var bgTask = application.beginBackgroundTask { 
-            let ref = FIRDatabase.database().reference().child("TestMessage").observe(.childAdded, with: { (snapshot) in
+            _ = FIRDatabase.database().reference().child("TestMessage").observe(.childAdded, with: { (snapshot) in
                 self.scheduleNotification(inSeconds: 0, completion: { (success) in
                     print(success)
                 })

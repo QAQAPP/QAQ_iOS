@@ -49,14 +49,14 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource{
     
     // Actions
     
-//    @IBAction func postAction(_ sender: Any) {
-//        endEditing(true)
-//        if let text = addOptionField.text, !text.isEmpty{
-//            addOption(text: text)
-//            addOptionField.text = ""
-//            controllerManager?.mainVC.nextContent()
-//        }
-//    }
+    @IBAction func postAction(_ sender: Any) {
+        endEditing(true)
+        if let text = addOptionField.text, !text.isEmpty{
+            addOption(text: text)
+            addOptionField.text = ""
+            controllerManager?.mainVC.nextContent()
+        }
+    }
     
     @IBOutlet weak var addOptionField: UITextField!
     
@@ -80,7 +80,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource{
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell:OptViewTableCell = OptViewTableCell(style:UITableViewCellStyle.value1, reuseIdentifier:"OptViewTableCell");
+        let cell:OptViewTableCell = OptViewTableCell(style:UITableViewCellStyle.default, reuseIdentifier:"OptViewTableCell");
         cell.setup(option: currQuestion.qOptions[indexPath.row], questionView: self)
         return cell;
     }
@@ -101,10 +101,10 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return optsView.cellHeight(for: indexPath, cellContentViewWidth: UIScreen.main.bounds.width, tableView: optsView)
     }
     
-    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
     
