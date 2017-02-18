@@ -10,8 +10,17 @@ import UIKit
 import BFPaperButton
 import MMDrawerController
 import FirebaseAuth
+import SDAutoLayout
 
 extension UIViewController{
+    func tabBarHeight()->CGFloat{
+        return tabBarController!.tabBar.height
+    }
+    
+    func navBarHeight()->CGFloat{
+        return navigationController!.navigationBar.height + UIApplication.shared.statusBarFrame.height
+    }
+    
     func initView(){
         touchToHideKeyboard()
         edgesForExtendedLayout = []
@@ -125,6 +134,9 @@ extension UIColor {
 }
 
 extension UIView{
+    func fullLayout(top:CGFloat = 0, bottom:CGFloat = 0, left:CGFloat = 0, right:CGFloat = 0){
+        _ = sd_layout().topSpaceToView(superview, top)?.bottomSpaceToView(superview, bottom)?.leftSpaceToView(superview, left)?.rightSpaceToView(superview, right)
+    }
     func blury() {
         if !UIAccessibilityIsReduceTransparencyEnabled() {
             self.backgroundColor = UIColor.clear
@@ -321,5 +333,34 @@ public extension UIImage {
         
         guard let cgImage = image?.cgImage else { return nil }
         self.init(cgImage: cgImage)
+    }
+}
+
+extension CALayer {
+    
+    func addBorder(edge: UIRectEdge, color: UIColor, thickness: CGFloat) {
+        
+        let border = CALayer()
+        
+        switch edge {
+        case UIRectEdge.top:
+            border.frame = CGRect.init(x: 0, y: 0, width: frame.width, height: thickness)
+            break
+        case UIRectEdge.bottom:
+            border.frame = CGRect.init(x: 0, y: frame.height - thickness, width: frame.width, height: thickness)
+            break
+        case UIRectEdge.left:
+            border.frame = CGRect.init(x: 0, y: 0, width: thickness, height: frame.height)
+            break
+        case UIRectEdge.right:
+            border.frame = CGRect.init(x: frame.width - thickness, y: 0, width: thickness, height: frame.height)
+            break
+        default:
+            break
+        }
+        
+        border.backgroundColor = color.cgColor;
+        
+        self.addSublayer(border)
     }
 }

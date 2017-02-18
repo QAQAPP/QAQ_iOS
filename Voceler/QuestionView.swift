@@ -55,7 +55,7 @@ class QuestionView: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     
     // Functions
     func likeQuestion(){
-        if !liked && currUser!.qCollection.count >= currUser!.qInCollectionLimit{
+        if !liked && currUser!.qCollection.count >= currUser!.qInCollectionLimit!{
             _ = SCLAlertView().showError("Sorry", subTitle: "You are only allowed to have up to \(currUser!.qInCollectionLimit) in collection. Please conclude a question.")
         }
         else{

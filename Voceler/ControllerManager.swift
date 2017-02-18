@@ -13,11 +13,11 @@ class ControllerManager: NSObject, UITabBarControllerDelegate{
     var mainVC:MainVC!
     var collectionVC:CollectionVC!
     var settingsVC:SettingsVC!
-    var profileVC:ProfileVC!
+    var userVC:UserVC!
     var mainNav:UINavigationController!
-    var collectionNav:UINavigationController!
-    var profileNav:UINavigationController!
-    var settingsNav:UINavigationController!
+//    var collectionNav:UINavigationController!
+    var userNav:UINavigationController!
+//    var settingsNav:UINavigationController!
     var tabbarVC = UITabBarController()
     var askProblemVC:AskProblemVC{
         let board = UIStoryboard(name: "Main", bundle: nil)
@@ -44,46 +44,44 @@ class ControllerManager: NSObject, UITabBarControllerDelegate{
         mainNav = UINavigationController(rootViewController: mainVC)
         mainNav.navigationBar.setColor(color: themeColor)
         let mainItem = UITabBarItem()
-        mainItem.image = #imageLiteral(resourceName: "question_mark-25")
+        mainItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
+        mainItem.selectedImage = #imageLiteral(resourceName: "Oval 2").withRenderingMode(.alwaysOriginal)
+        mainItem.image = #imageLiteral(resourceName: "Home - simple-line-icons").withRenderingMode(.alwaysOriginal)
         mainNav.tabBarItem = mainItem
         
-        collectionVC = CollectionVC(nibName: "CollectionVC", bundle: nil)
-        collectionVC.edgesForExtendedLayout = []
-        collectionNav = UINavigationController(rootViewController: collectionVC)
-        collectionNav.navigationBar.setColor(color: themeColor)
-        let collectionItem = UITabBarItem()
-        collectionItem.image = #imageLiteral(resourceName: "book_shelf-25")
-        collectionNav.tabBarItem = collectionItem
+        collectionVC = CollectionVC()
+//        collectionNav = UINavigationController(rootViewController: collectionVC)
+//        collectionNav.navigationBar.setColor(color: themeColor)
+//        let collectionItem = UITabBarItem()
+//        collectionItem.image = #imageLiteral(resourceName: "book_shelf-25")
+//        collectionNav.tabBarItem = collectionItem
         
         let askItem = UITabBarItem()
-        askItem.image = #imageLiteral(resourceName: "ask_question-25")
+        askItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
+        askItem.image = #imageLiteral(resourceName: "Oval 1").withRenderingMode(.alwaysOriginal)
         let askVC = askProblemVC
         askVC.tabBarItem = askItem
         
         settingsVC = SettingsVC()
-        settingsVC.edgesForExtendedLayout = []
-        settingsNav = UINavigationController(rootViewController: settingsVC)
-        settingsNav.navigationBar.setColor(color: themeColor)
-        let settingsItem = UITabBarItem()
-        settingsItem.image = #imageLiteral(resourceName: "settings-25")
-        settingsNav.tabBarItem = settingsItem
+//        settingsNav = UINavigationController(rootViewController: settingsVC)
+//        settingsNav.navigationBar.setColor(color: themeColor)
         
-        profileVC = ProfileVC(nibName: "ProfileVC", bundle: nil)
-        profileVC.thisUser = currUser
-        profileNav = UINavigationController(rootViewController: profileVC)
-        profileNav.navigationBar.setColor(color: themeColor)
-        let profileItem = UITabBarItem()
-        profileItem.image = #imageLiteral(resourceName: "gender_neutral_user-25")
-        profileNav.tabBarItem = profileItem
+        userVC = UserVC(nibName: "UserVC", bundle: nil)
+        userVC.thisUser = currUser
+        userNav = UINavigationController(rootViewController: userVC)
+        let userItem = UITabBarItem()
+        userItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
+        userItem.image = #imageLiteral(resourceName: "User - simple-line-icons").withRenderingMode(.alwaysOriginal)
+        userItem.selectedImage = #imageLiteral(resourceName: "User selected").withRenderingMode(.alwaysOriginal)
+        userNav.tabBarItem = userItem
         
-        tabbarVC.setViewControllers([mainNav, collectionNav, askVC, profileNav, settingsNav], animated: true)
+        tabbarVC.setViewControllers([mainNav, askVC, userNav], animated: true)
         tabbarVC.delegate = self
-        tabbarVC.tabBar.height = 44
     }
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if viewController is AskProblemVC{
-            if currUser!.qInProgress.count >= currUser!.qInProgressLimit{
+            if currUser!.qInProgress.count >= currUser!.qInProgressLimit!{
                 _ = SCLAlertView().showError("Sorry", subTitle: "You are only allowed to have up to \(currUser!.qInProgressLimit) in progress questions. Please conclude a question.")
             }
             else{

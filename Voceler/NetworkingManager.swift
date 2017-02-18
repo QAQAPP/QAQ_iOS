@@ -11,7 +11,9 @@ import Networking
 import PercentEncoder
 import SwiftyJSON
 import SwiftString3
+import SCLAlertView
 
+//http://lowcost-env.pukinshx93.us-west-2.elasticbeanstalk.com/qaq/zhaowei/
 class NetworkingManager: NSObject {
     private func analyzeWords(text:String)->[String]{
         let usefulSet:Set<String> = [NSLinguisticTagPlaceName, NSLinguisticTagWordJoiner, NSLinguisticTagNoun, NSLinguisticTagOtherWord, NSLinguisticTagPersonalName, NSLinguisticTagOrganizationName, NSLinguisticTagVerb, NSLinguisticTagAdjective, NSLinguisticTagOtherWord]
@@ -59,5 +61,24 @@ class NetworkingManager: NSObject {
         let encodedTags = tags.joined(separator: ",").ped_encodeURIComponent()
         let path = "w=\(encodedText)&t=\(encodedTags)"
         networking.get(path, completion: { (val, error) in })
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    func getQuestion(){
+        let networking = Networking(baseURL: "http://lowcost-env.pukinshx93.us-west-2.elasticbeanstalk.com/qaq/zhaowei/")
+        networking.get("") { (result, error) in
+            if let error = error{
+                SCLAlertView().showError("Networking Error", subTitle: error.localizedDescription)
+            }
+            else{
+                print(result)
+            }
+        }
     }
 }
