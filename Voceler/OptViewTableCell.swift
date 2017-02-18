@@ -94,7 +94,7 @@ class OptViewTableCell: UITableViewCell{
         if questionView.parent is MainVC{
             question.userChoosed = true
             if !option.isLiked{
-                likeBtn.setImage(img: #imageLiteral(resourceName: "like_filled"), color: pinkColor)
+                likeBtn.setImage(#imageLiteral(resourceName: "check_checked"), for: .normal)
                 for opt in question.qOptions{
                     if opt == option && !opt.isLiked{
                         opt.isLiked = true
@@ -131,10 +131,12 @@ class OptViewTableCell: UITableViewCell{
     
     func selected(){
         textView.textColor = UIColor(netHex: OPTIONS_TEXT_FONT_COLOR_SELECTED)
+        likeBtn.setImage(#imageLiteral(resourceName: "check_selected"), for: .normal)
     }
     
     func deselected(){
         textView.textColor = UIColor(netHex: OPTIONS_TEXT_FONT_COLOR_DESELECTED)
+        likeBtn.setImage(#imageLiteral(resourceName: "check"), for: .normal)
     }
 
     
@@ -182,7 +184,12 @@ class OptViewTableCell: UITableViewCell{
         self.questionView = questionView
         self.question = questionView.currQuestion
         self.option = option
-        likeBtn.setImage(img: option.isLiked ? #imageLiteral(resourceName: "like_filled") : #imageLiteral(resourceName: "like"), color: pinkColor)
+        if(option.isLiked){
+            likeBtn.setImage(#imageLiteral(resourceName: "check_checked"), for: .normal)
+        }else{
+            likeBtn.setImage(#imageLiteral(resourceName: "check"), for: .normal)
+        }
+        
         likeBtn.addTarget(self, action: #selector(self.likeAction(sender:)), for: .touchUpInside)
     }
     

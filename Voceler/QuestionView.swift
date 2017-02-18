@@ -108,26 +108,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource{
         return UITableViewAutomaticDimension
     }
     
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        
-//        guard let focusViewLayout = collectionView.collectionViewLayout as? SFFocusViewLayout else {
-//            fatalError("error casting focus layout from collection view")
-//        }
-//        
-//        let offset = focusViewLayout.dragOffset * CGFloat(indexPath.item)
-//        if collectionView.contentOffset.y != offset {
-//            collectionView.setContentOffset(CGPoint(x: 0, y: offset), animated: true)
-//        }
-//        let cell = optsView.cellForItem(at: indexPath)
-//        cell?.isSelected = false
-//        if let cell = cell as? OptCell{
-//            cell.optLiked()
-//            collectionView.isUserInteractionEnabled = false
-//            Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (timer) in
-//                controllerManager?.mainVC.nextContent()
-//            })
-//        }
-//    }
+
     
     func nextContent(){
         controllerManager?.mainVC.nextContent()
