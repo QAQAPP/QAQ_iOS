@@ -30,6 +30,12 @@ class ControllerManager: NSObject, UITabBarControllerDelegate{
         return vc
     }
     
+    func getUserVC(user:UserModel)->UserVC{
+        let vc = UserVC(nibName: "UserVC", bundle: nil)
+        vc.thisUser = user
+        return vc
+    }
+    
     func profileVC(user:UserModel)->ProfileVC{
         let vc = ProfileVC(nibName: "ProfileVC", bundle: nil)
         vc.edgesForExtendedLayout = .top

@@ -38,6 +38,7 @@
 		BAC3A1A41DCD55ED00D2700F /* SwipeAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC3A1A31DCD55ED00D2700F /* SwipeAlertVC.swift */; };
 		BAC478FF1D8F200E00041D94 /* SettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC478FE1D8F200E00041D94 /* SettingModel.swift */; };
 		BAC479011D8FBAA800041D94 /* TagsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC479001D8FBAA800041D94 /* TagsVC.swift */; };
+		BAD1CE361E5902C20019B558 /* OptViewTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD1CE351E5902C20019B558 /* OptViewTableCell.swift */; };
 		BAD6C0A91D6AA95F00361A93 /* Categories.plist in Resources */ = {isa = PBXBuildFile; fileRef = BAD6C0A81D6AA95F00361A93 /* Categories.plist */; };
 		BAD6C0AC1D6AB56800361A93 /* TreeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD6C0AA1D6AB56800361A93 /* TreeViewCell.swift */; };
 		BAD6C0B01D6B646900361A93 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD6C0AF1D6B646900361A93 /* UserModel.swift */; };
@@ -128,6 +129,7 @@
 		BAC3A1A31DCD55ED00D2700F /* SwipeAlertVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeAlertVC.swift; sourceTree = "<group>"; };
 		BAC478FE1D8F200E00041D94 /* SettingModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingModel.swift; sourceTree = "<group>"; };
 		BAC479001D8FBAA800041D94 /* TagsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagsVC.swift; sourceTree = "<group>"; };
+		BAD1CE351E5902C20019B558 /* OptViewTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptViewTableCell.swift; sourceTree = "<group>"; };
 		BAD6C0A81D6AA95F00361A93 /* Categories.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Categories.plist; sourceTree = "<group>"; };
 		BAD6C0AA1D6AB56800361A93 /* TreeViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TreeViewCell.swift; sourceTree = "<group>"; };
 		BAD6C0AF1D6B646900361A93 /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
@@ -280,6 +282,7 @@
 				FD67A7D31D360889008E3ACC /* ProfileCell.swift */,
 				BAD6C0AA1D6AB56800361A93 /* TreeViewCell.swift */,
 				BA8FEBD11DA05EAE00F23011 /* QuestionView.swift */,
+				BAD1CE351E5902C20019B558 /* OptViewTableCell.swift */,
 				BAC0980D1DBB4F4B000C81F0 /* CouponScratchView.swift */,
 				BA240CA01E0292240042170D /* AlertView.swift */,
 				BA7533981E43E0F500AA7803 /* UserTableCell.swift */,
@@ -457,7 +460,7 @@
 		};
 		A010AEBFE41EAB9861F2A252 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -465,7 +468,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QAQ/Pods-QAQ-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
@@ -505,6 +508,7 @@
 				FD67A7D51D360889008E3ACC /* ProfileCell.swift in Sources */,
 				FDBBB5DF1D20544100D75467 /* MainVC.swift in Sources */,
 				BAC098031DBB22D3000C81F0 /* CollectionVC.swift in Sources */,
+				BAD1CE361E5902C20019B558 /* OptViewTableCell.swift in Sources */,
 				BA20895B1DBC3C8500316486 /* OptCell.swift in Sources */,
 				BA8FEBD21DA05EAE00F23011 /* QuestionView.swift in Sources */,
 				BAFD787E1D961945004322C0 /* OptionModel.swift in Sources */,
