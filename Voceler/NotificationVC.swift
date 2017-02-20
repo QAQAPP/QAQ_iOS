@@ -22,6 +22,11 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     let table = UITableView()
     
+    let dictionary: [String: NotificationType] = [
+        "questionAnswered": NotificationType.questionAnswered,
+        "questionViewed": NotificationType.questionViewed,
+        "answerChosen": NotificationType.answerChosen]
+    
     var notificationsInDict:[String:AnyObject] = [:]
     var notifications:[NotificationModel] = []
     
@@ -30,11 +35,10 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         //setupProfile() // This is for..?
         
-        currUser?.nRef.observe(FIRDataEventType.childAdded, with: { (snapshot) in
+        currUser?.nRef.observe(FIRDataEventType.value, with: { (snapshot) in
             self.notificationsInDict = snapshot.value as! [String : AnyObject]
             print(self.notificationsInDict)
-            
-            self.appendNotificationsFromDict ()
+            self.loadNotificationsFromDict()
         })
         
         view.addSubview(table)
@@ -55,18 +59,24 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Dispose of any resources that can be recreated.
     }
     
-    func appendNotificationsFromDict () {
+    func loadNotificationsFromDict () {
+        self.notifications = []
+        
+        for thisNotificationInDict in notificationsInDict {
+            print(thisNotificationInDict)
+        }
         let thisNotification = NotificationModel()
+        
+        
         self.notifications.append(thisNotification)
         
-        self.table.reloadData()
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int)-> Int {
         return notifications.count
     }
     
@@ -74,13 +84,13 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         return 1
     }
     
-    //fund tableView(_ tableView: UITableView,
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationCell", for: indexPath) as! NotificationCell
-        //
+        
         //cell.icon.image = notifications?[indexPath.row].user.profileImg
-        //
+        
         cell.label.text = "This user liked your answer in Question"
+        
         return cell
     }
     

@@ -31,12 +31,12 @@ class NotificationModel: NSObject {
         self.details = "0"
     }
     
-    init (_ qid: String, of type: NotificationType, with details: NSObject) {
+    init (_ qid: String, of type: NotificationType, with details: String, whether viewed: Bool) {
         self.qid = qid
-        self.viewed = false
+        self.viewed = viewed
         self.type = type
         
-        // Setup details - need more work
+        // Setup details - hard code for now
         switch type {
         case NotificationType.questionAnswered:
          // by whom

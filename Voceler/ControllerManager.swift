@@ -20,7 +20,6 @@ class ControllerManager: NSObject, UITabBarControllerDelegate{
     
     var userNav:UINavigationController!
 //    var settingsNav:UINavigationController!
-    // MESSENGE VIEW NAV
     
     var tabbarVC = UITabBarController()
     var askProblemVC:AskProblemVC{
