@@ -12,12 +12,16 @@ import SCLAlertView
 class ControllerManager: NSObject, UITabBarControllerDelegate{
     var mainVC:MainVC!
     var collectionVC:CollectionVC!
+    var notificationVC:NotificationVC!
     var settingsVC:SettingsVC!
     var userVC:UserVC!
     var mainNav:UINavigationController!
-//    var collectionNav:UINavigationController!
+    var collectionNav:UINavigationController!
+    
     var userNav:UINavigationController!
 //    var settingsNav:UINavigationController!
+    // MESSENGE VIEW NAV
+    
     var tabbarVC = UITabBarController()
     var askProblemVC:AskProblemVC{
         let board = UIStoryboard(name: "Main", bundle: nil)
@@ -65,6 +69,8 @@ class ControllerManager: NSObject, UITabBarControllerDelegate{
         settingsVC = SettingsVC()
 //        settingsNav = UINavigationController(rootViewController: settingsVC)
 //        settingsNav.navigationBar.setColor(color: themeColor)
+        
+        notificationVC = NotificationVC()
         
         userVC = UserVC(nibName: "UserVC", bundle: nil)
         userVC.thisUser = currUser

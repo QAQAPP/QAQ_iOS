@@ -74,6 +74,10 @@ class UserModel: NSObject {
         }
     }
     var qRef:FIRDatabaseReference!
+    
+    // Reference to Notifications
+    var nRef:FIRDatabaseReference!
+    
     var storageRef:FIRStorageReference!
     var qInProgress = Array<String>() // Question in progress (contains QID)
     var qAsked = Array<String>() // Asked Question
@@ -152,6 +156,8 @@ class UserModel: NSObject {
     func setup(ref:FIRDatabaseReference){
         self.ref = ref
         qRef = ref.parent?.child("Questions")
+        // Reference to notification
+        nRef = ref.parent?.child("notifications")
     }
     
     func loadCollection(){

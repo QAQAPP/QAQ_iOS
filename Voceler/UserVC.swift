@@ -107,6 +107,9 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         if indexPath.row == 0{
             navigationController?.pushViewController(controllerManager!.collectionVC, animated: true)
         }
+        else if indexPath.row == 1{
+            navigationController?.pushViewController(controllerManager!.notificationVC, animated: true)
+        }
         else if indexPath.row == 2{
             navigationController?.pushViewController(controllerManager!.settingsVC, animated: true)
         }
