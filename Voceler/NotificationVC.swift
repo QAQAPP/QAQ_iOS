@@ -105,14 +105,16 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         print(thisNotification)
         switch thisNotification.type {
         case NotificationType.questionAnswered:
+            print(thisNotification.details)
             let username = UserModel.getUser(uid: thisNotification.details, getWall: false, getProfile: false).username
             cell.label.text = "\(username) answered your question: ..."
             
         case NotificationType.questionViewed:
             let views = thisNotification.details
-            cell.label.text = "You got \(views) for your question: ..."
+            cell.label.text = "You got \(views) views for your question: ..."
             
         case NotificationType.answerChosen:
+            print(thisNotification.details)
             let username = UserModel.getUser(uid: thisNotification.details, getWall: false, getProfile: false).username
             cell.label.text = "Your answer was chosen by \(username) in question: ..."
         }

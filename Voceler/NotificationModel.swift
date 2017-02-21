@@ -43,15 +43,15 @@ class NotificationModel: NSObject {
         switch type {
         case NotificationType.questionAnswered:
          // by whom
-         self.details = "WN0ROkKZmwTddhqy3ENipoT77Qh1"
+         self.details = details as! String
             
         case NotificationType.questionViewed:
          // how many times
-         self.details = "100"
+         self.details = (details as! NSNumber).stringValue
             
         case NotificationType.answerChosen:
          // by whom
-         self.details = "WN0ROkKZmwTddhqy3ENipoT77Qh1"
+         self.details = details as! String
         }
     }
 }
