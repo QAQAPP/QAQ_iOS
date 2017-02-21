@@ -22,7 +22,7 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     let table = UITableView()
     
-    let dictionary: [String: NotificationType] = [
+    let NTypeLookup: [String: NotificationType] = [
         "questionAnswered": NotificationType.questionAnswered,
         "questionViewed": NotificationType.questionViewed,
         "answerChosen": NotificationType.answerChosen]
@@ -30,17 +30,32 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     var notificationsInDict:[String:AnyObject] = [:]
     var notifications:[NotificationModel] = []
     
+    convenience init() {
+        self.init(nibName:nil, bundle:nil)
+        
+        currUser?.nRef.observe(FIRDataEventType.value, with: { (snapshot) in
+            self.notificationsInDict = snapshot.value as! [String : AnyObject]
+            print(self.notificationsInDict)
+            //
+        })
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.loadNotificationsFromDict()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //setupProfile() // This is for..?
-        
+        /*
         currUser?.nRef.observe(FIRDataEventType.value, with: { (snapshot) in
             self.notificationsInDict = snapshot.value as! [String : AnyObject]
             print(self.notificationsInDict)
             self.loadNotificationsFromDict()
         })
-        
+        */
         view.addSubview(table)
         _ = table.sd_layout().topSpaceToView(view, 0)?.bottomSpaceToView(view, 0)?.leftSpaceToView(view, 0)?.rightSpaceToView(view, 0)
         
@@ -53,23 +68,21 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         navigationItem.title = "Notifications"
         navigationController?.navigationBar.tintColor = themeColor
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     func loadNotificationsFromDict () {
         self.notifications = []
         
         for thisNotificationInDict in notificationsInDict {
             print(thisNotificationInDict)
+            let thisNotification = NotificationModel(thisNotificationInDict.value["qid"] as! String,
+                of: NTypeLookup[thisNotificationInDict.value["type"] as! String]!,
+                with: thisNotificationInDict.value["details"] as AnyObject,
+                whether: thisNotificationInDict.value["viewed"] as! Bool,
+                on: thisNotificationInDict.key )
+            self.notifications.append(thisNotification)
         }
-        let thisNotification = NotificationModel()
         
-        
-        self.notifications.append(thisNotification)
-        
+        self.table.reloadData()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -88,14 +101,35 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationCell", for: indexPath) as! NotificationCell
         
         //cell.icon.image = notifications?[indexPath.row].user.profileImg
+        let thisNotification = notifications[indexPath.row]
+        print(thisNotification)
+        switch thisNotification.type {
+        case NotificationType.questionAnswered:
+            let username = UserModel.getUser(uid: thisNotification.details, getWall: false, getProfile: false).username
+            cell.label.text = "\(username) answered your question: ..."
+            
+        case NotificationType.questionViewed:
+            let views = thisNotification.details
+            cell.label.text = "You got \(views) for your question: ..."
+            
+        case NotificationType.answerChosen:
+            let username = UserModel.getUser(uid: thisNotification.details, getWall: false, getProfile: false).username
+            cell.label.text = "Your answer was chosen by \(username) in question: ..."
+        }
         
-        cell.label.text = "This user liked your answer in Question"
-        
+        if thisNotification.viewed == false {
+            cell.contentView.backgroundColor = UIColor.red
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       // Implement later
+       // Navigate to question view - Implement later
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
     
     /*
