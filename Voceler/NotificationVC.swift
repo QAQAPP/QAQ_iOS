@@ -102,21 +102,42 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         //cell.icon.image = notifications?[indexPath.row].user.profileImg
         let thisNotification = notifications[indexPath.row]
-        print(thisNotification)
+        
+        questionManager?.loadQuestionContent(qid: thisNotification.qid)
+        
+        /*NotificationCenter.default.addObserver(forName: NSNotification.Name(thisNotification.qid+"question"), queue: nil, using: { (noti) in
+            if (thisQuesiton != nil) {
+                print((thisQuestion as! QuestionModel).QID)
+            }
+
+        })*/
+
         switch thisNotification.type {
         case NotificationType.questionAnswered:
             print(thisNotification.details)
-            let username = UserModel.getUser(uid: thisNotification.details, getWall: false, getProfile: false).username
-            cell.label.text = "\(username) answered your question: ..."
+            
+            let user = UserModel.getUser(uid: thisNotification.details)
+            NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: thisNotification.details+"username"), object: nil, queue: nil, using: { (noti) in
+                if let username = user.username{
+                    cell.label.text = "\(username) answered your question: ..."
+                }
+            })
             
         case NotificationType.questionViewed:
             let views = thisNotification.details
+            
             cell.label.text = "You got \(views) views for your question: ..."
             
         case NotificationType.answerChosen:
             print(thisNotification.details)
-            let username = UserModel.getUser(uid: thisNotification.details, getWall: false, getProfile: false).username
-            cell.label.text = "Your answer was chosen by \(username) in question: ..."
+            
+            let user = UserModel.getUser(uid: thisNotification.details)
+            NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: thisNotification.details+"username"), object: nil, queue: nil, using: { (noti) in
+                if let username = user.username{
+                    cell.label.text = "Your answer was chosen by \(username) in question: ..."
+                }
+            })
+            
         }
         
         if thisNotification.viewed == false {
