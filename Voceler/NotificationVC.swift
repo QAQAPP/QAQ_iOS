@@ -141,7 +141,7 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
         if thisNotification.viewed == false {
-            cell.contentView.backgroundColor = UIColor.red
+            cell.backgroundColor = UIColor.red // maybe its too aggressive
         }
         return cell
     }
