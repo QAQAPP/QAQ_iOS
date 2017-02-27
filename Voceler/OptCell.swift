@@ -33,7 +33,8 @@ class OptCell: UICollectionViewCell{
 //		
 //		vc.optionDescriptionLabel.text = "Empty description for now"
 //		vc.optionTextView.text = option.oDescription
-        questionView.parent.navigationController?.pushViewController(vc, animated: true)
+		vc.option = option
+		questionView.parent.navigationController?.pushViewController(vc, animated: true)
     }
     @IBOutlet weak var likeBtn: UIButton!
     

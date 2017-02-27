@@ -27,7 +27,7 @@ class OptDetailedVC: UIViewController,UINavigationControllerDelegate {
 		userNameLabel.text = "user"
 		
 		// Do any additional setup after loading the view.
-		
+		setOptionModel(option: option)
 	}
 	
 	override func didReceiveMemoryWarning() {
