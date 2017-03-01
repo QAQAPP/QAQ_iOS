@@ -10,8 +10,8 @@ import Foundation
 import FirebaseDatabase
 
 class QuestionManager: NSObject {
-    private let init_size:UInt = 10
-    private var size:UInt = 10
+    private let init_size:Int = 10
+    private var size:Int = 3
     private var collection = [QuestionModel]()
     private var ref:FIRDatabaseReference!
     private var tagsRef:FIRDatabaseReference!
@@ -35,33 +35,36 @@ class QuestionManager: NSObject {
     private func refreshCollection() {
         if !isLoading{
             isLoading = true
-            tagsRef.child("all").queryOrderedByPriority().queryLimited(toLast: size).observeSingleEvent(of: .value, with: { (snapshot) in
-                if let value = snapshot.value as? Dictionary<String, Any>{
-                    let setCount = self.questionKeySet.count
-                    
-                    // check if the key is checked, if not, add to the set and load the question
-                    for (key, _) in value{
-                        if !self.questionKeySet.contains(key){
-                            self.questionKeySet.insert(key)
-                            self.loadQuestion(qid: key)
-                        }
-                    }
-                    
-                    // if items is not enough, then pause
-                    if value.count < Int(self.size) {
-                        self.isLoading = false
-                        return
-                    }
-                    
-                    // if no new question is added into the set, then expand the size and reload data
-                    if setCount == self.questionKeySet.count{
-                        self.size += self.init_size
-                        self.isLoading = false
-                        self.refreshCollection()
-                    }
-                }
-                self.isLoading = false
-            })
+            for _ in collection.count..<size{
+                networkingManager?.getQuestion()
+            }
+//            tagsRef.child("all").queryOrderedByPriority().queryLimited(toLast: size).observeSingleEvent(of: .value, with: { (snapshot) in
+//                if let value = snapshot.value as? Dictionary<String, Any>{
+//                    let setCount = self.questionKeySet.count
+//                    
+//                    // check if the key is checked, if not, add to the set and load the question
+//                    for (key, _) in value{
+//                        if !self.questionKeySet.contains(key){
+//                            self.questionKeySet.insert(key)
+//                            self.loadQuestion(qid: key)
+//                        }
+//                    }
+//                    
+//                    // if items is not enough, then pause
+//                    if value.count < Int(self.size) {
+//                        self.isLoading = false
+//                        return
+//                    }
+//                    
+//                    // if no new question is added into the set, then expand the size and reload data
+//                    if setCount == self.questionKeySet.count{
+//                        self.size += self.init_size
+//                        self.isLoading = false
+//                        self.refreshCollection()
+//                    }
+//                }
+//                self.isLoading = false
+//            })
         }
     }
     

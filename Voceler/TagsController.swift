@@ -56,18 +56,14 @@ class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate
         let alertText = sliderValue() == 0 ? "Are you sure you wants to post the question?" : "Are you sure you wants to spend \(sliderValue()) coins to post the question?"
         _ = alert.showNotice("Post", subTitle: alertText, closeButtonTitle: "Cancel")
     }
-    
-    func generatePriority() -> Double{
-        return question.qTime.timeIntervalSince1970 + Double(slider.value)
-    }
 
     func finishQuestion(){
         question.qTags.removeAll()
         for tag in tagView.tagViews{
-            question.qTags.append(tag.titleLabel!.text!)
+            if let text = tag.titleLabel?.text, text != ""{
+                question.qTags.append(tag.titleLabel!.text!)
+            }
         }
-        question.qTime = Date()
-        question.qPriority = generatePriority()
     }
 
     func clearNav(){

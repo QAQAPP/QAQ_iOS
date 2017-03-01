@@ -87,10 +87,7 @@ class ControllerManager: NSObject, UITabBarControllerDelegate{
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if viewController is AskProblemVC{
-            if currUser!.qInProgress.count >= currUser!.qInProgressLimit!{
-                _ = SCLAlertView().showError("Sorry", subTitle: "You are only allowed to have up to \(currUser!.qInProgressLimit) in progress questions. Please conclude a question.")
-            }
-            else{
+            if gameManager!.checkAskQuestion(){
                 let nav = UINavigationController(rootViewController: askProblemVC)
                 nav.navigationBar.setColor(color: themeColor)
                 tabBarController.show(nav, sender: tabBarController)

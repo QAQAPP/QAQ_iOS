@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SCLAlertView
 
 class GameManager: NSObject {
     private var lastActiveTime:Date?
@@ -54,5 +55,19 @@ class GameManager: NSObject {
     
     func addCollectionSize()->Bool{
         return consume(money: 100)
+    }
+    
+    func checkAskQuestion()->Bool{
+        if !askQuestion() {
+            SCLAlertView().showError("No money!", subTitle: "Please anwser some questions to get money to ask question.")
+            return false
+        }
+        else if currUser!.qInProgressLimit! <= currUser!.qInProgress.count{
+            SCLAlertView().showError("Question limit reached!", subTitle: "Please conclude some questions or add in progress question limit.")
+            return false
+        }
+        else{
+            return true
+        }
     }
 }

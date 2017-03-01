@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "99690F19DBB70AF376AD5C92B0B6EE12"
+               BlueprintIdentifier = "98E41A3E34D17AC3723FD0747122FDF7"
                BuildableName = "UIViewController_NavigationBar.framework"
                BlueprintName = "UIViewController+NavigationBar"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "99690F19DBB70AF376AD5C92B0B6EE12"
+            BlueprintIdentifier = "98E41A3E34D17AC3723FD0747122FDF7"
             BuildableName = "UIViewController_NavigationBar.framework"
             BlueprintName = "UIViewController+NavigationBar"
             ReferencedContainer = "container:Pods.xcodeproj">

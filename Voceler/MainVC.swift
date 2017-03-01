@@ -24,7 +24,11 @@ import LTMorphingLabel
 class MainVC: UIViewController{
     let vc_max_count = 7
     private var contentViews = [UIView]()
-    var currView:UIView?
+    var currView:UIView?{
+        didSet{
+            print("curr view did set")
+        }
+    }
     
     var point = 0{
         didSet{
@@ -78,11 +82,13 @@ class MainVC: UIViewController{
     
     func addQuestion(question:QuestionModel){
         let questionView = Bundle.main.loadNibNamed("QuestionView", owner: self, options: nil)!.first as! QuestionView
-        if currView is UIButton{
+        if contentViews.isEmpty && currView is UIButton{
             UIView.transition(with: currView!, duration: 1, options: .transitionCrossDissolve, animations: {
+                self.view.addSubview(questionView)
+                self.currView = questionView
                 questionView.setup(parent: self, question: question)
                 _ = questionView.sd_layout().topSpaceToView(self.view, 0)?.bottomSpaceToView(self.view, 0)?.leftSpaceToView(self.view, 0)?.rightSpaceToView(self.view, 0)
-                }, completion: nil)
+            }, completion: nil)
         }
         else{
             questionView.setup(parent: self, question: question)
@@ -111,7 +117,7 @@ class MainVC: UIViewController{
         
         NotificationCenter.default.addObserver(self, selector: #selector(loadQuestions), name: Notification.Name.QuestionLoaded, object: nil)
         view.backgroundColor = .white
-        addCouponVC(img: #imageLiteral(resourceName: "coupon_sample"))
+//        addCouponVC(img: #imageLiteral(resourceName: "coupon_sample"))
     
         likeBtn.target = self
         profileItem.target = self
