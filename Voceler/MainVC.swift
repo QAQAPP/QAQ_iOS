@@ -22,7 +22,7 @@ import BFPaperButton
 import LTMorphingLabel
 
 class MainVC: UIViewController{
-    let vc_max_count = 7
+    
     private var contentViews = [UIView]()
     var currView:UIView?{
         didSet{
@@ -84,6 +84,7 @@ class MainVC: UIViewController{
         let questionView = Bundle.main.loadNibNamed("QuestionView", owner: self, options: nil)!.first as! QuestionView
         if contentViews.isEmpty && currView is UIButton{
             UIView.transition(with: currView!, duration: 1, options: .transitionCrossDissolve, animations: {
+                self.currView?.removeFromSuperview()
                 self.view.addSubview(questionView)
                 self.currView = questionView
                 questionView.setup(parent: self, question: question)
@@ -115,7 +116,7 @@ class MainVC: UIViewController{
         scoreLabel.textAlignment = .center
         scoreLabel.textColor = .white
         
-        NotificationCenter.default.addObserver(self, selector: #selector(loadQuestions), name: Notification.Name.QuestionLoaded, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(loadQuestions), name: Notification.Name.QuestionLoaded, object: nil)
         view.backgroundColor = .white
 //        addCouponVC(img: #imageLiteral(resourceName: "coupon_sample"))
     

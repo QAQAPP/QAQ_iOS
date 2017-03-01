@@ -14,8 +14,8 @@ import FirebaseStorage
 class UserModel: NSObject {
     var uid:String!
     var email:String?
-    var inProgLimit = 5
-    var inCollectLimit = 20
+    var inProgLimit:Int!
+    var inCollectLimit:Int!
     var money:Int?
     var username:String?{
         didSet{
