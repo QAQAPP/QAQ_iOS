@@ -132,6 +132,7 @@ PODS:
   - ScratchCard (1.0.10)
   - SDAutoLayout (2.1.7)
   - SFFocusViewLayout (3.1.0)
+  - STPopup (1.8.2)
   - SwiftSpinner (1.1.0)
   - SwiftString3 (1.0.11)
   - SwiftyJSON (3.1.4)
@@ -168,6 +169,7 @@ DEPENDENCIES:
   - ScratchCard
   - SDAutoLayout
   - SFFocusViewLayout
+  - STPopup
   - SwiftSpinner
   - SwiftString3
   - SwiftyJSON
@@ -220,6 +222,7 @@ SPEC CHECKSUMS:
   ScratchCard: c2a0910ac4ffb4fcede67999c8ba2d04cb36ce57
   SDAutoLayout: e9b36d04b8c0b504762a04d76fbbe5108944297a
   SFFocusViewLayout: 8524435eb57796adf3e7be1395c4e3786cd76dcc
+  STPopup: b69b3e7484ef7d2baec5f9ab2939f8a7bcdfe218
   SwiftSpinner: c03815614599b91eea46594bd52ba742849d0414
   SwiftString3: 1de59016efce9b4a9adb491995f74ef50d0aa920
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
@@ -228,6 +231,6 @@ SPEC CHECKSUMS:
   UIImage-Resize: fa776860f10e6900bbaf53a73e494bdceaaccc77
   UIViewController+NavigationBar: cbf1628fec501efe53e107c5402ee445bd20c5b7
 
-PODFILE CHECKSUM: bf88889b98c82e613c29b745a84a9cfa0ef10375
+PODFILE CHECKSUM: a304eefce42a14c175305aab4b2ff57dcf10a864
 
 COCOAPODS: 1.2.0

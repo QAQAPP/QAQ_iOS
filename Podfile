@@ -53,6 +53,7 @@ target 'QAQ' do
     pod 'SwiftyJSON'
     pod 'FBSDKLoginKit'
     pod 'EVReflection/MoyaRxSwift'
+    pod 'STPopup'
     
     #pod 'Alamofire'
     #pod 'OmniCarouselView'
