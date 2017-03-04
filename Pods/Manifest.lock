@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (4.2.0)
   - BadgeSwift (4.0.0)
   - BFPaperButton (2.1.1)
   - Bolts (1.8.4):
@@ -8,6 +9,16 @@ PODS:
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
   - BSGridCollectionViewLayout (1.2.0)
+  - EVReflection/Alamofire (4.1.0):
+    - Alamofire (~> 4.2)
+    - EVReflection/Core
+  - EVReflection/Core (4.1.0)
+  - EVReflection/Moya (4.1.0):
+    - EVReflection/Alamofire
+    - Moya (~> 8.0)
+  - EVReflection/MoyaRxSwift (4.1.0):
+    - EVReflection/Moya
+    - Moya/RxSwift
   - FBSDKCoreKit (4.19.0):
     - Bolts (~> 1.7)
   - FBSDKLoginKit (4.19.0):
@@ -104,13 +115,24 @@ PODS:
     - MMDrawerController/Core
   - MMDrawerController/Subclass (0.6.0):
     - MMDrawerController/Core
+  - Moya (8.0.1):
+    - Moya/Core (= 8.0.1)
+  - Moya/Core (8.0.1):
+    - Alamofire (~> 4.2.0)
+    - Result (~> 3.1.0)
+  - Moya/RxSwift (8.0.1):
+    - Moya/Core
+    - RxSwift (~> 3.1.0)
   - Networking (2.8.0)
   - NSString-Email (0.0.3)
   - PercentEncoder (1.1.0)
+  - Result (3.1.0)
+  - RxSwift (3.1.0)
   - SCLAlertView (0.7.0)
   - ScratchCard (1.0.10)
   - SDAutoLayout (2.1.7)
   - SFFocusViewLayout (3.1.0)
+  - STPopup (1.8.2)
   - SwiftSpinner (1.1.0)
   - SwiftString3 (1.0.11)
   - SwiftyJSON (3.1.4)
@@ -123,6 +145,7 @@ DEPENDENCIES:
   - BadgeSwift
   - BFPaperButton
   - BSGridCollectionViewLayout
+  - EVReflection/MoyaRxSwift
   - FBSDKLoginKit
   - Firebase/Auth
   - Firebase/Core
@@ -146,6 +169,7 @@ DEPENDENCIES:
   - ScratchCard
   - SDAutoLayout
   - SFFocusViewLayout
+  - STPopup
   - SwiftSpinner
   - SwiftString3
   - SwiftyJSON
@@ -155,10 +179,12 @@ DEPENDENCIES:
   - UIViewController+NavigationBar
 
 SPEC CHECKSUMS:
+  Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
   BadgeSwift: b291cf8ca88674d61cd781f14988272988f4dff4
   BFPaperButton: c76835e789669f64d600dc68934cc60fbb550bb9
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   BSGridCollectionViewLayout: 8f12c8e1e08c47057f5a39a6828f4395f043d78f
+  EVReflection: 22bb8525d0da6459fce6bb6e92010bf3cd81f093
   FBSDKCoreKit: 894b2b6eda6a4c8c4204e92e59cc355709ef045c
   FBSDKLoginKit: 83ca4d8f12a2022570af9fd6aacf27f6b425b99f
   Firebase: 53b2343db1ebfa3eb16bdb4318b8bb65360b2220
@@ -186,13 +212,17 @@ SPEC CHECKSUMS:
   LTMorphingLabel: d9a85f16ac306f0e07321d6819964deb2dc69638
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
   MMDrawerController: e3a54a5570388463ad3b36975251575b50c4e1a0
+  Moya: f2e10a04fcb27fec154cb2afa4e536e8b46dac04
   Networking: 9089f0eb8991ab0e2f8a76c1405f93eb720babda
   NSString-Email: 3c1ff0ace64d7ecc289ea2a5696170c853012252
   PercentEncoder: 7a001be188d62187761cb785156ac7e5c105688d
+  Result: 4e3ed5995ed94d0cd6a09be9a431fce3f3624bbf
+  RxSwift: 83ff553e7593fdfdcb2562933a64c0284dffdadc
   SCLAlertView: 8a14ffc40590c619e183eed2298b854385f30be1
   ScratchCard: c2a0910ac4ffb4fcede67999c8ba2d04cb36ce57
   SDAutoLayout: e9b36d04b8c0b504762a04d76fbbe5108944297a
   SFFocusViewLayout: 8524435eb57796adf3e7be1395c4e3786cd76dcc
+  STPopup: b69b3e7484ef7d2baec5f9ab2939f8a7bcdfe218
   SwiftSpinner: c03815614599b91eea46594bd52ba742849d0414
   SwiftString3: 1de59016efce9b4a9adb491995f74ef50d0aa920
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
@@ -201,6 +231,6 @@ SPEC CHECKSUMS:
   UIImage-Resize: fa776860f10e6900bbaf53a73e494bdceaaccc77
   UIViewController+NavigationBar: cbf1628fec501efe53e107c5402ee445bd20c5b7
 
-PODFILE CHECKSUM: 1dc51c8bc43718930bb4905713ef55646c71da9c
+PODFILE CHECKSUM: a304eefce42a14c175305aab4b2ff57dcf10a864
 
 COCOAPODS: 1.2.0

@@ -27,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         FIRApp.configure()
         IQKeyboardManager.sharedManager().enable = true
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        window?.backgroundColor = .white
         
 //        if #available(iOS 10.0, *) {
 //            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound], completionHandler: { (granted, error) in

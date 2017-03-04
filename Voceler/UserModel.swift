@@ -13,22 +13,50 @@ import FirebaseStorage
 
 class UserModel: NSObject {
     var uid:String!
-    var email = ""
-    var inProgLimit = 5
-    var inCollectLimit = 20
+    var email:String?
+    var inProgLimit:Int!
+    var inCollectLimit:Int!
+    var money:Int?
     var username:String?{
         didSet{
             NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: uid+"username")))
         }
     }
+    var location:String?{
+        didSet{
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: uid+"location")))
+        }
+    }
     var ref:FIRDatabaseReference!{
         didSet{
+            ref.child("money").observe(.value, with: { (snapshot) in
+                if let money = snapshot.value as? Int{
+                    self.money = money
+                    
+                }
+                else{
+                    self.ref.child("money").setValue(300)
+                }
+            })
             ref.observe(.value, with:{ (snapshot) in
                 if let userInfo = snapshot.value as? Dictionary<String,Any>{
-                    self.email = userInfo["email"] as! String
+                    self.email = userInfo["email"] as? String
                     self.username = userInfo["username"] as? String
+                    self.location = userInfo["location"] as? String
                     if self.uid == currUser?.uid{
                         NotificationCenter.default.post(name: NSNotification.Name("UsernameLoaded"), object: self.username)
+                    }
+                    if let qInProgressLimit = userInfo["qInProgressLimit"] as? Int{
+                        self.qInProgressLimit = qInProgressLimit
+                    }
+                    else{
+                        self.qInProgressLimit = 3
+                    }
+                    if let qInCollectionLimit = userInfo["qInCollectionLimit"] as? Int{
+                        self.qInCollectionLimit = qInCollectionLimit
+                    }
+                    else{
+                        self.qInCollectionLimit = 10
                     }
                     self.infoDic = userInfo
                     if let profileVC = self.profileVC{
@@ -53,8 +81,8 @@ class UserModel: NSObject {
     var profileVC:ProfileVC?
     var profileImg:UIImage?
     var wallImg:UIImage?
-    var qInProgressLimit = 5
-    var qInCollectionLimit = 20
+    var qInProgressLimit:Int?
+    var qInCollectionLimit:Int?
     
     private init(uid:String){
         self.uid = uid
@@ -73,7 +101,9 @@ class UserModel: NSObject {
                     self.profileImg = #imageLiteral(resourceName: "user-50")
                 }
                 memoryHandler.imageStorage[self.uid + "profile"] = self.profileImg
-                NotificationCenter.default.post(name: NSNotification.Name(self.uid + "profile"), object: nil)
+                let noti = Notification.Name(self.uid + "profile")
+                print(noti)
+                NotificationCenter.default.post(name: noti, object: nil)
             }
         }
     }
@@ -142,7 +172,7 @@ class UserModel: NSObject {
         }
     }
     
-    func collectQuestion(QID:String, like:Bool = true){
-        currUser?.qRef.child(QID).setValue(like ? "liked" : nil)
+    func collectQuestion(qid:String, like:Bool = true){
+        currUser?.qRef.child(qid).setValue(like ? "liked" : nil)
     }
 }
