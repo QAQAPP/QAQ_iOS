@@ -14,14 +14,24 @@ import SCLAlertView
 import Networking
 import SwiftSpinner
 
+protocol AskProblemVCDelegate {
+	func dismisOverlay()
+}
+
 class AskProblemVC: UIViewController, UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate{
     // UIVars
     @IBOutlet weak var heightTV: NSLayoutConstraint!
     @IBOutlet weak var textView: UITextView!
-    @IBOutlet weak var scroll: UIScrollView!
-    
-    @IBOutlet weak var contentView: UIView!
-    
+	@IBOutlet var mainView: UIView!
+//	var buttonBar: ButtonBar!
+	var leftButton = UIButton()
+	var rightButton = UIButton()
+	
+	 var delegate: AskProblemVCDelegate?
+//    @IBOutlet weak var scroll: UIScrollView!
+	
+//    @IBOutlet weak var contentView: UIView!
+	
     var table:UITableView!
     
     // FieldVars
@@ -39,14 +49,15 @@ class AskProblemVC: UIViewController, UIScrollViewDelegate, UITableViewDataSourc
     
     func cancelAction() {
         dismiss(animated: true, completion: nil)
-    }
+		self.delegate?.dismisOverlay()
+	}
     
     func addAction(){
         let board = UIStoryboard(name: "Main", bundle: nil)
         let vc = board.instantiateViewController(withIdentifier: "Ask Question") as! AskProblemVC
         let nav = UINavigationController(rootViewController: vc)
         vc.navigationItem.title = "Option"
-        nav.navigationBar.setColor(color: themeColor)
+//        nav.navigationBar.setColor(color: themeColor)
         vc.parentVC = self
         show(nav, sender: self)
     }
@@ -56,7 +67,7 @@ class AskProblemVC: UIViewController, UIScrollViewDelegate, UITableViewDataSourc
         let vc = board.instantiateViewController(withIdentifier: "Ask Question") as! AskProblemVC
         let nav = UINavigationController(rootViewController: vc)
         vc.navigationItem.title = "Option"
-        nav.navigationBar.setColor(color: themeColor)
+//        nav.navigationBar.setColor(color: themeColor)
         vc.text = optArr[indexPath.row]
         vc.parentVC = self
         vc.indexPath = indexPath
@@ -90,7 +101,15 @@ class AskProblemVC: UIViewController, UIScrollViewDelegate, UITableViewDataSourc
             else{
                 let vc = controllerManager!.tagsVC
                 vc.setQuestion(descr: self.textView.text, optArr: self.optArr, tags: nil)
-                self.navigationController?.pushViewController(vc, animated: true)
+				let transition = CATransition()
+				transition.duration = 0.5
+				transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+				transition.type = kCATransitionPush
+				transition.subtype = kCATransitionFromLeft
+				self.navigationController?.view.layer.add(transition, forKey: nil)
+				self.navigationController?.pushViewController(vc, animated: false)
+//				view.window!.layer.add(transition, forKey: kCATransition)
+//				present(vc, animated: false, completion: nil)
             }
         }
     }
@@ -99,8 +118,8 @@ class AskProblemVC: UIViewController, UIScrollViewDelegate, UITableViewDataSourc
     func setupUI() {
         let notiCenter = NotificationCenter.default
         notiCenter.addObserver(self, selector: #selector(textChange(noti:)), name: Notification.Name.UITextViewTextDidChange, object: textView)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelAction))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(addOpt))
+//        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelAction))
+//        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(addOpt))
         edgesForExtendedLayout = []
         textView.text = ""
         textView.becomeFirstResponder()
@@ -109,29 +128,36 @@ class AskProblemVC: UIViewController, UIScrollViewDelegate, UITableViewDataSourc
 //        handler.updateMinimumNumber(ofLines: 1, andMaximumNumberOfLine: 10)
         handler.minimumNumberOfLines = 1
         handler.maximumNumberOfLines = 10
-        scroll.delegate = self
-        
+//        scroll.delegate = self
+		
         let rightBtn = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(nextAction))
         navigationItem.rightBarButtonItem = rightBtn
         
         // Setup Table
-        table = UITableView()
-        contentView.addSubview(table)
-        _ = table.sd_layout()
-            .topSpaceToView(textView, 2)!
-            .leftSpaceToView(contentView, 0)!
-            .rightSpaceToView(contentView, 0)!
-            .bottomSpaceToView(contentView, 0)!
-        _ = table.addBorder(edges: .top, colour: .black, thickness: 2)
-        _ = textView.addBorder(edges: .bottom, colour: .black)
-        table.delegate = self
-        table.dataSource = self
-        table.register(UINib(nibName: "AddOptCell", bundle: nil), forCellReuseIdentifier: "AddOptCell")
-        navigationBar.setColor(color: themeColor)
-        table.tableFooterView = UIView()
-        table.separatorStyle = .none
-        
-        textView.becomeFirstResponder()
+//        table = UITableView()
+//        contentView.addSubview(table)
+//        _ = table.sd_layout()
+//            .topSpaceToView(textView, 2)!
+//            .leftSpaceToView(contentView, 0)!
+//            .rightSpaceToView(contentView, 0)!
+//            .bottomSpaceToView(contentView, 0)!
+//        _ = table.addBorder(edges: .top, colour: .black, thickness: 2)
+//        _ = textView.addBorder(edges: .bottom, colour: .black)
+//        table.delegate = self
+//        table.dataSource = self
+//        table.register(UINib(nibName: "AddOptCell", bundle: nil), forCellReuseIdentifier: "AddOptCell")
+//        navigationBar.setColor(color: themeColor)
+//        table.tableFooterView = UIView()
+//        table.separatorStyle = .none
+//		buttonBar = ButtonBar()
+//		mainView.addSubview(buttonBar)
+//		_ = buttonBar.sd_layout()
+//			.topSpaceToView(textView, 2)!
+//			.leftSpaceToView(mainView, 0)!
+//			.rightSpaceToView(mainView, 0)!
+//			.bottomSpaceToView(mainView, 0)!
+
+		textView.becomeFirstResponder()
     }
     
     // Override functions    
@@ -143,10 +169,25 @@ class AskProblemVC: UIViewController, UIScrollViewDelegate, UITableViewDataSourc
             SwiftSpinner.hide()
             let vc = controllerManager!.tagsVC
             vc.setQuestion(descr: self.textView.text, optArr: self.optArr, tags: noti.object as? [String])
-            self.navigationController?.pushViewController(vc, animated: true)
-        })
+			let transition = CATransition()
+			transition.duration = 0.5
+			transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+			transition.type = kCATransitionPush
+			transition.subtype = kCATransitionFromLeft
+			self.navigationController?.view.layer.add(transition, forKey: nil)
+            self.navigationController?.pushViewController(vc, animated: false)
+//			self.view.window!.layer.add(transition, forKey: kCATransition)
+//			self.present(vc, animated: false, completion: nil)
+		})
+		let view = self.mainView!
+		let leftButton = self.leftButton
+		let rightButton = self.rightButton
+		view.addSubview(leftButton)
+		_ = leftButton.sd_layout().bottomSpaceToView(view, 20)?.leftSpaceToView(view, 20)?.heightIs(28)?.widthIs(60)
+		view.addSubview(rightButton)
+		_ = rightButton.sd_layout().bottomSpaceToView(view, 20)?.rightSpaceToView(view, 20)?.heightIs(28)?.widthIs(60)
     }
-    
+	
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         textView.becomeFirstResponder()
@@ -158,9 +199,20 @@ class AskProblemVC: UIViewController, UIScrollViewDelegate, UITableViewDataSourc
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+		if ((self.navigationController) != nil) {
+			self.navigationController?.setNavigationBarHidden(true, animated: animated)
+		}
         if let text = text {
             handler.setText(text, animated: true)
         }
+		print("setting butotn title")
+		leftButton.addTarget(self, action: #selector(cancelAction), for: .touchUpInside)
+		leftButton.setTitle("Cancel", for: .normal)
+		rightButton.addTarget(self, action: #selector(nextAction), for: .touchUpInside)
+		rightButton.setTitle("Next", for: .normal)
+		leftButton.setTitleColor(themeColor, for: .normal)
+		rightButton.setTitleColor(themeColor, for: .normal)
+
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
         return optArr.count + 1
