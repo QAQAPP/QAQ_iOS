@@ -15,6 +15,10 @@ import SCLAlertView
 
 //http://lowcost-env.pukinshx93.us-west-2.elasticbeanstalk.com/qaq/zhaowei/
 class NetworkingManager: NSObject {
+    
+//    let baseURL = "http://lowcost-env.pukinshx93.us-west-2.elasticbeanstalk.com/qaq/"
+    let baseURL = "http://localhost:8000/qaq/"
+    
     private func analyzeWords(text:String)->[String]{
         let usefulSet:Set<String> = [NSLinguisticTagPlaceName, NSLinguisticTagWordJoiner, NSLinguisticTagNoun, NSLinguisticTagOtherWord, NSLinguisticTagPersonalName, NSLinguisticTagOrganizationName, NSLinguisticTagVerb, NSLinguisticTagAdjective, NSLinguisticTagOtherWord]
         let uselessSet:Set<String> = ["is", "are", "be", "being", "been", "was", "were", "do", "does", "did", "doing", "has", "have", "had", "should", "would", "shall", "will", "worst", "best", "most", "least"]
@@ -56,29 +60,40 @@ class NetworkingManager: NSObject {
     }
     
     func updateTags(text:String, tags:[String]){
-        let networking = Networking(baseURL: "http://django-env.6jck6j9kff.us-west-2.elasticbeanstalk.com/qaq/matthew/?q=")
+        let networking = Networking(baseURL: baseURL + "matthew/?q=")
         let encodedText = text.lowercased().ped_encodeURIComponent()
         let encodedTags = tags.joined(separator: ",").ped_encodeURIComponent()
         let path = "w=\(encodedText)&t=\(encodedTags)"
         networking.get(path, completion: { (val, error) in })
     }
     
-    
-    
-    
-    
-    
-    
-    
-    func getQuestion(){
-        let networking = Networking(baseURL: "http://lowcost-env.pukinshx93.us-west-2.elasticbeanstalk.com/qaq/zhaowei/")
-        networking.get("") { (result, error) in
+    func postRequest(dict:Dictionary<String, Any>, handler:@escaping (_ result:Dictionary<String, Any>)->Void){
+        let networking = Networking(baseURL: baseURL)
+        networking.post("zhaowei/", parameters: dict) { (result, error) in
             if let error = error{
-                SCLAlertView().showError("Networking Error", subTitle: error.localizedDescription)
+                _ = SCLAlertView().showError("Error", subTitle: error.localizedDescription)
             }
-            else{
-                print(result)
+            else if let result = result as? Dictionary<String, Any>{
+                handler(result)
             }
         }
+    }
+    
+    func addQuestion(qid:String, tags:[String]){
+        func handler(result:Dictionary<String, Any>){
+            print(result)
+        }
+        postRequest(dict: ["action": "add_questions", "qid": qid, "qTags": tags, "uid": currUser!.uid], handler: handler)
+    }
+    
+    func getQuestion(){
+        func handler(dict:Dictionary<String, Any>){
+            if let qids = dict["qids"] as? Array<String>{
+                for qid in qids{
+                    questionManager?.loadQuestionContent(qid: qid)
+                }
+            }
+        }
+        postRequest(dict: ["action": "get_questions", "uid": currUser!.uid, "num":3], handler: handler)
     }
 }
