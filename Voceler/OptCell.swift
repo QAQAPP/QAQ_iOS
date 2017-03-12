@@ -20,15 +20,21 @@ class OptCell: UICollectionViewCell{
 	
 	//TODO: commit test
     @IBAction func moreAction(_ sender: AnyObject) {
-        let vc = UIViewController()
-        let textView = UITextView()
-        vc.view.addSubview(textView)
-        textView.text = option.oDescription
-        textView.isSelectable = false
-        textView.isEditable = false
-        textView.font = UIFont.systemFont(ofSize: 18)
-        _ = textView.sd_layout().topSpaceToView(vc.view, 0)?.bottomSpaceToView(vc.view, 0)?.leftSpaceToView(vc.view, 0)?.rightSpaceToView(vc.view, 0)
-        questionView.parent.navigationController?.pushViewController(vc, animated: true)
+
+		let vc = OptDetailedVC(nibName: "OptDetailedVC", bundle: nil);
+//		let user = UserModel.getUser(uid: option.oOfferBy!, getProfile: true)
+//		if (user.profileImg != nil) {
+//			vc.userAvatarImageView.image = user.profileImg
+//		}
+////		vc.userAvatarImageView.image = user.profileImg!
+//		if (user.username != nil ) {
+//			vc.userNameLabel.text = user.username
+//		}
+//		
+//		vc.optionDescriptionLabel.text = "Empty description for now"
+//		vc.optionTextView.text = option.oDescription
+		vc.option = option
+		questionView.parent.navigationController?.pushViewController(vc, animated: true)
     }
     @IBOutlet weak var likeBtn: UIButton!
     
