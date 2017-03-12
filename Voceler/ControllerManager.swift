@@ -30,6 +30,7 @@ class ControllerManager: NSObject, UITabBarControllerDelegate, UIPopoverPresenta
     var tagsVC:TagsController{
         let board = UIStoryboard(name: "Main", bundle: nil)
         let vc = board.instantiateViewController(withIdentifier: "AddTags") as! TagsController
+		vc.delegate = self
         return vc
     }
     
@@ -136,4 +137,10 @@ class ControllerManager: NSObject, UITabBarControllerDelegate, UIPopoverPresenta
 	func dismisOverlay() {
 		overlay.removeFromSuperview()
 	}
+	
+	// MARK:TagsControllerDelegate
+	func dismisTagsOverlay() {
+		overlay.removeFromSuperview()
+	}
+
 }
