@@ -239,7 +239,6 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
         questionManager = QuestionManager()
         controllerManager = ControllerManager()
         networkingManager = NetworkingManager()
-        networkingManager?.getQuestion()
         gameManager = GameManager()
         self.show(controllerManager!.tabbarVC, sender: self)
 //        self.show(drawer, sender: self)

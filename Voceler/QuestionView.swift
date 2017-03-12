@@ -23,7 +23,6 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
             let mainVC = controllerManager!.mainVC!
             if mainVC.currView == self{
                 mainVC.navigationItem.rightBarButtonItem?.image = liked ? #imageLiteral(resourceName: "star_filled-32") : #imageLiteral(resourceName: "star-32")
-                print(liked)
             }
             if let question = currQuestion{
                 currUser?.collectQuestion(qid: question.qid, like: liked)
@@ -84,10 +83,11 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
         
     }
     
-    
+    var cellHeightArray = [CGFloat]()
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:OptViewTableCell = OptViewTableCell(style:UITableViewCellStyle.default, reuseIdentifier:"OptViewTableCell");
         cell.setup(option: currQuestion.qOptions[indexPath.row], questionView: self)
+        cellHeightArray.append(40 + cell.textView.frame.height)
         return cell;
     }
     
@@ -107,12 +107,12 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
 //    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return optsView.cellHeight(for: indexPath, cellContentViewWidth: UIScreen.main.bounds.width, tableView: optsView)
+        return indexPath.row >= cellHeightArray.count ? 600 : cellHeightArray[indexPath.row]
     }
     
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
+//    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return UITableViewAutomaticDimension
+//    }
     
     
     
@@ -120,19 +120,19 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
         controllerManager?.mainVC.nextContent()
     }
     
-    private func setQuestion(question:QuestionModel){
-        currQuestion = question
+    private func setQuestion(){
+//        currQuestion = question
         setDescription()
-        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { (timer) in
-            self.setDescription()
-        }
+//        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { (timer) in
+//            self.setDescription()
+//        }
         optsView.isUserInteractionEnabled = true
         
-        let oRef = question.qRef.child("options")
+        let oRef = currQuestion.qRef.child("options")
         oRef.observe(.childAdded, with: { (snapshot) in
             if let dict = snapshot.value as? Dictionary<String, Any>{
-                let opt = OptionModel(question:question, ref: snapshot.ref, dict: dict)
-                question.optArrAdd(option: opt)
+                let opt = OptionModel(question:self.currQuestion, ref: snapshot.ref, dict: dict)
+                self.currQuestion.optArrAdd(option: opt)
                 DispatchQueue.main.async {
                     self.optsView.reloadData()
                 }
@@ -140,13 +140,13 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
             }
         })
         
-        asker = question.qAnonymous ? nil : UserModel.getUser(uid: question.qAskerID, getProfile: true)
+        asker = currQuestion.qAnonymous ? nil : UserModel.getUser(uid: currQuestion.qAskerID, getProfile: true)
         if let asker = asker{
             NotificationCenter.default.addObserver(forName: NSNotification.Name(asker.uid+"username"), object: nil, queue: nil, using: { (noti) in
                 
             })
         }
-        pullUpMask.isHidden = question.qOptions.count > 0
+        pullUpMask.isHidden = currQuestion.qOptions.count > 0
         
         optsView.reloadData()
     }
@@ -198,49 +198,34 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
         currQuestion?.addOption(opt: option)
         pullUpMask.isHidden = true
         optsView.reloadData()
-//        currQuestion?.choose(val: option.oRef.key)
-//        let indexPath = IndexPath(row: currQuestion.qOptions.count, section: 0)
-//        optsView.delegate?.tableView!(optsView, didSelectRowAt: indexPath)
-        //optsView.delegate?.collectionView!(optsView, didSelectItemAt: indexPath)
     }
     
     func setDescription() {
-        handler.setText(currQuestion!.qDescrption, animated: true)
+        handler.setText(currQuestion!.qDescrption, animated: false)
     }
     
     var parent:UIViewController!
-    func setup(parent:UIViewController, question:QuestionModel) {
+    func setup(parent:UIViewController) {
         self.parent = parent
-        let focusLayout = SFFocusViewLayout()
-        focusLayout.standardHeight = 128
-        focusLayout.focusedHeight = 200
-        focusLayout.dragOffset = 100
         
-        optsView = UITableView(frame: CGRect(x: 0, y: 0, width: 100, height: 110), style: .plain)
+        optsView = UITableView()
         optsView.backgroundColor = .white
         optsView.separatorStyle = .none
-        //optsView.estimatedRowHeight = 120
-        //optsView.rowHeight = UITableViewAutomaticDimension
-        
-        self.addSubview(optsView)
-        _ = optsView.sd_layout().topSpaceToView(detailTV, 0)?.bottomSpaceToView(addOptionField, 0)?.leftSpaceToView(self, 0)?.rightSpaceToView(self, 0)
         
         setupUI()
         setupTable()
-        setQuestion(question: question)
+        setQuestion()
+        self.addSubview(optsView)
+        _ = optsView.sd_layout().topSpaceToView(detailTV, 0)?.bottomSpaceToView(addOptionField, 0)?.leftSpaceToView(self, 0)?.rightSpaceToView(self, 0)
         
     }
     
     func setupTable(){
-        //        optsView.board(radius: 0, width: 1, color: .black)
         optsView.delegate = self
         optsView.dataSource = self
-        //let nibName = UINib(nibName: "OptCell", bundle:nil)
-        //optsView.register(nibName, forCellWithReuseIdentifier: "OptCell")
         optsView.isOpaque = false
-        //let bg_img = UIImageView(image: #imageLiteral(resourceName: "question_bg_img"))
-        //bg_img.contentMode = .scaleAspectFill
-        //optsView.backgroundView = bg_img
+        optsView.estimatedRowHeight = 1000.0
+        optsView.rowHeight = UITableViewAutomaticDimension
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

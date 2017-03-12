@@ -104,7 +104,6 @@ class UserModel: NSObject {
                 }
                 memoryHandler.imageStorage[self.uid + "profile"] = self.profileImg
                 let noti = Notification.Name(self.uid + "profile")
-                print(noti)
                 NotificationCenter.default.post(name: noti, object: nil)
             }
         }

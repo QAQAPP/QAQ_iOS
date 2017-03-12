@@ -24,12 +24,7 @@ import LTMorphingLabel
 class MainVC: UIViewController{
     
     private var contentViews = [UIView]()
-    var currView:UIView?{
-        didSet{
-            print("curr view did set")
-        }
-    }
-    
+    var currView:UIView?
     var swipeEnable = true
     
     override func showInfo() {
@@ -72,21 +67,25 @@ class MainVC: UIViewController{
         btn.setTitleColor(.white, for: [])
         btn.addTarget(self, action: #selector(loadQuestions), for: .touchUpInside)
         contentViews.append(btn)
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { (_) in
+            self.loadQuestions()
+        }
     }
     
     func addQuestion(question:QuestionModel){
         let questionView = Bundle.main.loadNibNamed("QuestionView", owner: self, options: nil)!.first as! QuestionView
         if contentViews.isEmpty && currView is UIButton{
-            UIView.transition(with: currView!, duration: 1, options: .transitionCrossDissolve, animations: {
+//            UIView.transition(with: currView!, duration: 1, options: .curveEaseIn, animations: {
                 self.currView?.removeFromSuperview()
-                self.view.addSubview(questionView)
                 self.currView = questionView
-                questionView.setup(parent: self, question: question)
-                _ = questionView.sd_layout().topSpaceToView(self.scoreLabel, 12)?.bottomSpaceToView(self.view, 0)?.leftSpaceToView(self.view, 0)?.rightSpaceToView(self.view, 0)
-            }, completion: nil)
+                self.view.addSubview(questionView)
+                questionView.currQuestion = question
+                _ = questionView.sd_layout().topSpaceToView(self.scoreLabel, 4)?.bottomSpaceToView(self.view, 0)?.leftSpaceToView(self.view, 0)?.rightSpaceToView(self.view, 0)
+                questionView.setup(parent: self)
+//            }, completion: nil)
         }
         else{
-            questionView.setup(parent: self, question: question)
+            questionView.currQuestion = question
             contentViews.append(questionView)
         }
     }
@@ -118,7 +117,6 @@ class MainVC: UIViewController{
         profileItem.target = self
         navigationItem.rightBarButtonItem = nil
         navigationItem.leftBarButtonItem = profileItem
-        nextContent()
     }
     
     func addContent(){
@@ -128,12 +126,21 @@ class MainVC: UIViewController{
     }
     
     func nextContent(){
+        addContent()
         currView?.removeFromSuperview()
         if contentViews.isEmpty{
             addLoadMoreVC()
         }
         currView = contentViews.removeFirst()
         view.addSubview(currView!)
-        _ = currView!.sd_layout().topSpaceToView(scoreLabel, 12)?.bottomSpaceToView(view, 0)?.leftSpaceToView(view, 0)?.rightSpaceToView(view, 0)
+        _ = currView!.sd_layout().topSpaceToView(scoreLabel, 4)?.bottomSpaceToView(view, 0)?.leftSpaceToView(view, 0)?.rightSpaceToView(view, 0)
+        if let questionView = currView as? QuestionView{
+            questionView.setup(parent: self)
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        nextContent()
     }
 }

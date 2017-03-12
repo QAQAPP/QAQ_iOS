@@ -11,6 +11,7 @@ import SDAutoLayout
 import FirebaseDatabase
 import SCLAlertView
 import LTMorphingLabel
+import GrowingTextViewHandler_Swift
 
 class OptViewTableCell: UITableViewCell{
     
@@ -19,7 +20,10 @@ class OptViewTableCell: UITableViewCell{
     var profileImg = UIButton()
     var topPadding = UIView()
     var likeBtn = UIButton()
+    let numLikeLbl = UILabel()
     var usrName = String()
+//    var handler:GrowingTextViewHandler!
+    var heightConst:NSLayoutConstraint!
     
     let OPTIONS_TEXT_FONT = "Avenir-Roman"
     let OPTIONS_TEXT_FONT_SIZE:CGFloat = 17
@@ -44,8 +48,6 @@ class OptViewTableCell: UITableViewCell{
     override init(style: UITableViewCellStyle, reuseIdentifier: String!)
     {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        //self.frame = CGRect(x: 0, y: 0, width: 375, height: 120)
-        setUpUI()
     }
     
     
@@ -79,22 +81,33 @@ class OptViewTableCell: UITableViewCell{
         
         textView.font = UIFont(name: OPTIONS_TEXT_FONT, size: OPTIONS_TEXT_FONT_SIZE)
         textView.textColor = UIColor(netHex: OPTIONS_TEXT_FONT_COLOR_DESELECTED)
-        textView.sizeToFit()
         textView.isUserInteractionEnabled = false
+        textView.isEditable = false
+        textView.isScrollEnabled = false
 
+        numLikeLbl.font = UIFont(name: OPTIONS_TEXT_FONT, size: OPTIONS_TEXT_FONT_SIZE)
+        numLikeLbl.textColor = UIColor(netHex: OPTIONS_TEXT_FONT_COLOR_DESELECTED)
+        
         self.contentView.addSubview(textView)
         self.contentView.addSubview(profileImg)
         self.contentView.addSubview(likeBtn)
+        self.contentView.addSubview(numLikeLbl)
 
         
-        _ = textView.sd_layout().topSpaceToView(self.contentView,5)?.leftSpaceToView(self.contentView, 64)?.rightSpaceToView(self.contentView, 32)
-        _ = profileImg.sd_layout().heightIs(31)?.widthIs(31)?.leftSpaceToView(contentView, 20)?.centerYEqualToView(textView)
-        _ = likeBtn.sd_layout().heightIs(23)?.widthIs(23)?.rightSpaceToView(contentView, 20)?.centerYEqualToView(textView)
+        _ = profileImg.sd_layout().heightIs(32)?.widthIs(32)?.leftSpaceToView(contentView, 8)?.topSpaceToView(self.contentView, 8)
+        _ = likeBtn.sd_layout().heightIs(24)?.widthIs(24)?.rightSpaceToView(contentView, 8)?.bottomSpaceToView(contentView, 4)
+        _ = numLikeLbl.sd_layout().heightIs(24)?.widthIs(40)?.rightSpaceToView(likeBtn, 8)?.centerYEqualToView(likeBtn)
+        _ = textView.sd_layout().topSpaceToView(self.contentView,4)?.leftSpaceToView(self.profileImg, 8)?.rightSpaceToView(self.contentView, 8)?.bottomSpaceToView(self.likeBtn, 8)
+        numLikeLbl.textAlignment = .right
+        
+        let fixedWidth:CGFloat = UIScreen.main.bounds.width - 56
+        let newSize = textView.sizeThatFits(CGSize(width: fixedWidth, height: 9999))
+        var newFrame = textView.frame
+        newFrame.size = CGSize(width: max(newSize.width, fixedWidth), height: newSize.height)
+        textView.frame = newFrame;
+//        print(newSize, newFrame, UIScreen.main.bounds.width)
        
         profileImg.addTarget(self, action: #selector(showProfile), for: .touchUpInside)
-        
-        self.setupAutoHeight(withBottomView: textView, bottomMargin: 10)
-        
     }
 
     func optLiked(){
@@ -110,7 +123,6 @@ class OptViewTableCell: UITableViewCell{
                         opt.isLiked = false
                     }
                 }
-                questionView.optsView.reloadData()
             }
             Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (timer) in
                 controllerManager?.mainVC.nextContent()
@@ -164,33 +176,35 @@ class OptViewTableCell: UITableViewCell{
 //                    }
 //                })
             }
-//            self.option.oRef.child("val").observe(.value, with: { (snapshot) in
-//                DispatchQueue.main.async {
-//                    if let num = snapshot.value as? Int{
-//                        self.setNumLikes(num: num)
-//                    }
-//                }
-//            })
+            self.option.oRef.child("val").observe(.value, with: { (snapshot) in
+                DispatchQueue.main.async {
+                    if let num = snapshot.value as? Int{
+                        self.setNumLikes(num: num)
+                    }
+                }
+            })
         }
     }
     
-//    func setNumLikes(num:Int){
+    func setNumLikes(num:Int){
 //        if question.userChoosed && question.qAskerID != currUser?.uid{
-//            numLikeLbl.text = "\(num)"
+        numLikeLbl.text = "\(num)"
 //        }
 //        else{
 //            numLikeLbl.text = "--"
 //        }
-//    }
-//    
+    }
+    
     var offerer:UserModel?
     var question:QuestionModel!
     var questionView:QuestionView!
     
     func setup(option:OptionModel, questionView:QuestionView){
+        
         self.questionView = questionView
         self.question = questionView.currQuestion
         self.option = option
+        setUpUI()
         if(option.isLiked){
             likeBtn.setImage(#imageLiteral(resourceName: "check_checked"), for: .normal)
         }else{
