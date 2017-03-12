@@ -14,7 +14,7 @@ import FirebaseDatabase
 import SwiftString3
 
 protocol TagsControllerDelegate {
-	func dismisOverlay()
+	func dismisTagsOverlay()
 }
 
 class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate {
@@ -92,7 +92,7 @@ class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate
         slider.value = 0
         optTBV.isHidden = true
         tagView.isHidden = false
-		self.delegate?.dismisOverlay()
+		self.delegate?.dismisTagsOverlay()
         navigationController?.dismiss(animated: true, completion: {
             _ = self.navigationController!.popToRootViewController(animated: false)
         })
