@@ -64,6 +64,7 @@ class GameManager: NSObject {
     }
     
     func checkAskQuestion()->Bool{
+//		return true
         if !askQuestion() {
             SCLAlertView().showError("No money!", subTitle: "Please anwser some questions to get money to ask question.")
             return false

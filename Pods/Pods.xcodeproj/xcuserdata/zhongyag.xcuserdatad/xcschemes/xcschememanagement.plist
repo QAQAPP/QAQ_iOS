@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Alamofire.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>36</integer>
+		</dict>
 		<key>BFPaperButton.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -23,6 +28,11 @@
 		<dict>
 			<key>orderHint</key>
 			<integer>3</integer>
+		</dict>
+		<key>EVReflection.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>37</integer>
 		</dict>
 		<key>FBSDKCoreKit.xcscheme</key>
 		<dict>
@@ -104,6 +114,11 @@
 			<key>orderHint</key>
 			<integer>20</integer>
 		</dict>
+		<key>Moya.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>38</integer>
+		</dict>
 		<key>NSString-Email.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -124,6 +139,16 @@
 			<key>orderHint</key>
 			<integer>24</integer>
 		</dict>
+		<key>Result.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>39</integer>
+		</dict>
+		<key>RxSwift.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>40</integer>
+		</dict>
 		<key>SCLAlertView.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -138,6 +163,11 @@
 		<dict>
 			<key>orderHint</key>
 			<integer>28</integer>
+		</dict>
+		<key>STPopup.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>41</integer>
 		</dict>
 		<key>ScratchCard.xcscheme</key>
 		<dict>
@@ -197,12 +227,32 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>156215633FDEBF16573448E43A97B3DD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>174144A49F1CB5E7CA45C6085C0738A0</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>1AD9D871918AA4FC9356B22093A02A26</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>2BB3C7A0D901BA50C22490631DD34A01</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>37A05C5585ACE0CDDFBEB025AA4B0147</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3843850744DD13C3E99AE8D4735CE2B7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -217,12 +267,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>438457B660DB02C5A8CCFE8B231C19FD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>44CAD6CE523055ED339E87154473A254</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>4713F0C254D824AFCE023D25B1184AF3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>4A219AF9E1AB5A09355F24AABABCF4EF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -247,6 +307,16 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>60DA62FEEB7186772CC9B3A4CD2B6414</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6668EB8DBFBF70B6342183651CC48E81</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>681BE6E3D02A43F9BA63777AC435C8FD</key>
 		<dict>
 			<key>primary</key>
@@ -258,6 +328,21 @@
 			<true/>
 		</dict>
 		<key>6D5CEDECD3D8DC52EA507E0431BDA8A0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>770FBFE22E1FA5C2CF3037B38C856028</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7BB5300C9826CCDD9D1A63DCE9670448</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>88E9EC28B8B46C3631E6B242B50F4442</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -312,6 +397,11 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>C4B3ECB2C0766A6CE90C8007E62C0B74</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>C7DCF2B547F7871B9BFD74DE93B0E173</key>
 		<dict>
 			<key>primary</key>
@@ -322,7 +412,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>CA3ADBA897740C719CABE873387CB8BB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>D0581AF7BF4A6DA140D280B19ECC7BFF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D1A070789B3FA52255B9D93294420143</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D98FF9C8D4D36B8E908F9F6983D6C23F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -342,12 +447,27 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>EB1F655FD1FD53255999622914038A15</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>EF0AF223E0A771B8C9120E81D79EE37C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>F257005C5D1AA30A53CBD63AE813703E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>F8AF86840DE668CB0BBD75C59D321FAD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FAC6C0529632344BBC79F488D4D8E432</key>
 		<dict>
 			<key>primary</key>
 			<true/>
