@@ -30,12 +30,6 @@ class MainVC: UIViewController{
         }
     }
     
-    var point = 0{
-        didSet{
-            scoreLabel.text = "\(point)"
-        }
-    }
-    
     var swipeEnable = true
     
     override func showInfo() {
@@ -88,7 +82,7 @@ class MainVC: UIViewController{
                 self.view.addSubview(questionView)
                 self.currView = questionView
                 questionView.setup(parent: self, question: question)
-                _ = questionView.sd_layout().topSpaceToView(self.view, 0)?.bottomSpaceToView(self.view, 0)?.leftSpaceToView(self.view, 0)?.rightSpaceToView(self.view, 0)
+                _ = questionView.sd_layout().topSpaceToView(self.scoreLabel, 12)?.bottomSpaceToView(self.view, 0)?.leftSpaceToView(self.view, 0)?.rightSpaceToView(self.view, 0)
             }, completion: nil)
         }
         else{
@@ -109,16 +103,16 @@ class MainVC: UIViewController{
     let scoreLabel = LTMorphingLabel()
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.isHidden = true
         scoreLabel.morphingEffect = .evaporate
-        point = 0
-        navigationItem.titleView = scoreLabel
-        _ = scoreLabel.sd_layout().widthIs(200)?.heightIs(42)
+        scoreLabel.text = "-.--"
+
+        view.addSubview(scoreLabel)
+        _ = scoreLabel.sd_layout().topSpaceToView(view, 20)?.centerXEqualToView(view)?.widthIs(200)?.heightIs(42)
         scoreLabel.textAlignment = .center
-        scoreLabel.textColor = .white
+        scoreLabel.textColor = themeColor
         
-//        NotificationCenter.default.addObserver(self, selector: #selector(loadQuestions), name: Notification.Name.QuestionLoaded, object: nil)
         view.backgroundColor = .white
-//        addCouponVC(img: #imageLiteral(resourceName: "coupon_sample"))
     
         likeBtn.target = self
         profileItem.target = self
@@ -140,6 +134,6 @@ class MainVC: UIViewController{
         }
         currView = contentViews.removeFirst()
         view.addSubview(currView!)
-        _ = currView!.sd_layout().topSpaceToView(view, 0)?.bottomSpaceToView(view, 0)?.leftSpaceToView(view, 0)?.rightSpaceToView(view, 0)
+        _ = currView!.sd_layout().topSpaceToView(scoreLabel, 12)?.bottomSpaceToView(view, 0)?.leftSpaceToView(view, 0)?.rightSpaceToView(view, 0)
     }
 }

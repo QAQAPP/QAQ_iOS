@@ -32,10 +32,12 @@ class UserModel: NSObject {
             ref.child("money").observe(.value, with: { (snapshot) in
                 if let money = snapshot.value as? Int{
                     self.money = money
-                    
+                    if let uid = currUser?.uid, uid == self.uid{
+                        controllerManager?.mainVC.scoreLabel.text = "\(money/100)." + ((money%100 < 10) ? "0" : "") + "\(money%100)"
+                    }
                 }
                 else{
-                    self.ref.child("money").setValue(300)
+                    self.ref.child("money").setValue(30000)
                 }
             })
             ref.observe(.value, with:{ (snapshot) in

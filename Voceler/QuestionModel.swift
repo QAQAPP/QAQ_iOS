@@ -41,6 +41,7 @@ class QuestionModel: NSObject {
             return
         }
         
+        _ = gameManager!.askQuestion(charge: true)
         // Set up question
         let ref = FIRDatabase.database().reference().child("Questions-v1").childByAutoId()
         qid = ref.key
