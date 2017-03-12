@@ -29,7 +29,7 @@ import Firebase
 import FBSDKLoginKit
 
 
-class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, FBSDKLoginButtonDelegate{
+class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
     // UIVars
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
@@ -44,9 +44,63 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, FBSDKLo
     
     // Actions
     @IBAction func fbLoginAct(_ sender: AnyObject) {
-        
+		let fbLoginManager : FBSDKLoginManager = FBSDKLoginManager()
+		fbLoginManager.logIn(withReadPermissions: ["public_profile","email"], from: self, handler: { (result, error) -> Void in
+			if error != nil{
+				_ = SCLAlertView().showError("Sorry", subTitle: (error?.localizedDescription)!)
+			}
+			else if (result?.isCancelled)!{
+				_ = SCLAlertView().showError("Sorry", subTitle: "You canceled the envent")
+			}
+			else{
+				let credential = FIRFacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
+				_ = SwiftSpinner.show("Login...")
+				FIRAuth.auth()?.signIn(with: credential, completion: { (user, error) in
+					_ = SwiftSpinner.hide()
+					if let error = error{
+						_ = SCLAlertView().showError("Sorry", subTitle: error.localizedDescription)
+					}
+					else if let user = user{
+						self.login(user: user)
+					}
+				})
+			}
+		})
     }
-    
+	
+//	    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+//	        print("User login")
+//	        if error != nil{
+//	            _ = SCLAlertView().showError("Sorry", subTitle: error.localizedDescription)
+//	        }
+//	        else if result.isCancelled{
+//	             _ = SCLAlertView().showError("Sorry", subTitle: "You canceled the envent")
+//	        }
+//	        else{
+//	            let credential = FIRFacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
+//	            _ = SwiftSpinner.show("Login...")
+//	            FIRAuth.auth()?.signIn(with: credential, completion: { (user, error) in
+//	                _ = SwiftSpinner.hide()
+//	                if let error = error{
+//	                    _ = SCLAlertView().showError("Sorry", subTitle: error.localizedDescription)
+//	                }
+//	                else if let user = user{
+//	                    self.login(user: user)
+//	                }
+//	            })
+//	        }
+//	    }
+//
+//	func getFBUserData(){
+//		if((FBSDKAccessToken.current()) != nil){
+//			FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, first_name, last_name, picture.type(large), email"]).start(completionHandler: { (connection, result, error) -> Void in
+//				if (error == nil){
+//					//					println(result)
+//				}
+//			})
+//		}
+//	}
+	
     @IBAction func gLoginAct(_ sender: AnyObject) {
         let spinner = SwiftSpinner.show("Login...")
         spinner.backgroundColor = themeColor
@@ -111,13 +165,13 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, FBSDKLo
         loginBtn.setup(radius: 5)
         signupBtn.setup(radius: 5)
         resetBtn.setup(radius: 5)
-        loginBtn.backgroundColor = btnBGColor
-        signupBtn.backgroundColor = btnBGColor
+        loginBtn.backgroundColor = UIColor.white
+        signupBtn.backgroundColor = UIColor.white
         loginBtn.setTitleColor(themeColor, for: [])
         signupBtn.setTitleColor(themeColor, for: [])
         
-        facebookLoginBtn.delegate = self
-        facebookLoginBtn.readPermissions = ["public_profile", "email"]
+//        facebookLoginBtn.delegate = self
+//        facebookLoginBtn.readPermissions = ["public_profile", "email"]
     }
     
     func initNoti(){
@@ -286,30 +340,8 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, FBSDKLo
         _ = SwiftSpinner.hide()
         present(viewController, animated: true, completion: nil)
     }
-    
-    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
-        print("User login")
-        if error != nil{
-            _ = SCLAlertView().showError("Sorry", subTitle: error.localizedDescription)
-        }
-        else if result.isCancelled{
-             _ = SCLAlertView().showError("Sorry", subTitle: "You canceled the envent")
-        }
-        else{
-            let credential = FIRFacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
-            _ = SwiftSpinner.show("Login...")
-            FIRAuth.auth()?.signIn(with: credential, completion: { (user, error) in
-                _ = SwiftSpinner.hide()
-                if let error = error{
-                    _ = SCLAlertView().showError("Sorry", subTitle: error.localizedDescription)
-                }
-                else if let user = user{
-                    self.login(user: user)
-                }
-            })
-        }
-    }
-    
+	
+	
     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
         print("User logout")
     }
