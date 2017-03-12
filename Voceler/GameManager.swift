@@ -20,7 +20,8 @@ class GameManager: NSObject {
     private func getCredit(multiple:Int)->Int{
         if let time = lastActiveTime{
             let duration = time.timeIntervalSince(Date())
-            constant = 1 + exp(Float(duration/5) / -10.0) * constant // C := 1 + e^(-duration/2)
+            print("duration \(duration), constant \(constant)")
+            constant = abs(duration) > 5 ? 1 + exp(Float(duration) / 100.0) * constant : 1 // C := 1 + e^(-duration/2)
         }
         lastActiveTime = Date()
         let rand = Float(arc4random_uniform(50))

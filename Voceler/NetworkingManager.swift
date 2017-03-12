@@ -45,15 +45,18 @@ class NetworkingManager: NSObject {
     func getQuestionTags(text:String){
         let encodedText = text.lowercased().ped_encodeURIComponent()
         let networking = Networking(baseURL: "http://django-env.6jck6j9kff.us-west-2.elasticbeanstalk.com/qaq/matthew/?q=")
-        networking.get("q=" + encodedText, completion: { (val, dict, error) in
+        networking.get("q=" + encodedText, completion: { (result) in
             var tags = [String]()
-            if error == nil{
-                let json = JSON(val as Any)
-                for (_, val) in json["tags"]{
-                    if let tag = val.array?[0].string{
-                        tags.append(tag)
-                    }
+            switch result {
+            case .success(let response):
+                let json = response.dictionaryBody
+                for (_, val) in json["tags"] as! [String: [String]]{
+                    tags.append(val[0])
                 }
+            // Do something with JSON, you can also get arrayBody
+            case .failure(let response):
+                // Handle error
+                break
             }
             NotificationCenter.default.post(name: Notification.Name.TagsLoaded, object: tags)
         })
@@ -64,17 +67,22 @@ class NetworkingManager: NSObject {
         let encodedText = text.lowercased().ped_encodeURIComponent()
         let encodedTags = tags.joined(separator: ",").ped_encodeURIComponent()
         let path = "w=\(encodedText)&t=\(encodedTags)"
-        networking.get(path, completion: { (val, error) in })
+        networking.get(path, completion: { (result) in })
     }
     
     func postRequest(dict:Dictionary<String, Any>, handler:@escaping (_ result:Dictionary<String, Any>)->Void){
         let networking = Networking(baseURL: baseURL)
-        networking.post("zhaowei/", parameters: dict) { (result, error) in
-            if let error = error{
-                _ = SCLAlertView().showError("Error", subTitle: error.localizedDescription)
-            }
-            else if let result = result as? Dictionary<String, Any>{
-                handler(result)
+        networking.post("zhaowei/", parameters: dict) { (result) in
+            switch result {
+            case .success(let response):
+                let json = response.dictionaryBody
+                handler(json)
+            // Do something with JSON, you can also get arrayBody
+            case .failure(let _):
+                // Handle error
+                if let error = result.error{
+                    _ = SCLAlertView().showError("Error", subTitle: error.localizedDescription)
+                }
             }
         }
     }
@@ -86,7 +94,7 @@ class NetworkingManager: NSObject {
         postRequest(dict: ["action": "add_questions", "qid": qid, "qTags": tags, "uid": currUser!.uid], handler: handler)
     }
     
-    func getQuestion(){
+    func getQuestion(num:Int){
         func handler(dict:Dictionary<String, Any>){
             if let qids = dict["qids"] as? Array<String>{
                 for qid in qids{
@@ -94,6 +102,6 @@ class NetworkingManager: NSObject {
                 }
             }
         }
-        postRequest(dict: ["action": "get_questions", "uid": currUser!.uid, "num":3], handler: handler)
+        postRequest(dict: ["action": "get_questions", "uid": currUser!.uid, "num":num], handler: handler)
     }
 }

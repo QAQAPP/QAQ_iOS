@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'F257005C5D1AA30A53CBD63AE813703E'
+               BlueprintIdentifier = 'A9DEEFFEDEDC22984F980B95F51E2057'
                BlueprintName = 'EVReflection'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'EVReflection.framework'>
