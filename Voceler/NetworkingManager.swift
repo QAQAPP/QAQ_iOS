@@ -88,10 +88,12 @@ class NetworkingManager: NSObject {
     
     func getQuestion(){
         func handler(dict:Dictionary<String, Any>){
-            if let qid = dict["qid"] as? String, qid != ""{
-                questionManager?.loadQuestionContent(qid: qid)
+            if let qids = dict["qids"] as? Array<String>{
+                for qid in qids{
+                    questionManager?.loadQuestionContent(qid: qid)
+                }
             }
         }
-        postRequest(dict: ["action": "get_questions", "uid": currUser!.uid], handler: handler)
+        postRequest(dict: ["action": "get_questions", "uid": currUser!.uid, "num":3], handler: handler)
     }
 }

@@ -18,70 +18,8 @@ class QuestionManager: NSObject {
     override init() {
         super.init()
         ref = FIRDatabase.database().reference().child("Questions-v1")
-//        var initialLoading = true
-//        tagsRef.child("all").observe(.childAdded, with: { (snapshot) in
-//            if !initialLoading{
-//                self.size = self.init_size
-//                self.refreshCollection()
-//            }
-//            initialLoading = false
-//        })
-        refreshCollection()
+        networkingManager?.getQuestion()
     }
-    private func refreshCollection() {
-//        if !isLoading{
-//            isLoading = true
-            for _ in collection.count..<size{
-                networkingManager?.getQuestion()
-            }
-//        }
-//            tagsRef.child("all").queryOrderedByPriority().queryLimited(toLast: size).observeSingleEvent(of: .value, with: { (snapshot) in
-//                if let value = snapshot.value as? Dictionary<String, Any>{
-//                    let setCount = self.questionKeySet.count
-//                    
-//                    // check if the key is checked, if not, add to the set and load the question
-//                    for (key, _) in value{
-//                        if !self.questionKeySet.contains(key){
-//                            self.questionKeySet.insert(key)
-//                            self.loadQuestion(qid: key)
-//                        }
-//                    }
-//                    
-//                    // if items is not enough, then pause
-//                    if value.count < Int(self.size) {
-//                        self.isLoading = false
-//                        return
-//                    }
-//                    
-//                    // if no new question is added into the set, then expand the size and reload data
-//                    if setCount == self.questionKeySet.count{
-//                        self.size += self.init_size
-//                        self.isLoading = false
-//                        self.refreshCollection()
-//                    }
-//                }
-//                self.isLoading = false
-//            })
-//        }
-    }
-    
-    
-//    func loadQuestion(qid:String){
-//        if let uid = currUser?.uid{
-//            _ = FIRDatabase.database().reference().child("Questions-v1").child(qid).child("Users").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
-//                if snapshot.value is NSNull{
-//                    self.loadQuestionContent(qid: qid)
-//                }
-//                else{
-//                    self.numOfTotalQuestions += 1
-//                    if self.numOfTotalQuestions == self.questionKeySet.count{
-//                        self.size += self.init_size
-//                        self.refreshCollection()
-//                    }
-//                }
-//            })
-//        }
-//    }
     
     func loadQuestionContent(qid:String, purpose:String = "QuestionLoaded"){
         _ = FIRDatabase.database().reference().child("Questions-v1").child(qid).child("content").observeSingleEvent(of: .value, with: { (snapshot) in
@@ -111,7 +49,7 @@ class QuestionManager: NSObject {
     
     func getQuestion() -> QuestionModel?{
         if collection.count < 3{
-            refreshCollection()
+            networkingManager?.getQuestion()
         }
         return collection.popLast()
     }
