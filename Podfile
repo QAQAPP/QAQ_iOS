@@ -52,6 +52,8 @@ target 'QAQ' do
     pod 'PercentEncoder'
     pod 'SwiftyJSON'
     pod 'FBSDKLoginKit'
+    pod 'EVReflection/MoyaRxSwift'
+    pod 'STPopup'
     
     #pod 'Alamofire'
     #pod 'OmniCarouselView'

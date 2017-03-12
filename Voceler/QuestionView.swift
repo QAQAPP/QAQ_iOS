@@ -26,7 +26,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
                 print(liked)
             }
             if let question = currQuestion{
-                currUser?.collectQuestion(QID: question.QID, like: liked)
+                currUser?.collectQuestion(qid: question.qid, like: liked)
             }
         }
     }

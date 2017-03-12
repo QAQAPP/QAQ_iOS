@@ -114,8 +114,10 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             currUser = nil
             gameManager = nil
             loginManager.logOut()
+            NotificationCenter.default.removeObserver(controllerManager?.mainVC)
             controllerManager = nil
             questionManager = nil
+            networkingManager = nil
             dismiss(animated: true, completion: nil)
         }
         else if indexPath.row > 1{
