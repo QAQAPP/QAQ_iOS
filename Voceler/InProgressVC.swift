@@ -16,6 +16,7 @@ class InProgressVC: UIViewController {
     private var currQuestion:QuestionModel!{
         didSet{
             let view = Bundle.main.loadNibNamed("QuestionView", owner: self, options: nil)!.first as! QuestionView
+            view.currQuestion = currQuestion
             self.view.addSubview(view)
             _ = view.sd_layout().topSpaceToView(self.view, 0)?.bottomSpaceToView(self.view, 0)?.leftSpaceToView(self.view, 0)?.rightSpaceToView(self.view, 0)
             view.setup(parent: self)
@@ -27,7 +28,7 @@ class InProgressVC: UIViewController {
         title = "In Progress"
         edgesForExtendedLayout = []
         navigationBar.setColor(color: themeColor)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Conclude", style: .plain, target: self, action: #selector(noGoodAnwser))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(noGoodAnwser))
     }
     
     func noGoodAnwser(){
@@ -57,7 +58,7 @@ class InProgressVC: UIViewController {
         _ = alert.showNotice("Conclusion", subTitle: "Are you sure to conclude this question?", closeButtonTitle: "Cancel")
     }
     
-    private func afterConclude(){
+    func afterConclude(){
         currUser!.qInProgress.append(currQuestion.qid)
         let index = parentVC!.qInProgressArr.index(of: currQuestion)!
         parentVC!.qInProgressArr.remove(at: index)

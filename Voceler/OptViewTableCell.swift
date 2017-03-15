@@ -105,44 +105,39 @@ class OptViewTableCell: UITableViewCell{
         var newFrame = textView.frame
         newFrame.size = CGSize(width: max(newSize.width, fixedWidth), height: newSize.height)
         textView.frame = newFrame;
-//        print(newSize, newFrame, UIScreen.main.bounds.width)
-       
+
         profileImg.addTarget(self, action: #selector(showProfile), for: .touchUpInside)
     }
 
     func optLiked(){
         if questionView.parent is MainVC{
-            question.userChoosed = true
-            if !option.isLiked{
-                likeBtn.setImage(#imageLiteral(resourceName: "check_checked"), for: .normal)
-                for opt in question.qOptions{
-                    if opt == option && !opt.isLiked{
-                        opt.isLiked = true
-                    }
-                    else if opt.isLiked{
-                        opt.isLiked = false
-                    }
-                }
-            }
             Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (timer) in
                 controllerManager?.mainVC.nextContent()
             })
         }
+        else if let inProgressVC = questionView.parent as? InProgressVC{
+            Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (timer) in
+                inProgressVC.afterConclude()
+                self.question.conclude(OID: self.option.oRef.key)
+            })
+        }
+        else{
+            return
+        }
+        questionView.isUserInteractionEnabled = false
+        question.userChoosed = true
+        if !option.isLiked{
+            likeBtn.setImage(#imageLiteral(resourceName: "check_checked"), for: .normal)
+            for opt in question.qOptions{
+                if opt == option && !opt.isLiked{
+                    opt.isLiked = true
+                }
+                else if opt.isLiked{
+                    opt.isLiked = false
+                }
+            }
+        }
     }
-    
-
-//    
-    
-//    
-//    @IBAction func showProfile(_ sender: Any) {
-//        if let user = offerer, let vc = controllerManager?.profileVC(user: user){
-//            questionView.parent.navigationController?.pushViewController(vc, animated: true)
-//        }
-//        else{
-//            _ = SCLAlertView().showWarning("Sorry", subTitle: "Anonymous asker")
-//        }
-//    }
-    
     
     func likeAction(sender: UIButton){
         optLiked()

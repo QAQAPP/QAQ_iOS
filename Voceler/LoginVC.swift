@@ -169,6 +169,8 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
         signupBtn.backgroundColor = UIColor.white
         loginBtn.setTitleColor(themeColor, for: [])
         signupBtn.setTitleColor(themeColor, for: [])
+//        emailField.borderStyle = .none
+//        passwordField.borderStyle = .none
         
 //        facebookLoginBtn.delegate = self
 //        facebookLoginBtn.readPermissions = ["public_profile", "email"]
