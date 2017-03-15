@@ -105,6 +105,7 @@ class MainVC: UIViewController{
         navigationController?.navigationBar.isHidden = true
         scoreLabel.morphingEffect = .evaporate
         scoreLabel.text = "-.--"
+        scoreLabel.font = UIFont(name: "Arial", size: 30)
 
         view.addSubview(scoreLabel)
         _ = scoreLabel.sd_layout().topSpaceToView(view, 20)?.centerXEqualToView(view)?.widthIs(200)?.heightIs(42)

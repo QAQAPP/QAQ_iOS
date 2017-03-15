@@ -99,6 +99,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = optsView.cellForRow(at: indexPath) as! OptViewTableCell
         cell.optLiked()
+        cell.isSelected = false
     }
     
 //    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -121,11 +122,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
     }
     
     private func setQuestion(){
-//        currQuestion = question
         setDescription()
-//        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { (timer) in
-//            self.setDescription()
-//        }
         optsView.isUserInteractionEnabled = true
         
         let oRef = currQuestion.qRef.child("options")
@@ -204,7 +201,11 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
         handler.setText(currQuestion!.qDescrption, animated: false)
     }
     
-    var parent:UIViewController!
+    var parent:UIViewController!{
+        didSet{
+            print(parent)
+        }
+    }
     func setup(parent:UIViewController) {
         self.parent = parent
         
