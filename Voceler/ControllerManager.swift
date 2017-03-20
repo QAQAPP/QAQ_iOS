@@ -40,12 +40,12 @@ class ControllerManager: NSObject, UITabBarControllerDelegate, UIPopoverPresenta
         return vc
     }
     
-    func profileVC(user:UserModel)->ProfileVC{
-        let vc = ProfileVC(nibName: "ProfileVC", bundle: nil)
-        vc.edgesForExtendedLayout = .top
-        vc.thisUser = user
-        return vc
-    }
+//    func profileVC(user:UserModel)->ProfileVC{
+//        let vc = ProfileVC(nibName: "ProfileVC", bundle: nil)
+//        vc.edgesForExtendedLayout = .top
+//        vc.thisUser = user
+//        return vc
+//    }
     
     override init() {
         super.init()

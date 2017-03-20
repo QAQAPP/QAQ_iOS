@@ -16,7 +16,7 @@ class UserModel: NSObject {
     var email:String?
     var inProgLimit:Int!
     var inCollectLimit:Int!
-    var money:Int?
+    var money = 0
     var username:String?{
         didSet{
             NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: uid+"username")))
@@ -37,7 +37,7 @@ class UserModel: NSObject {
                     }
                 }
                 else{
-                    self.ref.child("money").setValue(30000)
+                    self.ref.child("money").setValue(constantManager.base_money)
                 }
             })
             ref.observe(.value, with:{ (snapshot) in
@@ -61,9 +61,9 @@ class UserModel: NSObject {
                         self.qInCollectionLimit = 10
                     }
                     self.infoDic = userInfo
-                    if let profileVC = self.profileVC{
-                        profileVC.loadUserInfo()
-                    }
+//                    if let profileVC = self.profileVC{
+//                        profileVC.loadUserInfo()
+//                    }
                     if let inProgLimit = userInfo["inProgLimit"] as? Int{
                         self.inProgLimit = inProgLimit
                     }
@@ -80,7 +80,7 @@ class UserModel: NSObject {
     var qAsked = Array<String>() // Asked Question
     var qCollection = Array<String>() // Collected Question
     var infoDic = Dictionary<String,Any>() // Basic info array
-    var profileVC:ProfileVC?
+//    var profileVC:ProfileVC?
     var profileImg:UIImage?
     var wallImg:UIImage?
     var qInProgressLimit:Int?

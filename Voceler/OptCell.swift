@@ -66,7 +66,7 @@ class OptCell: UICollectionViewCell{
     @IBOutlet weak var numLikeLbl: UILabel!
     
     @IBAction func showProfile(_ sender: Any) {
-        if let user = offerer, let vc = controllerManager?.profileVC(user: user){
+        if let user = offerer, let vc = controllerManager?.getUserVC(user: user){
             questionView.parent.navigationController?.pushViewController(vc, animated: true)
         }
         else{

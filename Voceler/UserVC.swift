@@ -88,7 +88,7 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return thisUser == currUser ? rowTitles.count : rowTitles.count - 1
+        return thisUser == currUser ? rowTitles.count : rowTitles.count - 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

@@ -34,6 +34,7 @@
 		BAA093911DAA305C006F1D72 /* TextViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA093901DAA305C006F1D72 /* TextViewVC.swift */; };
 		BAA423A51E4969D700DB9334 /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA423A41E4969D700DB9334 /* GameManager.swift */; };
 		BAA423A71E4AB4DC00DB9334 /* Globle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA423A61E4AB4DC00DB9334 /* Globle.swift */; };
+		BABA2B401E7F5BF100D1AB2C /* ConstantManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABA2B3F1E7F5BF100D1AB2C /* ConstantManager.swift */; };
 		BAC097F81DBB0AC8000C81F0 /* ControllerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC097F71DBB0AC8000C81F0 /* ControllerManager.swift */; };
 		BAC097FE1DBB114B000C81F0 /* ProfileVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = BAC097FD1DBB114B000C81F0 /* ProfileVC.xib */; };
 		BAC098031DBB22D3000C81F0 /* CollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC098011DBB22D3000C81F0 /* CollectionVC.swift */; };
@@ -129,6 +130,7 @@
 		BAA423A41E4969D700DB9334 /* GameManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameManager.swift; sourceTree = "<group>"; };
 		BAA423A61E4AB4DC00DB9334 /* Globle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globle.swift; sourceTree = "<group>"; };
 		BAB796111D8BB73F0033DEFE /* Voceler.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Voceler.entitlements; sourceTree = "<group>"; };
+		BABA2B3F1E7F5BF100D1AB2C /* ConstantManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstantManager.swift; sourceTree = "<group>"; };
 		BABAD3461D89FC2C002954D2 /* Voceler-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Voceler-Bridging-Header.h"; sourceTree = "<group>"; };
 		BAC097F71DBB0AC8000C81F0 /* ControllerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControllerManager.swift; sourceTree = "<group>"; };
 		BAC097FD1DBB114B000C81F0 /* ProfileVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileVC.xib; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 				BAC097F71DBB0AC8000C81F0 /* ControllerManager.swift */,
 				BA97A2A51DD927FA00078E04 /* NetworkingManager.swift */,
 				BAA423A41E4969D700DB9334 /* GameManager.swift */,
+				BABA2B3F1E7F5BF100D1AB2C /* ConstantManager.swift */,
 			);
 			name = Manager;
 			sourceTree = "<group>";
@@ -541,6 +544,7 @@
 				BAC0980E1DBB4F4B000C81F0 /* CouponScratchView.swift in Sources */,
 				BAA423A71E4AB4DC00DB9334 /* Globle.swift in Sources */,
 				FD1DBB0B1D1A4D9E00E6762D /* AppDelegate.swift in Sources */,
+				BABA2B401E7F5BF100D1AB2C /* ConstantManager.swift in Sources */,
 				BA20895E1DBC505F00316486 /* ContentVC.swift in Sources */,
 				BAD6C0AC1D6AB56800361A93 /* TreeViewCell.swift in Sources */,
 				BAC097F81DBB0AC8000C81F0 /* ControllerManager.swift in Sources */,

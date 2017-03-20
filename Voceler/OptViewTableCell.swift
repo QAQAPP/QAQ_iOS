@@ -115,7 +115,7 @@ class OptViewTableCell: UITableViewCell{
                 controllerManager?.mainVC.nextContent()
             })
         }
-        else if let inProgressVC = questionView.parent as? InProgressVC{
+        else if let inProgressVC = questionView.parent as? InProgressVC, question.qAskerID == currUser!.uid{
             Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (timer) in
                 inProgressVC.afterConclude()
                 self.question.conclude(OID: self.option.oRef.key)

@@ -16,8 +16,8 @@ import SCLAlertView
 //http://lowcost-env.pukinshx93.us-west-2.elasticbeanstalk.com/qaq/zhaowei/
 class NetworkingManager: NSObject {
     
-//    let baseURL = "http://lowcost-env.pukinshx93.us-west-2.elasticbeanstalk.com/qaq/"
-    let baseURL = "http://localhost:8000/qaq/"
+    let baseURL = "http://lowcost-env.pukinshx93.us-west-2.elasticbeanstalk.com/qaq/"
+//    let baseURL = "http://localhost:8000/qaq/"
     
     private func analyzeWords(text:String)->[String]{
         let usefulSet:Set<String> = [NSLinguisticTagPlaceName, NSLinguisticTagWordJoiner, NSLinguisticTagNoun, NSLinguisticTagOtherWord, NSLinguisticTagPersonalName, NSLinguisticTagOrganizationName, NSLinguisticTagVerb, NSLinguisticTagAdjective, NSLinguisticTagOtherWord]
@@ -44,7 +44,7 @@ class NetworkingManager: NSObject {
     
     func getQuestionTags(text:String){
         let encodedText = text.lowercased().ped_encodeURIComponent()
-        let networking = Networking(baseURL: "http://django-env.6jck6j9kff.us-west-2.elasticbeanstalk.com/qaq/matthew/?q=")
+        let networking = Networking(baseURL: baseURL + "matthew/?q=")
         networking.get("q=" + encodedText, completion: { (result) in
             var tags = [String]()
             switch result {
