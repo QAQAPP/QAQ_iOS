@@ -149,7 +149,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
     }
     
     func showUser(user:UserModel?){
-        if let user = user, let vc = controllerManager?.profileVC(user: user){
+        if let user = user, let vc = controllerManager?.getUserVC(user: user){
             parent.navigationController?.pushViewController(vc, animated: true)
         }
         else{

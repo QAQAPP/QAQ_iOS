@@ -37,7 +37,7 @@ class MainVC: UIViewController{
                 showUser = user
             }
         }
-        if let user = showUser, let vc = controllerManager?.profileVC(user: user){
+        if let user = showUser, let vc = controllerManager?.getUserVC(user: user){
             navigationController?.pushViewController(vc, animated: true)
         }
         else{
@@ -142,6 +142,13 @@ class MainVC: UIViewController{
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        nextContent()
+        if currView == nil || currView is UIButton{
+            nextContent()
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
     }
 }

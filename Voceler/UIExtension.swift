@@ -37,7 +37,7 @@ extension UIViewController{
     }
     
     func showInfo() {
-        if let user = currUser, let vc = controllerManager?.profileVC(user: user){
+        if let user = currUser, let vc = controllerManager?.getUserVC(user: user){
             navigationController?.pushViewController(vc, animated: true)
         }
     }

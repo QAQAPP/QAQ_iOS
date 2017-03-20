@@ -108,7 +108,7 @@ class QuestionModel: NSObject {
     
     func choose(val:String = "skipped"){
         qRef.child("Users").child(currUser!.uid).setValue(val)
-        if val != "skipped"{
+        if val != "skipped" && val != "owner"{
             gameManager?.chooseOption()
         }
     }
