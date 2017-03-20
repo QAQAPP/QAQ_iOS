@@ -121,4 +121,8 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
             currUser?.storageRef.child("profileImg.jpeg").put(self.profileImageView.image!.dataAtMost(bytes: 100*1024))
         }
     }
+    
+    func pushNotificationView() -> () {
+        navigationController?.pushViewController(controllerManager!.notificationVC, animated: true)
+    }
 }
