@@ -52,6 +52,10 @@
 		BAE1391C1D9A1D56009A8143 /* MemoryHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE1391B1D9A1D56009A8143 /* MemoryHandler.swift */; };
 		BAFD787C1D960DD4004322C0 /* QuestionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAFD787B1D960DD4004322C0 /* QuestionManager.swift */; };
 		BAFD787E1D961945004322C0 /* OptionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAFD787D1D961945004322C0 /* OptionModel.swift */; };
+		CFBC0CD91E53317F003DBC08 /* NotificationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFBC0CD81E53317F003DBC08 /* NotificationCell.xib */; };
+		CFBC0CDB1E533191003DBC08 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBC0CDA1E533191003DBC08 /* NotificationCell.swift */; };
+		CFBC0CDD1E533A85003DBC08 /* NotificationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBC0CDC1E533A85003DBC08 /* NotificationVC.swift */; };
+		CFBC0CDF1E5346AD003DBC08 /* NotificationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBC0CDE1E5346AD003DBC08 /* NotificationModel.swift */; };
 		FD0325291D24E53E002956FD /* UserListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0325271D24E53E002956FD /* UserListCell.swift */; };
 		FD03252A1D24E53E002956FD /* UserListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD0325281D24E53E002956FD /* UserListCell.xib */; };
 		FD10047B1D262BA600627FFA /* AskProblemVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD10047A1D262BA600627FFA /* AskProblemVC.swift */; };
@@ -149,6 +153,10 @@
 		BAE1391B1D9A1D56009A8143 /* MemoryHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoryHandler.swift; sourceTree = "<group>"; };
 		BAFD787B1D960DD4004322C0 /* QuestionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionManager.swift; sourceTree = "<group>"; };
 		BAFD787D1D961945004322C0 /* OptionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionModel.swift; sourceTree = "<group>"; };
+		CFBC0CD81E53317F003DBC08 /* NotificationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationCell.xib; sourceTree = "<group>"; };
+		CFBC0CDA1E533191003DBC08 /* NotificationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
+		CFBC0CDC1E533A85003DBC08 /* NotificationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationVC.swift; sourceTree = "<group>"; };
+		CFBC0CDE1E5346AD003DBC08 /* NotificationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationModel.swift; sourceTree = "<group>"; };
 		FD0325271D24E53E002956FD /* UserListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserListCell.swift; sourceTree = "<group>"; };
 		FD0325281D24E53E002956FD /* UserListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserListCell.xib; sourceTree = "<group>"; };
 		FD10047A1D262BA600627FFA /* AskProblemVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AskProblemVC.swift; sourceTree = "<group>"; };
@@ -198,6 +206,7 @@
 		BAD6C0AE1D6B644B00361A93 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				CFBC0CDE1E5346AD003DBC08 /* NotificationModel.swift */,
 				BAD6C0AF1D6B646900361A93 /* UserModel.swift */,
 				BAD6C0B11D6CF1A600361A93 /* QuestionModel.swift */,
 				BAFD787D1D961945004322C0 /* OptionModel.swift */,
@@ -273,6 +282,7 @@
 				BA20895D1DBC505F00316486 /* ContentVC.swift */,
 				FDBBB5E61D2055E600D75467 /* SettingsVC.swift */,
 				BAC098011DBB22D3000C81F0 /* CollectionVC.swift */,
+				CFBC0CDC1E533A85003DBC08 /* NotificationVC.swift */,
 				FD10047A1D262BA600627FFA /* AskProblemVC.swift */,
 				FD17E2081D2F666000FC0FB3 /* TagsController.swift */,
 				BAC098051DBB278B000C81F0 /* ProfileVC.swift */,
@@ -289,6 +299,7 @@
 		FD682A9C1D33043700D2F4B6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CFBC0CDA1E533191003DBC08 /* NotificationCell.swift */,
 				FD1036D91D1FB01600AC1FE9 /* CtrlCell.swift */,
 				BA2089591DBC3C8500316486 /* OptCell.swift */,
 				FD682A971D33002500D2F4B6 /* CollectionCell.swift */,
@@ -393,7 +404,7 @@
 								enabled = 1;
 							};
 							com.apple.Push = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -427,6 +438,7 @@
 				FD03252A1D24E53E002956FD /* UserListCell.xib in Resources */,
 				BAC097FE1DBB114B000C81F0 /* ProfileVC.xib in Resources */,
 				FD682A9A1D33002500D2F4B6 /* CollectionCell.xib in Resources */,
+				CFBC0CD91E53317F003DBC08 /* NotificationCell.xib in Resources */,
 				BA20895C1DBC3C8500316486 /* OptCell.xib in Resources */,
 				27AD1BF51E6B84D8008C3CBF /* DummyTestVC.xib in Resources */,
 				BA7533971E43BAFB00AA7803 /* UserVC.xib in Resources */,
@@ -480,7 +492,7 @@
 		};
 		A010AEBFE41EAB9861F2A252 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -488,7 +500,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QAQ/Pods-QAQ-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
@@ -533,6 +545,7 @@
 				BA20895B1DBC3C8500316486 /* OptCell.swift in Sources */,
 				BA8FEBD21DA05EAE00F23011 /* QuestionView.swift in Sources */,
 				BAFD787E1D961945004322C0 /* OptionModel.swift in Sources */,
+				CFBC0CDD1E533A85003DBC08 /* NotificationVC.swift in Sources */,
 				FD2148021D375694008A52B9 /* Birthday.swift in Sources */,
 				FDBBB5E71D2055E600D75467 /* SettingsVC.swift in Sources */,
 				277374EE1E4BB4FC00DF6D93 /* OptDetailedVC.swift in Sources */,
@@ -553,6 +566,7 @@
 				BA8FEBDD1DA08A7E00F23011 /* InProgressVC.swift in Sources */,
 				FDD344361D1B91980040356A /* LoginVC.swift in Sources */,
 				BAA423A51E4969D700DB9334 /* GameManager.swift in Sources */,
+				CFBC0CDB1E533191003DBC08 /* NotificationCell.swift in Sources */,
 				FD1036DA1D1FB01600AC1FE9 /* CtrlCell.swift in Sources */,
 				FD17E2061D2F4B3500FC0FB3 /* AddOptCell.swift in Sources */,
 				BAC478FF1D8F200E00041D94 /* SettingModel.swift in Sources */,
@@ -560,6 +574,7 @@
 				FD10047B1D262BA600627FFA /* AskProblemVC.swift in Sources */,
 				27AD1BF41E6B84D8008C3CBF /* DummyTestVC.swift in Sources */,
 				BA2089581DBB7C9500316486 /* CouponVC.swift in Sources */,
+				CFBC0CDF1E5346AD003DBC08 /* NotificationModel.swift in Sources */,
 				BAD6C0B01D6B646900361A93 /* UserModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

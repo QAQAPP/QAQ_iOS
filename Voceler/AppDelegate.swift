@@ -30,6 +30,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         window?.backgroundColor = .white
         constantManager.setup()
         
+        if #available(iOS 10.0, *) {
+            // For iOS 10 display notification (sent via APNS)
+            UNUserNotificationCenter.current().delegate = self
+            
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: {_, _ in })
+            
+            // For iOS 10 data message (sent via FCM)
+            FIRMessaging.messaging().remoteMessageDelegate = self
+            
+        } else {
+            let settings: UIUserNotificationSettings =
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            application.registerUserNotificationSettings(settings)
+        }
+        
+        application.registerForRemoteNotifications()
+
+        // Use this Token to send specific notification to certain device
+        let FCMToken = FIRInstanceID.instanceID().token()!
+        print("FCM Token is ", FCMToken)
+        
+        
 //        if #available(iOS 10.0, *) {
 //            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound], completionHandler: { (granted, error) in
 //                if granted{
@@ -127,21 +152,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     }
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        print("token",deviceToken)
+        var token: String = ""
+        for i in 0..<deviceToken.count {
+            token += String(format: "%02.2hhx", deviceToken[i] as CVarArg)
+        }
+        
+        print("APN token is: ", token)
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         // If you are receiving a notification message while your app is in the background,
         // this callback will not be fired till the user taps on the notification launching the application.
         // TODO: Handle data of notification
-        scheduleNotification(inSeconds: 0, completion: { (success) in
-            print("success", success)
-        })
+        //print("Got notification!")
+        
+        // Disable coupon for now for testing sake
+        //scheduleNotification(inSeconds: 0, completion: { (success) in
+        //    print("success", success)
+        //})
+        
         // Print message ID.
         print("Message ID: \(userInfo["gcm.message_id"]!)")
         
         // Print full message.
         print("%@", userInfo)
+        
+        // Use timestamp as notification ID
+        print(userInfo["timestamp"]!)
+        
+        controllerManager?.tabbarVC.selectedIndex = 2
+        controllerManager?.userVC.pushNotificationView()
     }
     
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
@@ -237,6 +277,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         FBSDKAppEvents.activateApp()
+        
+        //controllerManager?.notificationVC?.loadNotificationsFromDict()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

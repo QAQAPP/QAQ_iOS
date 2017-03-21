@@ -12,12 +12,15 @@ import SCLAlertView
 class ControllerManager: NSObject, UITabBarControllerDelegate, UIPopoverPresentationControllerDelegate, AskProblemVCDelegate, TagsControllerDelegate{
     var mainVC:MainVC!
     var collectionVC:CollectionVC!
+    var notificationVC:NotificationVC!
     var settingsVC:SettingsVC!
     var userVC:UserVC!
     var mainNav:UINavigationController!
-//    var collectionNav:UINavigationController!
+    var collectionNav:UINavigationController!
+    
     var userNav:UINavigationController!
 //    var settingsNav:UINavigationController!
+    
     var tabbarVC = UITabBarController()
 	var dummyAskProblemVC = DummyTestVC()
 	var overlay:UIView!
@@ -76,6 +79,8 @@ class ControllerManager: NSObject, UITabBarControllerDelegate, UIPopoverPresenta
         settingsVC = SettingsVC()
 //        settingsNav = UINavigationController(rootViewController: settingsVC)
 //        settingsNav.navigationBar.setColor(color: themeColor)
+        
+        notificationVC = NotificationVC()
         
         userVC = UserVC(nibName: "UserVC", bundle: nil)
         userVC.thisUser = currUser

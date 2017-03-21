@@ -35,7 +35,7 @@ class NetworkingManager: NSObject {
                 let token = (text as NSString).substring(with: range)
                 print(tags[i], token)
                 if usefulSet.contains(tags[i]) && !uselessSet.contains(token.lowercased()){
-                    result.append(token)
+                        result.append(token)
                 }
             }
         }

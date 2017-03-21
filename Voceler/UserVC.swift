@@ -107,6 +107,9 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         if indexPath.row == 0{
             navigationController?.pushViewController(controllerManager!.collectionVC, animated: true)
         }
+        else if indexPath.row == 1{
+            navigationController?.pushViewController(controllerManager!.notificationVC, animated: true)
+        }
         else if indexPath.row == 2{
             navigationController?.pushViewController(controllerManager!.settingsVC, animated: true)
         }
@@ -117,5 +120,9 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
             self.profileImageView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
             currUser?.storageRef.child("profileImg.jpeg").put(self.profileImageView.image!.dataAtMost(bytes: 100*1024))
         }
+    }
+    
+    func pushNotificationView() -> () {
+        navigationController?.pushViewController(controllerManager!.notificationVC, animated: true)
     }
 }
