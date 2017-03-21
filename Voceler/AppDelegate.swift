@@ -49,6 +49,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         
         application.registerForRemoteNotifications()
 
+        // Use this Token to send specific notification to certain device
+        let FCMToken = FIRInstanceID.instanceID().token()!
+        print("FCM Token is ", FCMToken)
+        
         
 //        if #available(iOS 10.0, *) {
 //            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound], completionHandler: { (granted, error) in
@@ -147,7 +151,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     }
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        print("token",deviceToken)
+        var token: String = ""
+        for i in 0..<deviceToken.count {
+            token += String(format: "%02.2hhx", deviceToken[i] as CVarArg)
+        }
+        
+        print("APN token is: ", token)
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
