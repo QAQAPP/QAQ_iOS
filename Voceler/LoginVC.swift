@@ -242,6 +242,10 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
         controllerManager = ControllerManager()
         networkingManager = NetworkingManager()
         gameManager = GameManager()
+        if let FCMToken = FIRInstanceID.instanceID().token(){
+            currUser?.ref.child("FCM Token").setValue(FCMToken)
+            print("FCM Token is ", FCMToken)
+        }
         self.show(controllerManager!.tabbarVC, sender: self)
 //        self.show(drawer, sender: self)
     }
