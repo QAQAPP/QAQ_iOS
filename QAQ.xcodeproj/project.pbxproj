@@ -339,6 +339,7 @@
 		FD682A9E1D33044F00D2F4B6 /* Nibs */ = {
 			isa = PBXGroup;
 			children = (
+				CFBC0CD81E53317F003DBC08 /* NotificationCell.xib */,
 				27AD1BF31E6B84D8008C3CBF /* DummyTestVC.xib */,
 				BA7533991E43E0F500AA7803 /* UserTableCell.xib */,
 				BA7533951E43BAFB00AA7803 /* UserVC.xib */,
