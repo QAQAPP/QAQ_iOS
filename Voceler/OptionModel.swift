@@ -18,7 +18,8 @@ class OptionModel: NSObject {
     var isLiked = false{
         didSet{
             if isLiked{
-                oQuestion.choose(val: oRef.key)
+//                oQuestion.choose(val: oRef.key)
+                gameManager?.chooseOption()
                 oRef.child("val").runTransactionBlock({ (data) -> FIRTransactionResult in
                     if let num = data.value as? Int{
                         data.value = num + 1
