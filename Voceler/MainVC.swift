@@ -118,6 +118,15 @@ class MainVC: UIViewController{
         profileItem.target = self
         navigationItem.rightBarButtonItem = nil
         navigationItem.leftBarButtonItem = profileItem
+        
+        
+//        for i in 0..<100{
+//            let question = QuestionModel()
+//            question.qAskerID = currUser!.uid
+//            question.qDescrption = "Sample Question \(i + 1) by Zhenyang Zhong"
+//            question.qOptions = [OptionModel]()
+//            question.postQuestion()
+//        }
     }
     
     func addContent(){

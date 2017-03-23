@@ -250,6 +250,24 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
 //        self.show(drawer, sender: self)
     }
     
+    func connectToFcm() {
+        // Won't connect since there is no token
+        guard FIRInstanceID.instanceID().token() != nil else {
+            return
+        }
+        
+        // Disconnect previous FCM connection if it exists.
+        FIRMessaging.messaging().disconnect()
+        
+        FIRMessaging.messaging().connect { (error) in
+            if error != nil {
+                print("Unable to connect with FCM. \(error)")
+            } else {
+                print("Connected to FCM.")
+            }
+        }
+    }
+    
     func initUserInfo(){
         let standard = UserDefaults.standard
         if let username = standard.string(forKey: "username"){

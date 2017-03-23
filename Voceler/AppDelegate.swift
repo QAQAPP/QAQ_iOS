@@ -26,6 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         // Override point for customization after application launch.
         FIRApp.configure()
         IQKeyboardManager.sharedManager().enable = true
+        connectToFcm()
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         window?.backgroundColor = .white
         constantManager.setup()
@@ -102,7 +103,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     func application(_ application: UIApplication,
                      open url: URL, options: [UIApplicationOpenURLOptionsKey: Any]) -> Bool {
 //        _ = FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String!, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
-        print(url)
         if url.absoluteString.startsWith("com.googleusercontent.apps"){
             return GIDSignIn.sharedInstance().handle(url,
                                                  sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String,
@@ -155,31 +155,63 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         }
         
         print("APN token is: ", token)
+        FIRInstanceID.instanceID().setAPNSToken(deviceToken, type: .unknown)
     }
     
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
         // If you are receiving a notification message while your app is in the background,
         // this callback will not be fired till the user taps on the notification launching the application.
         // TODO: Handle data of notification
-        //print("Got notification!")
-        
-        // Disable coupon for now for testing sake
-        //scheduleNotification(inSeconds: 0, completion: { (success) in
-        //    print("success", success)
-        //})
         
         // Print message ID.
-        print("Message ID: \(userInfo["gcm.message_id"]!)")
+//        if let messageID = userInfo[gcmMessageIDKey] {
+//            print("Message ID: \(messageID)")
+//        }
         
         // Print full message.
-        print("%@", userInfo)
-        
-        // Use timestamp as notification ID
-        print(userInfo["timestamp"]!)
-        
-        controllerManager?.tabbarVC.selectedIndex = 2
-        controllerManager?.userVC.pushNotificationView()
+        print(userInfo)
     }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        // If you are receiving a notification message while your app is in the background,
+        // this callback will not be fired till the user taps on the notification launching the application.
+        // TODO: Handle data of notification
+        
+        // Print message ID.
+//        if let messageID = userInfo[gcmMessageIDKey] {
+//            print("Message ID: \(messageID)")
+//        }
+        
+        // Print full message.
+        print(userInfo)
+        
+        completionHandler(UIBackgroundFetchResult.newData)
+    }
+//    
+//    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+//        // If you are receiving a notification message while your app is in the background,
+//        // this callback will not be fired till the user taps on the notification launching the application.
+//        // TODO: Handle data of notification
+//        //print("Got notification!")
+//        
+//        // Disable coupon for now for testing sake
+//        //scheduleNotification(inSeconds: 0, completion: { (success) in
+//        //    print("success", success)
+//        //})
+//        
+//        // Print message ID.
+////        print("Message ID: \(userInfo["gcm.message_id"]!)")
+//        
+//        // Print full message.
+//        print(userInfo)
+//        
+//        // Use timestamp as notification ID
+////        print(userInfo["timestamp"]!)
+//        
+//        controllerManager?.tabbarVC.selectedIndex = 2
+//        controllerManager?.userVC.pushNotificationView()
+//    }
     
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
         let authOptions : UNAuthorizationOptions = [.alert, .badge, .sound]
@@ -306,4 +338,5 @@ extension AppDelegate : FIRMessagingDelegate {
     func applicationReceivedRemoteMessage(_ remoteMessage: FIRMessagingRemoteMessage) {
         print("%@", remoteMessage.appData)
     }
+    
 }
