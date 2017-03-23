@@ -50,6 +50,7 @@ class QuestionModel: NSObject {
         contentRef.child("description").setValue(qDescrption)
         contentRef.child("askerID").setValue(qAskerID)
         contentRef.child("anonymous").setValue(qAnonymous)
+        contentRef.child("val").setValue(0)
         for opt in qOptions{
             let optRef = ref.child("options").childByAutoId()
             optRef.child("description").setValue(opt.oDescription)
