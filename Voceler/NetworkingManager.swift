@@ -42,9 +42,33 @@ class NetworkingManager: NSObject {
         return result
     }
     
+    func searchTags(text: String){
+//        http://lowcost-env.pukinshx93.us-west-2.elasticbeanstalk.com/question_tags/?t=Phone
+        let encodedText = text.lowercased().ped_encodeURIComponent()
+        let networking = Networking(baseURL: baseURL + "question_tags/?")
+        networking.get("t=" + encodedText, completion: { (result) in
+            var tags = [String]()
+            switch result {
+            case .success(let response):
+                let json = response.dictionaryBody
+                tags = json["tags"] as! [String]
+                break
+            // Do something with JSON, you can also get arrayBody
+            case .failure(_):
+                // Handle error
+                if let error = result.error{
+                    _ = SCLAlertView().showError("Error", subTitle: error.localizedDescription)
+                }
+                break
+            }
+//            NotificationCenter.default.post(name: Notification.Name.TagsSearched, object: tags)
+            // TODO 高仲阳 handle tags
+        })
+    }
+    
     func getQuestionTags(text:String){
         let encodedText = text.lowercased().ped_encodeURIComponent()
-        let networking = Networking(baseURL: baseURL + "question_tags/?q=")
+        let networking = Networking(baseURL: baseURL + "question_tags/?")
         networking.get("q=" + encodedText, completion: { (result) in
             var tags = [String]()
             switch result {
@@ -64,7 +88,7 @@ class NetworkingManager: NSObject {
     }
     
     func updateTags(text:String, tags:[String]){
-        let networking = Networking(baseURL: baseURL + "question_tags/?q=")
+        let networking = Networking(baseURL: baseURL + "question_tags/?")
         let encodedText = text.lowercased().ped_encodeURIComponent()
         let encodedTags = tags.joined(separator: ",").ped_encodeURIComponent()
         let path = "w=\(encodedText)&t=\(encodedTags)"

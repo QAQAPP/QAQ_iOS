@@ -186,11 +186,12 @@ class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate
     let categories = NSDictionary(contentsOfFile: Bundle.main.path(forResource: "Categories", ofType: "plist")!)!
 
     func textChange(noti:Notification) {
-        if textField.text == "" {
+        if textField == nil || textField.text == "" {
             optTBV.isHidden = true
             tagView.isHidden = false
         }
         else {
+            networkingManager?.searchTags(text: textField.text!)
             optTBV.isHidden = false
             tagView.isHidden = true
         }
