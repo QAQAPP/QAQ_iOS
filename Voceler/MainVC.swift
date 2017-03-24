@@ -20,6 +20,7 @@ import MMDrawerController
 import UIImage_Resize
 import BFPaperButton
 import LTMorphingLabel
+import IQKeyboardManagerSwift
 
 class MainVC: UIViewController{
     
@@ -159,5 +160,6 @@ class MainVC: UIViewController{
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
+		IQKeyboardManager.sharedManager().disabledToolbarClasses = [MainVC.self]
     }
 }
