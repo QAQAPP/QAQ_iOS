@@ -62,6 +62,8 @@ class NetworkingManager: NSObject {
                 break
             }
 //            NotificationCenter.default.post(name: Notification.Name.TagsSearched, object: tags)
+//			controllerManager?.tagsVC.tags = tags
+			controllerManager?.tagsVC.updateTableView(tags: tags)
             // TODO 高仲阳 handle tags
         })
     }

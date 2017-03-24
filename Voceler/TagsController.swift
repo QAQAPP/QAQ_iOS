@@ -17,7 +17,7 @@ protocol TagsControllerDelegate {
 	func dismisTagsOverlay()
 }
 
-class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate {
+class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
     let tagLimit = 10
     var optTBV = UITableView()
     private var question:QuestionModel!
@@ -27,6 +27,8 @@ class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate
 	
 	var leftButton = UIButton()
 	var rightButton = UIButton()
+	
+	var tags = [String]()
 
 //	@IBOutlet weak var buttonBar: ButtonBar!
 	@IBOutlet weak var tfBar: UIView!
@@ -142,6 +144,7 @@ class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate
 		leftButton.setTitleColor(themeColor, for: .normal)
 		rightButton.setTitleColor(themeColor, for: .normal)
 
+		tagView.tagBackgroundColor = themeColor
 	}
 	
     override func viewDidLoad() {
@@ -165,11 +168,13 @@ class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate
         view.addSubview(optTBV)
         _ = optTBV.sd_layout()
             .topSpaceToView(tfBar, 8)!
-            .bottomSpaceToView(view, 0)!
+            .bottomSpaceToView(view, 70)!
             .leftSpaceToView(view, 0)!
             .rightSpaceToView(view, 0)!
         optTBV.isHidden = true
-
+		optTBV.delegate = self
+		optTBV.dataSource = self
+		
         addBtn.imageView?.setIcon(img: #imageLiteral(resourceName: "plus-50").withRenderingMode(.alwaysTemplate), color: themeColor)
 
         let noti = NotificationCenter.default
@@ -180,6 +185,8 @@ class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate
 		
         slider.minimumValue = 0
         slider.maximumValue = 7200
+		
+		self.optTBV.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
 
     }
 
@@ -204,4 +211,31 @@ class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate
     func tagRemoveButtonPressed(_ title: String, tagView: TagView, sender: TagListView) -> Void{
         self.tagView.removeTagView(tagView)
     }
+	
+	func updateTableView(tags:[String]) {
+		self.tags = tags
+		self.optTBV.reloadData()
+//		DispatchQueue.main.async {
+//			self.optTBV.reloadData()
+//		}
+	}
+	
+	// MARK: UITableViewDataSource
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//		if tags.isEmpty {
+			return tags.count
+//		}
+//		return 1
+	}
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//		if tags.isEmpty {
+//			return
+//		}
+		let cell:UITableViewCell = self.optTBV.dequeueReusableCell(withIdentifier: "cell")! as UITableViewCell
+		
+		cell.textLabel?.text = self.tags[indexPath.row]
+//		cell.textLabel?.text = "asdfa"
+		
+		return cell
+	}
 }

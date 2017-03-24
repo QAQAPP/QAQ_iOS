@@ -12,6 +12,7 @@ import MJRefresh
 import SFFocusViewLayout
 import SCLAlertView
 import SDAutoLayout
+import IQKeyboardManagerSwift
 
 class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate{
     // FieldVars
@@ -38,6 +39,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
     var currQuestion:QuestionModel!
     //var optsView:UICollectionView!
     var optsView:UITableView!
+    let noAnswerView = UIImageView(image: #imageLiteral(resourceName: "no_answer"))
     var pullUpMask = UILabel()
     
     // font and sizes
@@ -79,6 +81,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        noAnswerView.isHidden = currQuestion.qOptions.count > 0
         return currQuestion.qOptions.count
         
     }
@@ -86,6 +89,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
     var cellHeightArray = [CGFloat]()
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:OptViewTableCell = OptViewTableCell(style:UITableViewCellStyle.default, reuseIdentifier:"OptViewTableCell");
+        cell.profileImg.setImage(#imageLiteral(resourceName: "user-50"), for: .normal)
         cell.setup(option: currQuestion.qOptions[indexPath.row], questionView: self)
         cellHeightArray.append(40 + cell.textView.frame.height)
         return cell;
@@ -179,6 +183,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
             }
             header?.setTitle("Skip Question", for: .pulling)
             optsView.mj_header = header
+//			IQKeyboardManager.sharedManager().disabledToolbarClasses = [parent]
         }
     }
     
@@ -214,11 +219,8 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
         optsView.separatorStyle = .none
         
         setupUI()
-        setupTable()
         setQuestion()
-        self.addSubview(optsView)
-        _ = optsView.sd_layout().topSpaceToView(detailTV, 0)?.bottomSpaceToView(addOptionField, 0)?.leftSpaceToView(self, 0)?.rightSpaceToView(self, 0)
-        
+        setupTable()
     }
     
     func setupTable(){
@@ -227,6 +229,12 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
         optsView.isOpaque = false
         optsView.estimatedRowHeight = 1000.0
         optsView.rowHeight = UITableViewAutomaticDimension
+        self.addSubview(optsView)
+        _ = optsView.sd_layout().topSpaceToView(detailTV, 0)?.bottomSpaceToView(addOptionField, 0)?.leftSpaceToView(self, 0)?.rightSpaceToView(self, 0)
+        
+        noAnswerView.contentMode = .scaleAspectFit
+        self.addSubview(noAnswerView)
+        _ = noAnswerView.sd_layout().topSpaceToView(detailTV, 0)?.bottomSpaceToView(addOptionField, 0)?.leftSpaceToView(self, 64)?.rightSpaceToView(self, 64)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
