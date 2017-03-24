@@ -172,46 +172,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         print(userInfo)
     }
     
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
-                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        // If you are receiving a notification message while your app is in the background,
-        // this callback will not be fired till the user taps on the notification launching the application.
-        // TODO: Handle data of notification
-        
-        // Print message ID.
-//        if let messageID = userInfo[gcmMessageIDKey] {
-//            print("Message ID: \(messageID)")
-//        }
-        
-        // Print full message.
-        print(userInfo)
-        
-        completionHandler(UIBackgroundFetchResult.newData)
-    }
-//    
-//    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+//    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+//                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
 //        // If you are receiving a notification message while your app is in the background,
 //        // this callback will not be fired till the user taps on the notification launching the application.
 //        // TODO: Handle data of notification
-//        //print("Got notification!")
-//        
-//        // Disable coupon for now for testing sake
-//        //scheduleNotification(inSeconds: 0, completion: { (success) in
-//        //    print("success", success)
-//        //})
 //        
 //        // Print message ID.
-////        print("Message ID: \(userInfo["gcm.message_id"]!)")
+////        if let messageID = userInfo[gcmMessageIDKey] {
+////            print("Message ID: \(messageID)")
+////        }
 //        
 //        // Print full message.
 //        print(userInfo)
 //        
-//        // Use timestamp as notification ID
-////        print(userInfo["timestamp"]!)
-//        
-//        controllerManager?.tabbarVC.selectedIndex = 2
-//        controllerManager?.userVC.pushNotificationView()
+//        completionHandler(UIBackgroundFetchResult.newData)
 //    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        // If you are receiving a notification message while your app is in the background,
+        // this callback will not be fired till the user taps on the notification launching the application.
+        // TODO: Handle data of notification
+        //print("Got notification!")
+        
+        // Disable coupon for now for testing sake
+        //scheduleNotification(inSeconds: 0, completion: { (success) in
+        //    print("success", success)
+        //})
+        
+        // Print message ID.
+        print("Message ID: \(userInfo["gcm.message_id"]!)")
+        
+        // Print full message.
+        print(userInfo)
+        
+        // Use timestamp as notification ID
+        print(userInfo["timestamp"]!)
+        
+        controllerManager?.tabbarVC.selectedIndex = 2
+        controllerManager?.userVC.pushNotificationView()
+    }
     
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
         let authOptions : UNAuthorizationOptions = [.alert, .badge, .sound]
@@ -306,8 +306,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         FBSDKAppEvents.activateApp()
-        
-        //controllerManager?.notificationVC?.loadNotificationsFromDict()
+    
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -330,6 +329,11 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         // Print full message.
         print("%@", userInfo)
+        
+        controllerManager?.notificationVC?.loadNotificationsFromDict()
+        
+        controllerManager?.tabbarVC.selectedIndex = 2
+        controllerManager?.userVC.pushNotificationView()
     }
 }
 
@@ -337,6 +341,7 @@ extension AppDelegate : FIRMessagingDelegate {
     // Receive data message on iOS 10 devices.
     func applicationReceivedRemoteMessage(_ remoteMessage: FIRMessagingRemoteMessage) {
         print("%@", remoteMessage.appData)
+        
     }
     
 }

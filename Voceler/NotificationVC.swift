@@ -149,7 +149,8 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       // Navigate to question view - Implement later
+       // Navigate to question view
+        
     }
     
     override func didReceiveMemoryWarning() {
