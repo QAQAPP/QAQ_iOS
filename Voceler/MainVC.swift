@@ -65,6 +65,7 @@ class MainVC: UIViewController{
         btn.setTitle("Load More", for: [])
         btn.backgroundColor = themeColor
         btn.setTitleColor(.white, for: [])
+//        btn.setImage(#imageLiteral(resourceName: "no_question"), for: .normal)
         btn.addTarget(self, action: #selector(loadQuestions), for: .touchUpInside)
         contentViews.append(btn)
         Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { (_) in
@@ -104,7 +105,7 @@ class MainVC: UIViewController{
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
         scoreLabel.morphingEffect = .evaporate
-        scoreLabel.text = "-.--"
+        scoreLabel.text = "$-.--"
         scoreLabel.font = UIFont(name: "Arial", size: 30)
 
         view.addSubview(scoreLabel)
