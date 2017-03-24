@@ -198,7 +198,7 @@ class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate
             tagView.isHidden = false
         }
         else {
-            networkingManager?.searchTags(text: textField.text!)
+            networkingManager?.searchTags(text: textField.text!, tagsVC: self)
             optTBV.isHidden = false
             tagView.isHidden = true
         }
