@@ -105,6 +105,7 @@ class QuestionModel: NSObject {
         optRef.child("offerBy").setValue(opt.oOfferBy)
         opt.isLiked = true
         optRef.child("val").setValue(opt.oVal)
+        qRef.child("Users").child(currUser!.uid).setValue(optRef.key)
         gameManager?.addOption()
     }
     
@@ -115,9 +116,9 @@ class QuestionModel: NSObject {
 //        }
 //    }
     
-    func conclude(OID:String? = nil){
-        if let OID = OID{
-            qRef.child("content").child("conclusion").setValue(OID)
+    func conclude(oid:String? = nil){
+        if let oid = oid{
+            qRef.child("content").child("conclusion").setValue(oid)
         }
         else{
             qRef.child("content").child("conclusion").setValue("nil")

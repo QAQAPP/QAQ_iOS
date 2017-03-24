@@ -33,21 +33,24 @@ class UserModel: NSObject {
                 if let money = snapshot.value as? Int{
                     self.money = money
                     if let uid = currUser?.uid, uid == self.uid{
-                        controllerManager?.mainVC.scoreLabel.text = "\(money/100)." + ((money%100 < 10) ? "0" : "") + "\(money%100)"
+                        controllerManager?.mainVC.scoreLabel.text = "$\(money/100)." + ((money%100 < 10) ? "0" : "") + "\(money%100)"
                     }
                 }
                 else{
                     self.ref.child("money").setValue(constantManager.base_money)
                 }
             })
+//            setup(child: "email")
+//            setup(child: "username")
+//            setup(child: "location")
+//            setup(child: "qInProgressLimit", defaultVal: constantManager.in_process_limit)
             ref.observe(.value, with:{ (snapshot) in
                 if let userInfo = snapshot.value as? Dictionary<String,Any>{
                     self.email = userInfo["email"] as? String
-                    self.username = userInfo["username"] as? String
-                    self.location = userInfo["location"] as? String
-                    if self.uid == currUser?.uid{
-                        NotificationCenter.default.post(name: NSNotification.Name("UsernameLoaded"), object: self.username)
+                    if let username = userInfo["username"] as? String{
+                        self.username = username
                     }
+                    self.location = userInfo["location"] as? String
                     if let qInProgressLimit = userInfo["qInProgressLimit"] as? Int{
                         self.qInProgressLimit = qInProgressLimit
                     }
@@ -181,5 +184,16 @@ class UserModel: NSObject {
     
     func collectQuestion(qid:String, like:Bool = true){
         currUser?.qRef.child(qid).setValue(like ? "liked" : nil)
+    }
+    
+    func setup(child:String, defaultVal:Any? = nil){
+        ref.child(child).observe(.value, with: { (snap) in
+            if let val = snap.value{
+                self.setValue(val, forKey: child)
+            }
+            else if let val = defaultVal{
+                self.setValue(val, forKey: child)
+            }
+        })
     }
 }

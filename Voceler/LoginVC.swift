@@ -235,6 +235,12 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
     func login(user:FIRUser){
         currUser = UserModel.getUser(uid: user.uid, getWall: true, getProfile: true)
         currUser?.ref.child("email").setValue(user.email)
+        currUser?.ref.child("username").observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.value == nil{
+                let username = user.email!.components(separatedBy: "@")[0]
+                currUser?.ref.child("username").setValue(username)
+            }
+        })
         let req = user.profileChangeRequest()
         req.displayName = "hello"
         currUser?.username = user.displayName

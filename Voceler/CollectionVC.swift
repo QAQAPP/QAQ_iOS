@@ -16,7 +16,6 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 //    @IBOutlet weak var searchBar: UISearchBar!
 //    @IBOutlet weak var table: UITableView!
     let table = UITableView()
-    let searchBar = UISearchBar()
     
     // FieldVars
     var qInProgressArr = Array<QuestionModel>()
@@ -78,10 +77,8 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        view.addSubview(searchBar)
         view.addSubview(table)
-        _ = searchBar.sd_layout().topSpaceToView(view, navBarHeight())?.leftSpaceToView(view, 0)?.rightSpaceToView(view, 0)?.heightIs(44)
-        _ = table.sd_layout().topSpaceToView(searchBar, 0)?.leftSpaceToView(view, 0)?.rightSpaceToView(view, 0)?.bottomSpaceToView(view, tabBarHeight())
+        _ = table.sd_layout().topSpaceToView(view, 0)?.leftSpaceToView(view, 0)?.rightSpaceToView(view, 0)?.bottomSpaceToView(view, tabBarHeight())
         
         navigationItem.title = "Collection"
         navigationController?.navigationBar.tintColor = themeColor

@@ -58,6 +58,7 @@ class OptViewTableCell: UITableViewCell{
     override func awakeFromNib() {
         super.awakeFromNib()
         self.profileImg.board(radius: profileImg.width/2, width: 0, color: .lightGray)
+        self.profileImg.clipsToBounds = true
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -118,7 +119,7 @@ class OptViewTableCell: UITableViewCell{
         else if let inProgressVC = questionView.parent as? InProgressVC, question.qAskerID == currUser!.uid{
             Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (timer) in
                 inProgressVC.afterConclude()
-                self.question.conclude(OID: self.option.oRef.key)
+                self.question.conclude(oid: self.option.oRef.key)
             })
         }
         else{
@@ -128,13 +129,18 @@ class OptViewTableCell: UITableViewCell{
         question.userChoosed = true
         if !option.isLiked{
             likeBtn.setImage(#imageLiteral(resourceName: "check_checked"), for: .normal)
-            for opt in question.qOptions{
-                if opt == option && !opt.isLiked{
-                    opt.isLiked = true
+            if questionView.parent is MainVC{
+                for opt in question.qOptions{
+                    if opt == option && !opt.isLiked{
+                        opt.isLiked = true
+                    }
+                    else if opt.isLiked{
+                        opt.isLiked = false
+                    }
                 }
-                else if opt.isLiked{
-                    opt.isLiked = false
-                }
+            }
+            else if questionView.parent is InProgressVC{
+                
             }
         }
     }
