@@ -36,9 +36,8 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         currUser?.nRef.observe(FIRDataEventType.value, with: { (snapshot) in
             if let notiInfo = snapshot.value as? [String : AnyObject]{
                 self.notificationsInDict = notiInfo as! [String : AnyObject]
-                print(self.notificationsInDict)
+                //print(self.notificationsInDict)
             }
-            //
         })
     }
 
@@ -51,13 +50,6 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         
         //setupProfile() // This is for..?
-        /*
-        currUser?.nRef.observe(FIRDataEventType.value, with: { (snapshot) in
-            self.notificationsInDict = snapshot.value as! [String : AnyObject]
-            print(self.notificationsInDict)
-            self.loadNotificationsFromDict()
-        })
-        */
         view.addSubview(table)
         _ = table.sd_layout().topSpaceToView(view, 0)?.bottomSpaceToView(view, 0)?.leftSpaceToView(view, 0)?.rightSpaceToView(view, 0)
         
@@ -105,52 +97,67 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         //cell.icon.image = notifications?[indexPath.row].user.profileImg
         let thisNotification = notifications[indexPath.row]
         
-        questionManager?.loadQuestionContent(qid: thisNotification.qid)
         
-        /*NotificationCenter.default.addObserver(forName: NSNotification.Name(thisNotification.qid+"question"), queue: nil, using: { (noti) in
-            if (thisQuesiton != nil) {
-                print((thisQuestion as! QuestionModel).QID)
-            }
-
-        })*/
+        var qDescription:String = "Placeholder"
+        
+        questionManager?.loadQuestionContent(qid: thisNotification.qid)
 
         switch thisNotification.type {
         case NotificationType.questionAnswered:
-            print(thisNotification.details)
+            //print(thisNotification.details)
             
-            let user = UserModel.getUser(uid: thisNotification.details)
-            NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: thisNotification.details+"username"), object: nil, queue: nil, using: { (noti) in
-                if let username = user.username{
-                    cell.label.text = "\(username) answered your question: ..."
-                }
+            NotificationCenter.default.addObserver(forName: NSNotification.Name(thisNotification.qid+"question"), object: nil, queue: nil, using: { (noti) in
+                let passedInInfo = noti.userInfo
+                qDescription = passedInInfo?["description"] as! String
+                
+                let user = UserModel.getUser(uid: thisNotification.details)
+                NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: thisNotification.details+"username"), object: nil, queue: nil, using: { (noti) in
+                    
+                    if let username = user.username{
+                        cell.label.text = "\(username) answered your question: \(qDescription)"
+                    }
+                })
             })
-            
+
         case NotificationType.questionViewed:
             let views = thisNotification.details
-            
-            cell.label.text = "You got \(views) views for your question: ..."
+        
+            NotificationCenter.default.addObserver(forName: NSNotification.Name(thisNotification.qid+"question"), object: nil, queue: nil, using: { (noti) in
+                let passedInInfo = noti.userInfo
+                qDescription = passedInInfo?["description"] as! String
+
+                cell.label.text = "You got \(views) views for your question: \(qDescription)"
+            })
             
         case NotificationType.answerChosen:
-            print(thisNotification.details)
+            //print(thisNotification.details)
             
-            let user = UserModel.getUser(uid: thisNotification.details)
-            NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: thisNotification.details+"username"), object: nil, queue: nil, using: { (noti) in
-                if let username = user.username{
-                    cell.label.text = "Your answer was chosen by \(username) in question: ..."
-                }
+            NotificationCenter.default.addObserver(forName: NSNotification.Name(thisNotification.qid+"question"), object: nil, queue: nil, using: { (noti) in
+                let passedInInfo = noti.userInfo
+                qDescription = passedInInfo?["description"] as! String
+
+                let user = UserModel.getUser(uid: thisNotification.details)
+                NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: thisNotification.details+"username"), object: nil, queue: nil, using: { (noti) in
+                    if let username = user.username{
+                        cell.label.text = "Your answer was chosen by \(username) in question: \(qDescription)"
+                    }
+                })
+                
             })
             
         }
         
-        if thisNotification.viewed == false {
-            cell.backgroundColor = UIColor.red // maybe its too aggressive
-        }
+        // Formatting of unread notifications
+//        if thisNotification.viewed == false {
+//            cell.backgroundColor = UIColor.red
+//        }
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
        // Navigate to question view
-        
+//        controllerManager?.collectionVC.findQuestionModel(with: )
     }
     
     override func didReceiveMemoryWarning() {
