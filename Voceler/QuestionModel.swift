@@ -45,10 +45,12 @@ class QuestionModel: NSObject {
         // Set up question
         let ref = FIRDatabase.database().reference().child("Questions-v1").childByAutoId()
         qid = ref.key
+        ref.child("owner").setValue(currUser!.uid)
         let contentRef = ref.child("content")
         contentRef.child("description").setValue(qDescrption)
         contentRef.child("askerID").setValue(qAskerID)
         contentRef.child("anonymous").setValue(qAnonymous)
+        contentRef.child("val").setValue(0)
         for opt in qOptions{
             let optRef = ref.child("options").childByAutoId()
             optRef.child("description").setValue(opt.oDescription)
@@ -58,9 +60,9 @@ class QuestionModel: NSObject {
         
         // Set up tags
 //        ref.child("tags").setValue(qTags)
-        let tagRef = FIRDatabase.database().reference().child("Tags-v1")
-        let allTagRef = tagRef.child("all").child(qid)
-        allTagRef.setValue("1")
+//        let tagRef = FIRDatabase.database().reference().child("Tags-v1")
+//        let allTagRef = tagRef.child("all").child(qid)
+//        allTagRef.setValue("1")
 //        for tag in qTags{
 //            let ref = tagRef.child(tag).child(QID)
 //            ref.setValue("0")
@@ -70,7 +72,7 @@ class QuestionModel: NSObject {
         networkingManager?.addQuestion(qid: qid, tags: qTags)
         
         // Add question to user
-        choose(val: "owner")
+        
         currUser!.qRef.child(qid).setValue("In progress")
         currUser!.qInProgress.append(qid)
         NotificationCenter.default.post(name: Notification.Name("qInProgressLoaded"), object: toDict())
@@ -106,12 +108,12 @@ class QuestionModel: NSObject {
         gameManager?.addOption()
     }
     
-    func choose(val:String = "skipped"){
-        qRef.child("Users").child(currUser!.uid).setValue(val)
-        if val != "skipped" && val != "owner"{
-            gameManager?.chooseOption()
-        }
-    }
+//    func choose(val:String = "skipped"){
+//        qRef.child("Users").child(currUser!.uid).setValue(val)
+//        if val != "skipped" && val != "owner"{
+//        gameManager?.chooseOption()
+//        }
+//    }
     
     func conclude(OID:String? = nil){
         if let OID = OID{

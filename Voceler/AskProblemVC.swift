@@ -205,7 +205,6 @@ class AskProblemVC: UIViewController, UIScrollViewDelegate, UITableViewDataSourc
         if let text = text {
             handler.setText(text, animated: true)
         }
-		print("setting butotn title")
 		leftButton.addTarget(self, action: #selector(cancelAction), for: .touchUpInside)
 		leftButton.setTitle("Cancel", for: .normal)
 		rightButton.addTarget(self, action: #selector(nextAction), for: .touchUpInside)
