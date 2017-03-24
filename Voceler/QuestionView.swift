@@ -12,6 +12,7 @@ import MJRefresh
 import SFFocusViewLayout
 import SCLAlertView
 import SDAutoLayout
+import IQKeyboardManagerSwift
 
 class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate{
     // FieldVars
@@ -182,6 +183,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
             }
             header?.setTitle("Skip Question", for: .pulling)
             optsView.mj_header = header
+//			IQKeyboardManager.sharedManager().disabledToolbarClasses = [parent]
         }
     }
     
