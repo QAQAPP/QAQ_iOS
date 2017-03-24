@@ -25,7 +25,7 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     let NTypeLookup: [String: NotificationType] = [
         "questionAnswered": NotificationType.questionAnswered,
         "questionViewed": NotificationType.questionViewed,
-        "answerChosen": NotificationType.answerChosen]
+        "questionConcluded": NotificationType.questionConcluded]
     
     var notificationsInDict:[String:AnyObject] = [:]
     var notifications:[NotificationModel] = []
@@ -71,7 +71,8 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             let thisNotification = NotificationModel(thisNotificationInDict.value["qid"] as! String,
                 of: NTypeLookup[thisNotificationInDict.value["type"] as! String]!,
                 with: thisNotificationInDict.value["details"] as AnyObject,
-                whether: thisNotificationInDict.value["viewed"] as! Bool,
+                whether: false,
+                //whether: thisNotificationInDict.value["viewed"] as! Bool,
                 on: thisNotificationInDict.key )
             self.notifications.append(thisNotification)
         }
@@ -97,22 +98,17 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         //cell.icon.image = notifications?[indexPath.row].user.profileImg
         let thisNotification = notifications[indexPath.row]
         
-        
         var qDescription:String = "Placeholder"
-        
         questionManager?.loadQuestionContent(qid: thisNotification.qid)
-
+        
         switch thisNotification.type {
         case NotificationType.questionAnswered:
-            //print(thisNotification.details)
-            
             NotificationCenter.default.addObserver(forName: NSNotification.Name(thisNotification.qid+"question"), object: nil, queue: nil, using: { (noti) in
                 let passedInInfo = noti.userInfo
                 qDescription = passedInInfo?["description"] as! String
                 
                 let user = UserModel.getUser(uid: thisNotification.details)
                 NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: thisNotification.details+"username"), object: nil, queue: nil, using: { (noti) in
-                    
                     if let username = user.username{
                         cell.label.text = "\(username) answered your question: \(qDescription)"
                     }
@@ -121,7 +117,6 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
 
         case NotificationType.questionViewed:
             let views = thisNotification.details
-        
             NotificationCenter.default.addObserver(forName: NSNotification.Name(thisNotification.qid+"question"), object: nil, queue: nil, using: { (noti) in
                 let passedInInfo = noti.userInfo
                 qDescription = passedInInfo?["description"] as! String
@@ -129,9 +124,7 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 cell.label.text = "You got \(views) views for your question: \(qDescription)"
             })
             
-        case NotificationType.answerChosen:
-            //print(thisNotification.details)
-            
+        case NotificationType.questionConcluded:
             NotificationCenter.default.addObserver(forName: NSNotification.Name(thisNotification.qid+"question"), object: nil, queue: nil, using: { (noti) in
                 let passedInInfo = noti.userInfo
                 qDescription = passedInInfo?["description"] as! String
@@ -142,8 +135,8 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                         cell.label.text = "Your answer was chosen by \(username) in question: \(qDescription)"
                     }
                 })
-                
             })
+            
             
         }
         
@@ -157,7 +150,31 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
        // Navigate to question view
-//        controllerManager?.collectionVC.findQuestionModel(with: )
+        let thisNotification = notifications[indexPath.row]
+        let thisNotificationQID = thisNotification.qid
+        print("qid \(thisNotificationQID) selected")
+        
+        var inProgress = true
+        var thisQuestionModel:QuestionModel?
+        thisQuestionModel = controllerManager?.collectionVC.findQuestionModel(with: thisNotificationQID, from: true)
+        print(thisQuestionModel?.qDescrption)
+        if (thisQuestionModel == nil) {
+            thisQuestionModel = controllerManager?.collectionVC.findQuestionModel(with: thisNotificationQID, from: false)
+            print(thisQuestionModel?.qDescrption)
+            inProgress = false
+        }
+        // In current design thisQuestionModel must exist in either InProgress or Collection List
+        if (inProgress == true) {
+            let thisQuestionVC = InProgressVC()
+            thisQuestionVC.setup(parent:controllerManager!.collectionVC!, question:thisQuestionModel!)
+            show(thisQuestionVC, sender: self)
+
+        } else {
+            let thisQuestionVC = InCollectionVC()
+            thisQuestionVC.setup(parent:controllerManager!.collectionVC!, question:thisQuestionModel!)
+            show(thisQuestionVC, sender: self)
+            
+        }
     }
     
     override func didReceiveMemoryWarning() {

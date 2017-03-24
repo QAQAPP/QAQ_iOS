@@ -73,6 +73,20 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         table.mj_header.endRefreshing()
     }
     
+    func findQuestionModel(with qid:String, from InProgress:Bool) -> QuestionModel? {
+        var listToFind = qInProgressArr
+        if (InProgress == false){
+            listToFind = qCollectionArr
+        }
+        for thisOne in listToFind {
+            print(thisOne.qid)
+            if thisOne.qid == qid {
+                return thisOne
+            }
+        }
+        return nil
+    }
+    
     // Override functions
     override func viewDidLoad() {
         super.viewDidLoad()

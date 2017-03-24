@@ -11,7 +11,7 @@ import UIKit
 enum NotificationType {
     case questionAnswered
     case questionViewed
-    case answerChosen
+    case questionConcluded
     //case questionLiked
 }
 
@@ -33,7 +33,7 @@ class NotificationModel: NSObject {
         self.timestamp = "200706290000000"
     }
     
-    init (_ qid: String, of type: NotificationType, with details: AnyObject, whether viewed: Bool, on time: String) {
+    init (_ qid: String, of type: NotificationType, with details: AnyObject, whether viewed: Bool = false, on time: String) {
         self.qid = qid
         self.viewed = viewed
         self.type = type
@@ -49,7 +49,7 @@ class NotificationModel: NSObject {
          // how many times
          self.details = (details as! NSNumber).stringValue
             
-        case NotificationType.answerChosen:
+        case NotificationType.questionConcluded:
          // by whom
          self.details = details as! String
         }
