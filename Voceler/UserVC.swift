@@ -24,13 +24,13 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     
     func profileTapped(){
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
-        let pickupPhotos = UIAlertAction(title: "Select photo", style: .default) { (action) in
+        let pickupPhotos = UIAlertAction(title: "Select photo", style: .destructive) { (action) in
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
             self.show(imagePicker, sender: self)
         }
         alert.addAction(pickupPhotos)
-        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alert.addAction(cancel)
         present(alert, animated: true, completion: nil)
     }
@@ -88,7 +88,7 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return thisUser == currUser ? rowTitles.count : rowTitles.count - 1
+        return thisUser == currUser ? rowTitles.count : rowTitles.count - 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

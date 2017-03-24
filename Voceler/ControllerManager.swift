@@ -9,7 +9,7 @@
 import UIKit
 import SCLAlertView
 
-class ControllerManager: NSObject, UITabBarControllerDelegate{
+class ControllerManager: NSObject, UITabBarControllerDelegate, UIPopoverPresentationControllerDelegate, AskProblemVCDelegate, TagsControllerDelegate{
     var mainVC:MainVC!
     var collectionVC:CollectionVC!
     var notificationVC:NotificationVC!
@@ -22,23 +22,33 @@ class ControllerManager: NSObject, UITabBarControllerDelegate{
 //    var settingsNav:UINavigationController!
     
     var tabbarVC = UITabBarController()
+	var dummyAskProblemVC = DummyTestVC()
+	var overlay:UIView!
     var askProblemVC:AskProblemVC{
         let board = UIStoryboard(name: "Main", bundle: nil)
         let vc = board.instantiateViewController(withIdentifier: "Ask Question") as! AskProblemVC
+		vc.delegate = self
         return vc
     }
     var tagsVC:TagsController{
         let board = UIStoryboard(name: "Main", bundle: nil)
         let vc = board.instantiateViewController(withIdentifier: "AddTags") as! TagsController
+		vc.delegate = self
         return vc
     }
     
-    func profileVC(user:UserModel)->ProfileVC{
-        let vc = ProfileVC(nibName: "ProfileVC", bundle: nil)
-        vc.edgesForExtendedLayout = .top
+    func getUserVC(user:UserModel)->UserVC{
+        let vc = UserVC(nibName: "UserVC", bundle: nil)
         vc.thisUser = user
         return vc
     }
+    
+//    func profileVC(user:UserModel)->ProfileVC{
+//        let vc = ProfileVC(nibName: "ProfileVC", bundle: nil)
+//        vc.edgesForExtendedLayout = .top
+//        vc.thisUser = user
+//        return vc
+//    }
     
     override init() {
         super.init()
@@ -63,6 +73,7 @@ class ControllerManager: NSObject, UITabBarControllerDelegate{
         askItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
         askItem.image = #imageLiteral(resourceName: "Oval 1").withRenderingMode(.alwaysOriginal)
         let askVC = askProblemVC
+//		let askVC = dummyAskProblemVC
         askVC.tabBarItem = askItem
         
         settingsVC = SettingsVC()
@@ -83,19 +94,58 @@ class ControllerManager: NSObject, UITabBarControllerDelegate{
         tabbarVC.setViewControllers([mainNav, askVC, userNav], animated: true)
         tabbarVC.delegate = self
     }
-    
+	
+	// MARK:UITabBarControllerDelegate
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if viewController is AskProblemVC{
-            if currUser!.qInProgress.count >= currUser!.qInProgressLimit!{
-                _ = SCLAlertView().showError("Sorry", subTitle: "You are only allowed to have up to \(currUser!.qInProgressLimit) in progress questions. Please conclude a question.")
-            }
-            else{
-                let nav = UINavigationController(rootViewController: askProblemVC)
+//		if viewController is DummyTestVC{
+            if gameManager!.checkAskQuestion(){
+//                let nav = UINavigationController(rootViewController: dummyAskProblemVC)
+				let nav = UINavigationController(rootViewController: askProblemVC)
                 nav.navigationBar.setColor(color: themeColor)
+				nav.modalPresentationStyle = UIModalPresentationStyle.popover;
+				nav.view.backgroundColor = UIColor.clear
+				nav.preferredContentSize = CGSize(width: UIScreen.main.bounds.width, height: 400)
+				nav.setNavigationBarHidden(true, animated: false)
+				let popover:UIPopoverPresentationController = nav.popoverPresentationController!;
+				let view = tabBarController.tabBar.selectedItem?.value(forKey: "view") as! UIView?
+				popover.sourceView = tabBarController.tabBar
+				popover.sourceRect = (view?.frame)!
+				popover.delegate = self
                 tabBarController.show(nav, sender: tabBarController)
             }
             return false
         }
         return true
     }
+	
+	// MARK:UIPopoverPresentationControllerDelegates
+	func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+		return UIModalPresentationStyle.none
+	}
+	
+	func prepareForPopoverPresentation(_ popoverPresentationController: UIPopoverPresentationController) {
+		let parentView = tabbarVC.selectedViewController?.view
+		
+		let overlay = UIView(frame: (parentView?.bounds)!)
+		overlay.backgroundColor = UIColor(white: 0.0, alpha: 0.4)
+		parentView?.addSubview(overlay)
+		self.overlay = overlay
+		tabbarVC.selectedViewController?.view.addSubview(overlay)
+	}
+	
+	func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
+		overlay.removeFromSuperview()
+	}
+	
+	// MARK:AskProblemVCDelegate
+	func dismisOverlay() {
+		overlay.removeFromSuperview()
+	}
+	
+	// MARK:TagsControllerDelegate
+	func dismisTagsOverlay() {
+		overlay.removeFromSuperview()
+	}
+
 }

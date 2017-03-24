@@ -47,7 +47,7 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         if inProgress{
             if currUser!.qInProgress.contains(qid){
                 for question in self.qInProgressArr{
-                    if question.QID == qid{
+                    if question.qid == qid{
                         table.mj_header.endRefreshing()
                         return
                     }
@@ -60,7 +60,7 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         else{
             if currUser!.qCollection.contains(qid){
                 for question in self.qCollectionArr{
-                    if question.QID == qid{
+                    if question.qid == qid{
                         table.mj_header.endRefreshing()
                         return
                     }

@@ -15,6 +15,10 @@ import SCLAlertView
 
 //http://lowcost-env.pukinshx93.us-west-2.elasticbeanstalk.com/qaq/zhaowei/
 class NetworkingManager: NSObject {
+    
+    let baseURL = "http://lowcost-env.pukinshx93.us-west-2.elasticbeanstalk.com/"
+//    let baseURL = "http://localhost:8000/qaq/"
+    
     private func analyzeWords(text:String)->[String]{
         let usefulSet:Set<String> = [NSLinguisticTagPlaceName, NSLinguisticTagWordJoiner, NSLinguisticTagNoun, NSLinguisticTagOtherWord, NSLinguisticTagPersonalName, NSLinguisticTagOrganizationName, NSLinguisticTagVerb, NSLinguisticTagAdjective, NSLinguisticTagOtherWord]
         let uselessSet:Set<String> = ["is", "are", "be", "being", "been", "was", "were", "do", "does", "did", "doing", "has", "have", "had", "should", "would", "shall", "will", "worst", "best", "most", "least"]
@@ -38,47 +42,91 @@ class NetworkingManager: NSObject {
         return result
     }
     
+    func searchTags(text: String){
+//        http://lowcost-env.pukinshx93.us-west-2.elasticbeanstalk.com/question_tags/?t=Phone
+        let encodedText = text.lowercased().ped_encodeURIComponent()
+        let networking = Networking(baseURL: baseURL + "question_tags/?")
+        networking.get("t=" + encodedText, completion: { (result) in
+            var tags = [String]()
+            switch result {
+            case .success(let response):
+                let json = response.dictionaryBody
+                tags = json["tags"] as! [String]
+                break
+            // Do something with JSON, you can also get arrayBody
+            case .failure(_):
+                // Handle error
+                if let error = result.error{
+                    _ = SCLAlertView().showError("Error", subTitle: error.localizedDescription)
+                }
+                break
+            }
+//            NotificationCenter.default.post(name: Notification.Name.TagsSearched, object: tags)
+            // TODO 高仲阳 handle tags
+        })
+    }
+    
     func getQuestionTags(text:String){
         let encodedText = text.lowercased().ped_encodeURIComponent()
-        let networking = Networking(baseURL: "http://django-env.6jck6j9kff.us-west-2.elasticbeanstalk.com/qaq/matthew/?q=")
-        networking.get("q=" + encodedText, completion: { (val, dict, error) in
+        let networking = Networking(baseURL: baseURL + "question_tags/?")
+        networking.get("q=" + encodedText, completion: { (result) in
             var tags = [String]()
-            if error == nil{
-                let json = JSON(val as Any)
-                for (_, val) in json["tags"]{
-                    if let tag = val.array?[0].string{
-                        tags.append(tag)
-                    }
+            switch result {
+            case .success(let response):
+                let json = response.dictionaryBody
+                tags = json["tags"] as! [String]
+            // Do something with JSON, you can also get arrayBody
+            case .failure(_):
+                // Handle error
+                if let error = result.error{
+                    _ = SCLAlertView().showError("Error", subTitle: error.localizedDescription)
                 }
+                break
             }
             NotificationCenter.default.post(name: Notification.Name.TagsLoaded, object: tags)
         })
     }
     
     func updateTags(text:String, tags:[String]){
-        let networking = Networking(baseURL: "http://django-env.6jck6j9kff.us-west-2.elasticbeanstalk.com/qaq/matthew/?q=")
+        let networking = Networking(baseURL: baseURL + "question_tags/?")
         let encodedText = text.lowercased().ped_encodeURIComponent()
         let encodedTags = tags.joined(separator: ",").ped_encodeURIComponent()
         let path = "w=\(encodedText)&t=\(encodedTags)"
-        networking.get(path, completion: { (val, error) in })
+        networking.get(path, completion: { (result) in })
     }
     
-    
-    
-    
-    
-    
-    
-    
-    func getQuestion(){
-        let networking = Networking(baseURL: "http://lowcost-env.pukinshx93.us-west-2.elasticbeanstalk.com/qaq/zhaowei/")
-        networking.get("") { (result, error) in
-            if let error = error{
-                SCLAlertView().showError("Networking Error", subTitle: error.localizedDescription)
-            }
-            else{
-                print(result)
+    func postRequest(dict:Dictionary<String, Any>, handler:@escaping (_ result:Dictionary<String, Any>)->Void){
+        let networking = Networking(baseURL: baseURL)
+        networking.post("qaq/zhaowei/", parameters: dict) { (result) in
+            switch result {
+            case .success(let response):
+                let json = response.dictionaryBody
+                handler(json)
+            // Do something with JSON, you can also get arrayBody
+            case .failure(let _):
+                // Handle error
+                if let error = result.error{
+                    _ = SCLAlertView().showError("Error", subTitle: error.localizedDescription)
+                }
             }
         }
+    }
+    
+    func addQuestion(qid:String, tags:[String]){
+        func handler(result:Dictionary<String, Any>){
+            print(result)
+        }
+        postRequest(dict: ["action": "add_questions", "qid": qid, "qTags": tags, "uid": currUser!.uid], handler: handler)
+    }
+    
+    func getQuestion(num:Int){
+        func handler(dict:Dictionary<String, Any>){
+            if let qids = dict["qids"] as? Array<String>{
+                for qid in qids{
+                    questionManager?.loadQuestionContent(qid: qid)
+                }
+            }
+        }
+        postRequest(dict: ["action": "get_questions", "uid": currUser!.uid, "num":num], handler: handler)
     }
 }

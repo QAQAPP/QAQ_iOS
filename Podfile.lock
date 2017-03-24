@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (4.4.0)
   - BadgeSwift (4.0.0)
   - BFPaperButton (2.1.1)
   - Bolts (1.8.4):
@@ -8,62 +9,62 @@ PODS:
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
   - BSGridCollectionViewLayout (1.2.0)
-  - FBSDKCoreKit (4.19.0):
+  - EVReflection/Alamofire (4.5.0):
+    - Alamofire (~> 4.2)
+    - EVReflection/Core
+  - EVReflection/Core (4.5.0)
+  - EVReflection/Moya (4.5.0):
+    - EVReflection/Alamofire
+    - Moya (~> 8.0)
+  - EVReflection/MoyaRxSwift (4.5.0):
+    - EVReflection/Moya
+    - Moya/RxSwift
+  - FBSDKCoreKit (4.20.1):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.19.0):
+  - FBSDKLoginKit (4.20.1):
     - FBSDKCoreKit
-  - Firebase/Auth (3.11.1):
+  - Firebase/Auth (3.14.0):
     - Firebase/Core
-    - FirebaseAuth (= 3.1.0)
-  - Firebase/Core (3.11.1):
-    - FirebaseAnalytics (= 3.6.0)
-    - FirebaseCore (= 3.4.7)
-  - Firebase/Database (3.11.1):
+    - FirebaseAuth (= 3.1.1)
+  - Firebase/Core (3.14.0):
+    - FirebaseAnalytics (= 3.7.0)
+    - FirebaseCore (= 3.5.1)
+  - Firebase/Database (3.14.0):
     - Firebase/Core
-    - FirebaseDatabase (= 3.1.1)
-  - Firebase/Messaging (3.11.1):
+    - FirebaseDatabase (= 3.1.2)
+  - Firebase/Messaging (3.14.0):
     - Firebase/Core
-    - FirebaseMessaging (= 1.2.1)
-  - Firebase/Storage (3.11.1):
+    - FirebaseMessaging (= 1.2.2)
+  - Firebase/Storage (3.14.0):
     - Firebase/Core
-    - FirebaseStorage (= 1.0.5)
-  - FirebaseAnalytics (3.6.0):
-    - FirebaseCore (~> 3.4)
+    - FirebaseStorage (= 1.1.0)
+  - FirebaseAnalytics (3.7.0):
+    - FirebaseCore (~> 3.5)
     - FirebaseInstanceID (~> 1.0)
-    - GoogleInterchangeUtilities (~> 1.2)
-    - GoogleSymbolUtilities (~> 1.1)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseAuth (3.1.0):
-    - FirebaseAnalytics (~> 3.6)
+  - FirebaseAuth (3.1.1):
+    - FirebaseAnalytics (~> 3.7)
     - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
     - GTMSessionFetcher/Core (~> 1.1)
-  - FirebaseCore (3.4.7):
-    - GoogleInterchangeUtilities (~> 1.2)
-    - GoogleSymbolUtilities (~> 1.1)
+  - FirebaseCore (3.5.1):
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseDatabase (3.1.1):
-    - FirebaseAnalytics (~> 3.5)
-  - FirebaseInstanceID (1.0.8)
-  - FirebaseMessaging (1.2.1):
-    - FirebaseAnalytics (~> 3.4)
+  - FirebaseDatabase (3.1.2):
+    - FirebaseAnalytics (~> 3.7)
+  - FirebaseInstanceID (1.0.9)
+  - FirebaseMessaging (1.2.2):
+    - FirebaseAnalytics (~> 3.7)
     - FirebaseInstanceID (~> 1.0)
-    - GoogleInterchangeUtilities (~> 1.2)
-    - GoogleSymbolUtilities (~> 1.1)
     - GoogleToolboxForMac/Logger (~> 2.1)
-  - FirebaseStorage (1.0.5):
-    - FirebaseAnalytics (~> 3.5)
+    - Protobuf (~> 3.1)
+  - FirebaseStorage (1.1.0):
+    - FirebaseAnalytics (~> 3.7)
     - GTMSessionFetcher/Core (~> 1.1)
   - FXBlurView (1.6.4)
-  - GoogleAppUtilities (1.1.2):
-    - GoogleSymbolUtilities (~> 1.1)
-  - GoogleInterchangeUtilities (1.2.2):
-    - GoogleSymbolUtilities (~> 1.1)
-  - GoogleSignIn (4.0.1):
-    - GoogleAppUtilities (~> 1.1)
+  - GoogleSignIn (4.0.2):
     - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
+    - GoogleToolboxForMac/NSString+URLArguments (~> 2.1)
     - GTMOAuth2 (~> 1.0)
     - GTMSessionFetcher/Core (~> 1.1)
-  - GoogleSymbolUtilities (1.1.2)
   - GoogleToolboxForMac/DebugUtils (2.1.1):
     - GoogleToolboxForMac/Defines (= 2.1.1)
   - GoogleToolboxForMac/Defines (2.1.1)
@@ -104,18 +105,30 @@ PODS:
     - MMDrawerController/Core
   - MMDrawerController/Subclass (0.6.0):
     - MMDrawerController/Core
-  - Networking (2.8.0)
+  - Moya (8.0.2):
+    - Moya/Core (= 8.0.2)
+  - Moya/Core (8.0.2):
+    - Alamofire (~> 4.1)
+    - Result (~> 3.0)
+  - Moya/RxSwift (8.0.2):
+    - Moya/Core
+    - RxSwift (~> 3.0)
+  - Networking (3.0.2)
   - NSString-Email (0.0.3)
   - PercentEncoder (1.1.0)
+  - Protobuf (3.2.0)
+  - Result (3.2.1)
+  - RxSwift (3.2.0)
   - SCLAlertView (0.7.0)
   - ScratchCard (1.0.10)
   - SDAutoLayout (2.1.7)
   - SFFocusViewLayout (3.1.0)
+  - STPopup (1.8.2)
   - SwiftSpinner (1.1.0)
   - SwiftString3 (1.0.11)
   - SwiftyJSON (3.1.4)
   - TagListView (1.1.0)
-  - TextFieldEffects (1.3.0)
+  - TextFieldEffects (1.3.1)
   - UIImage-Resize (1.0.1)
   - UIViewController+NavigationBar (0.3.3)
 
@@ -123,6 +136,7 @@ DEPENDENCIES:
   - BadgeSwift
   - BFPaperButton
   - BSGridCollectionViewLayout
+  - EVReflection/MoyaRxSwift
   - FBSDKLoginKit
   - Firebase/Auth
   - Firebase/Core
@@ -146,6 +160,7 @@ DEPENDENCIES:
   - ScratchCard
   - SDAutoLayout
   - SFFocusViewLayout
+  - STPopup
   - SwiftSpinner
   - SwiftString3
   - SwiftyJSON
@@ -155,25 +170,24 @@ DEPENDENCIES:
   - UIViewController+NavigationBar
 
 SPEC CHECKSUMS:
+  Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
   BadgeSwift: b291cf8ca88674d61cd781f14988272988f4dff4
   BFPaperButton: c76835e789669f64d600dc68934cc60fbb550bb9
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   BSGridCollectionViewLayout: 8f12c8e1e08c47057f5a39a6828f4395f043d78f
-  FBSDKCoreKit: 894b2b6eda6a4c8c4204e92e59cc355709ef045c
-  FBSDKLoginKit: 83ca4d8f12a2022570af9fd6aacf27f6b425b99f
-  Firebase: 53b2343db1ebfa3eb16bdb4318b8bb65360b2220
-  FirebaseAnalytics: 9c67af0ebeb8d2146c9b4ea2616439affa947b58
-  FirebaseAuth: b436e4ecebe068bf8e8c6e4e29de5756ffe7ee24
-  FirebaseCore: 46afaf2c2e0419ea7d3acfb08cf26a461a75fe85
-  FirebaseDatabase: 6de92187481ff0e8e124064f21742e95ee883b02
-  FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
-  FirebaseMessaging: acf66347e43c5637c697060c3001d25c809a4131
-  FirebaseStorage: 5738284835edb57f0e81d4ae5832bb17c1e4b5fa
+  EVReflection: f3ef628809585feefa72bf6a8b1ffd3a7a619bdb
+  FBSDKCoreKit: 39a3569652983bf8666620dd334804c9057ae9b2
+  FBSDKLoginKit: 17092ff61a18c54ca423aebc18c5acc2e5a4a728
+  Firebase: 85a581fb04e44f63ae9f4fbc8d6dabf4a4c18653
+  FirebaseAnalytics: 0d1b7d81d5021155be37702a94ba1ec16d45365d
+  FirebaseAuth: cc8a1824170adbd351edb7f994490a3fb5c18be6
+  FirebaseCore: 225d40532489835a034b8f4e2c9c87fbf4f615a2
+  FirebaseDatabase: 05c96d7b43a7368dc91c07791adb49683e1738d1
+  FirebaseInstanceID: 2d0518b1378fe9d685ef40cbdd63d2fdc1125339
+  FirebaseMessaging: df8267f378580a24174ce7861233aa11d5c90109
+  FirebaseStorage: a5c55b23741a49a72af8f30f95b3bb5ddbeda12d
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
-  GoogleAppUtilities: a8a552aa74f6597f805e45b5a3962766c3134973
-  GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
-  GoogleSignIn: a8694c0a8e6d1b0ec77c58014de5bfd4ba2fa766
-  GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
+  GoogleSignIn: d7ad83f13480e1f30453471d00d19b5293ac46af
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   GrowingTextViewHandler-Swift: c5da012c47e2a6836355080f1432125881d4732c
   GTMOAuth2: 7fc9c10f5c745f4d9850419ea88889fe3baa6b7d
@@ -186,21 +200,26 @@ SPEC CHECKSUMS:
   LTMorphingLabel: d9a85f16ac306f0e07321d6819964deb2dc69638
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
   MMDrawerController: e3a54a5570388463ad3b36975251575b50c4e1a0
-  Networking: 9089f0eb8991ab0e2f8a76c1405f93eb720babda
+  Moya: 47f61da5b634aa71f676431b64ee0f81e976296d
+  Networking: f05fa03ea9db46f2d531b8df1522cd672e648951
   NSString-Email: 3c1ff0ace64d7ecc289ea2a5696170c853012252
   PercentEncoder: 7a001be188d62187761cb785156ac7e5c105688d
+  Protobuf: 745f59e122e5de98d4d7ef291e264a0eef80f58e
+  Result: 2453a22e5c5b11c0c3a478736e82cd02f763b781
+  RxSwift: 46574f70d416b7923c237195939cc488a7fbf3a0
   SCLAlertView: 8a14ffc40590c619e183eed2298b854385f30be1
   ScratchCard: c2a0910ac4ffb4fcede67999c8ba2d04cb36ce57
   SDAutoLayout: e9b36d04b8c0b504762a04d76fbbe5108944297a
   SFFocusViewLayout: 8524435eb57796adf3e7be1395c4e3786cd76dcc
+  STPopup: b69b3e7484ef7d2baec5f9ab2939f8a7bcdfe218
   SwiftSpinner: c03815614599b91eea46594bd52ba742849d0414
   SwiftString3: 1de59016efce9b4a9adb491995f74ef50d0aa920
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
   TagListView: d0267a71393f3c73db5c9ea2f979ac1125fcab56
-  TextFieldEffects: ef594746f17997c813e07633f8ae5acaf9b04f27
+  TextFieldEffects: faa47d428ee8eafb781a8413ac4345420d2328c4
   UIImage-Resize: fa776860f10e6900bbaf53a73e494bdceaaccc77
   UIViewController+NavigationBar: cbf1628fec501efe53e107c5402ee445bd20c5b7
 
-PODFILE CHECKSUM: 1dc51c8bc43718930bb4905713ef55646c71da9c
+PODFILE CHECKSUM: a304eefce42a14c175305aab4b2ff57dcf10a864
 
 COCOAPODS: 1.2.0

@@ -34,8 +34,10 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.init(nibName:nil, bundle:nil)
         
         currUser?.nRef.observe(FIRDataEventType.value, with: { (snapshot) in
-            self.notificationsInDict = snapshot.value as! [String : AnyObject]
-            print(self.notificationsInDict)
+            if let notiInfo = snapshot.value as? [String : AnyObject]{
+                self.notificationsInDict = notiInfo as! [String : AnyObject]
+                print(self.notificationsInDict)
+            }
             //
         })
     }

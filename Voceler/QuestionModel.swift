@@ -11,23 +11,21 @@ import FirebaseDatabase
 import SCLAlertView
 
 class QuestionModel: NSObject {
-    var QID:String!
+    var qid:String!
     var qDescrption:String! // Question Description
     var qAskerID:String! // UID
     var qAnonymous = false // Don't show the asker to public
-    var qTime:Date!
     var qOptions = [OptionModel]() // Question options (option id: OID)
     var qTags = [String]()
     var qViews = 0
-    var qPriority:Double = 0.0
     var qRef:FIRDatabaseReference!{
-        return FIRDatabase.database().reference().child("Questions-v1").child(QID)
+        return FIRDatabase.database().reference().child("Questions-v1").child(qid)
     }
     var userChoosed = false
     
     init(qid:String, descrpt:String, askerID:String, anonymous:Bool=false, options:[OptionModel]) {
         super.init()
-        QID = qid
+        self.qid = qid
         qDescrption = descrpt
         qAskerID = askerID
         qAnonymous = anonymous
@@ -39,25 +37,20 @@ class QuestionModel: NSObject {
     }
     
     func postQuestion(){
-        if !gameManager!.askQuestion() {
-            SCLAlertView().showError("No money!", subTitle: "Please anwser some questions to get money to ask question.")
-            return
-        }
-        if currUser!.qInProgressLimit! <= currUser!.qInProgress.count{
-            SCLAlertView().showError("Question limit reached!", subTitle: "Please conclude some questions or add in progress question limit.")
+        if !gameManager!.checkAskQuestion(){
             return
         }
         
+        _ = gameManager!.askQuestion(charge: true)
         // Set up question
         let ref = FIRDatabase.database().reference().child("Questions-v1").childByAutoId()
-        QID = ref.key
+        qid = ref.key
+        ref.child("owner").setValue(currUser!.uid)
         let contentRef = ref.child("content")
-        ref.setPriority(qPriority)
         contentRef.child("description").setValue(qDescrption)
         contentRef.child("askerID").setValue(qAskerID)
         contentRef.child("anonymous").setValue(qAnonymous)
-        contentRef.child("time").setValue(qTime.timeIntervalSince1970)
-        ref.child("priority").setValue(qPriority)
+        contentRef.child("val").setValue(0)
         for opt in qOptions{
             let optRef = ref.child("options").childByAutoId()
             optRef.child("description").setValue(opt.oDescription)
@@ -67,27 +60,27 @@ class QuestionModel: NSObject {
         
         // Set up tags
 //        ref.child("tags").setValue(qTags)
-        let tagRef = FIRDatabase.database().reference().child("Tags-v1")
-        let allTagRef = tagRef.child("all").child(QID)
-        allTagRef.setPriority(qPriority)
-        allTagRef.setValue("1")
+//        let tagRef = FIRDatabase.database().reference().child("Tags-v1")
+//        let allTagRef = tagRef.child("all").child(qid)
+//        allTagRef.setValue("1")
 //        for tag in qTags{
 //            let ref = tagRef.child(tag).child(QID)
 //            ref.setValue("0")
 //            ref.setPriority(qPriority)
 //        }
         networkingManager?.updateTags(text: qDescrption, tags: qTags)
+        networkingManager?.addQuestion(qid: qid, tags: qTags)
         
         // Add question to user
-        choose(val: "owner")
-        currUser!.qRef.child(QID).setValue("In progress")
-        currUser!.qInProgress.append(QID)
+        
+        currUser!.qRef.child(qid).setValue("In progress")
+        currUser!.qInProgress.append(qid)
         NotificationCenter.default.post(name: Notification.Name("qInProgressLoaded"), object: toDict())
     }
     
     func toDict()->Dictionary<String,Any>{
         var dict = Dictionary<String, Any>()
-        dict["qid"] = QID
+        dict["qid"] = qid
         dict["anonymous"] = qAnonymous
         dict["askerID"] = qAskerID
         dict["description"] = qDescrption
@@ -115,12 +108,12 @@ class QuestionModel: NSObject {
         gameManager?.addOption()
     }
     
-    func choose(val:String = "skipped"){
-        qRef.child("Users").child(currUser!.uid).setValue(val)
-        if val != "skipped"{
-            gameManager?.chooseOption()
-        }
-    }
+//    func choose(val:String = "skipped"){
+//        qRef.child("Users").child(currUser!.uid).setValue(val)
+//        if val != "skipped" && val != "owner"{
+//        gameManager?.chooseOption()
+//        }
+//    }
     
     func conclude(OID:String? = nil){
         if let OID = OID{
@@ -129,11 +122,11 @@ class QuestionModel: NSObject {
         else{
             qRef.child("content").child("conclusion").setValue("nil")
         }
-         FIRDatabase.database().reference().child("Tags-v1").child("all").child(QID).removeValue()
-        currUser?.collectQuestion(QID: QID, like: true)
+         FIRDatabase.database().reference().child("Tags-v1").child("all").child(qid).removeValue()
+        currUser?.collectQuestion(qid: qid, like: true)
     }
     
     func removeFromCollection(){
-        currUser?.qRef.child(QID).removeValue()
+        currUser?.qRef.child(qid).removeValue()
     }
 }

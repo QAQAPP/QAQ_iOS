@@ -22,16 +22,9 @@ import BFPaperButton
 import LTMorphingLabel
 
 class MainVC: UIViewController{
-    let vc_max_count = 7
+    
     private var contentViews = [UIView]()
     var currView:UIView?
-    
-    var point = 0{
-        didSet{
-            scoreLabel.text = "\(point)"
-        }
-    }
-    
     var swipeEnable = true
     
     override func showInfo() {
@@ -44,7 +37,7 @@ class MainVC: UIViewController{
                 showUser = user
             }
         }
-        if let user = showUser, let vc = controllerManager?.profileVC(user: user){
+        if let user = showUser, let vc = controllerManager?.getUserVC(user: user){
             navigationController?.pushViewController(vc, animated: true)
         }
         else{
@@ -74,18 +67,25 @@ class MainVC: UIViewController{
         btn.setTitleColor(.white, for: [])
         btn.addTarget(self, action: #selector(loadQuestions), for: .touchUpInside)
         contentViews.append(btn)
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { (_) in
+            self.loadQuestions()
+        }
     }
     
     func addQuestion(question:QuestionModel){
         let questionView = Bundle.main.loadNibNamed("QuestionView", owner: self, options: nil)!.first as! QuestionView
-        if currView is UIButton{
-            UIView.transition(with: currView!, duration: 1, options: .transitionCrossDissolve, animations: {
-                questionView.setup(parent: self, question: question)
-                _ = questionView.sd_layout().topSpaceToView(self.view, 0)?.bottomSpaceToView(self.view, 0)?.leftSpaceToView(self.view, 0)?.rightSpaceToView(self.view, 0)
-                }, completion: nil)
+        if contentViews.isEmpty && currView is UIButton{
+//            UIView.transition(with: currView!, duration: 1, options: .curveEaseIn, animations: {
+                self.currView?.removeFromSuperview()
+                self.currView = questionView
+                self.view.addSubview(questionView)
+                questionView.currQuestion = question
+                _ = questionView.sd_layout().topSpaceToView(self.scoreLabel, 4)?.bottomSpaceToView(self.view, 0)?.leftSpaceToView(self.view, 0)?.rightSpaceToView(self.view, 0)
+                questionView.setup(parent: self)
+//            }, completion: nil)
         }
         else{
-            questionView.setup(parent: self, question: question)
+            questionView.currQuestion = question
             contentViews.append(questionView)
         }
     }
@@ -102,22 +102,31 @@ class MainVC: UIViewController{
     let scoreLabel = LTMorphingLabel()
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.isHidden = true
         scoreLabel.morphingEffect = .evaporate
-        point = 0
-        navigationItem.titleView = scoreLabel
-        _ = scoreLabel.sd_layout().widthIs(200)?.heightIs(42)
+        scoreLabel.text = "-.--"
+        scoreLabel.font = UIFont(name: "Arial", size: 30)
+
+        view.addSubview(scoreLabel)
+        _ = scoreLabel.sd_layout().topSpaceToView(view, 20)?.centerXEqualToView(view)?.widthIs(200)?.heightIs(42)
         scoreLabel.textAlignment = .center
-        scoreLabel.textColor = .white
+        scoreLabel.textColor = themeColor
         
-        NotificationCenter.default.addObserver(self, selector: #selector(loadQuestions), name: Notification.Name.QuestionLoaded, object: nil)
         view.backgroundColor = .white
-        addCouponVC(img: #imageLiteral(resourceName: "coupon_sample"))
     
         likeBtn.target = self
         profileItem.target = self
         navigationItem.rightBarButtonItem = nil
         navigationItem.leftBarButtonItem = profileItem
-        nextContent()
+        
+        
+//        for i in 0..<100{
+//            let question = QuestionModel()
+//            question.qAskerID = currUser!.uid
+//            question.qDescrption = "Sample Question \(i + 1) by Zhenyang Zhong"
+//            question.qOptions = [OptionModel]()
+//            question.postQuestion()
+//        }
     }
     
     func addContent(){
@@ -127,12 +136,28 @@ class MainVC: UIViewController{
     }
     
     func nextContent(){
+        addContent()
         currView?.removeFromSuperview()
         if contentViews.isEmpty{
             addLoadMoreVC()
         }
         currView = contentViews.removeFirst()
         view.addSubview(currView!)
-        _ = currView!.sd_layout().topSpaceToView(view, 0)?.bottomSpaceToView(view, 0)?.leftSpaceToView(view, 0)?.rightSpaceToView(view, 0)
+        _ = currView!.sd_layout().topSpaceToView(scoreLabel, 4)?.bottomSpaceToView(view, 0)?.leftSpaceToView(view, 0)?.rightSpaceToView(view, 0)
+        if let questionView = currView as? QuestionView{
+            questionView.setup(parent: self)
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if currView == nil || currView is UIButton{
+            nextContent()
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
     }
 }
