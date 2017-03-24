@@ -42,7 +42,7 @@ class NetworkingManager: NSObject {
         return result
     }
     
-    func searchTags(text: String){
+    func searchTags(text: String, tagsVC: TagsController){
 //        http://lowcost-env.pukinshx93.us-west-2.elasticbeanstalk.com/question_tags/?t=Phone
         let encodedText = text.lowercased().ped_encodeURIComponent()
         let networking = Networking(baseURL: baseURL + "question_tags/?")
@@ -63,7 +63,7 @@ class NetworkingManager: NSObject {
             }
 //            NotificationCenter.default.post(name: Notification.Name.TagsSearched, object: tags)
 //			controllerManager?.tagsVC.tags = tags
-			controllerManager?.tagsVC.updateTableView(tags: tags)
+			tagsVC.updateTableView(tags: tags)
             // TODO 高仲阳 handle tags
         })
     }
