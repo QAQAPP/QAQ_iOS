@@ -140,7 +140,7 @@ class OptViewTableCell: UITableViewCell{
                 }
             }
             else if questionView.parent is InProgressVC{
-                
+                questionView.currQuestion.conclude(oid: option.oRef.key)
             }
         }
     }

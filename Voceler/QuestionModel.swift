@@ -123,7 +123,7 @@ class QuestionModel: NSObject {
         else{
             qRef.child("content").child("conclusion").setValue("nil")
         }
-         FIRDatabase.database().reference().child("Tags-v1").child("all").child(qid).removeValue()
+        FIRDatabase.database().reference().child("Tags-v1").child("all").child(qid).removeValue()
         currUser?.collectQuestion(qid: qid, like: true)
     }
     

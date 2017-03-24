@@ -29,7 +29,7 @@ import Firebase
 import FBSDKLoginKit
 
 
-class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
+class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, UITextFieldDelegate{
     // UIVars
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
@@ -160,7 +160,9 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
     
     // Functions
     func initUI(){
+        emailField.delegate = self
         emailField.setup(radius: 5)
+        passwordField.delegate = self
         passwordField.setup(radius: 5)
         loginBtn.setup(radius: 5)
         signupBtn.setup(radius: 5)
@@ -236,7 +238,7 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
         currUser = UserModel.getUser(uid: user.uid, getWall: true, getProfile: true)
         currUser?.ref.child("email").setValue(user.email)
         currUser?.ref.child("username").observeSingleEvent(of: .value, with: { (snapshot) in
-            if snapshot.value == nil{
+            if !(snapshot.value is String){
                 let username = user.email!.components(separatedBy: "@")[0]
                 currUser?.ref.child("username").setValue(username)
             }
@@ -374,4 +376,15 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
         print("User logout")
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == emailField{
+            passwordField.becomeFirstResponder()
+        }
+        else if textField == passwordField{
+            loginAct(self)
+        }
+        return true
+    }
+    
 }
