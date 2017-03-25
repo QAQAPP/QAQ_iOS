@@ -63,9 +63,12 @@ class MainVC: UIViewController{
     
     func addLoadMoreVC(){
         let btn = BFPaperButton(raised: false)!
-        btn.setTitle("Load More", for: [])
-        btn.backgroundColor = themeColor
-        btn.setTitleColor(.white, for: [])
+        btn.setImage(#imageLiteral(resourceName: "no_question"), for: .normal)
+//        btn.imageView = UIImageView(image: #imageLiteral(resourceName: "no_question"))
+        btn.imageView?.contentMode = .scaleAspectFit
+//        btn.setTitle("Load More", for: [])
+//        btn.backgroundColor = themeColor
+//        btn.setTitleColor(.white, for: [])
 //        btn.setImage(#imageLiteral(resourceName: "no_question"), for: .normal)
         btn.addTarget(self, action: #selector(loadQuestions), for: .touchUpInside)
         contentViews.append(btn)

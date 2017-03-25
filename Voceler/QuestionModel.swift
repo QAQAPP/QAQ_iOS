@@ -11,18 +11,7 @@ import FirebaseDatabase
 import SCLAlertView
 
 class QuestionModel: NSObject {
-    var qid:String!{
-        didSet{
-            qRef.child("content").child("val").observe(.value, with: { (snapshot) in
-                if let val = snapshot.value as? Int{
-                    self.notiVal = val
-                }
-                else{
-                    self.notiVal = 0
-                }
-            })
-        }
-    }
+    var qid:String!
     var qDescrption:String! // Question Description
     var qAskerID:String! // UID
     var qAnonymous = false // Don't show the asker to public
@@ -42,6 +31,14 @@ class QuestionModel: NSObject {
     init(qid:String, descrpt:String, askerID:String, anonymous:Bool=false, options:[OptionModel]) {
         super.init()
         self.qid = qid
+        qRef.child("content").child("val").observe(.value, with: { (snapshot) in
+            if let val = snapshot.value as? Int{
+                self.notiVal = val
+            }
+            else{
+                self.notiVal = 0
+            }
+        })
         qDescrption = descrpt
         qAskerID = askerID
         qAnonymous = anonymous

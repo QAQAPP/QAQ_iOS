@@ -56,6 +56,7 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                 }
                 if let question = questionManager?.getQuestion(qid: qid, question: dict){
                     self.qInProgressArr.append(question)
+                    controllerManager?.userVC.notiForCollection()
                 }
             }
         }
