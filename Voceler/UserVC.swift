@@ -93,13 +93,8 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         for q in array{
             val += q.notiVal
         }
-        if val > 0{
-            collectionCell?.badgeValue.isHidden = false
-            collectionCell?.badgeValue.text = String(val)
-        }
-        else{
-            collectionCell?.badgeValue.isHidden = true
-        }
+        collectionCell?.notiVal = val
+        navigationController?.tabBarItem.badgeValue = String(val)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

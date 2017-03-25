@@ -35,7 +35,7 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         currUser?.nRef.observe(FIRDataEventType.value, with: { (snapshot) in
             if let notiInfo = snapshot.value as? [String : AnyObject]{
-                self.notificationsInDict = notiInfo as! [String : AnyObject]
+                self.notificationsInDict = notiInfo 
                 //print(self.notificationsInDict)
             }
         })
@@ -43,7 +43,6 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        controllerManager?.collectionVC?.loadCollections()
         self.loadNotificationsFromDict()
     }
     
