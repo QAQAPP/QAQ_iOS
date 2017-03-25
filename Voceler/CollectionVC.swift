@@ -16,6 +16,7 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 //    @IBOutlet weak var searchBar: UISearchBar!
 //    @IBOutlet weak var table: UITableView!
     let table = UITableView()
+    var didLoad = false
     
     // FieldVars
     var qInProgressArr = Array<QuestionModel>()
@@ -47,7 +48,9 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             if currUser!.qInProgress.contains(qid){
                 for question in self.qInProgressArr{
                     if question.qid == qid{
-                        table.mj_header.endRefreshing()
+                        if self.didLoad == true {
+                            table.mj_header.endRefreshing()
+                        }
                         return
                     }
                 }
@@ -60,7 +63,9 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             if currUser!.qCollection.contains(qid){
                 for question in self.qCollectionArr{
                     if question.qid == qid{
-                        table.mj_header.endRefreshing()
+                        if self.didLoad == true {
+                            table.mj_header.endRefreshing()
+                        }
                         return
                     }
                 }
@@ -70,12 +75,28 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             }
         }
         self.table.reloadData()
-        table.mj_header.endRefreshing()
+        if self.didLoad == true {
+            table.mj_header.endRefreshing()
+        }
+    }
+    
+    func findQuestionModel(with qid:String, from InProgress:Bool) -> QuestionModel? {
+        var listToFind = qInProgressArr
+        if (InProgress == false){
+            listToFind = qCollectionArr
+        }
+        for thisOne in listToFind {
+            if thisOne.qid == qid {
+                return thisOne
+            }
+        }
+        return nil
     }
     
     // Override functions
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.didLoad = true
         // Do any additional setup after loading the view.
         view.addSubview(table)
         _ = table.sd_layout().topSpaceToView(view, 0)?.leftSpaceToView(view, 0)?.rightSpaceToView(view, 0)?.bottomSpaceToView(view, tabBarHeight())
