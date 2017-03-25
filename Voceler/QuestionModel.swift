@@ -45,7 +45,6 @@ class QuestionModel: NSObject {
         // Set up question
         let ref = FIRDatabase.database().reference().child("Questions-v1").childByAutoId()
         qid = ref.key
-        ref.child("owner").setValue(currUser!.uid)
         let contentRef = ref.child("content")
         contentRef.child("description").setValue(qDescrption)
         contentRef.child("askerID").setValue(qAskerID)
