@@ -22,10 +22,23 @@ class QuestionModel: NSObject {
         return FIRDatabase.database().reference().child("Questions-v1").child(qid)
     }
     var userChoosed = false
+    var notiVal = 0{
+        didSet{
+            controllerManager?.userVC.notiForCollection()
+        }
+    }
     
     init(qid:String, descrpt:String, askerID:String, anonymous:Bool=false, options:[OptionModel]) {
         super.init()
         self.qid = qid
+        qRef.child("content").child("val").observe(.value, with: { (snapshot) in
+            if let val = snapshot.value as? Int{
+                self.notiVal = val
+            }
+            else{
+                self.notiVal = 0
+            }
+        })
         qDescrption = descrpt
         qAskerID = askerID
         qAnonymous = anonymous
@@ -45,7 +58,6 @@ class QuestionModel: NSObject {
         // Set up question
         let ref = FIRDatabase.database().reference().child("Questions-v1").childByAutoId()
         qid = ref.key
-        ref.child("owner").setValue(currUser!.uid)
         let contentRef = ref.child("content")
         contentRef.child("description").setValue(qDescrption)
         contentRef.child("askerID").setValue(qAskerID)
@@ -106,15 +118,9 @@ class QuestionModel: NSObject {
         opt.isLiked = true
         optRef.child("val").setValue(opt.oVal)
         qRef.child("Users").child(currUser!.uid).setValue(optRef.key)
+        changeNotiVal(val: 1)
         gameManager?.addOption()
     }
-    
-//    func choose(val:String = "skipped"){
-//        qRef.child("Users").child(currUser!.uid).setValue(val)
-//        if val != "skipped" && val != "owner"{
-//        gameManager?.chooseOption()
-//        }
-//    }
     
     func conclude(oid:String? = nil){
         if let oid = oid{
@@ -123,11 +129,26 @@ class QuestionModel: NSObject {
         else{
             qRef.child("content").child("conclusion").setValue("nil")
         }
-         FIRDatabase.database().reference().child("Tags-v1").child("all").child(qid).removeValue()
+        FIRDatabase.database().reference().child("Tags-v1").child("all").child(qid).removeValue()
         currUser?.collectQuestion(qid: qid, like: true)
     }
     
     func removeFromCollection(){
         currUser?.qRef.child(qid).removeValue()
+    }
+    
+    func changeNotiVal(val:Int){
+        qRef.child("content").child("val").observeSingleEvent(of: .value, with: { (snapshot) in
+            if let num = snapshot.value as? Int{
+                self.qRef.child("content").child("val").setValue(num + val)
+            }
+            else{
+                self.qRef.child("content").child("val").setValue(0)
+            }
+        })
+    }
+    
+    func clearNotiVal(){
+        qRef.child("content").child("val").setValue(0)
     }
 }

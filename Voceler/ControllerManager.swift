@@ -63,6 +63,7 @@ class ControllerManager: NSObject, UITabBarControllerDelegate, UIPopoverPresenta
         mainNav.tabBarItem = mainItem
         
         collectionVC = CollectionVC()
+        collectionVC?.loadCollections()
 //        collectionNav = UINavigationController(rootViewController: collectionVC)
 //        collectionNav.navigationBar.setColor(color: themeColor)
 //        let collectionItem = UITabBarItem()

@@ -19,7 +19,7 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     
     var thisUser:UserModel!
     
-    let rowTitles = ["Collection", "Message", "Setting"]
+    let rowTitles = ["My Questions", "Message", "Setting"]
     let rowIcons = [#imageLiteral(resourceName: "Book-open - simple-line-icons"), #imageLiteral(resourceName: "message-32"), #imageLiteral(resourceName: "Wrench - simple-line-icons")]
     
     func profileTapped(){
@@ -87,14 +87,38 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         navigationController?.navigationBar.isHidden = false
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return thisUser == currUser ? rowTitles.count : rowTitles.count - 2
+    func notiForCollection(){
+        let array = controllerManager!.collectionVC.qInProgressArr
+        var val = 0
+        for q in array{
+            val += q.notiVal
+        }
+        collectionCell?.notiVal = val
+        navigationController?.tabBarItem.badgeValue = String(val)
     }
     
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return thisUser == currUser ? rowTitles.count : 0
+    }
+    
+    var collectionCell:UserTableCell?
+    var notificationCell:UserTableCell?
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "UserTableCell") as! UserTableCell
         cell.icon.image = rowIcons[indexPath.row]
         cell.titleLabel.text = rowTitles[indexPath.row]
+        switch indexPath.row {
+        case 0:
+            // TODO: Calculate new noti
+            collectionCell = cell
+            notiForCollection()
+            break
+        case 1:
+            notificationCell = cell
+            break
+        default:
+            break
+        }
         return cell
     }
     

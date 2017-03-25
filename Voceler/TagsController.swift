@@ -101,6 +101,14 @@ class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate
     }
 
     @IBOutlet weak var textField: UITextField!
+    
+    func addTag(tag:String){
+        _ = tagView.addTag(tag)
+        textField.text = ""
+        optTBV.isHidden = true
+        tagView.isHidden = false
+    }
+    
     @IBAction func addAction(sender: AnyObject) {
         if var text = textField.text{
             text = text.collapseWhitespace()
@@ -116,10 +124,7 @@ class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate
                         return
                     }
                 }
-                _ = tagView.addTag(text)
-                textField.text = ""
-                optTBV.isHidden = true
-                tagView.isHidden = false
+                addTag(tag: text)
             }
         }
     }
@@ -198,7 +203,7 @@ class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate
             tagView.isHidden = false
         }
         else {
-            networkingManager?.searchTags(text: textField.text!)
+            networkingManager?.searchTags(text: textField.text!, tagsVC: self)
             optTBV.isHidden = false
             tagView.isHidden = true
         }
@@ -238,4 +243,9 @@ class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate
 		
 		return cell
 	}
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let tag = tags[indexPath.row]
+        addTag(tag: tag)
+    }
 }
