@@ -57,8 +57,6 @@ class OptViewTableCell: UITableViewCell{
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.profileImg.board(radius: profileImg.width/2, width: 0, color: .lightGray)
-        self.profileImg.clipsToBounds = true
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -141,6 +139,7 @@ class OptViewTableCell: UITableViewCell{
             }
             else if questionView.parent is InProgressVC{
                 questionView.currQuestion.conclude(oid: option.oRef.key)
+                _ = SCLAlertView().showSuccess("Success", subTitle: "You successfully concluded a question!", duration: 1)
             }
         }
     }
@@ -201,6 +200,8 @@ class OptViewTableCell: UITableViewCell{
     var questionView:QuestionView!
     
     func setup(option:OptionModel, questionView:QuestionView){
+        self.profileImg.board(radius: 16, width: 0, color: .lightGray)
+        self.profileImg.clipsToBounds = true
         
         self.questionView = questionView
         self.question = questionView.currQuestion
