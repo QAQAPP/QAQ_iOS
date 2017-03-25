@@ -206,11 +206,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         // Print full message.
         print(userInfo)
         
-        // Use timestamp as notification ID
-        print(userInfo["timestamp"]!)
+        print(userInfo["qid"]!)
         
-        controllerManager?.tabbarVC.selectedIndex = 2
-        controllerManager?.userVC.pushNotificationView()
+        //controllerManager?.tabbarVC.selectedIndex = 2
+        //controllerManager?.userVC.pushNotificationView()
+        let thisQID = userInfo["qid"]! as! String
+        //controllerManager?.notificationVC?.showQuestionVC(of: thisQID)
     }
     
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {

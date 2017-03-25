@@ -138,9 +138,7 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 })
             })
             
-            
         }
-        
         // Formatting of unread notifications
 //        if thisNotification.viewed == false {
 //            cell.backgroundColor = UIColor.red
@@ -150,10 +148,8 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       // Navigate to question view
         let thisNotification = notifications[indexPath.row]
         let thisNotificationQID = thisNotification.qid
-        print("qid \(thisNotificationQID) selected")
         showQuestionVC(of: thisNotificationQID)
     }
     
@@ -180,6 +176,19 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             
         }
     }
+    
+    func findQID(with timestamp:String) -> String? {
+        self.loadNotificationsFromDict()
+        
+        for thisNotification in notifications {
+            if thisNotification.timestamp == timestamp {
+                return thisNotification.qid
+            }
+        }
+        return nil
+        
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
