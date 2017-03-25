@@ -43,6 +43,7 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        controllerManager?.collectionVC?.loadCollections()
         self.loadNotificationsFromDict()
     }
     
@@ -153,13 +154,16 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         let thisNotification = notifications[indexPath.row]
         let thisNotificationQID = thisNotification.qid
         print("qid \(thisNotificationQID) selected")
-        
+        showQuestionVC(of: thisNotificationQID)
+    }
+    
+    func showQuestionVC(of QID:String) {
         var inProgress = true
         var thisQuestionModel:QuestionModel?
-        thisQuestionModel = controllerManager?.collectionVC.findQuestionModel(with: thisNotificationQID, from: true)
+        thisQuestionModel = controllerManager?.collectionVC.findQuestionModel(with: QID, from: true)
         print(thisQuestionModel?.qDescrption)
         if (thisQuestionModel == nil) {
-            thisQuestionModel = controllerManager?.collectionVC.findQuestionModel(with: thisNotificationQID, from: false)
+            thisQuestionModel = controllerManager?.collectionVC.findQuestionModel(with: QID, from: false)
             print(thisQuestionModel?.qDescrption)
             inProgress = false
         }
@@ -168,7 +172,7 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             let thisQuestionVC = InProgressVC()
             thisQuestionVC.setup(parent:controllerManager!.collectionVC!, question:thisQuestionModel!)
             show(thisQuestionVC, sender: self)
-
+            
         } else {
             let thisQuestionVC = InCollectionVC()
             thisQuestionVC.setup(parent:controllerManager!.collectionVC!, question:thisQuestionModel!)
@@ -176,7 +180,6 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             
         }
     }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

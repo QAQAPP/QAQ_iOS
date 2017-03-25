@@ -68,7 +68,8 @@ class ControllerManager: NSObject, UITabBarControllerDelegate, UIPopoverPresenta
 //        let collectionItem = UITabBarItem()
 //        collectionItem.image = #imageLiteral(resourceName: "book_shelf-25")
 //        collectionNav.tabBarItem = collectionItem
-        
+        notificationVC = NotificationVC()
+    
         let askItem = UITabBarItem()
         askItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
         askItem.image = #imageLiteral(resourceName: "Oval 1").withRenderingMode(.alwaysOriginal)
@@ -79,8 +80,6 @@ class ControllerManager: NSObject, UITabBarControllerDelegate, UIPopoverPresenta
         settingsVC = SettingsVC()
 //        settingsNav = UINavigationController(rootViewController: settingsVC)
 //        settingsNav.navigationBar.setColor(color: themeColor)
-        
-        notificationVC = NotificationVC()
         
         userVC = UserVC(nibName: "UserVC", bundle: nil)
         userVC.thisUser = currUser
@@ -93,6 +92,7 @@ class ControllerManager: NSObject, UITabBarControllerDelegate, UIPopoverPresenta
         
         tabbarVC.setViewControllers([mainNav, askVC, userNav], animated: true)
         tabbarVC.delegate = self
+        
     }
 	
 	// MARK:UITabBarControllerDelegate
