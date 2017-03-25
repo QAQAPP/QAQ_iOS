@@ -60,7 +60,7 @@ class QuestionModel: NSObject {
         qid = ref.key
         let contentRef = ref.child("content")
         contentRef.child("description").setValue(qDescrption)
-        contentRef.child("askerID").setValue(qAskerID)
+        contentRef.child("askerID").setValue(currUser!.uid)
         contentRef.child("anonymous").setValue(qAnonymous)
         contentRef.child("val").setValue(0)
         for opt in qOptions{
@@ -71,15 +71,6 @@ class QuestionModel: NSObject {
         }
         
         // Set up tags
-//        ref.child("tags").setValue(qTags)
-//        let tagRef = FIRDatabase.database().reference().child("Tags-v1")
-//        let allTagRef = tagRef.child("all").child(qid)
-//        allTagRef.setValue("1")
-//        for tag in qTags{
-//            let ref = tagRef.child(tag).child(QID)
-//            ref.setValue("0")
-//            ref.setPriority(qPriority)
-//        }
         networkingManager?.updateTags(text: qDescrption, tags: qTags)
         networkingManager?.addQuestion(qid: qid, tags: qTags)
         
@@ -122,6 +113,7 @@ class QuestionModel: NSObject {
         gameManager?.addOption()
     }
     
+    // TODO: conclude question
     func conclude(oid:String? = nil){
         if let oid = oid{
             qRef.child("content").child("conclusion").setValue(oid)
@@ -129,8 +121,8 @@ class QuestionModel: NSObject {
         else{
             qRef.child("content").child("conclusion").setValue("nil")
         }
-        FIRDatabase.database().reference().child("Tags-v1").child("all").child(qid).removeValue()
         currUser?.collectQuestion(qid: qid, like: true)
+        networkingManager?.concludeQuestion(qid: qid)
     }
     
     func removeFromCollection(){
