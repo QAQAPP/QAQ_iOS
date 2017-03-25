@@ -7,16 +7,18 @@
 //
 
 import UIKit
+import BadgeSwift
 
 class UserTableCell: UITableViewCell {
 
     @IBOutlet weak var icon: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var badgeValue: BadgeSwift!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
+        badgeValue.board(radius: 10, width: 0, color: .clear)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

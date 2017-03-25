@@ -28,10 +28,47 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dnr-08-Hu2">
-                        <rect key="frame" x="74.5" y="8" width="237.5" height="58.5"/>
+                        <rect key="frame" x="74" y="8" width="237.5" height="58.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
+                    </label>
+                    <label hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="135" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Na7-xa-5pn" customClass="BadgeSwift" customModule="BadgeSwift">
+                        <rect key="frame" x="284" y="27" width="28" height="20.5"/>
+                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" priority="250" constant="24" id="ar0-4b-xVY"/>
+                            <constraint firstAttribute="height" constant="20" id="th9-Y2-sbd"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="badgeColor">
+                                <color key="value" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                <real key="value" value="0.0"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacityBadge">
+                                <real key="value" value="0.0"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="shadowRadiusBadge">
+                                <real key="value" value="0.0"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="shadowColorBadge">
+                                <color key="value" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="size" keyPath="shadowOffsetBadge">
+                                <size key="value" width="0.0" height="0.0"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="size" keyPath="insets">
+                                <size key="value" width="6" height="1"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                <color key="value" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </label>
                 </subviews>
                 <constraints>
@@ -39,12 +76,15 @@
                     <constraint firstItem="dnr-08-Hu2" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="CAA-77-qYH"/>
                     <constraint firstItem="dnr-08-Hu2" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="NHH-nS-1Ur"/>
                     <constraint firstItem="80z-ta-v7w" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="8" id="NnC-cd-7MY"/>
+                    <constraint firstItem="Na7-xa-5pn" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="UqA-mg-xhN"/>
                     <constraint firstItem="80z-ta-v7w" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" constant="-8" id="g9R-No-CgP"/>
+                    <constraint firstItem="Na7-xa-5pn" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="m9w-Ie-krs"/>
                     <constraint firstItem="80z-ta-v7w" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="8" id="pPm-0U-9cu"/>
                     <constraint firstItem="dnr-08-Hu2" firstAttribute="leading" secondItem="80z-ta-v7w" secondAttribute="trailing" constant="16" id="rjS-x1-gA7"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="badgeValue" destination="Na7-xa-5pn" id="JLX-Uy-7M5"/>
                 <outlet property="icon" destination="80z-ta-v7w" id="fEU-ya-6Tg"/>
                 <outlet property="titleLabel" destination="dnr-08-Hu2" id="JbW-Lc-28h"/>
             </connections>

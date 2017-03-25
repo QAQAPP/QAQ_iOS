@@ -34,6 +34,18 @@ class CollectionCell: UITableViewCell {
             }
         }
     }
+    var notiVal = 0{
+        didSet{
+            if notiVal > 0{
+                self.badgeValue.text = String(notiVal)
+                self.badgeValue.isHidden = false
+            }
+            else{
+                self.badgeValue.isHidden = true
+            }
+        }
+    }
+    
     var question:QuestionModel!
     var parentVC:CollectionVC!
 
@@ -60,6 +72,12 @@ class CollectionCell: UITableViewCell {
         self.question = question
         detailLbl?.text = question.qDescrption
         badgeValue.board(radius: 10.5, width: 0, color: .clear)
+        self.badgeValue.isHidden = true
+        question.qRef.child("content").child("val").observe(.value, with: { (snapshot) in
+            if let val = snapshot.value as? Int{
+                self.notiVal = val
+            }
+        })
     }
     
     override func awakeFromNib() {
@@ -74,6 +92,8 @@ class CollectionCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+        if selected{
+            question.clearNotiVal()
+        }
     }
-    
 }

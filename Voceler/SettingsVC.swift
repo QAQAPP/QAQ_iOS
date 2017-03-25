@@ -16,7 +16,7 @@ import TextFieldEffects
 
 class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIScrollViewDelegate{
 
-    let settingArr = [["Username", "Email", "Location"],["Anonymous mode", "Auto Tags", "Bug Report", "Suggestions", "Join us", "Privacy Policy", "log out"]]
+    let settingArr = [["Username", "Email", "Location"],["Bug Report", "Suggestions", "Join us", "Privacy Policy", "log out"]]
     let titleArr = ["Information", "Settings"]
     var ref:FIRDatabaseReference!
     var textView:UITextView!
@@ -92,13 +92,14 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
         else{
             cell.textLabel?.text = text
-            if indexPath.row <= 1{
-                let switcher = UISwitch()
-                cell.addSubview(switcher)
-                _ = switcher.sd_layout().topSpaceToView(cell, 8)?.rightSpaceToView(cell, 8)?.bottomSpaceToView(cell, 8)?.widthIs(52)
-                switcher.addTarget(self, action: #selector(switcherTapped), for: .allEvents)
-            }
-            else if indexPath.section == 1 && indexPath.row == settingArr[1].count - 1{
+//            if indexPath.row <= 1{
+//                let switcher = UISwitch()
+//                cell.addSubview(switcher)
+//                _ = switcher.sd_layout().topSpaceToView(cell, 8)?.rightSpaceToView(cell, 8)?.bottomSpaceToView(cell, 8)?.widthIs(52)
+//                switcher.addTarget(self, action: #selector(switcherTapped), for: .allEvents)
+//            }
+//            else
+            if indexPath.section == 1 && indexPath.row == settingArr[1].count - 1{
                 cell.textLabel?.textColor = .red
             }
         }

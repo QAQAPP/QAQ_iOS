@@ -11,7 +11,18 @@ import FirebaseDatabase
 import SCLAlertView
 
 class QuestionModel: NSObject {
-    var qid:String!
+    var qid:String!{
+        didSet{
+            qRef.child("content").child("val").observe(.value, with: { (snapshot) in
+                if let val = snapshot.value as? Int{
+                    self.notiVal = val
+                }
+                else{
+                    self.notiVal = 0
+                }
+            })
+        }
+    }
     var qDescrption:String! // Question Description
     var qAskerID:String! // UID
     var qAnonymous = false // Don't show the asker to public
@@ -22,6 +33,11 @@ class QuestionModel: NSObject {
         return FIRDatabase.database().reference().child("Questions-v1").child(qid)
     }
     var userChoosed = false
+    var notiVal = 0{
+        didSet{
+            controllerManager?.userVC.notiForCollection()
+        }
+    }
     
     init(qid:String, descrpt:String, askerID:String, anonymous:Bool=false, options:[OptionModel]) {
         super.init()
@@ -105,15 +121,9 @@ class QuestionModel: NSObject {
         opt.isLiked = true
         optRef.child("val").setValue(opt.oVal)
         qRef.child("Users").child(currUser!.uid).setValue(optRef.key)
+        changeNotiVal(val: 1)
         gameManager?.addOption()
     }
-    
-//    func choose(val:String = "skipped"){
-//        qRef.child("Users").child(currUser!.uid).setValue(val)
-//        if val != "skipped" && val != "owner"{
-//        gameManager?.chooseOption()
-//        }
-//    }
     
     func conclude(oid:String? = nil){
         if let oid = oid{
@@ -128,5 +138,20 @@ class QuestionModel: NSObject {
     
     func removeFromCollection(){
         currUser?.qRef.child(qid).removeValue()
+    }
+    
+    func changeNotiVal(val:Int){
+        qRef.child("content").child("val").observeSingleEvent(of: .value, with: { (snapshot) in
+            if let num = snapshot.value as? Int{
+                self.qRef.child("content").child("val").setValue(num + val)
+            }
+            else{
+                self.qRef.child("content").child("val").setValue(0)
+            }
+        })
+    }
+    
+    func clearNotiVal(){
+        qRef.child("content").child("val").setValue(0)
     }
 }

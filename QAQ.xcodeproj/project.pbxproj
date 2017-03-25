@@ -38,7 +38,6 @@
 		BAC097FE1DBB114B000C81F0 /* ProfileVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = BAC097FD1DBB114B000C81F0 /* ProfileVC.xib */; };
 		BAC098031DBB22D3000C81F0 /* CollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC098011DBB22D3000C81F0 /* CollectionVC.swift */; };
 		BAC098041DBB22D3000C81F0 /* CollectionVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = BAC098021DBB22D3000C81F0 /* CollectionVC.xib */; };
-		BAC098071DBB278B000C81F0 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC098051DBB278B000C81F0 /* ProfileVC.swift */; };
 		BAC0980E1DBB4F4B000C81F0 /* CouponScratchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC0980D1DBB4F4B000C81F0 /* CouponScratchView.swift */; };
 		BAC3A1A41DCD55ED00D2700F /* SwipeAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC3A1A31DCD55ED00D2700F /* SwipeAlertVC.swift */; };
 		BAC478FF1D8F200E00041D94 /* SettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC478FE1D8F200E00041D94 /* SettingModel.swift */; };
@@ -136,7 +135,6 @@
 		BAC097FD1DBB114B000C81F0 /* ProfileVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileVC.xib; sourceTree = "<group>"; };
 		BAC098011DBB22D3000C81F0 /* CollectionVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionVC.swift; sourceTree = "<group>"; };
 		BAC098021DBB22D3000C81F0 /* CollectionVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionVC.xib; sourceTree = "<group>"; };
-		BAC098051DBB278B000C81F0 /* ProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		BAC0980D1DBB4F4B000C81F0 /* CouponScratchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponScratchView.swift; sourceTree = "<group>"; };
 		BAC3A1A31DCD55ED00D2700F /* SwipeAlertVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeAlertVC.swift; sourceTree = "<group>"; };
 		BAC478FE1D8F200E00041D94 /* SettingModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingModel.swift; sourceTree = "<group>"; };
@@ -277,7 +275,6 @@
 				CFBC0CDC1E533A85003DBC08 /* NotificationVC.swift */,
 				FD10047A1D262BA600627FFA /* AskProblemVC.swift */,
 				FD17E2081D2F666000FC0FB3 /* TagsController.swift */,
-				BAC098051DBB278B000C81F0 /* ProfileVC.swift */,
 				FD2148011D375694008A52B9 /* Birthday.swift */,
 				BA8FEBDB1DA08A7E00F23011 /* InProgressVC.swift */,
 				BA8FEBDF1DA0C7E500F23011 /* InCollectionVC.swift */,
@@ -543,7 +540,6 @@
 				FD149E1D1D1B7C81007F3F7B /* NSExtension.swift in Sources */,
 				BA97A2A61DD927FA00078E04 /* NetworkingManager.swift in Sources */,
 				BAFD787C1D960DD4004322C0 /* QuestionManager.swift in Sources */,
-				BAC098071DBB278B000C81F0 /* ProfileVC.swift in Sources */,
 				BAD6C0B21D6CF1A600361A93 /* QuestionModel.swift in Sources */,
 				BAC0980E1DBB4F4B000C81F0 /* CouponScratchView.swift in Sources */,
 				BAA423A71E4AB4DC00DB9334 /* Globle.swift in Sources */,
