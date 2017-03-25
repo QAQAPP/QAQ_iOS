@@ -24,14 +24,7 @@ class OptionModel: NSObject {
                     if let num = data.value as? Int{
                         data.value = num + 1
                     }
-                    self.oQuestion.qRef.child("content").child("val").observeSingleEvent(of: .value, with: { (snapshot) in
-                        if let num = snapshot.value as? Int{
-                            self.oQuestion.qRef.child("content").child("val").setValue(num + 1)
-                        }
-                        else{
-                            self.oQuestion.qRef.child("content").child("val").setValue(0)
-                        }
-                    })
+                    self.oQuestion.changeNotiVal(val: 1)
                     return FIRTransactionResult.success(withValue: data)
                 })
             }
@@ -40,14 +33,7 @@ class OptionModel: NSObject {
                     if let num = data.value as? Int{
                         data.value = num - 1
                     }
-                    self.oQuestion.qRef.child("content").child("val").observeSingleEvent(of: .value, with: { (snapshot) in
-                        if let num = snapshot.value as? Int{
-                            self.oQuestion.qRef.child("content").child("val").setValue(num - 1)
-                        }
-                        else{
-                            self.oQuestion.qRef.child("content").child("val").setValue(0)
-                        }
-                    })
+                    self.oQuestion.changeNotiVal(val: -1)
                     return FIRTransactionResult.success(withValue: data)
                 })
             }
