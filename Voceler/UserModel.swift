@@ -54,14 +54,14 @@ class UserModel: NSObject {
                     if let qInProgressLimit = userInfo["qInProgressLimit"] as? Int{
                         self.qInProgressLimit = qInProgressLimit
                     }
-                    else{
-                        self.qInProgressLimit = 3
+                    else if self.uid == currUser!.uid{
+                        self.ref.child("qInProgressLimit").setValue(constantManager.in_process_limit)
                     }
                     if let qInCollectionLimit = userInfo["qInCollectionLimit"] as? Int{
                         self.qInCollectionLimit = qInCollectionLimit
                     }
-                    else{
-                        self.qInCollectionLimit = 10
+                    else if self.uid == currUser!.uid{
+                        self.ref.child("qInProgressLimit").setValue(constantManager.in_process_limit)
                     }
                     self.infoDic = userInfo
 //                    if let profileVC = self.profileVC{
