@@ -17,8 +17,6 @@ import TextFieldEffects
 class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var ref:FIRDatabaseReference!
-    var textView:UITextView!
-    var vc:UIViewController!
     
     let table = UITableView()
     
@@ -32,27 +30,21 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     convenience init() {
         self.init(nibName:nil, bundle:nil)
-        
+        // Firebase connection
         currUser?.nRef.observe(FIRDataEventType.value, with: { (snapshot) in
             if let notiInfo = snapshot.value as? [String : AnyObject]{
-                self.notificationsInDict = notiInfo 
-                //print(self.notificationsInDict)
+                self.notificationsInDict = notiInfo
             }
         })
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.loadNotificationsFromDict()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //setupProfile() // This is for..?
+
         view.addSubview(table)
         _ = table.sd_layout().topSpaceToView(view, 0)?.bottomSpaceToView(view, 0)?.leftSpaceToView(view, 0)?.rightSpaceToView(view, 0)
         
+        setupProfile() // This is for..?
         table.delegate = self
         table.dataSource = self
         table.register(UINib(nibName: "NotificationCell", bundle: nil), forCellReuseIdentifier: "NotificationCell")
@@ -63,22 +55,53 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         navigationController?.navigationBar.tintColor = themeColor
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        
+        self.loadNotificationsFromDict() // Parse notification data into NotificationModels
+        
+        super.viewWillAppear(animated)
+    }
+    
     func loadNotificationsFromDict () {
-        self.notifications = []
+        self.notifications.removeAll()
         
         for thisNotificationInDict in notificationsInDict {
-            print(thisNotificationInDict)
+            print("NotificationInDict: ", thisNotificationInDict)
+            
             let thisNotification = NotificationModel(thisNotificationInDict.value["qid"] as! String,
                 of: NTypeLookup[thisNotificationInDict.value["type"] as! String]!,
                 with: thisNotificationInDict.value["details"] as AnyObject,
-                whether: false,
-                //whether: thisNotificationInDict.value["viewed"] as! Bool,
+                whether: thisNotificationInDict.value["viewed"] as! Bool,
                 on: thisNotificationInDict.key )
+            
             self.notifications.append(thisNotification)
+            
+            // If it is a concluded type notification then load the content of question
+            if NTypeLookup[thisNotificationInDict.value["type"] as! String]! == NotificationType.questionConcluded {
+                questionManager?.loadQuestionContent(qid: thisNotificationInDict.value["qid"] as! String, purpose: "qConcludedLoaded")
+                
+                _ = NotificationCenter.default.addObserver(forName: NSNotification.Name("qConcludedLoaded"), object: nil, queue: nil, using:{ (noti) in
+                    if let dict = noti.object as? Dictionary<String, Any>{
+                        let qid = dict["qid"] as! String
+                        self.loadConcludedQuestion(qid: qid, dict: dict)
+                    }
+                })
+            }
+            
         }
         
+        self.notifications.sort { $0.timestamp < $1.timestamp }
         self.table.reloadData()
     }
+    
+    func loadConcludedQuestion(qid:String, dict:Dictionary<String, Any>) {
+        if let question = questionManager?.getQuestion(qid: qid, question: dict){
+            // Question is loaded here
+            controllerManager?.collectionVC?.qConcludedArr.append(question)
+            self.table.reloadData()
+        }
+    }
+    
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
@@ -98,50 +121,36 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         //cell.icon.image = notifications?[indexPath.row].user.profileImg
         let thisNotification = notifications[indexPath.row]
         
-        var qDescription:String = "Placeholder"
-        questionManager?.loadQuestionContent(qid: thisNotification.qid)
-        
+        //questionManager?.loadQuestionContent(qid: thisNotification.qid)
+        let thisQuestionModel = controllerManager?.collectionVC.findQuestionModel(with: thisNotification.qid)
+
         switch thisNotification.type {
         case NotificationType.questionAnswered:
-            NotificationCenter.default.addObserver(forName: NSNotification.Name(thisNotification.qid+"question"), object: nil, queue: nil, using: { (noti) in
-                let passedInInfo = noti.userInfo
-                qDescription = passedInInfo?["description"] as! String
-                
-                let user = UserModel.getUser(uid: thisNotification.details)
-                NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: thisNotification.details+"username"), object: nil, queue: nil, using: { (noti) in
-                    if let username = user.username{
-                        cell.label.text = "\(username) answered your question: \(qDescription)"
-                    }
-                })
+            let user = UserModel.getUser(uid: thisNotification.details)
+            NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: thisNotification.details+"username"), object: nil, queue: nil, using: { (noti) in
+                if let username = user.username{
+                    cell.label.text = "\(username) answered your question \((thisQuestionModel?.qDescrption)!)"
+                }
             })
 
         case NotificationType.questionViewed:
             let views = thisNotification.details
-            NotificationCenter.default.addObserver(forName: NSNotification.Name(thisNotification.qid+"question"), object: nil, queue: nil, using: { (noti) in
-                let passedInInfo = noti.userInfo
-                qDescription = passedInInfo?["description"] as! String
-
-                cell.label.text = "You got \(views) views for your question: \(qDescription)"
-            })
+            cell.label.text = "You got \(views) views for your question \((thisQuestionModel?.qDescrption)!)"
             
         case NotificationType.questionConcluded:
-            NotificationCenter.default.addObserver(forName: NSNotification.Name(thisNotification.qid+"question"), object: nil, queue: nil, using: { (noti) in
-                let passedInInfo = noti.userInfo
-                qDescription = passedInInfo?["description"] as! String
-
-                let user = UserModel.getUser(uid: thisNotification.details)
-                NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: thisNotification.details+"username"), object: nil, queue: nil, using: { (noti) in
-                    if let username = user.username{
-                        cell.label.text = "Your answer was chosen by \(username) in question: \(qDescription)"
-                    }
-                })
+            let user = UserModel.getUser(uid: thisNotification.details)
+            NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: thisNotification.details+"username"), object: nil, queue: nil, using: { (noti) in
+                if let username = user.username{
+                    cell.label.text = "Your answer was accepted by \(username) in question \((thisQuestionModel?.qDescrption)!)"
+                }
             })
-            
         }
-        // Formatting of unread notifications
-//        if thisNotification.viewed == false {
-//            cell.backgroundColor = UIColor.red
-//        }
+
+        // Unread notifications have gray backgrounds
+        if thisNotification.viewed == false {
+            cell.backgroundColor = UIColor.lightGray
+            cell.textLabel?.textColor = UIColor.black
+        }
         
         return cell
     }
@@ -154,38 +163,33 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func showQuestionVC(of QID:String) {
         var inProgress = true
-        var thisQuestionModel:QuestionModel?
-        thisQuestionModel = controllerManager?.collectionVC.findQuestionModel(with: QID, from: true)
-        print(thisQuestionModel?.qDescrption)
+        var thisQuestionModel = controllerManager?.collectionVC.findQuestionModel(with: QID, from: true)
+        //print(thisQuestionModel?.qDescrption)
         if (thisQuestionModel == nil) {
             thisQuestionModel = controllerManager?.collectionVC.findQuestionModel(with: QID, from: false)
-            print(thisQuestionModel?.qDescrption)
+            //print(thisQuestionModel?.qDescrption)
             inProgress = false
         }
-        // In current design thisQuestionModel must exist in either InProgress or Collection List
+        // In current design thisQuestionModel must exist in either InProgress or Collection/Concluded List
         if (inProgress == true) {
             let thisQuestionVC = InProgressVC()
             thisQuestionVC.setup(parent:controllerManager!.collectionVC!, question:thisQuestionModel!)
             show(thisQuestionVC, sender: self)
-            
         } else {
             let thisQuestionVC = InCollectionVC()
             thisQuestionVC.setup(parent:controllerManager!.collectionVC!, question:thisQuestionModel!)
             show(thisQuestionVC, sender: self)
-            
         }
     }
     
     func findQID(with timestamp:String) -> String? {
         self.loadNotificationsFromDict()
-        
         for thisNotification in notifications {
             if thisNotification.timestamp == timestamp {
                 return thisNotification.qid
             }
         }
         return nil
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -202,6 +206,5 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Pass the selected object to the new view controller.
     }
     */
-    
 
 }

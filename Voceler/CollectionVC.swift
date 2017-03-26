@@ -22,6 +22,8 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     var qInProgressArr = Array<QuestionModel>()
     var qCollectionArr = Array<QuestionModel>()
     
+    var qConcludedArr = Array<QuestionModel>()
+
     // Actions
     func detailAction(indexPath:IndexPath){
         
@@ -81,14 +83,43 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         }
     }
     
-    func findQuestionModel(with qid:String, from InProgress:Bool) -> QuestionModel? {
-        var listToFind = qInProgressArr
-        if (InProgress == false){
-            listToFind = qCollectionArr
+    func findQuestionModel(with qid:String) -> QuestionModel? {
+        for thisQuestion in qInProgressArr {
+            if thisQuestion.qid == qid {
+                return thisQuestion
+            }
         }
-        for thisOne in listToFind {
-            if thisOne.qid == qid {
-                return thisOne
+        for thisQuestion in qCollectionArr {
+            if thisQuestion.qid == qid {
+                return thisQuestion
+            }
+        }
+        for thisQuestion in qConcludedArr {
+            if thisQuestion.qid == qid {
+                return thisQuestion
+            }
+        }
+        return nil
+    }
+
+    
+    func findQuestionModel(with qid:String, from inProgress:Bool) -> QuestionModel? {
+        if inProgress == true {
+            for thisQuestion in qInProgressArr {
+                if thisQuestion.qid == qid {
+                    return thisQuestion
+                }
+            }
+        } else {
+            for thisQuestion in qCollectionArr {
+                if thisQuestion.qid == qid {
+                    return thisQuestion
+                }
+            }
+            for thisQuestion in qConcludedArr {
+                if thisQuestion.qid == qid {
+                    return thisQuestion
+                }
             }
         }
         return nil
