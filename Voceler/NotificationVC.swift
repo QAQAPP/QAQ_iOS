@@ -160,9 +160,12 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let thisNotification = notifications[indexPath.row]
-        let thisNotificationQID = thisNotification.qid
-        updateViewedStatus(of: thisNotification.timestamp)
-        showQuestionVC(of: thisNotificationQID)
+        showNotification(qid: thisNotification.qid, nid: thisNotification.timestamp)
+    }
+    
+    func showNotification(qid QID:String, nid NID:String) {
+        updateViewedStatus(of: NID)
+        showQuestionVC(of: QID)
     }
     
     func showQuestionVC(of QID:String) {
