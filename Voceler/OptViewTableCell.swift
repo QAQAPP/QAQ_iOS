@@ -113,34 +113,49 @@ class OptViewTableCell: UITableViewCell{
             Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (timer) in
                 controllerManager?.mainVC.nextContent()
             })
-        }
-        else if let inProgressVC = questionView.parent as? InProgressVC, question.qAskerID == currUser!.uid{
-            Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (timer) in
-                inProgressVC.afterConclude()
-                self.question.conclude(oid: self.option.oRef.key)
-            })
-        }
-        else{
-            return
-        }
-        questionView.isUserInteractionEnabled = false
-        question.userChoosed = true
-        if !option.isLiked{
-            likeBtn.setImage(#imageLiteral(resourceName: "check_checked"), for: .normal)
-            if questionView.parent is MainVC{
-                for opt in question.qOptions{
-                    if opt == option && !opt.isLiked{
-                        opt.isLiked = true
-                    }
-                    else if opt.isLiked{
-                        opt.isLiked = false
+            questionView.isUserInteractionEnabled = false
+            question.userChoosed = true
+            if !option.isLiked{
+                likeBtn.setImage(#imageLiteral(resourceName: "check_checked"), for: .normal)
+                if questionView.parent is MainVC{
+                    for opt in question.qOptions{
+                        if opt == option && !opt.isLiked{
+                            opt.isLiked = true
+                        }
+                        else if opt.isLiked{
+                            opt.isLiked = false
+                        }
                     }
                 }
             }
-            else if questionView.parent is InProgressVC{
-                questionView.currQuestion.conclude(oid: option.oRef.key)
-                _ = SCLAlertView().showSuccess("Success", subTitle: "You successfully concluded a question!", duration: 1)
-            }
+        }
+        else if let inProgressVC = questionView.parent as? InProgressVC, question.qAskerID == currUser!.uid{
+            let alert = SCLAlertView()
+            alert.addButton("Sure", action: {
+                Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (timer) in
+                    inProgressVC.afterConclude()
+                    self.question.conclude(oid: self.option.oRef.key)
+                })
+                self.questionView.isUserInteractionEnabled = false
+                self.question.userChoosed = true
+                if !self.option.isLiked{
+                    self.likeBtn.setImage(#imageLiteral(resourceName: "check_checked"), for: .normal)
+                    if self.questionView.parent is MainVC{
+                        for opt in self.question.qOptions{
+                            if opt == self.option && !opt.isLiked{
+                                opt.isLiked = true
+                            }
+                            else if opt.isLiked{
+                                opt.isLiked = false
+                            }
+                        }
+                    }
+                }
+            })
+            alert.showWarning("Conclusion", subTitle: "Are you sure it is a good answer?", closeButtonTitle: "Nope")
+        }
+        else{
+            return
         }
     }
     

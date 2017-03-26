@@ -40,7 +40,7 @@ class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate
     func setQuestion(descr:String, optArr:[String], tags:[String]?){
         question = QuestionModel()
         question.qAskerID = currUser?.uid
-        question.qDescrption = descr
+        question.qDescrption = descr.trimmed()
         question.qOptions = [OptionModel]()
         for opt in optArr{
             if opt.isNotEmpty{

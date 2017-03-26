@@ -233,6 +233,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
         _ = optsView.sd_layout().topSpaceToView(detailTV, 0)?.bottomSpaceToView(addOptionField, 0)?.leftSpaceToView(self, 0)?.rightSpaceToView(self, 0)
         
         noAnswerView.contentMode = .scaleAspectFit
+        noAnswerView.touchToHideKeyboard()
         self.addSubview(noAnswerView)
         _ = noAnswerView.sd_layout().topSpaceToView(detailTV, 0)?.bottomSpaceToView(addOptionField, 0)?.leftSpaceToView(self, 64)?.rightSpaceToView(self, 64)
     }
