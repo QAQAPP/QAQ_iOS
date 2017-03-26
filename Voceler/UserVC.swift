@@ -21,6 +21,8 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     
     let rowTitles = ["My Questions", "Message", "Setting"]
     let rowIcons = [#imageLiteral(resourceName: "Book-open - simple-line-icons"), #imageLiteral(resourceName: "message-32"), #imageLiteral(resourceName: "Wrench - simple-line-icons")]
+
+    var hasNewNoti:Bool = false
     
     func profileTapped(){
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
@@ -80,6 +82,7 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
+        self.tableView.reloadData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -119,6 +122,13 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
             notiForCollection()
             break
         case 1:
+            if (self.hasNewNoti == true) {
+                cell.backgroundColor = UIColor.lightGray
+                cell.titleLabel?.textColor = UIColor.black
+            } else {
+                cell.backgroundColor = UIColor.white
+                cell.titleLabel?.textColor = UIColor.darkGray
+            }
             notificationCell = cell
             break
         default:
@@ -138,6 +148,8 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         }
         else if indexPath.row == 1{
             navigationController?.pushViewController(controllerManager!.notificationVC, animated: true)
+            self.hasNewNoti = false;
+            tableView.reloadData()
         }
         else if indexPath.row == 2{
             navigationController?.pushViewController(controllerManager!.settingsVC, animated: true)

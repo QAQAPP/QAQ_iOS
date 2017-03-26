@@ -332,10 +332,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         print("%@", userInfo)
         
         controllerManager?.notificationVC?.loadNotificationsFromDict()
-        
-//        
-//        controllerManager?.tabbarVC.selectedIndex = 2
-//        controllerManager?.userVC.pushNotificationView()
+        controllerManager?.userVC?.hasNewNoti = true
     }
 }
 
