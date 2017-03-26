@@ -67,11 +67,11 @@ class GameManager: NSObject {
     func checkAskQuestion()->Bool{
 //		return true
         if !askQuestion() {
-            SCLAlertView().showError("No money!", subTitle: "Please anwser some questions to get money to ask question.")
+            SCLAlertView().showError("No money!", subTitle: "Please anwser some questions to get money to ask question.", duration: 1)
             return false
         }
         else if currUser!.qInProgressLimit! <= currUser!.qInProgress.count{
-            SCLAlertView().showError("Question limit reached!", subTitle: "Please conclude some questions or add in progress question limit.")
+            SCLAlertView().showError("Question limit reached!", subTitle: "Please conclude some questions or add in progress question limit.", duration: 1)
             return false
         }
         else{
