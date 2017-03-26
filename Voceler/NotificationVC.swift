@@ -16,7 +16,7 @@ import TextFieldEffects
 
 class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    var ref:FIRDatabaseReference!
+//    var ref:FIRDatabaseReference!
     
     let table = UITableView()
     
@@ -150,6 +150,9 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         if thisNotification.viewed == false {
             cell.backgroundColor = UIColor.lightGray
             cell.textLabel?.textColor = UIColor.black
+        } else {
+            cell.backgroundColor = UIColor.white
+            cell.textLabel?.textColor = UIColor.gray
         }
         
         return cell
@@ -158,6 +161,7 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let thisNotification = notifications[indexPath.row]
         let thisNotificationQID = thisNotification.qid
+        updateViewedStatus(of: thisNotification.timestamp)
         showQuestionVC(of: thisNotificationQID)
     }
     
@@ -190,6 +194,12 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         }
         return nil
+    }
+    
+    func updateViewedStatus(of notification:String) {
+        print("Updating viewed status")
+         currUser?.nRef.child(notification).child("viewed").setValue(true)
+        table.reloadData()
     }
     
     override func didReceiveMemoryWarning() {
