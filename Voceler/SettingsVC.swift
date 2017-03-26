@@ -114,6 +114,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             let loginManager = FBSDKLoginManager()
             currUser = nil
             gameManager = nil
+            currUser?.ref.child("FCM Token").removeValue()
             loginManager.logOut()
             NotificationCenter.default.removeObserver(controllerManager?.mainVC)
             controllerManager = nil
@@ -121,7 +122,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             networkingManager = nil
             dismiss(animated: true, completion: nil)
         }
-        else if indexPath.row > 1{
+        else if indexPath.row >= 0{
             vc = UIViewController()
             textView = UITextView()
             textView.font = UIFont.systemFont(ofSize: 18)
@@ -129,7 +130,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             textView.fullLayout()
             vc.title = settingArr[indexPath.section][indexPath.row]
             navigationController?.pushViewController(vc, animated: true)
-            if indexPath.row == 5{
+            if indexPath.row == 3{
                 let path = Bundle.main.path(forResource: "privacy", ofType: "txt")
                 let url = URL(fileURLWithPath: path!)
                 textView.text = try! String(contentsOf: url)
