@@ -43,6 +43,12 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                 self.load(qid: qid, dict: dict, inProgress: false)
             }
         })
+//        _ = NotificationCenter.default.addObserver(forName: NSNotification.Name("qConcludedLoaded"), object: nil, queue: nil, using: { (noti) in
+//            if let dict = noti.object as? Dictionary<String, Any>{
+//                let qid = dict["qid"] as! String
+//                self.load(qid: qid, dict: dict, inProgress: false)
+//            }
+//        })
     }
     
     func load(qid:String, dict:Dictionary<String, Any>, inProgress:Bool){
@@ -133,7 +139,7 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         view.addSubview(table)
         _ = table.sd_layout().topSpaceToView(view, 0)?.leftSpaceToView(view, 0)?.rightSpaceToView(view, 0)?.bottomSpaceToView(view, tabBarHeight())
         
-        navigationItem.title = "Collection"
+        navigationItem.title = "My questions"
         navigationController?.navigationBar.tintColor = themeColor
         edgesForExtendedLayout = [.all]
         setupProfile()

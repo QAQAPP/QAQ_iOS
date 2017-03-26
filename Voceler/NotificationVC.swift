@@ -53,6 +53,8 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         //edgesForExtendedLayout = [.all]
         navigationItem.title = "Notifications"
         navigationController?.navigationBar.tintColor = themeColor
+        
+        self.loadNotificationsFromDict() // Parse notification data into NotificationModels
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -77,12 +79,17 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.notifications.append(thisNotification)
             
             // If it is a concluded type notification then load the content of question
-            if NTypeLookup[thisNotificationInDict.value["type"] as! String]! == NotificationType.questionConcluded {
+            if thisNotification.type == NotificationType.questionConcluded {
+                
+                print("Loading concluded question", thisNotification.qid)
+                
                 questionManager?.loadQuestionContent(qid: thisNotificationInDict.value["qid"] as! String, purpose: "qConcludedLoaded")
                 
                 _ = NotificationCenter.default.addObserver(forName: NSNotification.Name("qConcludedLoaded"), object: nil, queue: nil, using:{ (noti) in
+                    print("Observed object")
                     if let dict = noti.object as? Dictionary<String, Any>{
                         let qid = dict["qid"] as! String
+                        print(qid)
                         self.loadConcludedQuestion(qid: qid, dict: dict)
                     }
                 })
@@ -98,6 +105,7 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         if let question = questionManager?.getQuestion(qid: qid, question: dict){
             // Question is loaded here
             controllerManager?.collectionVC?.qConcludedArr.append(question)
+            print("Loaded concluded question", question.qid)
             self.table.reloadData()
         }
     }
@@ -141,7 +149,9 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             let user = UserModel.getUser(uid: thisNotification.details)
             NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: thisNotification.details+"username"), object: nil, queue: nil, using: { (noti) in
                 if let username = user.username{
-                    cell.label.text = "Your answer was accepted by \(username) in question \((thisQuestionModel?.qDescrption)!)"
+                    //print((thisQuestionModel?.qDescrption)!)
+//                    cell.label.text = "Your answer was accepted by \(username) in question \((thisQuestionModel?.qDescrption)!)"
+                    cell.label.text = "Your answer was accepted by \(username)"
                 }
             })
         }
