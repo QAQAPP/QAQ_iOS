@@ -29,7 +29,7 @@ class QuestionManager: NSObject {
                 self.numOfTotalQuestions += 1
                 NotificationCenter.default.post(name: Notification.Name.QuestionLoaded, object: nil)
                 
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: qid+"question"), object: nil, userInfo: ["description": thisQuestion.qDescrption])
+//                NotificationCenter.default.post(name: NSNotification.Name(rawValue: qid+"question"), object: nil, userInfo: ["description": thisQuestion.qDescrption])
             }
             if purpose != "QuestionLoaded" || self.collection.count < 2{
                 if var dict = snapshot.value as? Dictionary<String, Any>{
