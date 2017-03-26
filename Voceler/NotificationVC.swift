@@ -197,8 +197,7 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func updateViewedStatus(of notification:String) {
-        print("Updating viewed status")
-         currUser?.nRef.child(notification).child("viewed").setValue(true)
+        currUser?.nRef.child(notification).child("viewed").setValue(true)
         table.reloadData()
     }
     

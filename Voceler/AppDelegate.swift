@@ -207,7 +207,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         print(userInfo)
         
         print(userInfo["qid"]!)
-        
+        print(userInfo["nid"]!)
         //controllerManager?.tabbarVC.selectedIndex = 2
         //controllerManager?.userVC.pushNotificationView()
         let thisQID = userInfo["qid"]! as! String
@@ -333,8 +333,9 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         controllerManager?.notificationVC?.loadNotificationsFromDict()
         
-        controllerManager?.tabbarVC.selectedIndex = 2
-        controllerManager?.userVC.pushNotificationView()
+//        
+//        controllerManager?.tabbarVC.selectedIndex = 2
+//        controllerManager?.userVC.pushNotificationView()
     }
 }
 
