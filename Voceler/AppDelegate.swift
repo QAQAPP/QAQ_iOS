@@ -207,11 +207,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         print(userInfo)
         
         print(userInfo["qid"]!)
-        print(userInfo["nid"]!)
+        //        print(userInfo["nid"]!)
         //controllerManager?.tabbarVC.selectedIndex = 2
         //controllerManager?.userVC.pushNotificationView()
         let thisQID = userInfo["qid"]! as! String
         //controllerManager?.notificationVC?.showQuestionVC(of: thisQID)
+        for i in 0..<controllerManager!.collectionVC.qInProgressArr.count{
+            let q = controllerManager!.collectionVC.qInProgressArr[i]
+            if q.qid == thisQID{
+                controllerManager?.tabbarVC.selectedIndex = 2
+                //                let inProgressVC = InProgressVC()
+                //                let vc = InProgressVC()
+                //                vc.setup(parent: controllerManager!.collectionVC, question: q)
+                controllerManager?.userNav.setViewControllers([controllerManager!.userVC, controllerManager!.collectionVC], animated: false)
+                let vc = InProgressVC()
+                vc.setup(parent: controllerManager!.collectionVC, question: q)
+                controllerManager!.collectionVC.show(vc, sender: controllerManager!.collectionVC)
+                return
+            }
+        }
+        // If control get here it must be answercondluded type
+        // Clicking will result in showing notification list
+        controllerManager?.tabbarVC.selectedIndex = 2
+        controllerManager?.userVC.pushNotificationView()
+        // Once lazy loading is done change to showing QuestionVC directly
+        //ontrollerManager?.notificationVC?.showNotification(qid: userInfo["qid"]! as! String, nid: userInfo["nid"]! as! String)
     }
     
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
@@ -255,8 +275,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-        
-        
+
         var bgTask = application.beginBackgroundTask { 
             let ref = FIRDatabase.database().reference().child("TestMessage").observe(.childAdded, with: { (snapshot) in
                 self.scheduleNotification(inSeconds: 0, completion: { (success) in
