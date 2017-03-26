@@ -64,7 +64,8 @@ class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate
 	}
 	
     @IBAction func doneAction(sender: AnyObject) {
-        let alert = SCLAlertView()
+		self.view.endEditing(true)
+		let alert = SCLAlertView()
         _ = alert.addButton("Confirm") {
             self.finishQuestion()
             self.question.postQuestion()
@@ -133,7 +134,7 @@ class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate
 
 	override func viewWillAppear(_ animated: Bool) {
 		self.navigationController?.setNavigationBarHidden(true, animated: animated)
-		
+		textField.becomeFirstResponder()
 		let view = self.mainView!
 		let leftButton = self.leftButton
 		let rightButton = self.rightButton
@@ -150,6 +151,7 @@ class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate
 		rightButton.setTitleColor(themeColor, for: .normal)
 
 		tagView.tagBackgroundColor = themeColor
+		optTBV.backgroundColor = UIColor.clear
 	}
 	
     override func viewDidLoad() {
@@ -159,6 +161,8 @@ class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate
 		
         edgesForExtendedLayout = []
 
+		optTBV.backgroundColor = UIColor.clear
+		
         // Do any additional setup after loading the view.
         tagView.textFont = UIFont.systemFont(ofSize: 16)
         tagView.alignment = .left
@@ -220,27 +224,16 @@ class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate
 	func updateTableView(tags:[String]) {
 		self.tags = tags
 		self.optTBV.reloadData()
-//		DispatchQueue.main.async {
-//			self.optTBV.reloadData()
-//		}
 	}
 	
 	// MARK: UITableViewDataSource
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//		if tags.isEmpty {
-			return tags.count
-//		}
-//		return 1
+		return tags.count
 	}
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//		if tags.isEmpty {
-//			return
-//		}
 		let cell:UITableViewCell = self.optTBV.dequeueReusableCell(withIdentifier: "cell")! as UITableViewCell
-		
 		cell.textLabel?.text = self.tags[indexPath.row]
-//		cell.textLabel?.text = "asdfa"
-		
+		cell.backgroundColor = UIColor.clear
 		return cell
 	}
     
