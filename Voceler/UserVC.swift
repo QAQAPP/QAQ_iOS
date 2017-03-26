@@ -94,7 +94,12 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
             val += q.notiVal
         }
         collectionCell?.notiVal = val
-        navigationController?.tabBarItem.badgeValue = String(val)
+        if val > 0{
+            navigationController?.tabBarItem.badgeValue = String(val)
+        }
+        else{
+            navigationController?.tabBarItem.badgeValue = nil
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

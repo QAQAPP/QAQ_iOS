@@ -114,6 +114,13 @@ class NetworkingManager: NSObject {
         }
     }
     
+    func concludeQuestion(qid:String){
+        func handler(result:Dictionary<String,Any>){
+            print(result)
+        }
+        postRequest(dict: ["action": "conclude_ques", "qid":qid], handler: handler)
+    }
+    
     func addQuestion(qid:String, tags:[String]){
         func handler(result:Dictionary<String, Any>){
             print(result)
