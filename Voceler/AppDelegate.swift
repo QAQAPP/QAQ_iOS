@@ -212,18 +212,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         //controllerManager?.userVC.pushNotificationView()
         let thisQID = userInfo["qid"]! as! String
         //controllerManager?.notificationVC?.showQuestionVC(of: thisQID)
-        for i in 0..<controllerManager!.collectionVC.qInProgressArr.count{
-            let q = controllerManager!.collectionVC.qInProgressArr[i]
-            if q.qid == thisQID{
-                controllerManager?.tabbarVC.selectedIndex = 2
-                //                let inProgressVC = InProgressVC()
-                //                let vc = InProgressVC()
-                //                vc.setup(parent: controllerManager!.collectionVC, question: q)
-                controllerManager?.userNav.setViewControllers([controllerManager!.userVC, controllerManager!.collectionVC], animated: false)
-                let vc = InProgressVC()
-                vc.setup(parent: controllerManager!.collectionVC, question: q)
-                controllerManager!.collectionVC.show(vc, sender: controllerManager!.collectionVC)
-                return
+        if let collectionVC = controllerManager?.collectionVC{
+            for i in 0..<collectionVC.qInProgressArr.count{
+                let q = collectionVC.qInProgressArr[i]
+                if q.qid == thisQID{
+                    controllerManager?.tabbarVC.selectedIndex = 2
+                    controllerManager?.userNav.setViewControllers([controllerManager!.userVC, collectionVC], animated: false)
+                    let vc = InProgressVC()
+                    vc.setup(parent: collectionVC, question: q)
+                    collectionVC.show(vc, sender: collectionVC)
+                    return
+                }
             }
         }
         // If control get here it must be answercondluded type
