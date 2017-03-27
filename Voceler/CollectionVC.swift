@@ -28,6 +28,15 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     func detailAction(indexPath:IndexPath){
         
     }
+    
+    func generateQInProgressValue() -> Int{
+        var val = 0
+        for q in qInProgressArr {
+            val += q.notiVal
+        }
+        return val
+    }
+    
     // Functions
     func loadCollections(){
         currUser?.loadCollectionDetail()
@@ -64,7 +73,7 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                 }
                 if let question = questionManager?.getQuestion(qid: qid, question: dict){
                     self.qInProgressArr.append(question)
-                    controllerManager?.userVC.notiForCollection()
+                    controllerManager?.userVC.setupBadgeValueForCollectionCell()
                 }
             }
         }
