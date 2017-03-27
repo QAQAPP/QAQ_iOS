@@ -96,6 +96,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
         cell.profileImg.setImage(#imageLiteral(resourceName: "user-50"), for: .normal)
         cell.setup(option: currQuestion.qOptions[indexPath.row], questionView: self)
         cellHeightArray.append(40 + cell.textView.frame.height)
+        print(cellHeightArray.last)
         return cell;
     }
     
@@ -139,6 +140,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
                 let opt = OptionModel(question:self.currQuestion, ref: snapshot.ref, dict: dict)
                 self.currQuestion.optArrAdd(option: opt)
                 DispatchQueue.main.async {
+                    self.cellHeightArray.removeAll()
                     self.optsView.reloadData()
                 }
                 self.pullUpMask.isHidden = true
@@ -203,6 +205,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
         let option = OptionModel(question: currQuestion, description: text, offerBy: (appSetting.isAnonymous) ? nil : currUser!.uid)
         currQuestion?.addOption(opt: option)
         pullUpMask.isHidden = true
+        cellHeightArray.removeAll()
         optsView.reloadData()
     }
     
