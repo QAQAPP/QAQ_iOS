@@ -38,7 +38,11 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
     @IBOutlet weak var detailTV: UITextView!
     var currQuestion:QuestionModel!
     //var optsView:UICollectionView!
-    var optsView:UITableView!
+    var optsView:UITableView!{
+        didSet{
+            optsView.isUserInteractionEnabled = false
+        }
+    }
     let noAnswerView = UIImageView(image: #imageLiteral(resourceName: "no_answer"))
     var pullUpMask = UILabel()
     
@@ -81,7 +85,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        noAnswerView.isHidden = currQuestion.qOptions.count > 0
+        noAnswerView.isHidden = !optsView.isUserInteractionEnabled || currQuestion.qOptions.count > 0
         return currQuestion.qOptions.count
         
     }
@@ -92,6 +96,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
         cell.profileImg.setImage(#imageLiteral(resourceName: "user-50"), for: .normal)
         cell.setup(option: currQuestion.qOptions[indexPath.row], questionView: self)
         cellHeightArray.append(40 + cell.textView.frame.height)
+        print(cellHeightArray.last)
         return cell;
     }
     
@@ -127,14 +132,15 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
     
     private func setQuestion(){
         setDescription()
-        optsView.isUserInteractionEnabled = true
         
         let oRef = currQuestion.qRef.child("options")
         oRef.observe(.childAdded, with: { (snapshot) in
+            self.optsView.isUserInteractionEnabled = true
             if let dict = snapshot.value as? Dictionary<String, Any>{
                 let opt = OptionModel(question:self.currQuestion, ref: snapshot.ref, dict: dict)
                 self.currQuestion.optArrAdd(option: opt)
                 DispatchQueue.main.async {
+                    self.cellHeightArray.removeAll()
                     self.optsView.reloadData()
                 }
                 self.pullUpMask.isHidden = true
@@ -149,7 +155,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
         }
         pullUpMask.isHidden = currQuestion.qOptions.count > 0
         
-        optsView.reloadData()
+//        optsView.reloadData()
     }
     
     func showUser(user:UserModel?){
@@ -199,6 +205,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
         let option = OptionModel(question: currQuestion, description: text, offerBy: (appSetting.isAnonymous) ? nil : currUser!.uid)
         currQuestion?.addOption(opt: option)
         pullUpMask.isHidden = true
+        cellHeightArray.removeAll()
         optsView.reloadData()
     }
     
@@ -236,6 +243,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
         noAnswerView.touchToHideKeyboard()
         self.addSubview(noAnswerView)
         _ = noAnswerView.sd_layout().topSpaceToView(detailTV, 0)?.bottomSpaceToView(addOptionField, 0)?.leftSpaceToView(self, 64)?.rightSpaceToView(self, 64)
+        noAnswerView.isHidden = true
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
