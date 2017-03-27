@@ -305,16 +305,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
 //        let app = UIApplication.shared
 //        app.scheduledLocalNotifications = [noti]
         
-//        if #available(iOS 10.0, *) {
-//            Timer.scheduledTimer(withTimeInterval: 5, repeats: false, block: { (timer) in
-//                
-////                UIApplication.shared.applicationIconBadgeNumber = 135
-////                let noti = UILocalNotification()
-////                noti.applicationIconBadgeNumber = 123
-//            })
-//        } else {
-//            // Fallback on earlier versions
-//        }
+        if #available(iOS 10.0, *) {
+            //Timer.scheduledTimer(withTimeInterval: 5, repeats: false, block: { (timer) in
+                
+                UIApplication.shared.applicationIconBadgeNumber = (controllerManager?.userVC.getTotalBadgeValue())!
+                
+//                let noti = UILocalNotification()
+//                noti.applicationIconBadgeNumber = 123
+            //})
+        } else {
+            // Fallback on earlier versions
+        }
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {

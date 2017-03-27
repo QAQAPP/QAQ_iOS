@@ -20,6 +20,12 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     let table = UITableView()
     
+    var notViewedCount = 0 {
+        didSet{
+            controllerManager?.userVC.setupBadgeValueForNotificationCell()
+        }
+    }
+    
     let NTypeLookup: [String: NotificationType] = [
         "questionAnswered": NotificationType.questionAnswered,
         "questionViewed": NotificationType.questionViewed,
@@ -34,6 +40,8 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         currUser?.nRef.observe(FIRDataEventType.value, with: { (snapshot) in
             if let notiInfo = snapshot.value as? [String : AnyObject]{
                 self.notificationsInDict = notiInfo
+                // Parse notification data into NotificationModels
+                self.loadNotificationsFromDict()
             }
         })
     }
@@ -54,18 +62,15 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         navigationItem.title = "Notifications"
         navigationController?.navigationBar.tintColor = themeColor
         
-        self.loadNotificationsFromDict() // Parse notification data into NotificationModels
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
-        self.loadNotificationsFromDict() // Parse notification data into NotificationModels
-        
         super.viewWillAppear(animated)
     }
     
     func loadNotificationsFromDict () {
         self.notifications.removeAll()
+        self.notViewedCount = 0
         
         for thisNotificationInDict in notificationsInDict {
             print("NotificationInDict: ", thisNotificationInDict)
@@ -75,6 +80,10 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 with: thisNotificationInDict.value["details"] as AnyObject,
                 whether: thisNotificationInDict.value["viewed"] as! Bool,
                 on: thisNotificationInDict.key )
+            
+            if (thisNotification.viewed == false) {
+                self.notViewedCount += 1
+            }
             
             self.notifications.append(thisNotification)
             
@@ -97,7 +106,7 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             
         }
         
-        self.notifications.sort { $0.timestamp < $1.timestamp }
+        self.notifications.sort { $0.timestamp > $1.timestamp }
         self.table.reloadData()
     }
     
@@ -158,7 +167,7 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
 
         // Unread notifications have gray backgrounds
         if thisNotification.viewed == false {
-            cell.backgroundColor = UIColor.lightGray
+            cell.backgroundColor = UIColor(red: 225, green: 225, blue: 225)
             cell.textLabel?.textColor = UIColor.black
         } else {
             cell.backgroundColor = UIColor.white

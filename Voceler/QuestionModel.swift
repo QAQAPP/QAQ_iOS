@@ -24,7 +24,7 @@ class QuestionModel: NSObject {
     var userChoosed = false
     var notiVal = 0{
         didSet{
-            controllerManager?.userVC.notiForCollection()
+            controllerManager?.userVC.setupBadgeValueForCollectionCell()
         }
     }
     
