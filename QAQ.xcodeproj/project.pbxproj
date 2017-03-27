@@ -43,7 +43,6 @@
 		BAC478FF1D8F200E00041D94 /* SettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC478FE1D8F200E00041D94 /* SettingModel.swift */; };
 		BAD1CE361E5902C20019B558 /* OptViewTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD1CE351E5902C20019B558 /* OptViewTableCell.swift */; };
 		BAD6C0A91D6AA95F00361A93 /* Categories.plist in Resources */ = {isa = PBXBuildFile; fileRef = BAD6C0A81D6AA95F00361A93 /* Categories.plist */; };
-		BAD6C0AC1D6AB56800361A93 /* TreeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD6C0AA1D6AB56800361A93 /* TreeViewCell.swift */; };
 		BAD6C0B01D6B646900361A93 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD6C0AF1D6B646900361A93 /* UserModel.swift */; };
 		BAD6C0B21D6CF1A600361A93 /* QuestionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD6C0B11D6CF1A600361A93 /* QuestionModel.swift */; };
 		BAE1391C1D9A1D56009A8143 /* MemoryHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE1391B1D9A1D56009A8143 /* MemoryHandler.swift */; };
@@ -66,7 +65,6 @@
 		FD1DBB151D1A4D9E00E6762D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD1DBB131D1A4D9E00E6762D /* LaunchScreen.storyboard */; };
 		FD1DBB1D1D1A65CC00E6762D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FD1DBB1C1D1A65CC00E6762D /* GoogleService-Info.plist */; };
 		FD2148021D375694008A52B9 /* Birthday.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2148011D375694008A52B9 /* Birthday.swift */; };
-		FD67A7D51D360889008E3ACC /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD67A7D31D360889008E3ACC /* ProfileCell.swift */; };
 		FD67A7D61D360889008E3ACC /* ProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD67A7D41D360889008E3ACC /* ProfileCell.xib */; };
 		FD682A991D33002500D2F4B6 /* CollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD682A971D33002500D2F4B6 /* CollectionCell.swift */; };
 		FD682A9A1D33002500D2F4B6 /* CollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD682A981D33002500D2F4B6 /* CollectionCell.xib */; };
@@ -140,7 +138,6 @@
 		BAC478FE1D8F200E00041D94 /* SettingModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingModel.swift; sourceTree = "<group>"; };
 		BAD1CE351E5902C20019B558 /* OptViewTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptViewTableCell.swift; sourceTree = "<group>"; };
 		BAD6C0A81D6AA95F00361A93 /* Categories.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Categories.plist; sourceTree = "<group>"; };
-		BAD6C0AA1D6AB56800361A93 /* TreeViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TreeViewCell.swift; sourceTree = "<group>"; };
 		BAD6C0AF1D6B646900361A93 /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		BAD6C0B11D6CF1A600361A93 /* QuestionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionModel.swift; sourceTree = "<group>"; };
 		BAE1391B1D9A1D56009A8143 /* MemoryHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoryHandler.swift; sourceTree = "<group>"; };
@@ -165,7 +162,6 @@
 		FD1DBB161D1A4D9E00E6762D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FD1DBB1C1D1A65CC00E6762D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FD2148011D375694008A52B9 /* Birthday.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Birthday.swift; sourceTree = "<group>"; };
-		FD67A7D31D360889008E3ACC /* ProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
 		FD67A7D41D360889008E3ACC /* ProfileCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileCell.xib; sourceTree = "<group>"; };
 		FD682A971D33002500D2F4B6 /* CollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionCell.swift; sourceTree = "<group>"; };
 		FD682A981D33002500D2F4B6 /* CollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionCell.xib; sourceTree = "<group>"; };
@@ -293,8 +289,6 @@
 				FD682A971D33002500D2F4B6 /* CollectionCell.swift */,
 				FD17E2041D2F4B3500FC0FB3 /* AddOptCell.swift */,
 				FD0325271D24E53E002956FD /* UserListCell.swift */,
-				FD67A7D31D360889008E3ACC /* ProfileCell.swift */,
-				BAD6C0AA1D6AB56800361A93 /* TreeViewCell.swift */,
 				BA8FEBD11DA05EAE00F23011 /* QuestionView.swift */,
 				BAD1CE351E5902C20019B558 /* OptViewTableCell.swift */,
 				BAC0980D1DBB4F4B000C81F0 /* CouponScratchView.swift */,
@@ -481,7 +475,7 @@
 		};
 		A010AEBFE41EAB9861F2A252 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
@@ -489,7 +483,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QAQ/Pods-QAQ-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
@@ -526,7 +520,6 @@
 				BAA093911DAA305C006F1D72 /* TextViewVC.swift in Sources */,
 				FD149E1B1D1B7939007F3F7B /* UIExtension.swift in Sources */,
 				BA7533961E43BAFB00AA7803 /* UserVC.swift in Sources */,
-				FD67A7D51D360889008E3ACC /* ProfileCell.swift in Sources */,
 				FDBBB5DF1D20544100D75467 /* MainVC.swift in Sources */,
 				BAC098031DBB22D3000C81F0 /* CollectionVC.swift in Sources */,
 				BAD1CE361E5902C20019B558 /* OptViewTableCell.swift in Sources */,
@@ -545,7 +538,6 @@
 				BAA423A71E4AB4DC00DB9334 /* Globle.swift in Sources */,
 				FD1DBB0B1D1A4D9E00E6762D /* AppDelegate.swift in Sources */,
 				BABA2B401E7F5BF100D1AB2C /* ConstantManager.swift in Sources */,
-				BAD6C0AC1D6AB56800361A93 /* TreeViewCell.swift in Sources */,
 				BAC097F81DBB0AC8000C81F0 /* ControllerManager.swift in Sources */,
 				BA75339A1E43E0F500AA7803 /* UserTableCell.swift in Sources */,
 				BAC3A1A41DCD55ED00D2700F /* SwipeAlertVC.swift in Sources */,

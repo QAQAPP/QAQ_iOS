@@ -341,7 +341,15 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, UITextF
         super.viewDidAppear(animated)
         initUserInfo()
         if let user = FIRAuth.auth()?.currentUser{
-            login(user: user)
+            FIRDatabase.database().reference().child("Users-v1").child(user.uid).child("info").child("email").observeSingleEvent(of: .value, with: { (snapshot) in
+                if let _ = snapshot.value as? String{
+                    self.login(user: user)
+                }
+                else{
+                    try! FIRAuth.auth()?.signOut()
+                    _ = SCLAlertView().showError("Sorry", subTitle: "Your account expires, please re-signup your account")
+                }
+            })
         }
     }
     

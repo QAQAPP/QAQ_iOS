@@ -17,6 +17,30 @@ import IQKeyboardManagerSwift
 class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate{
     // FieldVars
     //    @IBOutlet weak var titlebarHeight: NSLayoutConstraint!
+    
+    @IBOutlet weak var userBtn: UIButton!
+    @IBAction func showProfile(_ sender: Any) {
+        if let asker = asker{
+            let vc = controllerManager!.getUserVC(user: asker)
+            self.parent.navigationController?.pushViewController(vc, animated: true)
+        }
+        else{
+            SCLAlertView().showWait("Loading", subTitle: "Loading user info.", duration: 2)
+        }
+    }
+    func setProfile(){
+        userBtn.imageView?.tintColor = .clear
+        userBtn.board(radius: 16, width: 0, color: .clear)
+        if let img = asker?.profileImg{
+            userBtn.setImage(img, for: [])
+            userBtn.imageView?.contentMode = .scaleAspectFill
+        }
+        else if let uid = asker?.uid{
+            NotificationCenter.default.addObserver(self, selector: #selector(setProfile), name: NSNotification.Name(uid + "profile"), object: nil)
+        }
+    }
+    @IBOutlet weak var username: UILabel!
+    
     var handler:GrowingTextViewHandler!
     
     var liked = false{
@@ -95,8 +119,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
         let cell:OptViewTableCell = OptViewTableCell(style:UITableViewCellStyle.default, reuseIdentifier:"OptViewTableCell");
         cell.profileImg.setImage(#imageLiteral(resourceName: "user-50"), for: .normal)
         cell.setup(option: currQuestion.qOptions[indexPath.row], questionView: self)
-        cellHeightArray.append(40 + cell.textView.frame.height)
-        print(cellHeightArray.last)
+        cellHeightArray.append(16 + cell.textView.frame.height)
         return cell;
     }
     
@@ -149,6 +172,12 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
         
         asker = currQuestion.qAnonymous ? nil : UserModel.getUser(uid: currQuestion.qAskerID, getProfile: true)
         if let asker = asker{
+            setProfile()
+            asker.ref.child("username").observe(.value, with: { (snapshot) in
+                if let name = snapshot.value as? String{
+                    self.username.text = name
+                }
+            })
             NotificationCenter.default.addObserver(forName: NSNotification.Name(asker.uid+"username"), object: nil, queue: nil, using: { (noti) in
                 
             })
