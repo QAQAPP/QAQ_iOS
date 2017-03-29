@@ -28,6 +28,15 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     func detailAction(indexPath:IndexPath){
         
     }
+    
+    func generateQInProgressValue() -> Int{
+        var val = 0
+        for q in qInProgressArr {
+            val += q.notiVal
+        }
+        return val
+    }
+    
     // Functions
     func loadCollections(){
         currUser?.loadCollectionDetail()
@@ -64,7 +73,7 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                 }
                 if let question = questionManager?.getQuestion(qid: qid, question: dict){
                     self.qInProgressArr.append(question)
-                    controllerManager?.userVC.notiForCollection()
+                    controllerManager?.userVC.setupBadgeValueForCollectionCell()
                 }
             }
         }
@@ -139,7 +148,7 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         view.addSubview(table)
         _ = table.sd_layout().topSpaceToView(view, 0)?.leftSpaceToView(view, 0)?.rightSpaceToView(view, 0)?.bottomSpaceToView(view, tabBarHeight())
         
-        navigationItem.title = "My questions"
+        navigationItem.title = "My Questions"
         navigationController?.navigationBar.tintColor = themeColor
         edgesForExtendedLayout = [.all]
         setupProfile()

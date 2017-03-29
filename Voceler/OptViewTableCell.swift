@@ -95,15 +95,17 @@ class OptViewTableCell: UITableViewCell{
         
         _ = profileImg.sd_layout().heightIs(32)?.widthIs(32)?.leftSpaceToView(contentView, 8)?.topSpaceToView(self.contentView, 8)
         _ = likeBtn.sd_layout().heightIs(24)?.widthIs(24)?.rightSpaceToView(contentView, 8)?.bottomSpaceToView(contentView, 4)
-        _ = numLikeLbl.sd_layout().heightIs(24)?.widthIs(40)?.rightSpaceToView(likeBtn, 8)?.centerYEqualToView(likeBtn)
-        _ = textView.sd_layout().topSpaceToView(self.contentView,4)?.leftSpaceToView(self.profileImg, 8)?.rightSpaceToView(self.contentView, 8)?.bottomSpaceToView(self.likeBtn, 8)
+        _ = numLikeLbl.sd_layout().heightIs(24)?.widthIs(32)?.rightSpaceToView(likeBtn, 8)?.centerYEqualToView(likeBtn)
+        _ = textView.sd_layout().topSpaceToView(self.contentView,4)?.leftSpaceToView(self.profileImg, 8)?.rightSpaceToView(self.numLikeLbl, 4)?.bottomSpaceToView(self.contentView, 8)
         numLikeLbl.textAlignment = .right
         
-        let fixedWidth:CGFloat = UIScreen.main.bounds.width - 56
+        let fixedWidth:CGFloat = UIScreen.main.bounds.width - 128
+        print(fixedWidth)
         let newSize = textView.sizeThatFits(CGSize(width: fixedWidth, height: 9999))
         var newFrame = textView.frame
         newFrame.size = CGSize(width: max(newSize.width, fixedWidth), height: newSize.height)
         textView.frame = newFrame;
+        print(newFrame)
 
         profileImg.addTarget(self, action: #selector(showProfile), for: .touchUpInside)
     }
