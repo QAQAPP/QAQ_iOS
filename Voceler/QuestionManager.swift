@@ -24,12 +24,14 @@ class QuestionManager: NSObject {
     func loadQuestionContent(qid:String, purpose:String = "QuestionLoaded"){
         _ = FIRDatabase.database().reference().child("Questions-v1").child(qid).child("content").observeSingleEvent(of: .value, with: { (snapshot) in
             if purpose == "QuestionLoaded"{
-                let thisQuestion = self.getQuestion(qid: qid, question: snapshot.value as? Dictionary<String, Any>)!
-                self.collection.append(thisQuestion)
-                self.numOfTotalQuestions += 1
-                NotificationCenter.default.post(name: Notification.Name.QuestionLoaded, object: nil)
-                
-//                NotificationCenter.default.post(name: NSNotification.Name(rawValue: qid+"question"), object: nil, userInfo: ["description": thisQuestion.qDescrption])
+                if let dict = snapshot.value as? Dictionary<String, Any>, let thisQuestion = self.getQuestion(qid: qid, question: dict){
+//                    let thisQuestion = self.getQuestion(qid: qid, question: dict)!
+                    self.collection.append(thisQuestion)
+                    self.numOfTotalQuestions += 1
+                    NotificationCenter.default.post(name: Notification.Name.QuestionLoaded, object: nil)
+                    
+    //                NotificationCenter.default.post(name: NSNotification.Name(rawValue: qid+"question"), object: nil, userInfo: ["description": thisQuestion.qDescrption])
+                }
             }
             if purpose != "QuestionLoaded" || self.collection.count < 2{
                 if var dict = snapshot.value as? Dictionary<String, Any>{

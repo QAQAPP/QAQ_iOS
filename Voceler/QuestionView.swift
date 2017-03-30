@@ -62,13 +62,8 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
     @IBOutlet weak var detailTV: UITextView!
     var currQuestion:QuestionModel!
     //var optsView:UICollectionView!
-    var optsView:UITableView!{
-        didSet{
-            optsView.isUserInteractionEnabled = false
-        }
-    }
+    var optsView:UITableView!
     let noAnswerView = UIImageView(image: #imageLiteral(resourceName: "no_answer"))
-    var pullUpMask = UILabel()
     
     // font and sizes
     let QUESTION_TEXT_FONT = "Avenir-Black"
@@ -99,7 +94,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
     
     func likeQuestion(){
         if !liked && currUser!.qCollection.count >= currUser!.qInCollectionLimit!{
-            _ = SCLAlertView().showError("Sorry", subTitle: "You are only allowed to have up to \(currUser!.qInCollectionLimit) in collection. Please conclude a question.")
+            _ = SCLAlertView().showError("Sorry", subTitle: "You are only allowed to have up to \(String(describing: currUser!.qInCollectionLimit)) in collection. Please conclude a question.")
         }
         else{
             liked = !liked
@@ -109,7 +104,14 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        noAnswerView.isHidden = !optsView.isUserInteractionEnabled || currQuestion.qOptions.count > 0
+//        noAnswerView.isHidden = currQuestion.qOptions.count > 0
+        if !noAnswerView.isHidden && currQuestion.qOptions.count > 0{
+            UIView.animate(withDuration: 0.5, animations: {
+                self.noAnswerView.alpha = 0
+            }, completion: { (finished) in
+                self.noAnswerView.isHidden = finished
+            })
+        }
         return currQuestion.qOptions.count
         
     }
@@ -148,17 +150,14 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
 //    }
     
     
-    
     func nextContent(){
         controllerManager?.mainVC.nextContent()
     }
     
     private func setQuestion(){
         setDescription()
-        
         let oRef = currQuestion.qRef.child("options")
         oRef.observe(.childAdded, with: { (snapshot) in
-            self.optsView.isUserInteractionEnabled = true
             if let dict = snapshot.value as? Dictionary<String, Any>{
                 let opt = OptionModel(question:self.currQuestion, ref: snapshot.ref, dict: dict)
                 self.currQuestion.optArrAdd(option: opt)
@@ -166,7 +165,6 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
                     self.cellHeightArray.removeAll()
                     self.optsView.reloadData()
                 }
-                self.pullUpMask.isHidden = true
             }
         })
         
@@ -182,7 +180,6 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
                 
             })
         }
-        pullUpMask.isHidden = currQuestion.qOptions.count > 0
         
 //        optsView.reloadData()
     }
@@ -233,7 +230,6 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
         currQuestion.userChoosed = true
         let option = OptionModel(question: currQuestion, description: text, offerBy: (appSetting.isAnonymous) ? nil : currUser!.uid)
         currQuestion?.addOption(opt: option)
-        pullUpMask.isHidden = true
         cellHeightArray.removeAll()
         optsView.reloadData()
     }
@@ -249,7 +245,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
     }
     func setup(parent:UIViewController) {
         self.parent = parent
-        
+        touchToHideKeyboard()
         optsView = UITableView()
         optsView.backgroundColor = .white
         optsView.separatorStyle = .none
@@ -272,7 +268,6 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
         noAnswerView.touchToHideKeyboard()
         self.addSubview(noAnswerView)
         _ = noAnswerView.sd_layout().topSpaceToView(detailTV, 0)?.bottomSpaceToView(addOptionField, 0)?.leftSpaceToView(self, 64)?.rightSpaceToView(self, 64)
-        noAnswerView.isHidden = true
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

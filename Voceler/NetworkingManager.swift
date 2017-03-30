@@ -16,8 +16,8 @@ import SCLAlertView
 //http://lowcost-env.pukinshx93.us-west-2.elasticbeanstalk.com/qaq/zhaowei/
 class NetworkingManager: NSObject {
     
-//    let baseURL = "http://sample-env.t3xyggzwqq.us-west-2.elasticbeanstalk.com/" // PRODUCTION DATABASE
-    let baseURL = "http://lowcost-env.pukinshx93.us-west-2.elasticbeanstalk.com/" // TESTING DATABASE
+    let baseURL = "http://sample-env.t3xyggzwqq.us-west-2.elasticbeanstalk.com/" // PRODUCTION DATABASE
+//    let baseURL = "http://lowcost-env.pukinshx93.us-west-2.elasticbeanstalk.com/" // TESTING DATABASE
 //    let baseURL = "http://localhost:8000/qaq/"
     
     private func analyzeWords(text:String)->[String]{

@@ -269,7 +269,7 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, UITextF
         
         FIRMessaging.messaging().connect { (error) in
             if error != nil {
-                print("Unable to connect with FCM. \(error)")
+                print("Unable to connect with FCM. \(String(describing: error))")
             } else {
                 print("Connected to FCM.")
             }
@@ -393,6 +393,7 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, UITextF
         }
         else if textField == passwordField{
             loginAct(self)
+            textField.hideKeyboard()
         }
         return true
     }
