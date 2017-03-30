@@ -322,6 +322,7 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, UITextF
         GIDSignIn.sharedInstance().delegate = self
     }
     
+    private var shouldShowLoading = false
     // Override functions
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -330,18 +331,10 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, UITextF
         initView()
         initUI()
         initNoti()
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        initUserInfo()
         if let user = FIRAuth.auth()?.currentUser{
+            shouldShowLoading = true
             FIRDatabase.database().reference().child("Users-v1").child(user.uid).child("info").child("email").observeSingleEvent(of: .value, with: { (snapshot) in
+                _ = SwiftSpinner.hide()
                 if let _ = snapshot.value as? String{
                     self.login(user: user)
                 }
@@ -350,6 +343,15 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, UITextF
                     _ = SCLAlertView().showError("Sorry", subTitle: "Your account expires, please re-signup your account")
                 }
             })
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        initUserInfo()
+        if shouldShowLoading{
+            _ = SwiftSpinner.show("Loading...")
+            shouldShowLoading = false
         }
     }
     

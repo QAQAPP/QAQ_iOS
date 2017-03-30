@@ -43,6 +43,8 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         super.viewDidLoad()
         profileImageView.layer.cornerRadius = 80
         profileImageView.clipsToBounds = true
+        profileImageView.contentMode = .scaleAspectFill
+        edgesForExtendedLayout = []
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "UserTableCell", bundle: nil), forCellReuseIdentifier: "UserTableCell")
