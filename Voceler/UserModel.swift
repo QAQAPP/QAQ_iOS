@@ -61,7 +61,7 @@ class UserModel: NSObject {
                         self.qInCollectionLimit = qInCollectionLimit
                     }
                     else if self.uid == currUser!.uid{
-                        self.ref.child("qInProgressLimit").setValue(constantManager.in_process_limit)
+                        self.ref.child("qInCollectionLimit").setValue(constantManager.in_collection_limit)
                     }
                     self.infoDic = userInfo
 //                    if let profileVC = self.profileVC{
