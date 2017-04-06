@@ -74,34 +74,35 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         for thisNotificationInDict in notificationsInDict {
             print("NotificationInDict: ", thisNotificationInDict)
+            if let viewed = thisNotificationInDict.value["viewed"] as? Bool{
+                let thisNotification = NotificationModel(thisNotificationInDict.value["qid"] as! String,
+                    of: NTypeLookup[thisNotificationInDict.value["type"] as! String]!,
+                    with: thisNotificationInDict.value["details"] as AnyObject,
+                    whether: viewed, on: thisNotificationInDict.key )
             
-            let thisNotification = NotificationModel(thisNotificationInDict.value["qid"] as! String,
-                of: NTypeLookup[thisNotificationInDict.value["type"] as! String]!,
-                with: thisNotificationInDict.value["details"] as AnyObject,
-                whether: thisNotificationInDict.value["viewed"] as! Bool,
-                on: thisNotificationInDict.key )
             
-            if (thisNotification.viewed == false) {
-                self.notViewedCount += 1
-            }
-            
-            self.notifications.append(thisNotification)
-            
-            // If it is a concluded type notification then load the content of question
-            if thisNotification.type == NotificationType.questionConcluded {
+                if (thisNotification.viewed == false) {
+                    self.notViewedCount += 1
+                }
                 
-                print("Loading concluded question", thisNotification.qid)
+                self.notifications.append(thisNotification)
                 
-                questionManager?.loadQuestionContent(qid: thisNotificationInDict.value["qid"] as! String, purpose: "qConcludedLoaded")
-                
-                _ = NotificationCenter.default.addObserver(forName: NSNotification.Name("qConcludedLoaded"), object: nil, queue: nil, using:{ (noti) in
-                    print("Observed object")
-                    if let dict = noti.object as? Dictionary<String, Any>{
-                        let qid = dict["qid"] as! String
-                        print(qid)
-                        self.loadConcludedQuestion(qid: qid, dict: dict)
-                    }
-                })
+                // If it is a concluded type notification then load the content of question
+                if thisNotification.type == NotificationType.questionConcluded {
+                    
+                    print("Loading concluded question", thisNotification.qid)
+                    
+                    questionManager?.loadQuestionContent(qid: thisNotificationInDict.value["qid"] as! String, purpose: "qConcludedLoaded")
+                    
+                    _ = NotificationCenter.default.addObserver(forName: NSNotification.Name("qConcludedLoaded"), object: nil, queue: nil, using:{ (noti) in
+                        print("Observed object")
+                        if let dict = noti.object as? Dictionary<String, Any>{
+                            let qid = dict["qid"] as! String
+                            print(qid)
+                            self.loadConcludedQuestion(qid: qid, dict: dict)
+                        }
+                    })
+                }
             }
             
         }
