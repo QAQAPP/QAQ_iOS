@@ -202,19 +202,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         
         // Print message ID.
         print("Message ID: \(userInfo["gcm.message_id"]!)")
-        
         // Print full message.
         print(userInfo)
         
-        print(userInfo["qid"]!)
-        //        print(userInfo["nid"]!)
-        //controllerManager?.tabbarVC.selectedIndex = 2
-        //controllerManager?.userVC.pushNotificationView()
         let thisQID = userInfo["qid"]! as! String
         //controllerManager?.notificationVC?.showQuestionVC(of: thisQID)
         if let collectionVC = controllerManager?.collectionVC{
-            for i in 0..<collectionVC.qInProgressArr.count{
-                let q = collectionVC.qInProgressArr[i]
+            for i in 0..<(questionManager?.qInProgressArr.count)!{
+                let q = (questionManager?.qInProgressArr[i])!
                 if q.qid == thisQID{
                     controllerManager?.tabbarVC.selectedIndex = 2
                     controllerManager?.userNav.setViewControllers([controllerManager!.userVC, collectionVC], animated: false)
@@ -345,8 +340,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         let userInfo = notification.request.content.userInfo
         // Print message ID.
-        print("Message ID: \(userInfo["gcm.message_id"])")
-        
+        //print("Message ID: \(userInfo["gcm.message_id"])")
         // Print full message.
         print("%@", userInfo)
         

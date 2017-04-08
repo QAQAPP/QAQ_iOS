@@ -114,7 +114,7 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     func loadConcludedQuestion(qid:String, dict:Dictionary<String, Any>) {
         if let question = questionManager?.getQuestion(qid: qid, question: dict){
             // Question is loaded here
-            controllerManager?.collectionVC?.qConcludedArr.append(question)
+            questionManager?.qConcludedArr.append(question)
             print("Loaded concluded question", question.qid)
             self.table.reloadData()
         }
