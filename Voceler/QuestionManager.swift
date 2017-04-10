@@ -15,6 +15,12 @@ class QuestionManager: NSObject {
     private var ref:FIRDatabaseReference!
     private var numOfTotalQuestions = 0
     
+    // Arrays to hold loaded questions
+    var qInProgressArr = Array<QuestionModel>()
+    var qCollectionArr = Array<QuestionModel>()
+    var qConcludedArr = Array<QuestionModel>()
+
+    
     override init() {
         super.init()
         ref = FIRDatabase.database().reference().child("Questions-v1")

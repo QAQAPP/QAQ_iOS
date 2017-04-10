@@ -19,10 +19,9 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     var didLoad = false
     
     // FieldVars
-    var qInProgressArr = Array<QuestionModel>()
-    var qCollectionArr = Array<QuestionModel>()
-    
-    var qConcludedArr = Array<QuestionModel>()
+//    var qInProgressArr = Array<QuestionModel>()
+//    var qCollectionArr = Array<QuestionModel>()
+//    var qConcludedArr = Array<QuestionModel>()
 
     // Actions
     func detailAction(indexPath:IndexPath){
@@ -31,7 +30,7 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     func generateQInProgressValue() -> Int{
         var val = 0
-        for q in qInProgressArr {
+        for q in (questionManager?.qInProgressArr)! {
             val += q.notiVal
         }
         return val
@@ -63,7 +62,7 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     func load(qid:String, dict:Dictionary<String, Any>, inProgress:Bool){
         if inProgress{
             if currUser!.qInProgress.contains(qid){
-                for question in self.qInProgressArr{
+                for question in (questionManager?.qInProgressArr)! {
                     if question.qid == qid{
                         if self.didLoad == true {
                             table.mj_header.endRefreshing()
@@ -72,14 +71,14 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                     }
                 }
                 if let question = questionManager?.getQuestion(qid: qid, question: dict){
-                    self.qInProgressArr.append(question)
+                    questionManager?.qInProgressArr.append(question)
                     controllerManager?.userVC.setupBadgeValueForCollectionCell()
                 }
             }
         }
         else{
             if currUser!.qCollection.contains(qid){
-                for question in self.qCollectionArr{
+                for question in (questionManager?.qCollectionArr)!{
                     if question.qid == qid{
                         if self.didLoad == true {
                             table.mj_header.endRefreshing()
@@ -88,7 +87,7 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                     }
                 }
                 if let question = questionManager?.getQuestion(qid: qid, question: dict){
-                    self.qCollectionArr.append(question)
+                    questionManager?.qCollectionArr.append(question)
                 }
             }
         }
@@ -99,17 +98,17 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     }
     
     func findQuestionModel(with qid:String) -> QuestionModel? {
-        for thisQuestion in qInProgressArr {
+        for thisQuestion in (questionManager?.qInProgressArr)! {
             if thisQuestion.qid == qid {
                 return thisQuestion
             }
         }
-        for thisQuestion in qCollectionArr {
+        for thisQuestion in (questionManager?.qCollectionArr)! {
             if thisQuestion.qid == qid {
                 return thisQuestion
             }
         }
-        for thisQuestion in qConcludedArr {
+        for thisQuestion in (questionManager?.qConcludedArr)! {
             if thisQuestion.qid == qid {
                 return thisQuestion
             }
@@ -120,18 +119,18 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     func findQuestionModel(with qid:String, from inProgress:Bool) -> QuestionModel? {
         if inProgress == true {
-            for thisQuestion in qInProgressArr {
+            for thisQuestion in (questionManager?.qInProgressArr)! {
                 if thisQuestion.qid == qid {
                     return thisQuestion
                 }
             }
         } else {
-            for thisQuestion in qCollectionArr {
+            for thisQuestion in (questionManager?.qCollectionArr)! {
                 if thisQuestion.qid == qid {
                     return thisQuestion
                 }
             }
-            for thisQuestion in qConcludedArr {
+            for thisQuestion in (questionManager?.qConcludedArr)! {
                 if thisQuestion.qid == qid {
                     return thisQuestion
                 }
@@ -180,10 +179,10 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return qInProgressArr.count
+            return (questionManager?.qInProgressArr)!.count
         }
         else{
-            return qCollectionArr.count
+            return (questionManager?.qCollectionArr)!.count
         }
     }
     
@@ -204,11 +203,11 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         let cell = tableView.dequeueReusableCell(withIdentifier: "CollectionCell") as! CollectionCell
         if indexPath.section == 0{
             cell.starBtn.isHidden = true
-            cell.setup(parent: self, question: qInProgressArr[indexPath.row])
+            cell.setup(parent: self, question: ((questionManager?.qInProgressArr)?[indexPath.row])!)
         }
         else{
             cell.starBtn.isHidden = false
-            cell.setup(parent: self, question: qCollectionArr[indexPath.row])
+            cell.setup(parent: self, question: ((questionManager?.qCollectionArr)?[indexPath.row])!)
         }
         return cell
     }
@@ -216,17 +215,17 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         table.cellForRow(at: indexPath)?.isSelected = false
         if indexPath.section == 0{
-            let question = qInProgressArr[indexPath.row]
+            let question = questionManager?.qInProgressArr[indexPath.row]
             let vc = InProgressVC()
-            vc.setup(parent: self, question: question)
+            vc.setup(parent: self, question: question!)
             show(vc, sender: self)
         }
         else{
             let cell = table.cellForRow(at: indexPath) as! CollectionCell
             if cell.isStared{
-                let question = qCollectionArr[indexPath.row]
+                let question = questionManager?.qCollectionArr[indexPath.row]
                 let vc = InCollectionVC()
-                vc.setup(parent: self, question: question)
+                vc.setup(parent: self, question: question!)
                 show(vc, sender: self)
             }
             else{

@@ -54,8 +54,8 @@ class CollectionCell: UITableViewCell {
     }
     
     func dislikeThisQuestion(){
-        if let index = parentVC.qCollectionArr.index(of: question){
-            parentVC.qCollectionArr.remove(at: index)
+        if let index = questionManager?.qCollectionArr.index(of: question){
+            questionManager?.qCollectionArr.remove(at: index)
             parentVC.table.reloadData()
             question.removeFromCollection()
         }

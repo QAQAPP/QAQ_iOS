@@ -37,7 +37,7 @@ class InCollectionVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if !questionView.liked, let parent = parentVC{
-            if let index = parent.qCollectionArr.index(of: currQuestion){
+            if let index = questionManager?.qCollectionArr.index(of: currQuestion){
                 let cell = parent.table.cellForRow(at: IndexPath(row: index, section: 1)) as! CollectionCell
                 cell.isStared = questionView.liked
             }

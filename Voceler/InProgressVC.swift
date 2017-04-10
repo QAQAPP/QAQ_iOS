@@ -59,11 +59,13 @@ class InProgressVC: UIViewController {
     
     func afterConclude(){
         currUser!.qInProgress.append(currQuestion.qid)
-        let index = controllerManager!.collectionVC.qInProgressArr.index(of: currQuestion)!
-        controllerManager!.collectionVC.qInProgressArr.remove(at: index)
-        currUser!.qCollection.append(currQuestion.qid)
-        controllerManager!.collectionVC.qCollectionArr.append(currQuestion)
-        controllerManager!.collectionVC.table.reloadData()
-        _ = self.navigationController?.popViewController(animated: true)
+        if let index = questionManager?.qInProgressArr.index(of: currQuestion)! {
+            questionManager?.qInProgressArr.remove(at: index)
+            currUser!.qCollection.append(currQuestion.qid)
+            questionManager?.qCollectionArr.append(currQuestion)
+            controllerManager!.collectionVC.table.reloadData()
+            _ = self.navigationController?.popViewController(animated: true)
+        }
+        
     }
 }

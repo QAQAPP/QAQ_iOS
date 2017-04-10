@@ -243,9 +243,4 @@ class OptViewTableCell: UITableViewCell{
             NotificationCenter.default.addObserver(self, selector: #selector(setProfile), name: NSNotification.Name(uid + "profile"), object: nil)
         }
     }
-    
-//    override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
-//        super.apply(layoutAttributes)
-//        
-//    }
 }
