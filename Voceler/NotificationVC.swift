@@ -20,6 +20,12 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     let table = UITableView()
     
+    var notViewedCount = 0 {
+        didSet{
+            controllerManager?.userVC.setupBadgeValueForNotificationCell()
+        }
+    }
+    
     let NTypeLookup: [String: NotificationType] = [
         "questionAnswered": NotificationType.questionAnswered,
         "questionViewed": NotificationType.questionViewed,
@@ -34,6 +40,8 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         currUser?.nRef.observe(FIRDataEventType.value, with: { (snapshot) in
             if let notiInfo = snapshot.value as? [String : AnyObject]{
                 self.notificationsInDict = notiInfo
+                // Parse notification data into NotificationModels
+                self.loadNotificationsFromDict()
             }
         })
     }
@@ -54,57 +62,59 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         navigationItem.title = "Notifications"
         navigationController?.navigationBar.tintColor = themeColor
         
-        self.loadNotificationsFromDict() // Parse notification data into NotificationModels
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
-        self.loadNotificationsFromDict() // Parse notification data into NotificationModels
-        
         super.viewWillAppear(animated)
     }
     
     func loadNotificationsFromDict () {
         self.notifications.removeAll()
+        self.notViewedCount = 0
         
         for thisNotificationInDict in notificationsInDict {
             print("NotificationInDict: ", thisNotificationInDict)
+            if let viewed = thisNotificationInDict.value["viewed"] as? Bool{
+                let thisNotification = NotificationModel(thisNotificationInDict.value["qid"] as! String,
+                    of: NTypeLookup[thisNotificationInDict.value["type"] as! String]!,
+                    with: thisNotificationInDict.value["details"] as AnyObject,
+                    whether: viewed, on: thisNotificationInDict.key )
             
-            let thisNotification = NotificationModel(thisNotificationInDict.value["qid"] as! String,
-                of: NTypeLookup[thisNotificationInDict.value["type"] as! String]!,
-                with: thisNotificationInDict.value["details"] as AnyObject,
-                whether: thisNotificationInDict.value["viewed"] as! Bool,
-                on: thisNotificationInDict.key )
             
-            self.notifications.append(thisNotification)
-            
-            // If it is a concluded type notification then load the content of question
-            if thisNotification.type == NotificationType.questionConcluded {
+                if (thisNotification.viewed == false) {
+                    self.notViewedCount += 1
+                }
                 
-                print("Loading concluded question", thisNotification.qid)
+                self.notifications.append(thisNotification)
                 
-                questionManager?.loadQuestionContent(qid: thisNotificationInDict.value["qid"] as! String, purpose: "qConcludedLoaded")
-                
-                _ = NotificationCenter.default.addObserver(forName: NSNotification.Name("qConcludedLoaded"), object: nil, queue: nil, using:{ (noti) in
-                    print("Observed object")
-                    if let dict = noti.object as? Dictionary<String, Any>{
-                        let qid = dict["qid"] as! String
-                        print(qid)
-                        self.loadConcludedQuestion(qid: qid, dict: dict)
-                    }
-                })
+                // If it is a concluded type notification then load the content of question
+                if thisNotification.type == NotificationType.questionConcluded {
+                    
+                    print("Loading concluded question", thisNotification.qid)
+                    
+                    questionManager?.loadQuestionContent(qid: thisNotificationInDict.value["qid"] as! String, purpose: "qConcludedLoaded")
+                    
+                    _ = NotificationCenter.default.addObserver(forName: NSNotification.Name("qConcludedLoaded"), object: nil, queue: nil, using:{ (noti) in
+                        print("Observed object")
+                        if let dict = noti.object as? Dictionary<String, Any>{
+                            let qid = dict["qid"] as! String
+                            print(qid)
+                            self.loadConcludedQuestion(qid: qid, dict: dict)
+                        }
+                    })
+                }
             }
             
         }
         
-        self.notifications.sort { $0.timestamp < $1.timestamp }
+        self.notifications.sort { $0.timestamp > $1.timestamp }
         self.table.reloadData()
     }
     
     func loadConcludedQuestion(qid:String, dict:Dictionary<String, Any>) {
         if let question = questionManager?.getQuestion(qid: qid, question: dict){
             // Question is loaded here
-            controllerManager?.collectionVC?.qConcludedArr.append(question)
+            questionManager?.qConcludedArr.append(question)
             print("Loaded concluded question", question.qid)
             self.table.reloadData()
         }
@@ -158,7 +168,7 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
 
         // Unread notifications have gray backgrounds
         if thisNotification.viewed == false {
-            cell.backgroundColor = UIColor.lightGray
+            cell.backgroundColor = UIColor(red: 225, green: 225, blue: 225)
             cell.textLabel?.textColor = UIColor.black
         } else {
             cell.backgroundColor = UIColor.white

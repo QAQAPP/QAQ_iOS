@@ -53,15 +53,21 @@ class UserModel: NSObject {
                     self.location = userInfo["location"] as? String
                     if let qInProgressLimit = userInfo["qInProgressLimit"] as? Int{
                         self.qInProgressLimit = qInProgressLimit
+                        if qInProgressLimit < constantManager.in_process_limit && self.uid == currUser!.uid{
+                            self.ref.child("qInProgressLimit").setValue(constantManager.in_process_limit)
+                        }
                     }
                     else if self.uid == currUser!.uid{
                         self.ref.child("qInProgressLimit").setValue(constantManager.in_process_limit)
                     }
                     if let qInCollectionLimit = userInfo["qInCollectionLimit"] as? Int{
                         self.qInCollectionLimit = qInCollectionLimit
+                        if qInCollectionLimit < constantManager.in_collection_limit && self.uid == currUser!.uid{
+                            self.ref.child("qInCollectionLimit").setValue(constantManager.in_collection_limit)
+                        }
                     }
                     else if self.uid == currUser!.uid{
-                        self.ref.child("qInProgressLimit").setValue(constantManager.in_process_limit)
+                        self.ref.child("qInCollectionLimit").setValue(constantManager.in_collection_limit)
                     }
                     self.infoDic = userInfo
 //                    if let profileVC = self.profileVC{

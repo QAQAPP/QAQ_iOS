@@ -202,19 +202,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         
         // Print message ID.
         print("Message ID: \(userInfo["gcm.message_id"]!)")
-        
         // Print full message.
         print(userInfo)
         
-        print(userInfo["qid"]!)
-        //        print(userInfo["nid"]!)
-        //controllerManager?.tabbarVC.selectedIndex = 2
-        //controllerManager?.userVC.pushNotificationView()
         let thisQID = userInfo["qid"]! as! String
         //controllerManager?.notificationVC?.showQuestionVC(of: thisQID)
         if let collectionVC = controllerManager?.collectionVC{
-            for i in 0..<collectionVC.qInProgressArr.count{
-                let q = collectionVC.qInProgressArr[i]
+            for i in 0..<(questionManager?.qInProgressArr.count)!{
+                let q = (questionManager?.qInProgressArr[i])!
                 if q.qid == thisQID{
                     controllerManager?.tabbarVC.selectedIndex = 2
                     controllerManager?.userNav.setViewControllers([controllerManager!.userVC, collectionVC], animated: false)
@@ -305,16 +300,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
 //        let app = UIApplication.shared
 //        app.scheduledLocalNotifications = [noti]
         
-//        if #available(iOS 10.0, *) {
-//            Timer.scheduledTimer(withTimeInterval: 5, repeats: false, block: { (timer) in
-//                
-////                UIApplication.shared.applicationIconBadgeNumber = 135
-////                let noti = UILocalNotification()
-////                noti.applicationIconBadgeNumber = 123
-//            })
-//        } else {
-//            // Fallback on earlier versions
-//        }
+        if #available(iOS 10.0, *) {
+            //Timer.scheduledTimer(withTimeInterval: 5, repeats: false, block: { (timer) in
+                
+                UIApplication.shared.applicationIconBadgeNumber = (controllerManager?.userVC.getTotalBadgeValue())!
+                
+//                let noti = UILocalNotification()
+//                noti.applicationIconBadgeNumber = 123
+            //})
+        } else {
+            // Fallback on earlier versions
+        }
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -344,8 +340,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         let userInfo = notification.request.content.userInfo
         // Print message ID.
-        print("Message ID: \(userInfo["gcm.message_id"])")
-        
+        //print("Message ID: \(userInfo["gcm.message_id"])")
         // Print full message.
         print("%@", userInfo)
         

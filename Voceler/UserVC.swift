@@ -19,10 +19,12 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     
     var thisUser:UserModel!
     
-    let rowTitles = ["My Questions", "Message", "Setting"]
+    let rowTitles = ["My Questions", "Notifications", "Settings"]
     let rowIcons = [#imageLiteral(resourceName: "Book-open - simple-line-icons"), #imageLiteral(resourceName: "message-32"), #imageLiteral(resourceName: "Wrench - simple-line-icons")]
 
     var hasNewNoti:Bool = false
+    var collectionVal = 0
+    var notificationVal = 0
     
     func profileTapped(){
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
@@ -41,6 +43,8 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         super.viewDidLoad()
         profileImageView.layer.cornerRadius = 80
         profileImageView.clipsToBounds = true
+        profileImageView.contentMode = .scaleAspectFill
+        edgesForExtendedLayout = []
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "UserTableCell", bundle: nil), forCellReuseIdentifier: "UserTableCell")
@@ -90,19 +94,31 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         navigationController?.navigationBar.isHidden = false
     }
     
-    func notiForCollection(){
-        let array = controllerManager!.collectionVC.qInProgressArr
-        var val = 0
-        for q in array{
-            val += q.notiVal
-        }
-        collectionCell?.notiVal = val
-        if val > 0{
-            navigationController?.tabBarItem.badgeValue = String(val)
+    func setupBadgeValueForCollectionCell(){
+        self.collectionVal = controllerManager!.collectionVC.generateQInProgressValue()
+        collectionCell?.notiVal = self.collectionVal
+        updateTabBarValue()
+    }
+    
+    func setupBadgeValueForNotificationCell(){
+        self.notificationVal = controllerManager!.notificationVC.notViewedCount
+        print(self.notificationVal)
+        notificationCell?.notiVal = self.notificationVal
+        updateTabBarValue()
+    }
+    
+    func updateTabBarValue() {
+        let totalValue = getTotalBadgeValue()
+        if totalValue > 0{
+            navigationController?.tabBarItem.badgeValue = String(totalValue)
         }
         else{
             navigationController?.tabBarItem.badgeValue = nil
         }
+    }
+    
+    func getTotalBadgeValue () -> Int{
+        return self.collectionVal + self.notificationVal
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -119,17 +135,18 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         case 0:
             // TODO: Calculate new noti
             collectionCell = cell
-            notiForCollection()
+            setupBadgeValueForCollectionCell()
             break
         case 1:
-            if (self.hasNewNoti == true) {
-                cell.backgroundColor = UIColor.lightGray
-                cell.titleLabel?.textColor = UIColor.black
-            } else {
-                cell.backgroundColor = UIColor.white
-                cell.titleLabel?.textColor = UIColor.darkGray
-            }
+//            if (self.hasNewNoti == true) {
+//                cell.backgroundColor = UIColor(red: 10, green: 10, blue: 10)
+//                cell.titleLabel?.textColor = UIColor.black
+//            } else {
+//                cell.backgroundColor = UIColor.white
+//                cell.titleLabel?.textColor = UIColor.darkGray
+//            }
             notificationCell = cell
+            setupBadgeValueForNotificationCell()
             break
         default:
             break

@@ -269,7 +269,7 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, UITextF
         
         FIRMessaging.messaging().connect { (error) in
             if error != nil {
-                print("Unable to connect with FCM. \(error)")
+                print("Unable to connect with FCM. \(String(describing: error))")
             } else {
                 print("Connected to FCM.")
             }
@@ -322,6 +322,7 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, UITextF
         GIDSignIn.sharedInstance().delegate = self
     }
     
+    private var shouldShowLoading = false
     // Override functions
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -330,18 +331,27 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, UITextF
         initView()
         initUI()
         initNoti()
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        if let user = FIRAuth.auth()?.currentUser{
+            shouldShowLoading = true
+            FIRDatabase.database().reference().child("Users-v1").child(user.uid).child("info").child("email").observeSingleEvent(of: .value, with: { (snapshot) in
+                _ = SwiftSpinner.hide()
+                if let _ = snapshot.value as? String{
+                    self.login(user: user)
+                }
+                else{
+                    try! FIRAuth.auth()?.signOut()
+                    _ = SCLAlertView().showError("Sorry", subTitle: "Your account expires, please re-signup your account")
+                }
+            })
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         initUserInfo()
-        if let user = FIRAuth.auth()?.currentUser{
-            login(user: user)
+        if shouldShowLoading{
+            _ = SwiftSpinner.show("Loading...")
+            shouldShowLoading = false
         }
     }
     
@@ -383,6 +393,7 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, UITextF
         }
         else if textField == passwordField{
             loginAct(self)
+            textField.hideKeyboard()
         }
         return true
     }
