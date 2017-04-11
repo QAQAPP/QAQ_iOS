@@ -13,6 +13,7 @@ import SFFocusViewLayout
 import SCLAlertView
 import SDAutoLayout
 import IQKeyboardManagerSwift
+import FirebaseDatabase
 
 class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate{
     // FieldVars
@@ -50,7 +51,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
                 mainVC.navigationItem.rightBarButtonItem?.image = liked ? #imageLiteral(resourceName: "star_filled-32") : #imageLiteral(resourceName: "star-32")
             }
             if let question = currQuestion{
-                currUser?.collectQuestion(qid: question.qid, like: liked)
+                currUser?.collectQuestion(qid: question.qRef.key, like: liked)
             }
         }
     }
@@ -60,6 +61,11 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
     // UIVars
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
     @IBOutlet weak var detailTV: UITextView!
+//    var questionRef:FIRDatabaseReference!{
+//        didSet{
+//            
+//        }
+//    }
     var currQuestion:QuestionModel!
     //var optsView:UICollectionView!
     var optsView:UITableView!
@@ -127,7 +133,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
     
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        (cell as! OptViewTableCell).option = currQuestion?.qOptions[indexPath.row]
+//        (cell as! OptViewTableCell).option = currQuestion?.qOptions[indexPath.row]
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -156,17 +162,20 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
     
     private func setQuestion(){
         setDescription()
-        let oRef = currQuestion.qRef.child("options")
-        oRef.observe(.childAdded, with: { (snapshot) in
-            if let dict = snapshot.value as? Dictionary<String, Any>{
-                let opt = OptionModel(question:self.currQuestion, ref: snapshot.ref, dict: dict)
-                self.currQuestion.optArrAdd(option: opt)
-                DispatchQueue.main.async {
-                    self.cellHeightArray.removeAll()
-                    self.optsView.reloadData()
-                }
-            }
-        })
+//        let oRef = currQuestion.qRef.child("options")
+//        oRef.observe(.childAdded, with: { (snapshot) in
+//            if let (key, _) = snapshot.value as? (String, Any){
+//                
+//            }
+//            if let dict = snapshot.value as? Dictionary<String, Any>{
+//                let opt = OptionModel(question:self.currQuestion, ref: snapshot.ref, dict: dict)
+//                self.currQuestion.optArrAdd(option: opt)
+//                DispatchQueue.main.async {
+//                    self.cellHeightArray.removeAll()
+//                    self.optsView.reloadData()
+//                }
+//            }
+//        })
         
         asker = currQuestion.qAnonymous ? nil : UserModel.getUser(uid: currQuestion.qAskerID, getProfile: true)
         if let asker = asker{
@@ -228,10 +237,10 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
     
     func addOption(text:String){
         currQuestion.userChoosed = true
-        let option = OptionModel(question: currQuestion, description: text, offerBy: (appSetting.isAnonymous) ? nil : currUser!.uid)
-        currQuestion?.addOption(opt: option)
-        cellHeightArray.removeAll()
-        optsView.reloadData()
+        OptionModel.postPotion(question: currQuestion.qRef, description: text, offerBy: currQuestion!.qAskerID)
+//        currQuestion?.addOption(opt: option)
+//        cellHeightArray.removeAll()
+//        optsView.reloadData()
     }
     
     func setDescription() {

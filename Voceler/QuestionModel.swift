@@ -11,16 +11,13 @@ import FirebaseDatabase
 import SCLAlertView
 
 class QuestionModel: NSObject {
-    var qid:String!
     var qDescrption:String! // Question Description
     var qAskerID:String! // UID
     var qAnonymous = false // Don't show the asker to public
-    var qOptions = [OptionModel]() // Question options (option id: OID)
     var qTags = [String]()
     var qViews = 0
-    var qRef:FIRDatabaseReference!{
-        return FIRDatabase.database().reference().child("Questions-v1").child(qid)
-    }
+    var qOptions = [FIRDatabaseReference]()
+    var qRef:FIRDatabaseReference!
     var userChoosed = false
     var notiVal = 0{
         didSet{
@@ -28,9 +25,9 @@ class QuestionModel: NSObject {
         }
     }
     
-    init(qid:String, descrpt:String, askerID:String, anonymous:Bool=false, options:[OptionModel]) {
+    init(qid:String, descrpt:String, askerID:String) {
         super.init()
-        self.qid = qid
+        self.qRef = FIRDatabase.database().reference().child("Questions-v1").child(qid)
         qRef.child("content").child("val").observe(.value, with: { (snapshot) in
             if let val = snapshot.value as? Int{
                 self.notiVal = val
@@ -39,10 +36,11 @@ class QuestionModel: NSObject {
                 self.notiVal = 0
             }
         })
+        qRef.child("options").observe(.childAdded, with: { (snapshot) in
+            self.qOptions.append(self.qRef.child("options").child(snapshot.key))
+        })
         qDescrption = descrpt
         qAskerID = askerID
-        qAnonymous = anonymous
-        qOptions = options
     }
     
     override init(){
@@ -57,33 +55,31 @@ class QuestionModel: NSObject {
         _ = gameManager!.askQuestion(charge: true)
         // Set up question
         let ref = FIRDatabase.database().reference().child("Questions-v1").childByAutoId()
-        qid = ref.key
         let contentRef = ref.child("content")
         contentRef.child("description").setValue(qDescrption)
         contentRef.child("askerID").setValue(currUser!.uid)
-        contentRef.child("anonymous").setValue(qAnonymous)
         contentRef.child("val").setValue(0)
-        for opt in qOptions{
-            let optRef = ref.child("options").childByAutoId()
-            optRef.child("description").setValue(opt.oDescription)
-            optRef.child("offerBy").setValue(qAskerID)
-            optRef.child("val").setValue(0)
-        }
+//        for opt in qOptions{
+//            let optRef = ref.child("options").childByAutoId()
+//            optRef.child("description").setValue(opt.oDescription)
+//            optRef.child("offerBy").setValue(qAskerID)
+//            optRef.child("val").setValue(0)
+//        }
         
         // Set up tags
         networkingManager?.updateTags(text: qDescrption, tags: qTags)
-        networkingManager?.addQuestion(qid: qid, tags: qTags)
+        networkingManager?.addQuestion(qid: ref.key, tags: qTags)
         
         // Add question to user
         
-        currUser!.qRef.child(qid).setValue("In progress")
-        currUser!.qInProgress.append(qid)
+        currUser!.qRef.child(ref.key).setValue("In progress")
+        currUser!.qInProgress.append(ref.key)
         NotificationCenter.default.post(name: Notification.Name("qInProgressLoaded"), object: toDict())
     }
     
     func toDict()->Dictionary<String,Any>{
         var dict = Dictionary<String, Any>()
-        dict["qid"] = qid
+        dict["qid"] = qRef.key
         dict["anonymous"] = qAnonymous
         dict["askerID"] = qAskerID
         dict["description"] = qDescrption
@@ -91,9 +87,9 @@ class QuestionModel: NSObject {
     }
     
     // load to opt array
-    func optArrAdd(option:OptionModel){
+    func optArrAdd(option:FIRDatabaseReference){
         for opt in qOptions{
-            if opt.oRef.key == option.oRef.key{
+            if opt.key == option.key{
                 return
             }
         }
@@ -121,12 +117,12 @@ class QuestionModel: NSObject {
         else{
             qRef.child("content").child("conclusion").setValue("nil")
         }
-        currUser?.collectQuestion(qid: qid, like: true)
-        networkingManager?.concludeQuestion(qid: qid)
+        currUser?.collectQuestion(qid: qRef.key, like: true)
+        networkingManager?.concludeQuestion(qid: qRef.key)
     }
     
     func removeFromCollection(){
-        currUser?.qRef.child(qid).removeValue()
+        currUser?.qRef.child(qRef.key).removeValue()
     }
     
     func changeNotiVal(val:Int){

@@ -14,7 +14,6 @@
 		27AD1BFB1E6BE89C008C3CBF /* ButtonBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AD1BFA1E6BE89C008C3CBF /* ButtonBar.swift */; };
 		9026FE390CC2AA681A49AEAF /* Pods_QAQ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AD82C385EB7F4DEC0938B69 /* Pods_QAQ.framework */; };
 		BA2089581DBB7C9500316486 /* CouponVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2089571DBB7C9500316486 /* CouponVC.swift */; };
-		BA20895B1DBC3C8500316486 /* OptCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2089591DBC3C8500316486 /* OptCell.swift */; };
 		BA20895C1DBC3C8500316486 /* OptCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA20895A1DBC3C8500316486 /* OptCell.xib */; };
 		BA240CA11E0292240042170D /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA240CA01E0292240042170D /* AlertView.swift */; };
 		BA72F77F1D893FDA007F9229 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA72F77E1D893FDA007F9229 /* Main.storyboard */; };
@@ -107,7 +106,6 @@
 		3AD82C385EB7F4DEC0938B69 /* Pods_QAQ.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QAQ.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E51813FA473779D7B69CD53 /* Pods-QAQ.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QAQ.release.xcconfig"; path = "Pods/Target Support Files/Pods-QAQ/Pods-QAQ.release.xcconfig"; sourceTree = "<group>"; };
 		BA2089571DBB7C9500316486 /* CouponVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponVC.swift; sourceTree = "<group>"; };
-		BA2089591DBC3C8500316486 /* OptCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptCell.swift; sourceTree = "<group>"; };
 		BA20895A1DBC3C8500316486 /* OptCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OptCell.xib; sourceTree = "<group>"; };
 		BA240CA01E0292240042170D /* AlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		BA72F77E1D893FDA007F9229 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -285,7 +283,6 @@
 			children = (
 				CFBC0CDA1E533191003DBC08 /* NotificationCell.swift */,
 				FD1036D91D1FB01600AC1FE9 /* CtrlCell.swift */,
-				BA2089591DBC3C8500316486 /* OptCell.swift */,
 				FD682A971D33002500D2F4B6 /* CollectionCell.swift */,
 				FD17E2041D2F4B3500FC0FB3 /* AddOptCell.swift */,
 				FD0325271D24E53E002956FD /* UserListCell.swift */,
@@ -523,7 +520,6 @@
 				FDBBB5DF1D20544100D75467 /* MainVC.swift in Sources */,
 				BAC098031DBB22D3000C81F0 /* CollectionVC.swift in Sources */,
 				BAD1CE361E5902C20019B558 /* OptViewTableCell.swift in Sources */,
-				BA20895B1DBC3C8500316486 /* OptCell.swift in Sources */,
 				BA8FEBD21DA05EAE00F23011 /* QuestionView.swift in Sources */,
 				BAFD787E1D961945004322C0 /* OptionModel.swift in Sources */,
 				CFBC0CDD1E533A85003DBC08 /* NotificationVC.swift in Sources */,

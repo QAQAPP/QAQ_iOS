@@ -58,10 +58,10 @@ class InProgressVC: UIViewController {
 //    }
     
     func afterConclude(){
-        currUser!.qInProgress.append(currQuestion.qid)
+        currUser!.qInProgress.append(currQuestion.qRef.key)
         if let index = questionManager?.qInProgressArr.index(of: currQuestion)! {
             questionManager?.qInProgressArr.remove(at: index)
-            currUser!.qCollection.append(currQuestion.qid)
+            currUser!.qCollection.append(currQuestion.qRef.key)
             questionManager?.qCollectionArr.append(currQuestion)
             controllerManager!.collectionVC.table.reloadData()
             _ = self.navigationController?.popViewController(animated: true)

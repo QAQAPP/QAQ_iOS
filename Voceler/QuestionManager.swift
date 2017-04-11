@@ -50,8 +50,7 @@ class QuestionManager: NSObject {
     
     func getQuestion(qid: String?, question:Dictionary<String, Any>?)->QuestionModel?{
         if let qid = qid, let question = question{
-            let optArr = [OptionModel]()
-            return QuestionModel(qid: qid, descrpt: question["description"] as! String, askerID: question["askerID"] as! String, anonymous: question["anonymous"] as! Bool, options: optArr)
+            return QuestionModel(qid: qid, descrpt: question["description"] as! String, askerID: question["askerID"] as! String)
         }
         else{
             return nil

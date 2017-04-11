@@ -29,20 +29,6 @@ class OptViewTableCell: UITableViewCell{
     let OPTIONS_TEXT_FONT_SIZE:CGFloat = 17
     let OPTIONS_TEXT_FONT_COLOR_SELECTED = 0xFFFFFF
     let OPTIONS_TEXT_FONT_COLOR_DESELECTED = 0x858585
-    
-    
-//    //TODO: commit test
-//    @IBAction func moreAction(_ sender: AnyObject) {
-//        let vc = UIViewController()
-//        let textView = UITextView()
-//        textView.text = option.oDescription
-//        textView.isSelectable = false
-//        textView.isEditable = false
-//        _ = textView.sd_layout().topSpaceToView(vc.view, 0)?.bottomSpaceToView(vc.view, 0)?.leftSpaceToView(vc.view, 0)?.rightSpaceToView(vc.view, 0)
-//        vc.view.addSubview(textView)
-//        questionView.parent.navigationController?.pushViewController(vc, animated: true)
-//    }
-//    
 
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String!)
@@ -118,16 +104,16 @@ class OptViewTableCell: UITableViewCell{
             questionView.isUserInteractionEnabled = false
             question.userChoosed = true
             if !option.isLiked{
-                likeBtn.setImage(#imageLiteral(resourceName: "check_checked"), for: .normal)
+//                likeBtn.setImage(#imageLiteral(resourceName: "check_checked"), for: .normal)
                 if questionView.parent is MainVC{
-                    for opt in question.qOptions{
-                        if opt == option && !opt.isLiked{
-                            opt.isLiked = true
-                        }
-                        else if opt.isLiked{
-                            opt.isLiked = false
-                        }
-                    }
+//                    for opt in question.qOptions{
+//                        if opt == option && !opt.isLiked{
+                            option.isLiked = true
+//                        }
+//                        else if opt.isLiked{
+//                            opt.isLiked = false
+//                        }
+//                    }
                 }
             }
         }
@@ -141,16 +127,16 @@ class OptViewTableCell: UITableViewCell{
                 self.questionView.isUserInteractionEnabled = false
                 self.question.userChoosed = true
                 if !self.option.isLiked{
-                    self.likeBtn.setImage(#imageLiteral(resourceName: "check_checked"), for: .normal)
+//                    self.likeBtn.setImage(#imageLiteral(resourceName: "check_checked"), for: .normal)
                     if self.questionView.parent is MainVC{
-                        for opt in self.question.qOptions{
-                            if opt == self.option && !opt.isLiked{
-                                opt.isLiked = true
-                            }
-                            else if opt.isLiked{
-                                opt.isLiked = false
-                            }
-                        }
+//                        for opt in self.question.qOptions{
+//                            if opt == self.option && !opt.isLiked{
+                                self.option.isLiked = true
+//                            }
+//                            else if opt.isLiked{
+//                                opt.isLiked = false
+//                            }
+//                        }
                     }
                 }
             })
@@ -178,69 +164,52 @@ class OptViewTableCell: UITableViewCell{
     
     var option:OptionModel!{
         didSet{
-            textView.text = option.oDescription
-            if let uid = option.oOfferBy{
-                offerer = UserModel.getUser(uid: uid, getProfile: true)
-                setProfile()
-                
-//                
-//                usrName.text = "Anonym"
-//                nameLbl.textColor = .gray
-//                NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: uid+"username"), object: nil, queue: nil, using: { (noti) in
-//                    if let username = self.offerer?.username{
-//                        self.nameLbl.text = username
-//                        self.nameLbl.textColor = .black
+            option.optionViewTableCell = self
+//            textView.text = option.oDescription
+//            if let uid = option.oOfferBy{
+//                offerer = UserModel.getUser(uid: uid, getProfile: true)
+//                setProfile()
+//            }
+//            self.option.oRef.child("val").observe(.value, with: { (snapshot) in
+//                DispatchQueue.main.async {
+//                    if let num = snapshot.value as? Int{
+//                        self.setNumLikes(num: num)
 //                    }
-//                })
-            }
-            self.option.oRef.child("val").observe(.value, with: { (snapshot) in
-                DispatchQueue.main.async {
-                    if let num = snapshot.value as? Int{
-                        self.setNumLikes(num: num)
-                    }
-                }
-            })
+//                }
+//            })
         }
     }
     
     func setNumLikes(num:Int){
-//        if question.userChoosed && question.qAskerID != currUser?.uid{
         numLikeLbl.text = "\(num)"
-//        }
-//        else{
-//            numLikeLbl.text = "--"
-//        }
     }
     
     var offerer:UserModel?
     var question:QuestionModel!
     var questionView:QuestionView!
     
-    func setup(option:OptionModel, questionView:QuestionView){
+    func setup(option:FIRDatabaseReference, questionView:QuestionView){
         self.profileImg.board(radius: 16, width: 0, color: .lightGray)
         self.profileImg.clipsToBounds = true
         
         self.questionView = questionView
         self.question = questionView.currQuestion
-        self.option = option
+        self.option = OptionModel(optCell: self)
+        self.option.setRef(ref: option)
         setUpUI()
-        if(option.isLiked){
-            likeBtn.setImage(#imageLiteral(resourceName: "check_checked"), for: .normal)
-        }else{
-            likeBtn.setImage(#imageLiteral(resourceName: "check"), for: .normal)
-        }
+        likeBtn.setImage(#imageLiteral(resourceName: "check"), for: .normal)
         
         likeBtn.addTarget(self, action: #selector(self.likeAction(sender:)), for: .touchUpInside)
     }
     
-    func setProfile(){
-        profileImg.tintColor = .clear
-        if let img = offerer?.profileImg{
-            profileImg.setImage(img, for: [])
-            profileImg.imageView?.contentMode = .scaleAspectFill
-        }
-        else if let uid = offerer?.uid{
-            NotificationCenter.default.addObserver(self, selector: #selector(setProfile), name: NSNotification.Name(uid + "profile"), object: nil)
-        }
-    }
+//    func setProfile(){
+//        profileImg.tintColor = .clear
+//        if let img = offerer?.profileImg{
+//            profileImg.setImage(img, for: [])
+//            profileImg.imageView?.contentMode = .scaleAspectFill
+//        }
+//        else if let uid = offerer?.uid{
+//            NotificationCenter.default.addObserver(self, selector: #selector(setProfile), name: NSNotification.Name(uid + "profile"), object: nil)
+//        }
+//    }
 }

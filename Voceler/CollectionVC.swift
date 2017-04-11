@@ -63,7 +63,7 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         if inProgress{
             if currUser!.qInProgress.contains(qid){
                 for question in (questionManager?.qInProgressArr)! {
-                    if question.qid == qid{
+                    if question.qRef.key == qid{
                         if self.didLoad == true {
                             table.mj_header.endRefreshing()
                         }
@@ -79,7 +79,7 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         else{
             if currUser!.qCollection.contains(qid){
                 for question in (questionManager?.qCollectionArr)!{
-                    if question.qid == qid{
+                    if question.qRef.key == qid{
                         if self.didLoad == true {
                             table.mj_header.endRefreshing()
                         }
@@ -99,17 +99,17 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     func findQuestionModel(with qid:String) -> QuestionModel? {
         for thisQuestion in (questionManager?.qInProgressArr)! {
-            if thisQuestion.qid == qid {
+            if thisQuestion.qRef.key == qid {
                 return thisQuestion
             }
         }
         for thisQuestion in (questionManager?.qCollectionArr)! {
-            if thisQuestion.qid == qid {
+            if thisQuestion.qRef.key == qid {
                 return thisQuestion
             }
         }
         for thisQuestion in (questionManager?.qConcludedArr)! {
-            if thisQuestion.qid == qid {
+            if thisQuestion.qRef.key == qid {
                 return thisQuestion
             }
         }
@@ -120,18 +120,18 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     func findQuestionModel(with qid:String, from inProgress:Bool) -> QuestionModel? {
         if inProgress == true {
             for thisQuestion in (questionManager?.qInProgressArr)! {
-                if thisQuestion.qid == qid {
+                if thisQuestion.qRef.key == qid {
                     return thisQuestion
                 }
             }
         } else {
             for thisQuestion in (questionManager?.qCollectionArr)! {
-                if thisQuestion.qid == qid {
+                if thisQuestion.qRef.key == qid {
                     return thisQuestion
                 }
             }
             for thisQuestion in (questionManager?.qConcludedArr)! {
-                if thisQuestion.qid == qid {
+                if thisQuestion.qRef.key == qid {
                     return thisQuestion
                 }
             }

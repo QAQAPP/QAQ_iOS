@@ -210,7 +210,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         if let collectionVC = controllerManager?.collectionVC{
             for i in 0..<(questionManager?.qInProgressArr.count)!{
                 let q = (questionManager?.qInProgressArr[i])!
-                if q.qid == thisQID{
+                if q.qRef.key == thisQID{
                     controllerManager?.tabbarVC.selectedIndex = 2
                     controllerManager?.userNav.setViewControllers([controllerManager!.userVC, collectionVC], animated: false)
                     let vc = InProgressVC()
@@ -270,19 +270,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 
-        var bgTask = application.beginBackgroundTask { 
-            let ref = FIRDatabase.database().reference().child("TestMessage").observe(.childAdded, with: { (snapshot) in
-                self.scheduleNotification(inSeconds: 0, completion: { (success) in
-                    print(success)
-                })
-            })
-        }
+//        var bgTask = application.beginBackgroundTask { 
+//            let ref = FIRDatabase.database().reference().child("TestMessage").observe(.childAdded, with: { (snapshot) in
+//                self.scheduleNotification(inSeconds: 0, completion: { (success) in
+//                    print(success)
+//                })
+//            })
+//        }
         
-        DispatchQueue.global(qos: .default).async(execute: {() -> Void in
-            // Do the work associated with the task, preferably in chunks.
-            application.endBackgroundTask(bgTask)
-            bgTask = UIBackgroundTaskInvalid
-        })
+//        DispatchQueue.global(qos: .default).async(execute: {() -> Void in
+//            // Do the work associated with the task, preferably in chunks.
+//            application.endBackgroundTask(bgTask)
+//            bgTask = UIBackgroundTaskInvalid
+//        })
         
 //        scheduleNotification(inSeconds: 5, completion: { (success) in
 //            if success{
