@@ -9,14 +9,49 @@
 import Foundation
 import FirebaseDatabase
 import SCLAlertView
+import FirebaseStorage
 
 class QuestionModel: NSObject {
-    var qDescrption:String! // Question Description
-    var qAskerID:String! // UID
-    var qAnonymous = false // Don't show the asker to public
+    weak var questionView:QuestionView?
+    var qDescrption = ""{
+        didSet{
+            questionView?.handler.setText(qDescrption, animated: false)
+        }
+    }
+    var qAskerID:String!{
+        didSet{
+            storageUserRef.child(qAskerID).child("profileImg.jpeg").data(withMaxSize: 1024*1024) { (data, error) in
+                if let data = data{
+                    self.askerImg = UIImage(data: data)!
+                }
+                else {
+                    self.askerImg = #imageLiteral(resourceName: "user-50")
+                }
+            }
+            databaseUserRef.child(qAskerID).child("info").child("username").observe(.value, with: { (snapshot) in
+                if let username = snapshot.value as? String{
+                    self.askerName = username
+                }
+            })
+        }
+    }
+    var askerName = ""{
+        didSet{
+            questionView?.username.text = askerName
+        }
+    }
+    var askerImg = #imageLiteral(resourceName: "user-50"){
+        didSet{
+            questionView?.userBtn.setImage(askerImg, for: .normal)
+        }
+    }
     var qTags = [String]()
     var qViews = 0
-    var qOptions = [FIRDatabaseReference]()
+    var qOptions = [FIRDatabaseReference](){
+        didSet{
+            questionView?.optsView.reloadData()
+        }
+    }
     var qRef:FIRDatabaseReference!
     var userChoosed = false
     var notiVal = 0{
@@ -25,9 +60,21 @@ class QuestionModel: NSObject {
         }
     }
     
-    init(qid:String, descrpt:String, askerID:String) {
+    init(ref:FIRDatabaseReference, questionView:QuestionView? = nil) {
         super.init()
-        self.qRef = FIRDatabase.database().reference().child("Questions-v1").child(qid)
+        self.qRef = ref
+        self.questionView = questionView
+        let contentRef = qRef.child("content")
+        contentRef.child("askerID").observe(.value, with: { (snapshot) in
+            if let uid = snapshot.value as? String{
+                self.qAskerID = uid
+            }
+        })
+        contentRef.child("description").observe(.value, with: { (snapshot) in
+            if let text = snapshot.value as? String{
+                self.qDescrption = text
+            }
+        })
         qRef.child("content").child("val").observe(.value, with: { (snapshot) in
             if let val = snapshot.value as? Int{
                 self.notiVal = val
@@ -39,8 +86,6 @@ class QuestionModel: NSObject {
         qRef.child("options").observe(.childAdded, with: { (snapshot) in
             self.qOptions.append(self.qRef.child("options").child(snapshot.key))
         })
-        qDescrption = descrpt
-        qAskerID = askerID
     }
     
     override init(){
@@ -54,17 +99,11 @@ class QuestionModel: NSObject {
         
         _ = gameManager!.askQuestion(charge: true)
         // Set up question
-        let ref = FIRDatabase.database().reference().child("Questions-v1").childByAutoId()
+        let ref = databaseQuestionRef.childByAutoId()
         let contentRef = ref.child("content")
         contentRef.child("description").setValue(qDescrption)
         contentRef.child("askerID").setValue(currUser!.uid)
         contentRef.child("val").setValue(0)
-//        for opt in qOptions{
-//            let optRef = ref.child("options").childByAutoId()
-//            optRef.child("description").setValue(opt.oDescription)
-//            optRef.child("offerBy").setValue(qAskerID)
-//            optRef.child("val").setValue(0)
-//        }
         
         // Set up tags
         networkingManager?.updateTags(text: qDescrption, tags: qTags)
@@ -80,7 +119,6 @@ class QuestionModel: NSObject {
     func toDict()->Dictionary<String,Any>{
         var dict = Dictionary<String, Any>()
         dict["qid"] = qRef.key
-        dict["anonymous"] = qAnonymous
         dict["askerID"] = qAskerID
         dict["description"] = qDescrption
         return dict

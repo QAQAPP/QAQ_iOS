@@ -208,14 +208,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         let thisQID = userInfo["qid"]! as! String
         //controllerManager?.notificationVC?.showQuestionVC(of: thisQID)
         if let collectionVC = controllerManager?.collectionVC{
-            for i in 0..<(questionManager?.qInProgressArr.count)!{
-                let q = (questionManager?.qInProgressArr[i])!
-                if q.qRef.key == thisQID{
+            for q in questionManager!.qInProgressArr{
+                if q.key == thisQID{
                     controllerManager?.tabbarVC.selectedIndex = 2
                     controllerManager?.userNav.setViewControllers([controllerManager!.userVC, collectionVC], animated: false)
-                    let vc = InProgressVC()
-                    vc.setup(parent: collectionVC, question: q)
-                    collectionVC.show(vc, sender: collectionVC)
+//                    let vc = InProgressVC(parent: <#CollectionVC#>)
+//                    vc.setup(parent: collectionVC, question: q)
+//                    collectionVC.show(vc, sender: collectionVC)
                     return
                 }
             }
@@ -344,7 +343,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         // Print full message.
         print("%@", userInfo)
         
-        controllerManager?.notificationVC?.loadNotificationsFromDict()
+//        controllerManager?.notificationVC?.loadNotificationsFromDict()
         controllerManager?.userVC?.hasNewNoti = true
     }
 }

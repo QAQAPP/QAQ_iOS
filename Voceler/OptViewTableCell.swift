@@ -198,7 +198,7 @@ class OptViewTableCell: UITableViewCell{
         self.option.setRef(ref: option)
         setUpUI()
         likeBtn.setImage(#imageLiteral(resourceName: "check"), for: .normal)
-        
+        likeBtn.imageView?.contentMode = .scaleAspectFill
         likeBtn.addTarget(self, action: #selector(self.likeAction(sender:)), for: .touchUpInside)
     }
     

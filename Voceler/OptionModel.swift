@@ -25,7 +25,7 @@ class OptionModel: NSObject {
     }
     var oOfferBy:String!{
         didSet{
-            FIRStorage.storage().reference().child("Users").child(oOfferBy).child("profileImg.jpeg").data(withMaxSize: 1024*1024) { (data, error) in
+            storageUserRef.child(oOfferBy).child("profileImg.jpeg").data(withMaxSize: 1024*1024) { (data, error) in
                 if let data = data{
                     self.offererImage = UIImage(data: data)!
                 }

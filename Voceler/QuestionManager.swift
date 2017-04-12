@@ -11,56 +11,44 @@ import FirebaseDatabase
 
 class QuestionManager: NSObject {
     private var collectionMaxSize = 3
-    private var collection = [QuestionModel]()
-    private var ref:FIRDatabaseReference!
+    private var ref = databaseQuestionRef
     private var numOfTotalQuestions = 0
     
     // Arrays to hold loaded questions
-    var qInProgressArr = Array<QuestionModel>()
-    var qCollectionArr = Array<QuestionModel>()
-    var qConcludedArr = Array<QuestionModel>()
+    var qInProgressArr = Array<FIRDatabaseReference>()
+    var qCollectionArr = Array<FIRDatabaseReference>()
+    var qConcludedArr = Array<FIRDatabaseReference>()
+    var qMainArr = Array<FIRDatabaseReference>()
 
     
     override init() {
         super.init()
-        ref = FIRDatabase.database().reference().child("Questions-v1")
         networkingManager?.getQuestion(num: collectionMaxSize)
-    }
-    
-    func loadQuestionContent(qid:String, purpose:String = "QuestionLoaded"){
-        _ = FIRDatabase.database().reference().child("Questions-v1").child(qid).child("content").observeSingleEvent(of: .value, with: { (snapshot) in
-            if purpose == "QuestionLoaded"{
-                if let dict = snapshot.value as? Dictionary<String, Any>, let thisQuestion = self.getQuestion(qid: qid, question: dict){
-//                    let thisQuestion = self.getQuestion(qid: qid, question: dict)!
-                    self.collection.append(thisQuestion)
-                    self.numOfTotalQuestions += 1
-                    NotificationCenter.default.post(name: Notification.Name.QuestionLoaded, object: nil)
-                    
-    //                NotificationCenter.default.post(name: NSNotification.Name(rawValue: qid+"question"), object: nil, userInfo: ["description": thisQuestion.qDescrption])
-                }
-            }
-            if purpose != "QuestionLoaded" || self.collection.count < 2{
-                if var dict = snapshot.value as? Dictionary<String, Any>{
-                    dict["qid"] = qid
-                    NotificationCenter.default.post(name: Notification.Name(purpose), object: dict)
+        databaseUserRef.child(currUser!.uid).child("Questions").observe(.childAdded, with: { (snapshot) in
+            if let type = snapshot.value as? String{
+                let ref = databaseQuestionRef.child(snapshot.key)
+                switch type{
+                    case "In progress":
+                        if !self.qInProgressArr.contains(ref){
+                            self.qInProgressArr.append(ref)
+                        }
+                        break
+                    case "liked":
+                        if !self.qCollectionArr.contains(ref){
+                            self.qCollectionArr.append(ref)
+                        }
+                        break
+                    default:
+                        break
                 }
             }
         })
     }
     
-    func getQuestion(qid: String?, question:Dictionary<String, Any>?)->QuestionModel?{
-        if let qid = qid, let question = question{
-            return QuestionModel(qid: qid, descrpt: question["description"] as! String, askerID: question["askerID"] as! String)
+    func getQuestion() -> FIRDatabaseReference?{
+        if qMainArr.count < collectionMaxSize{
+            networkingManager?.getQuestion(num: collectionMaxSize - qMainArr.count)
         }
-        else{
-            return nil
-        }
-    }
-    
-    func getQuestion() -> QuestionModel?{
-        if collection.count < collectionMaxSize{
-            networkingManager?.getQuestion(num: collectionMaxSize - collection.count)
-        }
-        return collection.popLast()
+        return qMainArr.popLast()
     }
 }

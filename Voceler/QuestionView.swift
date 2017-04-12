@@ -21,25 +21,25 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
     
     @IBOutlet weak var userBtn: UIButton!
     @IBAction func showProfile(_ sender: Any) {
-        if let asker = asker{
-            let vc = controllerManager!.getUserVC(user: asker)
-            self.parent.navigationController?.pushViewController(vc, animated: true)
-        }
-        else{
-            SCLAlertView().showWait("Loading", subTitle: "Loading user info.", duration: 2)
-        }
+//        if let asker = asker{
+//            let vc = controllerManager!.getUserVC(user: asker)
+//            self.parent.navigationController?.pushViewController(vc, animated: true)
+//        }
+//        else{
+//            SCLAlertView().showWait("Loading", subTitle: "Loading user info.", duration: 2)
+//        }
     }
-    func setProfile(){
-        userBtn.imageView?.tintColor = .clear
-        userBtn.board(radius: 16, width: 0, color: .clear)
-        if let img = asker?.profileImg{
-            userBtn.setImage(img, for: [])
-            userBtn.imageView?.contentMode = .scaleAspectFill
-        }
-        else if let uid = asker?.uid{
-            NotificationCenter.default.addObserver(self, selector: #selector(setProfile), name: NSNotification.Name(uid + "profile"), object: nil)
-        }
-    }
+//    func setProfile(){
+//        userBtn.imageView?.tintColor = .clear
+//        userBtn.board(radius: 16, width: 0, color: .clear)
+//        if let img = asker?.profileImg{
+//            userBtn.setImage(img, for: [])
+//            userBtn.imageView?.contentMode = .scaleAspectFill
+//        }
+//        else if let uid = asker?.uid{
+//            NotificationCenter.default.addObserver(self, selector: #selector(setProfile), name: NSNotification.Name(uid + "profile"), object: nil)
+//        }
+//    }
     @IBOutlet weak var username: UILabel!
     
     var handler:GrowingTextViewHandler!
@@ -55,8 +55,6 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
             }
         }
     }
-    
-    var asker:UserModel?
     
     // UIVars
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
@@ -160,38 +158,21 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
         controllerManager?.mainVC.nextContent()
     }
     
-    private func setQuestion(){
-        setDescription()
-//        let oRef = currQuestion.qRef.child("options")
-//        oRef.observe(.childAdded, with: { (snapshot) in
-//            if let (key, _) = snapshot.value as? (String, Any){
-//                
-//            }
-//            if let dict = snapshot.value as? Dictionary<String, Any>{
-//                let opt = OptionModel(question:self.currQuestion, ref: snapshot.ref, dict: dict)
-//                self.currQuestion.optArrAdd(option: opt)
-//                DispatchQueue.main.async {
-//                    self.cellHeightArray.removeAll()
-//                    self.optsView.reloadData()
+//    private func setQuestion(){
+//        setDescription()
+//        asker = UserModel.getUser(uid: currQuestion.qAskerID, getProfile: true)
+//        if let asker = asker{
+//            setProfile()
+//            asker.ref.child("username").observe(.value, with: { (snapshot) in
+//                if let name = snapshot.value as? String{
+//                    self.username.text = name
 //                }
-//            }
-//        })
-        
-        asker = currQuestion.qAnonymous ? nil : UserModel.getUser(uid: currQuestion.qAskerID, getProfile: true)
-        if let asker = asker{
-            setProfile()
-            asker.ref.child("username").observe(.value, with: { (snapshot) in
-                if let name = snapshot.value as? String{
-                    self.username.text = name
-                }
-            })
-            NotificationCenter.default.addObserver(forName: NSNotification.Name(asker.uid+"username"), object: nil, queue: nil, using: { (noti) in
-                
-            })
-        }
-        
-//        optsView.reloadData()
-    }
+//            })
+//            NotificationCenter.default.addObserver(forName: NSNotification.Name(asker.uid+"username"), object: nil, queue: nil, using: { (noti) in
+//                
+//            })
+//        }
+//    }
     
     func showUser(user:UserModel?){
         if let user = user, let vc = controllerManager?.getUserVC(user: user){
@@ -216,7 +197,9 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
         handler = GrowingTextViewHandler(textView: self.detailTV, heightConstraint: self.heightConstraint)
         handler.minimumNumberOfLines = 0
         handler.maximumNumberOfLines = 5
-        
+        userBtn.imageView?.tintColor = .clear
+        userBtn.imageView?.contentMode = .scaleAspectFill
+        userBtn.board(radius: 16, width: 0, color: .clear)
         
         if parent is MainVC{
             let header = MJRefreshNormalHeader {
@@ -252,7 +235,8 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
             print(parent)
         }
     }
-    func setup(parent:UIViewController) {
+    func setup(parent:UIViewController, qRef:FIRDatabaseReference) {
+        self.currQuestion = QuestionModel(ref: qRef, questionView: self)
         self.parent = parent
         touchToHideKeyboard()
         optsView = UITableView()
@@ -260,8 +244,16 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
         optsView.separatorStyle = .none
         
         setupUI()
-        setQuestion()
+//        setQuestion()
         setupTable()
+        lazyLoading()
+    }
+    
+    func lazyLoading(){
+        username.text = currQuestion.askerName
+        userBtn.setImage(currQuestion.askerImg, for: .normal)
+        handler.setText(currQuestion.qDescrption, animated: true)
+        optsView.reloadData()
     }
     
     func setupTable(){

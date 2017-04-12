@@ -7,8 +7,8 @@
 //
 
 import UIKit
-import MMDrawerController
 import FirebaseDatabase
+import FirebaseStorage
 
 let themeColor = UIColor(red: 0.953, green: 0.651, blue: 0.294, alpha: 1.0)
 let buttomColor = UIColor(red: 0.694986, green: 0.813917, blue: 0.213036, alpha: 1)
@@ -28,6 +28,9 @@ var controllerManager:ControllerManager?
 var networkingManager:NetworkingManager?
 var gameManager:GameManager?
 let constantManager = ConstantManager()
+let databaseQuestionRef = FIRDatabase.database().reference().child("Questions-v1")
+let databaseUserRef = FIRDatabase.database().reference().child("Users-v1")
+let storageUserRef = FIRStorage.storage().reference().child("Users")
 
 func getVC(name:String) -> UIViewController {
     let board = UIStoryboard(name: "Main", bundle: nil)

@@ -142,8 +142,8 @@ class UserModel: NSObject {
     
     static func getUser(uid:String, getWall:Bool = false, getProfile:Bool = false)->UserModel{
         let user = UserModel(uid: uid)
-        let ref = FIRDatabase.database().reference().child("Users-v1").child(uid).child("info")
-        user.storageRef = FIRStorage.storage().reference().child("Users").child(uid)
+        let ref = databaseUserRef.child(uid).child("info")
+        user.storageRef = storageUserRef.child(uid)
         user.setup(ref: ref)
         if getProfile {
             user.loadProfileImg()
@@ -174,19 +174,19 @@ class UserModel: NSObject {
                         self.qCollection.append(qid)
                     }
                 }
-                self.loadCollectionDetail()
+//                self.loadCollectionDetail()
             }
         })
     }
     
-    func loadCollectionDetail(){
-        for question in qInProgress{
-            questionManager?.loadQuestionContent(qid: question, purpose: "qInProgressLoaded")
-        }
-        for question in qCollection{
-            questionManager?.loadQuestionContent(qid: question, purpose: "qCollectionLoaded")
-        }
-    }
+//    func loadCollectionDetail(){
+//        for qid in qInProgress{
+//            questionManager?.qInProgressArr.append(FIRDatabase.database().reference().child("Question-v1").child(qid))
+//        }
+//        for qid in qCollection{
+//            questionManager?.qCollectionArr.append(FIRDatabase.database().reference().child("Question-v1").child(qid))
+//        }
+//    }
     
     func collectQuestion(qid:String, like:Bool = true){
         currUser?.qRef.child(qid).setValue(like ? "liked" : nil)

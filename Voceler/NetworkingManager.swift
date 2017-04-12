@@ -10,6 +10,7 @@ import UIKit
 import Networking
 import PercentEncoder
 import SwiftyJSON
+import FirebaseDatabase
 import SwiftString3
 import SCLAlertView
 
@@ -133,7 +134,7 @@ class NetworkingManager: NSObject {
         func handler(dict:Dictionary<String, Any>){
             if let qids = dict["qids"] as? Array<String>{
                 for qid in qids{
-                    questionManager?.loadQuestionContent(qid: qid)
+                    questionManager?.qMainArr.append(databaseQuestionRef.child(qid))
                 }
             }
         }

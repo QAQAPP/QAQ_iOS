@@ -21,28 +21,21 @@ import UIImage_Resize
 import BFPaperButton
 import LTMorphingLabel
 import IQKeyboardManagerSwift
+import FirebaseDatabase
 
 class MainVC: UIViewController{
-    
-    private var contentViews = [UIView]()
     var currView:UIView?
     var swipeEnable = true
     
     override func showInfo() {
-        var showUser = currUser
         if let view = currView as? QuestionView{
-            if view.currQuestion.qAnonymous{
-                showUser = nil
-            }
-            else if let user = view.asker{
-                showUser = user
-            }
-        }
-        if let user = showUser, let vc = controllerManager?.getUserVC(user: user){
-            navigationController?.pushViewController(vc, animated: true)
-        }
-        else{
-            _ = SCLAlertView().showWarning("Ooops", subTitle: "Anonymous user.")
+            // TODO: SHOW USER INFO
+//            if let user = showUser, let vc = controllerManager?.getUserVC(user: user){
+//                navigationController?.pushViewController(vc, animated: true)
+//            }
+//            else{
+//                _ = SCLAlertView().showWarning("Ooops", subTitle: "Anonymous user.")
+//            }
         }
     }
     
@@ -56,53 +49,27 @@ class MainVC: UIViewController{
     var profileItem = UIBarButtonItem(image: #imageLiteral(resourceName: "user_male_circle-32"), style: .plain, target: self, action: #selector(showInfo))
 
     // Functions
-    func addCouponVC(img:UIImage){
-        let view = CouponScratchView(img: img, parent: self)
-        contentViews.append(view)
-    }
-    
-    func addLoadMoreVC(){
+    func addMoreView()->UIView{
         let btn = BFPaperButton(raised: false)!
         btn.setImage(#imageLiteral(resourceName: "no_question"), for: .normal)
-//        btn.imageView = UIImageView(image: #imageLiteral(resourceName: "no_question"))
         btn.imageView?.contentMode = .scaleAspectFit
-//        btn.setTitle("Load More", for: [])
-//        btn.backgroundColor = themeColor
-//        btn.setTitleColor(.white, for: [])
-//        btn.setImage(#imageLiteral(resourceName: "no_question"), for: .normal)
-        btn.addTarget(self, action: #selector(loadQuestions), for: .touchUpInside)
-        contentViews.append(btn)
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { (_) in
-            self.loadQuestions()
-        }
+        btn.addTarget(self, action: #selector(nextContent), for: .touchUpInside)
+        return btn
     }
     
-    func addQuestion(question:QuestionModel){
-        let questionView = Bundle.main.loadNibNamed("QuestionView", owner: self, options: nil)!.first as! QuestionView
-        if contentViews.isEmpty && currView is UIButton{
-//            UIView.transition(with: currView!, duration: 1, options: .curveEaseIn, animations: {
-                self.currView?.removeFromSuperview()
-                self.currView = questionView
-                self.view.addSubview(questionView)
-                questionView.currQuestion = question
-                _ = questionView.sd_layout().topSpaceToView(self.scoreLabel, 4)?.bottomSpaceToView(self.view, 0)?.leftSpaceToView(self.view, 0)?.rightSpaceToView(self.view, 0)
-                questionView.setup(parent: self)
-//            }, completion: nil)
-        }
-        else{
-            questionView.currQuestion = question
-            contentViews.append(questionView)
-        }
-    }
-    
-    func loadQuestions(){
-        if let question = questionManager?.getQuestion(){
-            self.addQuestion(question: question)
-        }
-        else if !contentViews.isEmpty && currView is UIButton{
-            nextContent()
-        }
-    }
+//    func addQuestion(qRef:FIRDatabaseReference){
+//        let questionView = Bundle.main.loadNibNamed("QuestionView", owner: self, options: nil)!.first as! QuestionView
+//                self.currView?.removeFromSuperview()
+//                self.currView = questionView
+//                self.view.addSubview(questionView)
+//                _ = questionView.sd_layout().topSpaceToView(self.scoreLabel, 4)?.bottomSpaceToView(self.view, 0)?.leftSpaceToView(self.view, 0)?.rightSpaceToView(self.view, 0)
+//                questionView.setup(parent: self, qRef:qRef)
+//        }
+//        else{
+//            questionView.currQuestion = QuestionModel(ref: qRef, questionView: questionView)
+//            contentViews.append(questionView)
+//        }
+//    }
     
     let scoreLabel = LTMorphingLabel()
     override func viewDidLoad() {
@@ -134,24 +101,27 @@ class MainVC: UIViewController{
 //        }
     }
     
-    func addContent(){
-        if let question = questionManager?.getQuestion(){
-            addQuestion(question: question)
+    func addContent()->QuestionView?{
+        if let ref = questionManager?.getQuestion(){
+            let questionView = Bundle.main.loadNibNamed("QuestionView", owner: self, options: nil)!.first as! QuestionView
+            questionView.setup(parent: self, qRef:ref)
+            return questionView
+        }
+        else{
+            return nil
         }
     }
     
     func nextContent(){
-        addContent()
         currView?.removeFromSuperview()
-        if contentViews.isEmpty{
-            addLoadMoreVC()
+        if let questionView = addContent(){
+            currView = questionView
         }
-        currView = contentViews.removeFirst()
+        else{
+            currView = addMoreView()
+        }
         view.addSubview(currView!)
         _ = currView!.sd_layout().topSpaceToView(scoreLabel, 4)?.bottomSpaceToView(view, 0)?.leftSpaceToView(view, 0)?.rightSpaceToView(view, 0)
-        if let questionView = currView as? QuestionView{
-            questionView.setup(parent: self)
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
