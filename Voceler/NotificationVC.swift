@@ -52,7 +52,7 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         view.addSubview(table)
         _ = table.sd_layout().topSpaceToView(view, 0)?.bottomSpaceToView(view, 0)?.leftSpaceToView(view, 0)?.rightSpaceToView(view, 0)
         
-        setupProfile() // This is for..?
+//        setupProfile() // This is for..?
         table.delegate = self
         table.dataSource = self
         table.register(UINib(nibName: "NotificationCell", bundle: nil), forCellReuseIdentifier: "NotificationCell")

@@ -19,6 +19,7 @@ let btnBGColor = UIColor(red: 0.941, green: 0.98, blue: 1, alpha: 1)
 var currUser:UserModel?{
     didSet{
         if let user = currUser, let uRef = user.uRef{
+            user.setup()
             uRef.child("money").observe(.value, with: { (snapshot) in
                 if let money = snapshot.value as? Int{
                     user.money = money

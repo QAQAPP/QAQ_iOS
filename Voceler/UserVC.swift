@@ -56,6 +56,7 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         tableView.dataSource = self
         tableView.register(UINib(nibName: "UserTableCell", bundle: nil), forCellReuseIdentifier: "UserTableCell")
         tableView.separatorStyle = .none
+        thisUser?.setup()
     }
     
     override func viewWillAppear(_ animated: Bool) {

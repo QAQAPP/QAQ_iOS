@@ -148,7 +148,7 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         navigationItem.title = "My Questions"
         navigationController?.navigationBar.tintColor = themeColor
         edgesForExtendedLayout = [.all]
-        setupProfile()
+//        setupProfile()
         table.separatorStyle = .none
         table.delegate = self
         table.dataSource = self

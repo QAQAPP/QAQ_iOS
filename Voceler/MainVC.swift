@@ -27,8 +27,8 @@ class MainVC: UIViewController{
     var currView:UIView?
     var swipeEnable = true
     
-    override func showInfo() {
-        if let view = currView as? QuestionView{
+//    func showInfo() {
+//        if let view = currView as? QuestionView{
             // TODO: SHOW USER INFO
 //            if let user = showUser, let vc = controllerManager?.getUserVC(user: user){
 //                navigationController?.pushViewController(vc, animated: true)
@@ -36,8 +36,8 @@ class MainVC: UIViewController{
 //            else{
 //                _ = SCLAlertView().showWarning("Ooops", subTitle: "Anonymous user.")
 //            }
-        }
-    }
+//        }
+//    }
     
     func likeAction(){
         if let questionView = currView as? QuestionView{
@@ -46,7 +46,7 @@ class MainVC: UIViewController{
     }
     
     var likeBtn = UIBarButtonItem(image: #imageLiteral(resourceName: "star-32").withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(likeAction))
-    var profileItem = UIBarButtonItem(image: #imageLiteral(resourceName: "user_male_circle-32"), style: .plain, target: self, action: #selector(showInfo))
+//    var profileItem = UIBarButtonItem(image: #imageLiteral(resourceName: "user_male_circle-32"), style: .plain, target: self, action: #selector(showInfo))
 
     // Functions
     func addMoreView()->UIView{
@@ -87,9 +87,9 @@ class MainVC: UIViewController{
         view.backgroundColor = .white
     
         likeBtn.target = self
-        profileItem.target = self
+//        profileItem.target = self
         navigationItem.rightBarButtonItem = nil
-        navigationItem.leftBarButtonItem = profileItem
+//        navigationItem.leftBarButtonItem = profileItem
         
         
 //        for i in 0..<100{

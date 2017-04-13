@@ -21,25 +21,9 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
     
     @IBOutlet weak var userBtn: UIButton!
     @IBAction func showProfile(_ sender: Any) {
-//        if let asker = asker{
-//            let vc = controllerManager!.getUserVC(user: asker)
-//            self.parent.navigationController?.pushViewController(vc, animated: true)
-//        }
-//        else{
-//            SCLAlertView().showWait("Loading", subTitle: "Loading user info.", duration: 2)
-//        }
+        parent.navigationController?.pushViewController(controllerManager!.getUserVC(ref: currQuestion.qAskerRef), animated: true)
     }
-//    func setProfile(){
-//        userBtn.imageView?.tintColor = .clear
-//        userBtn.board(radius: 16, width: 0, color: .clear)
-//        if let img = asker?.profileImg{
-//            userBtn.setImage(img, for: [])
-//            userBtn.imageView?.contentMode = .scaleAspectFill
-//        }
-//        else if let uid = asker?.uid{
-//            NotificationCenter.default.addObserver(self, selector: #selector(setProfile), name: NSNotification.Name(uid + "profile"), object: nil)
-//        }
-//    }
+    
     @IBOutlet weak var username: UILabel!
     
     var handler:GrowingTextViewHandler!
@@ -59,11 +43,6 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
     // UIVars
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
     @IBOutlet weak var detailTV: UITextView!
-//    var questionRef:FIRDatabaseReference!{
-//        didSet{
-//            
-//        }
-//    }
     var currQuestion:QuestionModel!
     //var optsView:UICollectionView!
     var optsView:UITableView!
@@ -140,47 +119,12 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
         cell.isSelected = false
     }
     
-//    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-//        let cell = optsView.cellForRow(at: indexPath) as! OptViewTableCell
-//        cell.deselected()
-//    }
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return indexPath.row >= cellHeightArray.count ? 600 : cellHeightArray[indexPath.row]
     }
     
-//    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return UITableViewAutomaticDimension
-//    }
-    
-    
     func nextContent(){
         controllerManager?.mainVC.nextContent()
-    }
-    
-//    private func setQuestion(){
-//        setDescription()
-//        asker = UserModel.getUser(uid: currQuestion.qAskerID, getProfile: true)
-//        if let asker = asker{
-//            setProfile()
-//            asker.ref.child("username").observe(.value, with: { (snapshot) in
-//                if let name = snapshot.value as? String{
-//                    self.username.text = name
-//                }
-//            })
-//            NotificationCenter.default.addObserver(forName: NSNotification.Name(asker.uid+"username"), object: nil, queue: nil, using: { (noti) in
-//                
-//            })
-//        }
-//    }
-    
-    func showUser(user:UserModel?){
-        if let user = user, let vc = controllerManager?.getUserVC(user: user){
-            parent.navigationController?.pushViewController(vc, animated: true)
-        }
-        else{
-            _ = SCLAlertView().showWarning("Sorry", subTitle: "Anonymous asker")
-        }
     }
     
     private func setupUI() {
@@ -207,7 +151,6 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
             }
             header?.setTitle("Skip Question", for: .pulling)
             optsView.mj_header = header
-//			IQKeyboardManager.sharedManager().disabledToolbarClasses = [parent]
         }
     }
     
@@ -221,9 +164,6 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
     func addOption(text:String){
         currQuestion.userChoosed = true
         OptionModel.postPotion(question: currQuestion.qRef, description: text, offerBy: currQuestion!.qAskerID)
-//        currQuestion?.addOption(opt: option)
-//        cellHeightArray.removeAll()
-//        optsView.reloadData()
     }
     
     func setDescription() {
@@ -244,7 +184,6 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
         optsView.separatorStyle = .none
         
         setupUI()
-//        setQuestion()
         setupTable()
         lazyLoading()
     }

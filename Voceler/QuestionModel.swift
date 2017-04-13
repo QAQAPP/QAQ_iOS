@@ -18,6 +18,15 @@ class QuestionModel: NSObject {
             questionView?.handler.setText(qDescrption, animated: false)
         }
     }
+    var qAskerRef:FIRDatabaseReference!{
+        didSet{
+            qAskerRef.child("info").child("username").observe(.value, with: { (snapshot) in
+                if let username = snapshot.value as? String{
+                    self.askerName = username
+                }
+            })
+        }
+    }
     var qAskerID:String!{
         didSet{
             storageUserRef.child(qAskerID).child("profileImg.jpeg").data(withMaxSize: 1024*1024) { (data, error) in
@@ -28,11 +37,7 @@ class QuestionModel: NSObject {
                     self.askerImg = #imageLiteral(resourceName: "user-50")
                 }
             }
-            databaseUserRef.child(qAskerID).child("info").child("username").observe(.value, with: { (snapshot) in
-                if let username = snapshot.value as? String{
-                    self.askerName = username
-                }
-            })
+            qAskerRef = databaseUserRef.child(qAskerID)
         }
     }
     var askerName = ""{
