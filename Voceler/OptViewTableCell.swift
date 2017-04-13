@@ -117,7 +117,7 @@ class OptViewTableCell: UITableViewCell{
                 }
             }
         }
-        else if let inProgressVC = questionView.parent as? InProgressVC, question.qAskerID == currUser!.uid{
+        else if let inProgressVC = questionView.parent as? InProgressVC, question.qAskerID == currUser!.ref.key{
             let alert = SCLAlertView()
             alert.addButton("Sure", action: {
                 Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (timer) in

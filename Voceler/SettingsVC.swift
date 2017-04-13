@@ -148,7 +148,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     func uploadText(){
-        ref.child(currUser!.uid).setValue(textView.text)
+        ref.child(currUser!.ref.key).setValue(textView.text)
         _ = vc.navigationController?.popViewController(animated: true)
     }
     

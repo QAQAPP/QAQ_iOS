@@ -18,7 +18,24 @@ let lightGray = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
 let btnBGColor = UIColor(red: 0.941, green: 0.98, blue: 1, alpha: 1)
 var currUser:UserModel?{
     didSet{
-        currUser?.loadCollection()
+        if let user = currUser, let uRef = user.uRef{
+            uRef.child("money").observe(.value, with: { (snapshot) in
+                if let money = snapshot.value as? Int{
+                    user.money = money
+                }
+            })
+            uRef.child("qInProgressLimit").observe(.value, with: { (snapshot) in
+                if let limit = snapshot.value as? Int{
+                    user.qInProgressLimit = limit
+                }
+            })
+            uRef.child("qInCollectionLimit").observe(.value, with: { (snapshot) in
+                if let limit = snapshot.value as? Int{
+                    user.qInProgressLimit = limit
+                }
+            })
+            
+        }
     }
 }
 var appSetting = SettingModel()

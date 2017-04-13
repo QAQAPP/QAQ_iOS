@@ -51,7 +51,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
                 mainVC.navigationItem.rightBarButtonItem?.image = liked ? #imageLiteral(resourceName: "star_filled-32") : #imageLiteral(resourceName: "star-32")
             }
             if let question = currQuestion{
-                currUser?.collectQuestion(qid: question.qRef.key, like: liked)
+//                currUser?.collectQuestion(qid: question.qRef.key, like: liked)
             }
         }
     }
@@ -97,7 +97,7 @@ class QuestionView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFi
     // Functions
     
     func likeQuestion(){
-        if !liked && currUser!.qCollection.count >= currUser!.qInCollectionLimit!{
+        if !liked && questionManager!.qCollectionArr.count >= currUser!.qInCollectionLimit!{
             _ = SCLAlertView().showError("Sorry", subTitle: "You are only allowed to have up to \(String(describing: currUser!.qInCollectionLimit)) in collection. Please conclude a question.")
         }
         else{

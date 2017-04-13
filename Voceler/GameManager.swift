@@ -37,11 +37,11 @@ class GameManager: NSObject {
     }
     
     private func moneyChange(val:Int){
-        currUser?.ref.child("money").setValue(currUser!.money + val)
+        currUser?.ref.child("money").setValue(currUser!.money! + val)
     }
     
     private func consume(money:Int, charge:Bool = false)->Bool{
-        if (currUser!.money < money){
+        if (currUser!.money! < money){
             return false
         }
         else {
@@ -70,7 +70,7 @@ class GameManager: NSObject {
             SCLAlertView().showError("No money!", subTitle: "Please anwser some questions to get money to ask question.", duration: 1)
             return false
         }
-        else if currUser!.qInProgressLimit! <= currUser!.qInProgress.count{
+        else if currUser!.qInProgressLimit! <= questionManager!.qInProgressArr.count{
             SCLAlertView().showError("Question limit reached!", subTitle: "Please conclude some questions or add in progress question limit.", duration: 1)
             return false
         }

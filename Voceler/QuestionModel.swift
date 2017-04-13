@@ -102,7 +102,7 @@ class QuestionModel: NSObject {
         let ref = databaseQuestionRef.childByAutoId()
         let contentRef = ref.child("content")
         contentRef.child("description").setValue(qDescrption)
-        contentRef.child("askerID").setValue(currUser!.uid)
+        contentRef.child("askerID").setValue(currUser!.ref.key)
         contentRef.child("val").setValue(0)
         
         // Set up tags
@@ -112,7 +112,7 @@ class QuestionModel: NSObject {
         // Add question to user
         
         currUser!.qRef.child(ref.key).setValue("In progress")
-        currUser!.qInProgress.append(ref.key)
+//        currUser!.qInProgress.append(ref.key)
         NotificationCenter.default.post(name: Notification.Name("qInProgressLoaded"), object: toDict())
     }
     
@@ -142,7 +142,7 @@ class QuestionModel: NSObject {
         optRef.child("offerBy").setValue(opt.oOfferBy)
         opt.isLiked = true
         optRef.child("val").setValue(opt.oVal)
-        qRef.child("Users").child(currUser!.uid).setValue(optRef.key)
+        qRef.child("Users").child(currUser!.ref.key).setValue(optRef.key)
         changeNotiVal(val: 1)
         gameManager?.addOption()
     }
@@ -155,7 +155,7 @@ class QuestionModel: NSObject {
         else{
             qRef.child("content").child("conclusion").setValue("nil")
         }
-        currUser?.collectQuestion(qid: qRef.key, like: true)
+//        currUser?.collectQuestion(qid: qRef.key, like: true)
         networkingManager?.concludeQuestion(qid: qRef.key)
     }
     

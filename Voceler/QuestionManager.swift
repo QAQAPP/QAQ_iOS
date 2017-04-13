@@ -24,7 +24,7 @@ class QuestionManager: NSObject {
     override init() {
         super.init()
         networkingManager?.getQuestion(num: collectionMaxSize)
-        databaseUserRef.child(currUser!.uid).child("Questions").observe(.childAdded, with: { (snapshot) in
+        databaseUserRef.child(currUser!.ref.key).child("Questions").observe(.childAdded, with: { (snapshot) in
             if let type = snapshot.value as? String{
                 let ref = databaseQuestionRef.child(snapshot.key)
                 switch type{

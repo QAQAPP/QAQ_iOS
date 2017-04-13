@@ -39,7 +39,7 @@ class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate
     }
     func setQuestion(descr:String, optArr:[String], tags:[String]?){
         question = QuestionModel()
-        question.qAskerID = currUser?.uid
+        question.qAskerID = currUser!.ref.key
         question.qDescrption = descr.trimmed()
         if let tags = tags{
             question.qTags = tags
