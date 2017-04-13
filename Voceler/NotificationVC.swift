@@ -41,7 +41,7 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             if let notiInfo = snapshot.value as? [String : AnyObject]{
                 self.notificationsInDict = notiInfo
                 // Parse notification data into NotificationModels
-                self.loadNotificationsFromDict()
+//                self.loadNotificationsFromDict()
             }
         })
     }
@@ -68,57 +68,57 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewWillAppear(animated)
     }
     
-    func loadNotificationsFromDict () {
-        self.notifications.removeAll()
-        self.notViewedCount = 0
-        
-        for thisNotificationInDict in notificationsInDict {
-            print("NotificationInDict: ", thisNotificationInDict)
-            if let viewed = thisNotificationInDict.value["viewed"] as? Bool{
-                let thisNotification = NotificationModel(thisNotificationInDict.value["qid"] as! String,
-                    of: NTypeLookup[thisNotificationInDict.value["type"] as! String]!,
-                    with: thisNotificationInDict.value["details"] as AnyObject,
-                    whether: viewed, on: thisNotificationInDict.key )
-            
-            
-                if (thisNotification.viewed == false) {
-                    self.notViewedCount += 1
-                }
-                
-                self.notifications.append(thisNotification)
-                
-                // If it is a concluded type notification then load the content of question
-                if thisNotification.type == NotificationType.questionConcluded {
-                    
-                    print("Loading concluded question", thisNotification.qid)
-                    
-                    questionManager?.loadQuestionContent(qid: thisNotificationInDict.value["qid"] as! String, purpose: "qConcludedLoaded")
-                    
-                    _ = NotificationCenter.default.addObserver(forName: NSNotification.Name("qConcludedLoaded"), object: nil, queue: nil, using:{ (noti) in
-                        print("Observed object")
-                        if let dict = noti.object as? Dictionary<String, Any>{
-                            let qid = dict["qid"] as! String
-                            print(qid)
-                            self.loadConcludedQuestion(qid: qid, dict: dict)
-                        }
-                    })
-                }
-            }
-            
-        }
-        
-        self.notifications.sort { $0.timestamp > $1.timestamp }
-        self.table.reloadData()
-    }
-    
-    func loadConcludedQuestion(qid:String, dict:Dictionary<String, Any>) {
-        if let question = questionManager?.getQuestion(qid: qid, question: dict){
-            // Question is loaded here
-            questionManager?.qConcludedArr.append(question)
-            print("Loaded concluded question", question.qid)
-            self.table.reloadData()
-        }
-    }
+//    func loadNotificationsFromDict () {
+//        self.notifications.removeAll()
+//        self.notViewedCount = 0
+//        
+//        for thisNotificationInDict in notificationsInDict {
+//            print("NotificationInDict: ", thisNotificationInDict)
+//            if let viewed = thisNotificationInDict.value["viewed"] as? Bool{
+//                let thisNotification = NotificationModel(thisNotificationInDict.value["qid"] as! String,
+//                    of: NTypeLookup[thisNotificationInDict.value["type"] as! String]!,
+//                    with: thisNotificationInDict.value["details"] as AnyObject,
+//                    whether: viewed, on: thisNotificationInDict.key )
+//            
+//            
+//                if (thisNotification.viewed == false) {
+//                    self.notViewedCount += 1
+//                }
+//                
+//                self.notifications.append(thisNotification)
+//                
+//                // If it is a concluded type notification then load the content of question
+//                if thisNotification.type == NotificationType.questionConcluded {
+//                    
+//                    print("Loading concluded question", thisNotification.qid)
+//                    
+////                    questionManager?.loadQuestionContent(qid: thisNotificationInDict.value["qid"] as! String, purpose: "qConcludedLoaded")
+//                    
+//                    _ = NotificationCenter.default.addObserver(forName: NSNotification.Name("qConcludedLoaded"), object: nil, queue: nil, using:{ (noti) in
+//                        print("Observed object")
+//                        if let dict = noti.object as? Dictionary<String, Any>{
+//                            let qid = dict["qid"] as! String
+//                            print(qid)
+//                            self.loadConcludedQuestion(qid: qid, dict: dict)
+//                        }
+//                    })
+//                }
+//            }
+//            
+//        }
+//        
+//        self.notifications.sort { $0.timestamp > $1.timestamp }
+//        self.table.reloadData()
+//    }
+//    
+//    func loadConcludedQuestion(qid:String, dict:Dictionary<String, Any>) {
+//        if let question = questionManager?.getQuestion(qid: qid, question: dict){
+//            // Question is loaded here
+//            questionManager?.qConcludedArr.append(question)
+////            print("Loaded concluded question", question.qid)
+//            self.table.reloadData()
+//        }
+//    }
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -140,20 +140,20 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         let thisNotification = notifications[indexPath.row]
         
         //questionManager?.loadQuestionContent(qid: thisNotification.qid)
-        let thisQuestionModel = controllerManager?.collectionVC.findQuestionModel(with: thisNotification.qid)
+//        let thisQuestionModel = controllerManager?.collectionVC.findQuestionModel(with: thisNotification.qid)
 
         switch thisNotification.type {
         case NotificationType.questionAnswered:
             let user = UserModel.getUser(uid: thisNotification.details)
             NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: thisNotification.details+"username"), object: nil, queue: nil, using: { (noti) in
                 if let username = user.username{
-                    cell.label.text = "\(username) answered your question \((thisQuestionModel?.qDescrption)!)"
+//                    cell.label.text = "\(username) answered your question \((thisQuestionModel?.qDescrption)!)"
                 }
             })
 
         case NotificationType.questionViewed:
             let views = thisNotification.details
-            cell.label.text = "You got \(views) views for your question \((thisQuestionModel?.qDescrption)!)"
+//            cell.label.text = "You got \(views) views for your question \((thisQuestionModel?.qDescrption)!)"
             
         case NotificationType.questionConcluded:
             let user = UserModel.getUser(uid: thisNotification.details)
@@ -190,27 +190,27 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func showQuestionVC(of QID:String) {
         var inProgress = true
-        var thisQuestionModel = controllerManager?.collectionVC.findQuestionModel(with: QID, from: true)
+//        var thisQuestionModel = controllerManager?.collectionVC.findQuestionModel(with: QID, from: true)
         //print(thisQuestionModel?.qDescrption)
-        if (thisQuestionModel == nil) {
-            thisQuestionModel = controllerManager?.collectionVC.findQuestionModel(with: QID, from: false)
-            //print(thisQuestionModel?.qDescrption)
-            inProgress = false
-        }
-        // In current design thisQuestionModel must exist in either InProgress or Collection/Concluded List
-        if (inProgress == true) {
-            let thisQuestionVC = InProgressVC()
-            thisQuestionVC.setup(parent:controllerManager!.collectionVC!, question:thisQuestionModel!)
-            show(thisQuestionVC, sender: self)
-        } else {
-            let thisQuestionVC = InCollectionVC()
-            thisQuestionVC.setup(parent:controllerManager!.collectionVC!, question:thisQuestionModel!)
-            show(thisQuestionVC, sender: self)
-        }
+//        if (thisQuestionModel == nil) {
+//            thisQuestionModel = controllerManager?.collectionVC.findQuestionModel(with: QID, from: false)
+//            //print(thisQuestionModel?.qDescrption)
+//            inProgress = false
+//        }
+//        // In current design thisQuestionModel must exist in either InProgress or Collection/Concluded List
+//        if (inProgress == true) {
+//            let thisQuestionVC = InProgressVC()
+//            thisQuestionVC.setup(parent:controllerManager!.collectionVC!, question:thisQuestionModel!)
+//            show(thisQuestionVC, sender: self)
+//        } else {
+//            let thisQuestionVC = InCollectionVC()
+//            thisQuestionVC.setup(parent:controllerManager!.collectionVC!, question:thisQuestionModel!)
+//            show(thisQuestionVC, sender: self)
+//        }
     }
     
     func findQID(with timestamp:String) -> String? {
-        self.loadNotificationsFromDict()
+//        self.loadNotificationsFromDict()
         for thisNotification in notifications {
             if thisNotification.timestamp == timestamp {
                 return thisNotification.qid

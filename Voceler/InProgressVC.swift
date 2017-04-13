@@ -9,19 +9,12 @@
 import UIKit
 import SCLAlertView
 import UIViewController_NavigationBar
+import FirebaseDatabase
 
 class InProgressVC: UIViewController {
     
 //    private var parentVC:CollectionVC?
-    private var currQuestion:QuestionModel!{
-        didSet{
-            let view = Bundle.main.loadNibNamed("QuestionView", owner: self, options: nil)!.first as! QuestionView
-            view.currQuestion = currQuestion
-            self.view.addSubview(view)
-            _ = view.sd_layout().topSpaceToView(self.view, 0)?.bottomSpaceToView(self.view, 0)?.leftSpaceToView(self.view, 0)?.rightSpaceToView(self.view, 0)
-            view.setup(parent: self)
-        }
-    }
+    private var qRef:FIRDatabaseReference!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,14 +27,18 @@ class InProgressVC: UIViewController {
     func noGoodAnwser(){
         let alert = SCLAlertView()
         _ = alert.addButton("Confirm", action: {
-            self.currQuestion.conclude()
+//            self.currQuestion.conclude()
             self.afterConclude()
         })
         _ = alert.showNotice("Conclusion", subTitle: "Are you sure you don't get a good answer?", closeButtonTitle: "Cancel")
     }
     
-    func setup(parent:CollectionVC, question:QuestionModel){
-        currQuestion = question
+    func setup(parent:CollectionVC, qRef:FIRDatabaseReference){
+        self.qRef = qRef
+        let questionView = Bundle.main.loadNibNamed("QuestionView", owner: self, options: nil)!.first as! QuestionView
+        self.view.addSubview(questionView)
+        _ = questionView.sd_layout().topSpaceToView(self.view, 0)?.bottomSpaceToView(self.view, 0)?.leftSpaceToView(self.view, 0)?.rightSpaceToView(self.view, 0)
+        questionView.setup(parent: self, qRef: qRef)
     }
 
 //    func conclude(oid:String, cell:OptCell){
@@ -58,14 +55,14 @@ class InProgressVC: UIViewController {
 //    }
     
     func afterConclude(){
-        currUser!.qInProgress.append(currQuestion.qid)
-        if let index = questionManager?.qInProgressArr.index(of: currQuestion)! {
-            questionManager?.qInProgressArr.remove(at: index)
-            currUser!.qCollection.append(currQuestion.qid)
-            questionManager?.qCollectionArr.append(currQuestion)
-            controllerManager!.collectionVC.table.reloadData()
-            _ = self.navigationController?.popViewController(animated: true)
-        }
+//        currUser!.qInProgress.append(qRef)
+//        if let index = questionManager?.qInProgressArr.index(of: qRef)! {
+//            questionManager?.qInProgressArr.remove(at: index)
+//            currUser!.qCollection.append(qRef)
+//            questionManager?.qCollectionArr.append(qRef)
+//            controllerManager!.collectionVC.table.reloadData()
+//            _ = self.navigationController?.popViewController(animated: true)
+//        }
         
     }
 }

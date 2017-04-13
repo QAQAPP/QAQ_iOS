@@ -333,7 +333,7 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, UITextF
         initNoti()
         if let user = FIRAuth.auth()?.currentUser{
             shouldShowLoading = true
-            FIRDatabase.database().reference().child("Users-v1").child(user.uid).child("info").child("email").observeSingleEvent(of: .value, with: { (snapshot) in
+            databaseUserRef.child(user.uid).child("info").child("email").observeSingleEvent(of: .value, with: { (snapshot) in
                 _ = SwiftSpinner.hide()
                 if let _ = snapshot.value as? String{
                     self.login(user: user)

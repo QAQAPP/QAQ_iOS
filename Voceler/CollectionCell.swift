@@ -9,13 +9,14 @@
 import UIKit
 import SDAutoLayout
 import BadgeSwift
+import FirebaseDatabase
 
 class CollectionCell: UITableViewCell {
     @IBOutlet weak var starBtn: UIButton!
     @IBOutlet weak var badgeValue: BadgeSwift!
     @IBOutlet weak var detailLbl: UILabel!
     
-    
+    var qRef:FIRDatabaseReference!
     var timer:Timer?
     var isStared = true{
         didSet{
@@ -30,7 +31,6 @@ class CollectionCell: UITableViewCell {
             else{
                 timer?.invalidate()
                 timer = nil
-                detailLbl?.text = question.qDescrption
             }
         }
     }
@@ -45,8 +45,6 @@ class CollectionCell: UITableViewCell {
             }
         }
     }
-    
-    var question:QuestionModel!
     var parentVC:CollectionVC!
 
     @IBAction func starAction(_ sender: AnyObject) {
@@ -54,10 +52,9 @@ class CollectionCell: UITableViewCell {
     }
     
     func dislikeThisQuestion(){
-        if let index = questionManager?.qCollectionArr.index(of: question){
+        if let index = questionManager?.qCollectionArr.index(of: qRef){
             questionManager?.qCollectionArr.remove(at: index)
             parentVC.table.reloadData()
-            question.removeFromCollection()
         }
         isStared = true
     }
@@ -67,15 +64,19 @@ class CollectionCell: UITableViewCell {
     }
     
     
-    func setup(parent:CollectionVC, question:QuestionModel){
+    func setup(parent:CollectionVC, qRef:FIRDatabaseReference){
         parentVC = parent
-        self.question = question
-        detailLbl?.text = question.qDescrption
+        self.qRef = qRef
         badgeValue.board(radius: 10.5, width: 0, color: .clear)
         self.badgeValue.isHidden = true
-        question.qRef.child("content").child("val").observe(.value, with: { (snapshot) in
+        qRef.child("content").child("val").observe(.value, with: { (snapshot) in
             if let val = snapshot.value as? Int{
                 self.notiVal = val
+            }
+        })
+        qRef.child("content").child("description").observe(.value, with: { (snapshot) in
+            if let text = snapshot.value as? String{
+                self.detailLbl.text = text
             }
         })
     }
@@ -93,7 +94,7 @@ class CollectionCell: UITableViewCell {
 
         // Configure the view for the selected state
         if selected{
-            question.clearNotiVal()
+//            question.clearNotiVal()
         }
     }
 }
