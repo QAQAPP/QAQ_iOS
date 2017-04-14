@@ -7,8 +7,8 @@
 //
 
 import UIKit
-import MMDrawerController
 import FirebaseDatabase
+import FirebaseStorage
 
 let themeColor = UIColor(red: 0.953, green: 0.651, blue: 0.294, alpha: 1.0)
 let buttomColor = UIColor(red: 0.694986, green: 0.813917, blue: 0.213036, alpha: 1)
@@ -18,7 +18,25 @@ let lightGray = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
 let btnBGColor = UIColor(red: 0.941, green: 0.98, blue: 1, alpha: 1)
 var currUser:UserModel?{
     didSet{
-        currUser?.loadCollection()
+        if let user = currUser, let uRef = user.uRef{
+            user.setup()
+            uRef.child("money").observe(.value, with: { (snapshot) in
+                if let money = snapshot.value as? Int{
+                    user.money = money
+                }
+            })
+            uRef.child("qInProgressLimit").observe(.value, with: { (snapshot) in
+                if let limit = snapshot.value as? Int{
+                    user.qInProgressLimit = limit
+                }
+            })
+            uRef.child("qInCollectionLimit").observe(.value, with: { (snapshot) in
+                if let limit = snapshot.value as? Int{
+                    user.qInProgressLimit = limit
+                }
+            })
+            
+        }
     }
 }
 var appSetting = SettingModel()
@@ -28,6 +46,9 @@ var controllerManager:ControllerManager?
 var networkingManager:NetworkingManager?
 var gameManager:GameManager?
 let constantManager = ConstantManager()
+let databaseQuestionRef = FIRDatabase.database().reference().child("Questions-v1")
+let databaseUserRef = FIRDatabase.database().reference().child("Users-v1")
+let storageUserRef = FIRStorage.storage().reference().child("Users")
 
 func getVC(name:String) -> UIViewController {
     let board = UIStoryboard(name: "Main", bundle: nil)

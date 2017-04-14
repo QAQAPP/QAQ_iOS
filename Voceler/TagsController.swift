@@ -39,15 +39,8 @@ class TagsController: UIViewController, TagListViewDelegate, UITextFieldDelegate
     }
     func setQuestion(descr:String, optArr:[String], tags:[String]?){
         question = QuestionModel()
-        question.qAskerID = currUser?.uid
+        question.qAskerID = currUser!.ref.key
         question.qDescrption = descr.trimmed()
-        question.qOptions = [OptionModel]()
-        for opt in optArr{
-            if opt.isNotEmpty{
-                question.qOptions.append(OptionModel(question: question, description: opt))
-            }
-        }
-        question.qAnonymous = appSetting.isAnonymous
         if let tags = tags{
             question.qTags = tags
         }

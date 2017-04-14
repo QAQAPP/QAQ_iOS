@@ -8,6 +8,7 @@
 
 import UIKit
 import SCLAlertView
+import FirebaseDatabase
 
 class ControllerManager: NSObject, UITabBarControllerDelegate, UIPopoverPresentationControllerDelegate, AskProblemVCDelegate, TagsControllerDelegate{
     var mainVC:MainVC!
@@ -37,9 +38,9 @@ class ControllerManager: NSObject, UITabBarControllerDelegate, UIPopoverPresenta
         return vc
     }
     
-    func getUserVC(user:UserModel)->UserVC{
+    func getUserVC(ref:FIRDatabaseReference)->UserVC{
         let vc = UserVC(nibName: "UserVC", bundle: nil)
-        vc.thisUser = user
+        vc.thisUser = UserModel(ref: ref, userVC: vc)
         return vc
     }
     
@@ -63,7 +64,7 @@ class ControllerManager: NSObject, UITabBarControllerDelegate, UIPopoverPresenta
         mainNav.tabBarItem = mainItem
         
         collectionVC = CollectionVC()
-        collectionVC?.loadCollections()
+//        collectionVC?.loadCollections()
 //        collectionNav = UINavigationController(rootViewController: collectionVC)
 //        collectionNav.navigationBar.setColor(color: themeColor)
 //        let collectionItem = UITabBarItem()

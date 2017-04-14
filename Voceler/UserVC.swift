@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
 class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
 
@@ -17,7 +18,13 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var infoView: UIView!
     
-    var thisUser:UserModel!
+    var thisUser:UserModel?
+    var ref:FIRDatabaseReference?{
+        didSet{
+            thisUser = UserModel(ref: ref!, userVC: self)
+            thisUser?.setup()
+        }
+    }
     
     let rowTitles = ["My Questions", "Notifications", "Settings"]
     let rowIcons = [#imageLiteral(resourceName: "Book-open - simple-line-icons"), #imageLiteral(resourceName: "message-32"), #imageLiteral(resourceName: "Wrench - simple-line-icons")]
@@ -49,43 +56,24 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
         tableView.dataSource = self
         tableView.register(UINib(nibName: "UserTableCell", bundle: nil), forCellReuseIdentifier: "UserTableCell")
         tableView.separatorStyle = .none
-        if thisUser == currUser{
-            let tap = UITapGestureRecognizer(target: self, action: #selector(profileTapped))
-            profileImageView.addGestureRecognizer(tap)
-            infoView.addGestureRecognizer(tap)
-        }
-        loadUserInfo()
-    }
-    
-    func loadUserInfo(){
-        thisUser.ref.child("username").observe(.value, with: { (snap) in
-            if let val = snap.value as? String{
-                self.usernameLabel.text = val
-            }
-        })
-        thisUser.ref.child("location").observe(.value, with: { (snap) in
-            if let val = snap.value as? String{
-                self.locationLabel.text = val
-            }
-        })
-        thisUser.ref.child("email").observe(.value, with: { (snap) in
-            if let val = snap.value as? String{
-                self.emailLabel.text = val
-            }
-        })
-        thisUser.storageRef.child("profileImg.jpeg").data(withMaxSize: 1024*1024) { (data, error) in
-            if let data = data{
-                self.profileImageView.image = UIImage(data: data)
-            }
-            else {
-                self.profileImageView.image = #imageLiteral(resourceName: "user-50")
-            }
-        }
+        thisUser?.setup()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
+        if ref == nil{
+            ref = currUser!.ref
+            let tap = UITapGestureRecognizer(target: self, action: #selector(profileTapped))
+            profileImageView.addGestureRecognizer(tap)
+            infoView.addGestureRecognizer(tap)
+        }
+        if let user = thisUser{
+            profileImageView.image = user.profileImg
+            emailLabel.text = user.email
+            locationLabel.text = user.location
+            usernameLabel.text = user.username
+        }
         self.tableView.reloadData()
     }
     
@@ -122,7 +110,7 @@ class UserVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIIm
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return thisUser == currUser ? rowTitles.count : 0
+        return thisUser?.ref == currUser?.ref ? rowTitles.count : 0
     }
     
     var collectionCell:UserTableCell?

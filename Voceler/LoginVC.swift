@@ -235,7 +235,7 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, UITextF
     }
     
     func login(user:FIRUser){
-        currUser = UserModel.getUser(uid: user.uid, getWall: true, getProfile: true)
+        currUser = UserModel(ref: databaseUserRef.child(user.uid), userVC: controllerManager?.userVC)
         currUser?.ref.child("email").setValue(user.email)
         currUser?.ref.child("username").observeSingleEvent(of: .value, with: { (snapshot) in
             if !(snapshot.value is String){
@@ -243,19 +243,17 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, UITextF
                 currUser?.ref.child("username").setValue(username)
             }
         })
+        controllerManager = ControllerManager()
         let req = user.profileChangeRequest()
         req.displayName = "hello"
         currUser?.username = user.displayName
         questionManager = QuestionManager()
-        controllerManager = ControllerManager()
         networkingManager = NetworkingManager()
         gameManager = GameManager()
         if let FCMToken = FIRInstanceID.instanceID().token(){
             currUser?.ref.child("FCM Token").setValue(FCMToken)
-            print("FCM Token is ", FCMToken)
         }
         self.show(controllerManager!.tabbarVC, sender: self)
-//        self.show(drawer, sender: self)
     }
     
     func connectToFcm() {
@@ -333,7 +331,7 @@ class LoginVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, UITextF
         initNoti()
         if let user = FIRAuth.auth()?.currentUser{
             shouldShowLoading = true
-            FIRDatabase.database().reference().child("Users-v1").child(user.uid).child("info").child("email").observeSingleEvent(of: .value, with: { (snapshot) in
+            databaseUserRef.child(user.uid).child("info").child("email").observeSingleEvent(of: .value, with: { (snapshot) in
                 _ = SwiftSpinner.hide()
                 if let _ = snapshot.value as? String{
                     self.login(user: user)
