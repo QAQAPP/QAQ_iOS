@@ -36,17 +36,17 @@ extension UIViewController{
         view.endEditing(true)
     }
     
-    func showInfo() {
-        if let user = currUser, let vc = controllerManager?.getUserVC(user: user){
-            navigationController?.pushViewController(vc, animated: true)
-        }
-    }
+//    func showInfo() {
+//        if let user = currUser, let vc = controllerManager?.getUserVC(ref: user){
+//            navigationController?.pushViewController(vc, animated: true)
+//        }
+//    }
     
-    func setupProfile(){
-        if let btn = navigationItem.leftBarButtonItem?.customView as? UIButton{
-            btn.addTarget(self, action: #selector(showInfo), for: .touchUpInside)
-        }
-    }
+//    func setupProfile(){
+//        if let btn = navigationItem.leftBarButtonItem?.customView as? UIButton{
+//            btn.addTarget(self, action: #selector(showInfo), for: .touchUpInside)
+//        }
+//    }
     
     func profileClicked(){
 //        drawer.toggle(.left, animated: true, completion: nil)

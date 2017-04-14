@@ -18,6 +18,15 @@ class QuestionModel: NSObject {
             questionView?.handler.setText(qDescrption, animated: false)
         }
     }
+    var qAskerRef:FIRDatabaseReference!{
+        didSet{
+            qAskerRef.child("info").child("username").observe(.value, with: { (snapshot) in
+                if let username = snapshot.value as? String{
+                    self.askerName = username
+                }
+            })
+        }
+    }
     var qAskerID:String!{
         didSet{
             storageUserRef.child(qAskerID).child("profileImg.jpeg").data(withMaxSize: 1024*1024) { (data, error) in
@@ -28,11 +37,7 @@ class QuestionModel: NSObject {
                     self.askerImg = #imageLiteral(resourceName: "user-50")
                 }
             }
-            databaseUserRef.child(qAskerID).child("info").child("username").observe(.value, with: { (snapshot) in
-                if let username = snapshot.value as? String{
-                    self.askerName = username
-                }
-            })
+            qAskerRef = databaseUserRef.child(qAskerID)
         }
     }
     var askerName = ""{
@@ -102,7 +107,7 @@ class QuestionModel: NSObject {
         let ref = databaseQuestionRef.childByAutoId()
         let contentRef = ref.child("content")
         contentRef.child("description").setValue(qDescrption)
-        contentRef.child("askerID").setValue(currUser!.uid)
+        contentRef.child("askerID").setValue(currUser!.ref.key)
         contentRef.child("val").setValue(0)
         
         // Set up tags
@@ -112,16 +117,6 @@ class QuestionModel: NSObject {
         // Add question to user
         
         currUser!.qRef.child(ref.key).setValue("In progress")
-        currUser!.qInProgress.append(ref.key)
-        NotificationCenter.default.post(name: Notification.Name("qInProgressLoaded"), object: toDict())
-    }
-    
-    func toDict()->Dictionary<String,Any>{
-        var dict = Dictionary<String, Any>()
-        dict["qid"] = qRef.key
-        dict["askerID"] = qAskerID
-        dict["description"] = qDescrption
-        return dict
     }
     
     // load to opt array
@@ -142,7 +137,7 @@ class QuestionModel: NSObject {
         optRef.child("offerBy").setValue(opt.oOfferBy)
         opt.isLiked = true
         optRef.child("val").setValue(opt.oVal)
-        qRef.child("Users").child(currUser!.uid).setValue(optRef.key)
+        qRef.child("Users").child(currUser!.ref.key).setValue(optRef.key)
         changeNotiVal(val: 1)
         gameManager?.addOption()
     }
@@ -155,7 +150,6 @@ class QuestionModel: NSObject {
         else{
             qRef.child("content").child("conclusion").setValue("nil")
         }
-        currUser?.collectQuestion(qid: qRef.key, like: true)
         networkingManager?.concludeQuestion(qid: qRef.key)
     }
     

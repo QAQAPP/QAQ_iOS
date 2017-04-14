@@ -10,196 +10,89 @@ import Foundation
 import UIKit
 import FirebaseDatabase
 import FirebaseStorage
+import FirebaseAuth
 
 class UserModel: NSObject {
-    var uid:String!
-    var email:String?
-    var inProgLimit:Int!
-    var inCollectLimit:Int!
-    var money = 0
+    var email:String?{
+        didSet{
+            userVC?.emailLabel.text = email
+        }
+    }
+    var inProgLimit:Int?
+    var inCollectLimit:Int?
+    var money:Int?{
+        didSet{
+            controllerManager?.mainVC.scoreLabel.text = "$\(money!/100)." + ((money!%100 < 10) ? "0" : "") + "\(money!%100)"
+        }
+    }
     var username:String?{
         didSet{
-            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: uid+"username")))
+            userVC?.usernameLabel.text = username
         }
     }
     var location:String?{
         didSet{
-            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: uid+"location")))
+            userVC?.locationLabel.text = location
         }
     }
-    var ref:FIRDatabaseReference!{
-        didSet{
-            ref.child("money").observe(.value, with: { (snapshot) in
-                if let money = snapshot.value as? Int{
-                    self.money = money
-                    if let uid = currUser?.uid, uid == self.uid{
-                        controllerManager?.mainVC.scoreLabel.text = "$\(money/100)." + ((money%100 < 10) ? "0" : "") + "\(money%100)"
-                    }
-                }
-                else{
-                    self.ref.child("money").setValue(constantManager.base_money)
-                }
-            })
-//            setup(child: "email")
-//            setup(child: "username")
-//            setup(child: "location")
-//            setup(child: "qInProgressLimit", defaultVal: constantManager.in_process_limit)
-            ref.observe(.value, with:{ (snapshot) in
-                if let userInfo = snapshot.value as? Dictionary<String,Any>{
-                    self.email = userInfo["email"] as? String
-                    if let username = userInfo["username"] as? String{
-                        self.username = username
-                    }
-                    self.location = userInfo["location"] as? String
-                    if let qInProgressLimit = userInfo["qInProgressLimit"] as? Int{
-                        self.qInProgressLimit = qInProgressLimit
-                        if qInProgressLimit < constantManager.in_process_limit && self.uid == currUser!.uid{
-                            self.ref.child("qInProgressLimit").setValue(constantManager.in_process_limit)
-                        }
-                    }
-                    else if self.uid == currUser!.uid{
-                        self.ref.child("qInProgressLimit").setValue(constantManager.in_process_limit)
-                    }
-                    if let qInCollectionLimit = userInfo["qInCollectionLimit"] as? Int{
-                        self.qInCollectionLimit = qInCollectionLimit
-                        if qInCollectionLimit < constantManager.in_collection_limit && self.uid == currUser!.uid{
-                            self.ref.child("qInCollectionLimit").setValue(constantManager.in_collection_limit)
-                        }
-                    }
-                    else if self.uid == currUser!.uid{
-                        self.ref.child("qInCollectionLimit").setValue(constantManager.in_collection_limit)
-                    }
-                    self.infoDic = userInfo
-//                    if let profileVC = self.profileVC{
-//                        profileVC.loadUserInfo()
-//                    }
-                    if let inProgLimit = userInfo["inProgLimit"] as? Int{
-                        self.inProgLimit = inProgLimit
-                    }
-                    if let inCollectLimit = userInfo["inCollectLimit"] as? Int{
-                        self.inCollectLimit = inCollectLimit
-                    }
-                }
-            })
-        }
-    }
+    var ref:FIRDatabaseReference!
     var qRef:FIRDatabaseReference!
-    
+    var uRef:FIRDatabaseReference!
     // Reference to Notifications
     var nRef:FIRDatabaseReference!
     
     var storageRef:FIRStorageReference!
-    var qInProgress = Array<String>() // Question in progress (contains QID)
-    var qAsked = Array<String>() // Asked Question
-    var qCollection = Array<String>() // Collected Question
-    var infoDic = Dictionary<String,Any>() // Basic info array
-//    var profileVC:ProfileVC?
-    var profileImg:UIImage?
-    var wallImg:UIImage?
+//    var qInProgress = Array<FIRDatabaseReference>() // Question in progress (contains QID)
+//    var qCollection = Array<FIRDatabaseReference>() // Collected Question
+    var profileImg = #imageLiteral(resourceName: "user-50"){
+        didSet{
+            userVC?.profileImageView.image = profileImg
+        }
+    }
     var qInProgressLimit:Int?
     var qInCollectionLimit:Int?
-    
-    private init(uid:String){
-        self.uid = uid
-    }
-    
-    func loadProfileImg(){
-        if let img = memoryHandler.imageStorage[uid + "profile"]{
-            profileImg = img
-        }
-        else{
-            storageRef.child("profileImg.jpeg").data(withMaxSize: 1024*1024) { (data, error) in
-                if let data = data{
-                    self.profileImg = UIImage(data: data)
-                }
-                else {
-                    self.profileImg = #imageLiteral(resourceName: "user-50")
-                }
-                memoryHandler.imageStorage[self.uid + "profile"] = self.profileImg
-                let noti = Notification.Name(self.uid + "profile")
-                NotificationCenter.default.post(name: noti, object: nil)
-            }
-        }
-    }
-    
-    func loadWallImg(){
-        if let img = memoryHandler.imageStorage[uid + "wall"]{
-            wallImg = img
-        }
-        else {
-            storageRef.child("wallImg.jpeg").data(withMaxSize: 1024*1024) { (data, error) in
-                if let data = data{
-                    self.wallImg = UIImage(data: data)
-                }
-                else {
-                    self.wallImg = #imageLiteral(resourceName: "WallBG")
-                }
-                memoryHandler.imageStorage[self.uid + "wall"] = self.wallImg
-                NotificationCenter.default.post(name: NSNotification.Name(self.uid + "wall"), object: nil)
-            }
-        }
-    }
-    
-    static func getUser(uid:String, getWall:Bool = false, getProfile:Bool = false)->UserModel{
-        let user = UserModel(uid: uid)
-        let ref = databaseUserRef.child(uid).child("info")
-        user.storageRef = storageUserRef.child(uid)
-        user.setup(ref: ref)
-        if getProfile {
-            user.loadProfileImg()
-        }
-        if getWall{
-            user.loadWallImg()
-        }
-        return user
-    }
-    
-    func setup(ref:FIRDatabaseReference){
+    weak var userVC:UserVC?
+
+    init(ref:FIRDatabaseReference, userVC:UserVC?){
         self.ref = ref
-        qRef = ref.parent?.child("Questions")
-        // Reference to notification
-        nRef = ref.parent?.child("notifications")
+        qRef = ref.child("Questions")
+        nRef = ref.child("notifications")
+        uRef = ref.child("info")
+        self.userVC = userVC
     }
     
-    func loadCollection(){
-        qRef.observe(.value, with: { (snapshot) in
-            self.qInProgress.removeAll()
-            self.qCollection.removeAll()
-            if let dict = snapshot.value as? Dictionary<String, String>{
-                for (qid, val) in dict{
-                    if val == "In progress"{
-                        self.qInProgress.append(qid)
-                    }
-                    else if val == "liked"{
-                        self.qCollection.append(qid)
-                    }
-                }
-//                self.loadCollectionDetail()
+    func setup(){
+        uRef.child("username").observe(.value, with: { (snapshot) in
+            if let username = snapshot.value as? String{
+                self.username = username
+            }
+            else{
+                self.username = "username"
             }
         })
-    }
-    
-//    func loadCollectionDetail(){
-//        for qid in qInProgress{
-//            questionManager?.qInProgressArr.append(FIRDatabase.database().reference().child("Question-v1").child(qid))
-//        }
-//        for qid in qCollection{
-//            questionManager?.qCollectionArr.append(FIRDatabase.database().reference().child("Question-v1").child(qid))
-//        }
-//    }
-    
-    func collectQuestion(qid:String, like:Bool = true){
-        currUser?.qRef.child(qid).setValue(like ? "liked" : nil)
-    }
-    
-    func setup(child:String, defaultVal:Any? = nil){
-        ref.child(child).observe(.value, with: { (snap) in
-            if let val = snap.value{
-                self.setValue(val, forKey: child)
+        uRef.child("email").observe(.value, with: { (snapshot) in
+            if let email = snapshot.value as? String{
+                self.email = email
             }
-            else if let val = defaultVal{
-                self.setValue(val, forKey: child)
+            else{
+                self.email = "email"
             }
         })
+        uRef.child("location").observe(.value, with: { (snapshot) in
+            if let location = snapshot.value as? String{
+                self.location = location
+            }
+            else{
+                self.location = "location"
+            }
+        })
+        storageUserRef.child(ref.key).child("profileImg.jpeg").data(withMaxSize: 1024*1024) { (data, error) in
+            if let data = data, let image = UIImage(data: data){
+                self.profileImg = image
+            }
+            else{
+                self.profileImg = #imageLiteral(resourceName: "user-50")
+            }
+        }
     }
 }

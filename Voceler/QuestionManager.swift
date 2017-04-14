@@ -24,18 +24,20 @@ class QuestionManager: NSObject {
     override init() {
         super.init()
         networkingManager?.getQuestion(num: collectionMaxSize)
-        databaseUserRef.child(currUser!.uid).child("Questions").observe(.childAdded, with: { (snapshot) in
+        databaseUserRef.child(currUser!.ref.key).child("Questions").observe(.childAdded, with: { (snapshot) in
             if let type = snapshot.value as? String{
                 let ref = databaseQuestionRef.child(snapshot.key)
                 switch type{
                     case "In progress":
                         if !self.qInProgressArr.contains(ref){
                             self.qInProgressArr.append(ref)
+                            controllerManager?.collectionVC.table.reloadData()
                         }
                         break
                     case "liked":
                         if !self.qCollectionArr.contains(ref){
                             self.qCollectionArr.append(ref)
+                            controllerManager?.collectionVC.table.reloadData()
                         }
                         break
                     default:

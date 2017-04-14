@@ -52,7 +52,7 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         view.addSubview(table)
         _ = table.sd_layout().topSpaceToView(view, 0)?.bottomSpaceToView(view, 0)?.leftSpaceToView(view, 0)?.rightSpaceToView(view, 0)
         
-        setupProfile() // This is for..?
+//        setupProfile() // This is for..?
         table.delegate = self
         table.dataSource = self
         table.register(UINib(nibName: "NotificationCell", bundle: nil), forCellReuseIdentifier: "NotificationCell")
@@ -144,26 +144,23 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
 
         switch thisNotification.type {
         case NotificationType.questionAnswered:
-            let user = UserModel.getUser(uid: thisNotification.details)
-            NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: thisNotification.details+"username"), object: nil, queue: nil, using: { (noti) in
-                if let username = user.username{
-//                    cell.label.text = "\(username) answered your question \((thisQuestionModel?.qDescrption)!)"
-                }
-            })
+//            let user = UserModel.getUser(uid: thisNotification.details)
+            break
 
         case NotificationType.questionViewed:
             let views = thisNotification.details
 //            cell.label.text = "You got \(views) views for your question \((thisQuestionModel?.qDescrption)!)"
             
         case NotificationType.questionConcluded:
-            let user = UserModel.getUser(uid: thisNotification.details)
-            NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: thisNotification.details+"username"), object: nil, queue: nil, using: { (noti) in
-                if let username = user.username{
-                    //print((thisQuestionModel?.qDescrption)!)
-//                    cell.label.text = "Your answer was accepted by \(username) in question \((thisQuestionModel?.qDescrption)!)"
-                    cell.label.text = "Your answer was accepted by \(username)"
-                }
-            })
+            break;
+//            let user = UserModel.getUser(uid: thisNotification.details)
+//            NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: thisNotification.details+"username"), object: nil, queue: nil, using: { (noti) in
+//                if let username = user.username{
+//                    //print((thisQuestionModel?.qDescrption)!)
+////                    cell.label.text = "Your answer was accepted by \(username) in question \((thisQuestionModel?.qDescrption)!)"
+//                    cell.label.text = "Your answer was accepted by \(username)"
+//                }
+//            })
         }
 
         // Unread notifications have gray backgrounds

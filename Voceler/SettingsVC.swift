@@ -27,7 +27,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        setupProfile()
+//        setupProfile()
         view.addSubview(table)
         _ = table.sd_layout().topSpaceToView(view, 0)?.bottomSpaceToView(view, 0)?.leftSpaceToView(view, 0)?.rightSpaceToView(view, 0)
         table.delegate = self
@@ -116,7 +116,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             gameManager = nil
             currUser?.ref.child("FCM Token").removeValue()
             loginManager.logOut()
-            NotificationCenter.default.removeObserver(controllerManager?.mainVC)
+            NotificationCenter.default.removeObserver(controllerManager!.mainVC)
             controllerManager = nil
             questionManager = nil
             networkingManager = nil
@@ -148,7 +148,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     func uploadText(){
-        ref.child(currUser!.uid).setValue(textView.text)
+        ref.child(currUser!.ref.key).setValue(textView.text)
         _ = vc.navigationController?.popViewController(animated: true)
     }
     

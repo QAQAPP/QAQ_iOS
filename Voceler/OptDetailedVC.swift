@@ -37,14 +37,14 @@ class OptDetailedVC: UIViewController,UINavigationControllerDelegate {
 	
 	func setOptionModel (option: OptionModel) {
 		self.option = option
-		let user = UserModel.getUser(uid: option.oOfferBy!, getProfile: true)
-		if (user.profileImg != nil) {
-			userAvatarImageView.image = user.profileImg
-		}
+//		let user = UserModel.getUser(uid: option.oOfferBy!, getProfile: true)
+//		if (user.profileImg != nil) {
+//			userAvatarImageView.image = user.profileImg
+//		}
 		//		vc.userAvatarImageView.image = user.profileImg!
-		if (user.username != nil ) {
-			userNameLabel.text = user.username
-		}
+//		if (user.username != nil ) {
+//			userNameLabel.text = user.username
+//		}
 		
 		optionDescriptionLabel.text = "Empty description for now"
 		optionTextView.text = option.oDescription

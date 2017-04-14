@@ -53,13 +53,7 @@ class OptViewTableCell: UITableViewCell{
     }
     
     func showProfile(){
-        if offerer != nil{
-            let vc = controllerManager!.getUserVC(user: offerer!)
-            questionView.parent.navigationController?.pushViewController(vc, animated: true)
-        }
-        else{
-            SCLAlertView().showWait("Loading", subTitle: "Loading user info.", duration: 2)
-        }
+        questionView.parent.show(controllerManager!.getUserVC(ref: databaseUserRef.child(option.oOfferBy)), sender: self)
     }
     
     func setUpUI(){
@@ -104,20 +98,12 @@ class OptViewTableCell: UITableViewCell{
             questionView.isUserInteractionEnabled = false
             question.userChoosed = true
             if !option.isLiked{
-//                likeBtn.setImage(#imageLiteral(resourceName: "check_checked"), for: .normal)
                 if questionView.parent is MainVC{
-//                    for opt in question.qOptions{
-//                        if opt == option && !opt.isLiked{
-                            option.isLiked = true
-//                        }
-//                        else if opt.isLiked{
-//                            opt.isLiked = false
-//                        }
-//                    }
+                    option.isLiked = true
                 }
             }
         }
-        else if let inProgressVC = questionView.parent as? InProgressVC, question.qAskerID == currUser!.uid{
+        else if let inProgressVC = questionView.parent as? InProgressVC, question.qAskerID == currUser!.ref.key{
             let alert = SCLAlertView()
             alert.addButton("Sure", action: {
                 Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (timer) in
@@ -127,16 +113,8 @@ class OptViewTableCell: UITableViewCell{
                 self.questionView.isUserInteractionEnabled = false
                 self.question.userChoosed = true
                 if !self.option.isLiked{
-//                    self.likeBtn.setImage(#imageLiteral(resourceName: "check_checked"), for: .normal)
                     if self.questionView.parent is MainVC{
-//                        for opt in self.question.qOptions{
-//                            if opt == self.option && !opt.isLiked{
-                                self.option.isLiked = true
-//                            }
-//                            else if opt.isLiked{
-//                                opt.isLiked = false
-//                            }
-//                        }
+                        self.option.isLiked = true
                     }
                 }
             })
@@ -184,7 +162,6 @@ class OptViewTableCell: UITableViewCell{
         numLikeLbl.text = "\(num)"
     }
     
-    var offerer:UserModel?
     var question:QuestionModel!
     var questionView:QuestionView!
     
@@ -194,11 +171,11 @@ class OptViewTableCell: UITableViewCell{
         
         self.questionView = questionView
         self.question = questionView.currQuestion
+        self.profileImg.imageView?.contentMode = .scaleAspectFill
         self.option = OptionModel(optCell: self)
         self.option.setRef(ref: option)
         setUpUI()
         likeBtn.setImage(#imageLiteral(resourceName: "check"), for: .normal)
-        likeBtn.imageView?.contentMode = .scaleAspectFill
         likeBtn.addTarget(self, action: #selector(self.likeAction(sender:)), for: .touchUpInside)
     }
     

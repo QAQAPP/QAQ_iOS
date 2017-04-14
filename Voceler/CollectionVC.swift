@@ -36,107 +36,6 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         return val
     }
     
-    // Functions
-//    func loadCollections(){
-//        currUser?.loadCollectionDetail()
-//        _ = NotificationCenter.default.addObserver(forName: NSNotification.Name("qInProgressLoaded"), object: nil, queue: nil, using:{ (noti) in
-//            if let dict = noti.object as? Dictionary<String, Any>{
-//                let qid = dict["qid"] as! String
-//                self.load(qid: qid, dict: dict, inProgress: true)
-//            }
-//        })
-//        _ = NotificationCenter.default.addObserver(forName: NSNotification.Name("qCollectionLoaded"), object: nil, queue: nil, using: { (noti) in
-//            if let dict = noti.object as? Dictionary<String, Any>{
-//                let qid = dict["qid"] as! String
-//                self.load(qid: qid, dict: dict, inProgress: false)
-//            }
-//        })
-//        _ = NotificationCenter.default.addObserver(forName: NSNotification.Name("qConcludedLoaded"), object: nil, queue: nil, using: { (noti) in
-//            if let dict = noti.object as? Dictionary<String, Any>{
-//                let qid = dict["qid"] as! String
-//                self.load(qid: qid, dict: dict, inProgress: false)
-//            }
-//        })
-//    }
-    
-//    func load(ref:FIRDatabaseReference, inProgress:Bool){
-//        if inProgress{
-//            if currUser!.qInProgress.contains(ref.key){
-//                for qRef in questionManager!.qInProgressArr {
-//                    if qRef == ref{
-//                        if self.didLoad == true {
-//                            table.mj_header.endRefreshing()
-//                        }
-//                        return
-//                    }
-//                }
-//                let question = QuestionModel(ref: ref)
-//                questionManager?.qInProgressArr.append(question)
-//                controllerManager?.userVC.setupBadgeValueForCollectionCell()
-//            }
-//        }
-//        else{
-//            if currUser!.qCollection.contains(ref.key){
-//                for question in (questionManager?.qCollectionArr)!{
-//                    if question.qRef == ref{
-//                        if self.didLoad == true {
-//                            table.mj_header.endRefreshing()
-//                        }
-//                        return
-//                    }
-//                }
-//                let question = QuestionModel(ref: ref)
-//                questionManager?.qCollectionArr.append(question)
-//            }
-//        }
-//        self.table.reloadData()
-//        if self.didLoad == true {
-//            table.mj_header.endRefreshing()
-//        }
-//    }
-    
-//    func findQuestionModel(with qid:String) -> QuestionModel? {
-//        for thisQuestion in (questionManager?.qInProgressArr)! {
-//            if thisQuestion.qRef.key == qid {
-//                return thisQuestion
-//            }
-//        }
-//        for thisQuestion in (questionManager?.qCollectionArr)! {
-//            if thisQuestion.qRef.key == qid {
-//                return thisQuestion
-//            }
-//        }
-//        for thisQuestion in (questionManager?.qConcludedArr)! {
-//            if thisQuestion.qRef.key == qid {
-//                return thisQuestion
-//            }
-//        }
-//        return nil
-//    }
-
-    
-//    func findQuestionModel(with qid:String, from inProgress:Bool) -> QuestionModel? {
-//        if inProgress == true {
-//            for thisQuestion in (questionManager?.qInProgressArr)! {
-//                if thisQuestion.qRef.key == qid {
-//                    return thisQuestion
-//                }
-//            }
-//        } else {
-//            for thisQuestion in (questionManager?.qCollectionArr)! {
-//                if thisQuestion.qRef.key == qid {
-//                    return thisQuestion
-//                }
-//            }
-//            for thisQuestion in (questionManager?.qConcludedArr)! {
-//                if thisQuestion.qRef.key == qid {
-//                    return thisQuestion
-//                }
-//            }
-//        }
-//        return nil
-//    }
-    
     // Override functions
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -148,7 +47,7 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         navigationItem.title = "My Questions"
         navigationController?.navigationBar.tintColor = themeColor
         edgesForExtendedLayout = [.all]
-        setupProfile()
+//        setupProfile()
         table.separatorStyle = .none
         table.delegate = self
         table.dataSource = self
@@ -163,15 +62,6 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 //        header.setTitle("Refresh", for: .pulling)
 //        header.setTitle("Pull down to refresh", for: .idle)
 //        table.mj_header = header
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        //        searchBar.endEditing(true)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
