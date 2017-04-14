@@ -98,16 +98,8 @@ class OptViewTableCell: UITableViewCell{
             questionView.isUserInteractionEnabled = false
             question.userChoosed = true
             if !option.isLiked{
-//                likeBtn.setImage(#imageLiteral(resourceName: "check_checked"), for: .normal)
                 if questionView.parent is MainVC{
-//                    for opt in question.qOptions{
-//                        if opt == option && !opt.isLiked{
-                            option.isLiked = true
-//                        }
-//                        else if opt.isLiked{
-//                            opt.isLiked = false
-//                        }
-//                    }
+                    option.isLiked = true
                 }
             }
         }
@@ -121,16 +113,8 @@ class OptViewTableCell: UITableViewCell{
                 self.questionView.isUserInteractionEnabled = false
                 self.question.userChoosed = true
                 if !self.option.isLiked{
-//                    self.likeBtn.setImage(#imageLiteral(resourceName: "check_checked"), for: .normal)
                     if self.questionView.parent is MainVC{
-//                        for opt in self.question.qOptions{
-//                            if opt == self.option && !opt.isLiked{
-                                self.option.isLiked = true
-//                            }
-//                            else if opt.isLiked{
-//                                opt.isLiked = false
-//                            }
-//                        }
+                        self.option.isLiked = true
                     }
                 }
             })

@@ -117,16 +117,6 @@ class QuestionModel: NSObject {
         // Add question to user
         
         currUser!.qRef.child(ref.key).setValue("In progress")
-//        currUser!.qInProgress.append(ref.key)
-        NotificationCenter.default.post(name: Notification.Name("qInProgressLoaded"), object: toDict())
-    }
-    
-    func toDict()->Dictionary<String,Any>{
-        var dict = Dictionary<String, Any>()
-        dict["qid"] = qRef.key
-        dict["askerID"] = qAskerID
-        dict["description"] = qDescrption
-        return dict
     }
     
     // load to opt array
@@ -160,7 +150,6 @@ class QuestionModel: NSObject {
         else{
             qRef.child("content").child("conclusion").setValue("nil")
         }
-//        currUser?.collectQuestion(qid: qRef.key, like: true)
         networkingManager?.concludeQuestion(qid: qRef.key)
     }
     

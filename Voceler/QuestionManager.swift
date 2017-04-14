@@ -31,11 +31,13 @@ class QuestionManager: NSObject {
                     case "In progress":
                         if !self.qInProgressArr.contains(ref){
                             self.qInProgressArr.append(ref)
+                            controllerManager?.collectionVC.table.reloadData()
                         }
                         break
                     case "liked":
                         if !self.qCollectionArr.contains(ref){
                             self.qCollectionArr.append(ref)
+                            controllerManager?.collectionVC.table.reloadData()
                         }
                         break
                     default:
