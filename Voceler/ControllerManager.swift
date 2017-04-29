@@ -11,20 +11,21 @@ import SCLAlertView
 import FirebaseDatabase
 
 class ControllerManager: NSObject, UITabBarControllerDelegate, UIPopoverPresentationControllerDelegate, AskProblemVCDelegate, TagsControllerDelegate{
+    
     var mainVC:MainVC!
     var collectionVC:CollectionVC!
     var notificationVC:NotificationVC!
     var settingsVC:SettingsVC!
     var userVC:UserVC!
+    
     var mainNav:UINavigationController!
     var collectionNav:UINavigationController!
-    
     var userNav:UINavigationController!
-//    var settingsNav:UINavigationController!
     
     var tabbarVC = UITabBarController()
 	var dummyAskProblemVC = DummyTestVC()
 	var overlay:UIView!
+    
     var askProblemVC:AskProblemVC{
         let board = UIStoryboard(name: "Main", bundle: nil)
         let vc = board.instantiateViewController(withIdentifier: "Ask Question") as! AskProblemVC

@@ -22,7 +22,6 @@ class NotificationModel: NSObject {
     let type:NotificationType
     let timestamp:String
     
-    //let details:NSObject - versatile helper object used to store user information/option information
     let details:String // Alternative implementation using just string
     
     override init () {

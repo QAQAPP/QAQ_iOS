@@ -18,21 +18,12 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     let table = UITableView()
     var didLoad = false
     
-    // FieldVars
-//    var qInProgressArr = Array<QuestionModel>()
-//    var qCollectionArr = Array<QuestionModel>()
-//    var qConcludedArr = Array<QuestionModel>()
 
-    // Actions
-    func detailAction(indexPath:IndexPath){
-        
-    }
-    
     func generateQInProgressValue() -> Int{
         var val = 0
-//        for q in (questionManager?.qInProgressArr)! {
-//            val += q.notiVal
-//        }
+        for q in (questionManager?.qInProgressArr)! {
+            val += q.child("content").value(forKey: "val") as! Int
+        }
         return val
     }
     
@@ -40,7 +31,7 @@ class CollectionVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     override func viewDidLoad() {
         super.viewDidLoad()
         self.didLoad = true
-        // Do any additional setup after loading the view.
+
         view.addSubview(table)
         _ = table.sd_layout().topSpaceToView(view, 0)?.leftSpaceToView(view, 0)?.rightSpaceToView(view, 0)?.bottomSpaceToView(view, tabBarHeight())
         

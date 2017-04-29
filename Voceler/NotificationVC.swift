@@ -15,8 +15,6 @@ import FBSDKLoginKit
 import TextFieldEffects
 
 class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
-//    var ref:FIRDatabaseReference!
     
     let table = UITableView()
     
@@ -37,7 +35,7 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     convenience init() {
         self.init(nibName:nil, bundle:nil)
         // Firebase connection
-        currUser?.nRef.observe(FIRDataEventType.value, with: { (snapshot) in
+        currUser?.nRef.observe(.childAdded, with: { (snapshot) in
             if let notiInfo = snapshot.value as? [String : AnyObject]{
                 self.notificationsInDict = notiInfo
                 // Parse notification data into NotificationModels
@@ -68,25 +66,25 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewWillAppear(animated)
     }
     
-//    func loadNotificationsFromDict () {
-//        self.notifications.removeAll()
-//        self.notViewedCount = 0
-//        
-//        for thisNotificationInDict in notificationsInDict {
-//            print("NotificationInDict: ", thisNotificationInDict)
-//            if let viewed = thisNotificationInDict.value["viewed"] as? Bool{
-//                let thisNotification = NotificationModel(thisNotificationInDict.value["qid"] as! String,
-//                    of: NTypeLookup[thisNotificationInDict.value["type"] as! String]!,
-//                    with: thisNotificationInDict.value["details"] as AnyObject,
-//                    whether: viewed, on: thisNotificationInDict.key )
-//            
-//            
-//                if (thisNotification.viewed == false) {
-//                    self.notViewedCount += 1
-//                }
-//                
-//                self.notifications.append(thisNotification)
-//                
+    func loadNotificationsFromDict () {
+        self.notifications.removeAll()
+        self.notViewedCount = 0
+        
+        for thisNotificationInDict in notificationsInDict {
+            print("NotificationInDict: ", thisNotificationInDict)
+            if let viewed = thisNotificationInDict.value["viewed"] as? Bool{
+                let thisNotification = NotificationModel(thisNotificationInDict.value["qid"] as! String,
+                    of: NTypeLookup[thisNotificationInDict.value["type"] as! String]!,
+                    with: thisNotificationInDict.value["details"] as AnyObject,
+                    whether: viewed, on: thisNotificationInDict.key )
+            
+            
+                if (thisNotification.viewed == false) {
+                    self.notViewedCount += 1
+                }
+                
+                self.notifications.append(thisNotification)
+                
 //                // If it is a concluded type notification then load the content of question
 //                if thisNotification.type == NotificationType.questionConcluded {
 //                    
@@ -102,15 +100,15 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
 //                            self.loadConcludedQuestion(qid: qid, dict: dict)
 //                        }
 //                    })
-//                }
-//            }
-//            
-//        }
-//        
-//        self.notifications.sort { $0.timestamp > $1.timestamp }
-//        self.table.reloadData()
-//    }
-//    
+//                }*/
+            }
+            
+        }
+        
+        self.notifications.sort { $0.timestamp > $1.timestamp }
+        self.table.reloadData()
+    }
+    
 //    func loadConcludedQuestion(qid:String, dict:Dictionary<String, Any>) {
 //        if let question = questionManager?.getQuestion(qid: qid, question: dict){
 //            // Question is loaded here
@@ -139,17 +137,16 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         //cell.icon.image = notifications?[indexPath.row].user.profileImg
         let thisNotification = notifications[indexPath.row]
         
-        //questionManager?.loadQuestionContent(qid: thisNotification.qid)
-//        let thisQuestionModel = controllerManager?.collectionVC.findQuestionModel(with: thisNotification.qid)
-
+        var thisQuestion = questionManager?.getQuestion(with: thisNotification.qid)
+        
         switch thisNotification.type {
         case NotificationType.questionAnswered:
-//            let user = UserModel.getUser(uid: thisNotification.details)
+            //let user = UserModel.getUser(uid: thisNotification.details)
             break
 
         case NotificationType.questionViewed:
             let views = thisNotification.details
-//            cell.label.text = "You got \(views) views for your question \((thisQuestionModel?.qDescrption)!)"
+//            cell.label.text = "You got \(views) views for your question \(thisQuestion.child("qDescrption")!)"
             
         case NotificationType.questionConcluded:
             break;
@@ -177,33 +174,28 @@ class NotificationVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let thisNotification = notifications[indexPath.row]
-        showNotification(qid: thisNotification.qid, nid: thisNotification.timestamp)
+        tappedNotification(qid: thisNotification.qid, nid: thisNotification.timestamp)
     }
     
-    func showNotification(qid QID:String, nid NID:String) {
+    func tappedNotification(qid QID:String, nid NID:String) {
         updateViewedStatus(of: NID)
         showQuestionVC(of: QID)
     }
     
     func showQuestionVC(of QID:String) {
-        var inProgress = true
-//        var thisQuestionModel = controllerManager?.collectionVC.findQuestionModel(with: QID, from: true)
-        //print(thisQuestionModel?.qDescrption)
-//        if (thisQuestionModel == nil) {
-//            thisQuestionModel = controllerManager?.collectionVC.findQuestionModel(with: QID, from: false)
-//            //print(thisQuestionModel?.qDescrption)
-//            inProgress = false
-//        }
-//        // In current design thisQuestionModel must exist in either InProgress or Collection/Concluded List
-//        if (inProgress == true) {
-//            let thisQuestionVC = InProgressVC()
-//            thisQuestionVC.setup(parent:controllerManager!.collectionVC!, question:thisQuestionModel!)
-//            show(thisQuestionVC, sender: self)
-//        } else {
-//            let thisQuestionVC = InCollectionVC()
-//            thisQuestionVC.setup(parent:controllerManager!.collectionVC!, question:thisQuestionModel!)
-//            show(thisQuestionVC, sender: self)
-//        }
+        
+        if let thisQuestion = questionManager?.getQuestion(with: QID) {
+            if (questionManager?.qInProgressArr.contains(thisQuestion))! {
+                let thisQuestionVC = InProgressVC()
+                thisQuestionVC.setup(parent:controllerManager!.collectionVC!, qRef:thisQuestion)
+                show(thisQuestionVC, sender: self)
+            } else {
+                let thisQuestionVC = InCollectionVC()
+                thisQuestionVC.setup(parent:controllerManager!.collectionVC!, qRef:thisQuestion)
+                show(thisQuestionVC, sender: self)
+            }
+        }
+
     }
     
     func findQID(with timestamp:String) -> String? {

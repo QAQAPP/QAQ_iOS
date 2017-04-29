@@ -40,6 +40,10 @@ class QuestionManager: NSObject {
                             controllerManager?.collectionVC.table.reloadData()
                         }
                         break
+                    case "Concluded":
+                        if !self.qConcludedArr.contains(ref) {
+                            self.qConcludedArr.append(ref)
+                        }
                     default:
                         break
                 }
@@ -52,5 +56,28 @@ class QuestionManager: NSObject {
             networkingManager?.getQuestion(num: collectionMaxSize - qMainArr.count)
         }
         return qMainArr.popLast()
+    }
+    
+    func getQuestion(with questionID: String) -> FIRDatabaseReference? {
+        for qRef in qInProgressArr {
+            if (getQuestionID(from: qRef) == questionID){
+                return qRef
+            }
+        }
+        for qRef in qCollectionArr {
+            if (getQuestionID(from: qRef) == questionID) {
+                return qRef
+            }
+        }
+        for qRef in qConcludedArr {
+            if (getQuestionID(from: qRef) == questionID) {
+                return qRef
+            }
+        }
+        return nil
+    }
+    
+    func getQuestionID(from questionRef: FIRDatabaseReference) -> String {
+        return questionRef.key
     }
 }
